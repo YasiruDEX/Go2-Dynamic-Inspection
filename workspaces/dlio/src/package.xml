@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+
+  <name>direct_lidar_inertial_odometry</name>
+  <version>1.1.1</version>
+  <description>Direct LiDAR-Inertial Odometry: Lightweight LIO with Continuous-Time Motion Correction</description>
+
+  <maintainer email="kennyjchen@ucla.edu">Kenny J. Chen</maintainer>
+  <maintainer email="ryguyn@ucla.edu">Ryan Nemiroff</maintainer>
+  <maintainer email="btlopez@ucla.edu">Brett T. Lopez</maintainer>
+
+  <author>Kenny J. Chen</author>
+  <author>Ryan Nemiroff</author>
+  <author>Brett T. Lopez</author>
+
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>pcl_ros</depend>
+  <depend>rclcpp</depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+</package>

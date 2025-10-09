@@ -39,6 +39,16 @@ def generate_launch_description():
             )
         ]
     )
+
+    # Launch dlio (assuming it is part of the pipeline)
+    dlio_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            FindPackageShare('direct_lidar_inertial_odometry'), '/launch/dlio.launch.py'
+        ]),
+        launch_arguments={
+            'rviz': 'false'
+        }.items()
+    )
     
     # Launch far_planner after 6 seconds total (3 more after vehicle_simulator)
     far_planner_launch = TimerAction(
@@ -53,7 +63,8 @@ def generate_launch_description():
     )
     
     return LaunchDescription([
-        fast_lio_launch,
+        # fast_lio_launch,
+        dlio_launch,
         vehicle_simulator_launch,
         far_planner_launch,
     ])

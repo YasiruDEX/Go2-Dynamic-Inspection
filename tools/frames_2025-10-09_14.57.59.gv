@@ -1,0 +1,12 @@
+digraph G {
+"sensor" -> "camera"[label=" Broadcaster: default_authority\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"base_link" -> "sensor"[label=" Broadcaster: default_authority\nAverage rate: 10.192\nBuffer length: 4.906\nMost recent transform: 1758101845.869235\nOldest transform: 1758101840.963545\n"];
+"sensor" -> "vehicle"[label=" Broadcaster: default_authority\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"map" -> "base_link"[label=" Broadcaster: default_authority\nAverage rate: 10.2\nBuffer length: 5.0\nMost recent transform: 1758101845.963511\nOldest transform: 1758101840.963545\n"];
+"base_link" -> "imu"[label=" Broadcaster: default_authority\nAverage rate: 10.2\nBuffer length: 5.0\nMost recent transform: 1758101845.963511\nOldest transform: 1758101840.963545\n"];
+"map" -> "sensor_at_scan"[label=" Broadcaster: default_authority\nAverage rate: 10.204\nBuffer length: 4.9\nMost recent transform: 1758101845.75687\nOldest transform: 1758101840.856929\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1760002079.528551"[ shape=plaintext ] ;
+}->"map";
+}
