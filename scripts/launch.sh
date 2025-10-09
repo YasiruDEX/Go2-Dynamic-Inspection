@@ -36,5 +36,7 @@ echo "  T=6s: far_planner starts"
 echo ""
 
 # Launch the pipeline
-ros2 launch pipeline_launcher pipeline.launch.py & ros2 bag play ~/Documents/Far_planner_test/rosbags/rosbag_004
+ros2 launch pipeline_launcher pipeline.launch.py &
+ros2 bag play ~/Documents/Far_planner_test/rosbags/rosbag_003 &
 
+wait  # Wait for both background processes to finish
