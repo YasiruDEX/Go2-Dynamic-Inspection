@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>lua_parameter_dictionary</name>
+  <version>1.0.0</version>
+  <description>Param dictionary loader from lua.</description>
+  <maintainer email="ej@ethz.ch">ej</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>eigen</depend>
+  <depend>lua5.2-dev</depend>
+  <depend>rclcpp</depend>
+  <depend>ament_index_cpp</depend>
+  <test_depend>gtest</test_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

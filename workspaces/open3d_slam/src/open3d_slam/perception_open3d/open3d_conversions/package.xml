@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>open3d_conversions</name>
+  <version>0.2.1</version>
+  <description>Provides conversion functions to and from Open3D datatypes</description>
+
+  <maintainer email="matnay17@gmail.com">Pranay Mathur</maintainer>
+  <maintainer email="nkhedekar@nevada.unr.edu">Nikhil Khedekar</maintainer>
+  <maintainer email="stevenmacenski@gmail.com">Steve Macenski</maintainer>
+
+  <license>Apache-2.0</license>
+
+  <author email="matnay17@gmail.com">Pranay Mathur</author>
+  <author email="nkhedekar@nevada.unr.edu">Nikhil Khedekar</author>
+  <buildtool_depend>ament_cmake_ros</buildtool_depend>
+
+  <depend>libopen3d-dev</depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>eigen</depend>
+
+  <test_depend>ament_lint_common</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

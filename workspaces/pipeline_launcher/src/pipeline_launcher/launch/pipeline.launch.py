@@ -61,10 +61,26 @@ def generate_launch_description():
             )
         ]
     )
+
+    # Launch open3d_slam mapping after 6 seconds total (3 more after vehicle_simulator)
+    open3d_slam_launch = TimerAction(
+        period=6.0,
+        actions=[
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([
+                    FindPackageShare('open3d_slam_ros'), '/launch/mapping_rosbag.launch.py'
+                ]),
+                launch_arguments={
+                    'use_sim_time': 'false'
+                }.items()
+            )
+        ]
+    )
     
     return LaunchDescription([
         # fast_lio_launch,
-        dlio_launch,
+        # dlio_launch,
         vehicle_simulator_launch,
         far_planner_launch,
+        open3d_slam_launch,
     ])
