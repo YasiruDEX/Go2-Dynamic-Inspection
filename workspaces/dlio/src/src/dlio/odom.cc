@@ -385,17 +385,36 @@ void dlio::OdomNode::publishToROS(pcl::PointCloud<PointType>::ConstPtr published
   geometry_msgs::msg::TransformStamped transformStamped;
 
   transformStamped.header.stamp = this->imu_stamp;
-  transformStamped.header.frame_id = this->odom_frame;
-  transformStamped.child_frame_id = this->baselink_frame;
+  transformStamped.header.frame_id = this->lidar_frame;
+  transformStamped.child_frame_id = this->odom_frame;
 
-  transformStamped.transform.translation.x = this->state.p[0];
-  transformStamped.transform.translation.y = this->state.p[1];
-  transformStamped.transform.translation.z = this->state.p[2];
+  // transformStamped.transform.translation.x = -this->state.p[0];
+  // transformStamped.transform.translation.y = -this->state.p[1];
+  // transformStamped.transform.translation.z = -this->state.p[2];
 
-  transformStamped.transform.rotation.w = this->state.q.w();
-  transformStamped.transform.rotation.x = this->state.q.x();
-  transformStamped.transform.rotation.y = this->state.q.y();
-  transformStamped.transform.rotation.z = this->state.q.z();
+  // transformStamped.transform.rotation.w = -this->state.q.w();
+  // transformStamped.transform.rotation.x = -this->state.q.x();
+  // transformStamped.transform.rotation.y = -this->state.q.y();
+  // transformStamped.transform.rotation.z = -this->state.q.z();
+
+  // Get the rotation matrix from the quaternion
+  Eigen::Matrix3f R = this->state.q.toRotationMatrix();
+
+  // Invert the translation
+  Eigen::Vector3f p_inv = -R.transpose() * this->state.p;
+
+  // Invert the rotation (quaternion conjugate)
+  Eigen::Quaternionf q_inv = this->state.q.conjugate();
+
+  // Set the transform
+  transformStamped.transform.translation.x = p_inv.x();
+  transformStamped.transform.translation.y = p_inv.y();
+  transformStamped.transform.translation.z = p_inv.z();
+
+  transformStamped.transform.rotation.w = q_inv.w();
+  transformStamped.transform.rotation.x = q_inv.x();
+  transformStamped.transform.rotation.y = q_inv.y();
+  transformStamped.transform.rotation.z = q_inv.z();
 
   br->sendTransform(transformStamped);
 

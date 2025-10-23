@@ -1,0 +1,103 @@
+# See https://github.com/anybotics/libpointmatcher/blob/master/doc/Datafilters.md
+
+readingDataPointsFilters:
+#  - RandomSamplingDataPointsFilter:
+#      prob: 0.35
+
+referenceDataPointsFilters:
+#  - RandomSamplingDataPointsFilter:
+#      prob: 0.25
+
+matcher:
+  KDTreeMatcher:
+    knn: 1              # 1
+    maxDist: 0.5        # 0.5
+    epsilon: 0.01       # 0.01
+
+outlierFilters:
+#  - MaxDistOutlierFilter:
+#     maxDist: 1.0
+  - TrimmedDistOutlierFilter:
+     ratio: 0.90         # 0.9
+  - SurfaceNormalOutlierFilter:
+     maxAngle: 1.57     # 1.57
+
+errorMinimizer:
+  PointToPlaneErrorMinimizer
+#  PointToPlaneWithCovErrorMinimizer
+
+degeneracyDebug:
+  Disabled: # "Enabled" or "Disabled
+
+printingDegeneracy:
+  Disabled: # "Enabled" or "Disabled
+
+ceresDegeneracyAnalysis:
+  CeresDegeneracyState:
+    isActive: 0 # "Enabled" or "Disabled
+    useSophusParametrization: 0
+    useSophusAutoDiffParametrization: 0
+    useAngleAxisParametrization: 1 # by default enabled
+    usePointToPointCost: 0
+    usePointToLineCost: 0
+    usePointToPlaneCost: 1 # by default enabled
+    useSymmetricPointToPlaneCost: 0
+    useBoundConstraints: 1 # needs the detection either from SolRemap or xicp
+    useSixDofRegularization: 1 #YOU HAVE TO USE IN COMBINATION WITH SOLUTION REMAPPING
+    useThreeDofRegularization: 0 #YOU HAVE TO USE IN COMBINATION WITH X-ICP
+    regularizationWeight: 500.0 # you need to set  .0  as double
+
+degeneracyAwareness:
+  # OptimizedEqualityConstraints:
+  #   enoughInformationThreshold: 250   #new 250  300
+  #   insufficientInformationThreshold: 180  #new 180 150
+  #   point2NormalMinimalAlignmentAngleThreshold: 80
+  #   point2NormalStrongAlignmentAngleThreshold: 45
+  #EqualityConstraints:
+  #  highInformationThreshold: 250   ##       RUMLANG GICIK     
+  #  enoughInformationThreshold: 180  # was 150 17 sept when was 250 it crasahed. investigate
+  #  insufficientInformationThreshold: 35   ### RUMLANG GICIK  30
+  #  point2NormalMinimalAlignmentAngleThreshold: 80 # OUSTER 60  
+  #  point2NormalStrongAlignmentAngleThreshold: 45
+  #EqualityConstraints:
+  #  highInformationThreshold: 350   ##  STANDALONE 1650
+  #  enoughInformationThreshold: 150  #  850
+  #  insufficientInformationThreshold: 40 # 450
+  #  point2NormalMinimalAlignmentAngleThreshold: 80 # 17 sept was 80 when was 70 it crashed 
+  #  point2NormalStrongAlignmentAngleThreshold: 45
+  #SolutionRemapping:
+  #  threshold: 120
+  #  use2019: 0
+  #OptimizedEqualityConstraints:
+  #  enoughInformationThreshold: 250   #new 250  300
+  #  insufficientInformationThreshold: 180  #new 180 150
+  #  point2NormalMinimalAlignmentAngleThreshold: 80
+  #  point2NormalStrongAlignmentAngleThreshold: 45
+  #InequalityConstraints:
+  #  highInformationThreshold: 350   ##       RUMLANG GICIK     
+  #  enoughInformationThreshold: 180  # was 150 17 sept when was 250 it crasahed. investigate
+  #  insufficientInformationThreshold: 45   ### RUMLANG GICIK  30
+  #  point2NormalMinimalAlignmentAngleThreshold: 60 # OUSTER 60  
+  #  point2NormalStrongAlignmentAngleThreshold: 45
+  #  inequalityboundmultiplier: 8
+
+  None:
+
+transformationCheckers:
+  - DifferentialTransformationChecker:
+      minDiffRotErr: 0.001    # 0.001
+      minDiffTransErr: 0.008   # 0.01
+      smoothLength: 3         # 3
+  - CounterTransformationChecker:
+      maxIterationCount: 30   # 30 
+#  - BoundTransformationChecker:
+#      maxRotationNorm: 0.80
+#      maxTranslationNorm: 5.0
+
+inspector:
+#  VTKFileInspector
+  NullInspector
+
+logger:
+#  FileLogger
+  NullLogger

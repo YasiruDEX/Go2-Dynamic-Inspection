@@ -4,6 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Global Options1
         - /Frames1
         - /Point Clouds1
         - /Point Clouds1/Deskewed Scan1
@@ -28,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Dense Map
+    SyncSource: Deskewed Scan
 Visualization Manager:
   Class: ""
   Displays:
@@ -69,15 +70,15 @@ Visualization Manager:
         - Alpha: 1
           Autocompute Intensity Bounds: false
           Autocompute Value Bounds:
-            Max Value: 0.6965634822845459
-            Min Value: -0.36318451166152954
+            Max Value: 5.33551549911499
+            Min Value: -0.6164945960044861
             Value: true
           Axis: Z
           Channel Name: intensity
           Class: rviz_default_plugins/PointCloud2
           Color: 0; 255; 0
           Color Transformer: AxisColor
-          Decay Time: 1000
+          Decay Time: 10
           Enabled: true
           Invert Rainbow: false
           Max Color: 255; 255; 255
@@ -96,7 +97,7 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /registered_scan
+            Value: /dlio_registered_scan
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
@@ -265,7 +266,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 0; 0; 0
-    Fixed Frame: odom
+    Fixed Frame: odom_dlio
     Frame Rate: 30
   Name: root
   Tools:

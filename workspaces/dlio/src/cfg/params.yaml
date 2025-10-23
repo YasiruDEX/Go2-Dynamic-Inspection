@@ -13,9 +13,9 @@
 /**:
   ros__parameters:
     use_sim_time: true
-    frames/odom: map
+    frames/odom: odom_dlio
     frames/baselink: base_link
-    frames/lidar: sensor
+    frames/lidar: livox_frame
     frames/imu: imu
 
     map/waitUntilMove: true

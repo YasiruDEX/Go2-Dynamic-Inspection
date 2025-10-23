@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>small_gicp</name>
+  <version>1.0.0</version>
+  <description>Efficient and parallelized algorithms for point cloud registration</description>
+
+  <maintainer email="k.koide@aist.go.jp">Kenji Koide</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>eigen3_cmake_module</depend>
+  <depend>eigen</depend>
+  <depend>libomp-dev</depend>
+
+  <!-- Optional -->
+  <!-- <depend>libpcl-all-dev</depend> -->
+  <!-- <depend>tbb</depend> -->
+  <!-- <depend>fmt</depend> -->
+  <!-- <depend>pybind11-dev</depend> -->
+  <!-- <test_depend>gtest</test_depend> -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

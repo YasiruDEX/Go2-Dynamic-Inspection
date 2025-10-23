@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>open3d_conversions</name>
+  <version>0.0.2</version>
+  <description>
+    Provides conversion functions to and from Open3D datatypes
+  </description>
+
+  <maintainer email="matnay17@gmail.com">Pranay Mathur</maintainer>
+  <maintainer email="nkhedekar@nevada.unr.edu">Nikhil Khedekar</maintainer>
+  <maintainer email="stevenmacenski@gmail.com">Steve Macenski</maintainer>
+
+  <license>Apache-2.0</license>
+
+  <author email="matnay17@gmail.com">Pranay Mathur</author>
+  <author email="nkhedekar@nevada.unr.edu">Nikhil Khedekar</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>eigen</depend>
+  <depend>open3d_slam_msgs</depend>
+  <depend>open3d</depend>
+
+  <!-- You can uncomment the next lines if you use clang-tidy/cmake_clang_tools for formatting -->
+  <!-- <build_depend>cmake_clang_tools</build_depend> -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

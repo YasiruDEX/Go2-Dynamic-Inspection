@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>lua_parameter_dictionary</name>
+  <version>1.0.0</version>
+  <description>Param dictionary loader from lua.</description>
+  <maintainer email="ej@ethz.ch">ej</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Eigen and Boost are usually found by CMake, but you can add them for discoverability -->
+  <build_depend>eigen3_cmake_module</build_depend>
+  <exec_depend>eigen3_cmake_module</exec_depend>
+
+  <build_depend>liblua5.4-dev</build_depend>
+  <exec_depend>liblua5.4-dev</exec_depend>
+
+  <build_depend>libgflags-dev</build_depend>
+  <exec_depend>libgflags-dev</exec_depend>
+
+  <build_depend>libglog-dev</build_depend>
+  <exec_depend>libglog-dev</exec_depend>
+
+  <build_depend>libboost-iostreams-dev</build_depend>
+  <exec_depend>libboost-iostreams-dev</exec_depend>
+
+  <test_depend>ament_cmake_gtest</test_depend>
+</package>

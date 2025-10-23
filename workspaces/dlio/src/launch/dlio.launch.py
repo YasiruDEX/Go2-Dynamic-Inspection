@@ -53,12 +53,12 @@ def generate_launch_description():
         remappings=[
             ('pointcloud', pointcloud_topic),
             ('imu', imu_topic),
-            ('odom', 'state_estimation'),
+            ('odom', 'odom_dlio'),
             ('pose', 'dlio/odom_node/pose'),
             ('path', 'dlio/odom_node/path'),
             ('kf_pose', 'dlio/odom_node/keyframes'),
             ('kf_cloud', 'dlio/odom_node/pointcloud/keyframe'),
-            ('deskewed', 'registered_scan'),
+            ('deskewed', 'dlio_registered_scan'),
         ],
     )
 
