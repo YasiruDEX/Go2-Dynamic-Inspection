@@ -17,13 +17,6 @@ def generate_launch_description():
   declare_vehicleX = DeclareLaunchArgument('vehicleX', default_value='0.0', description='')
   declare_vehicleY = DeclareLaunchArgument('vehicleY', default_value='0.0', description='')
   declare_checkTerrainConn = DeclareLaunchArgument('checkTerrainConn', default_value='true', description='')
-  
-  remappings = [
-        ('map', 'map_o3d'),
-        ('/state_estimation', '/open3d/scan2map_odometry'),
-        ('sensor', 'livox_frame'),
-        ('/registered_scan', '/open3d/assembled_map' ),
-    ]
 
   start_local_planner = IncludeLaunchDescription(
     FrontendLaunchDescriptionSource(os.path.join(
@@ -34,7 +27,6 @@ def generate_launch_description():
       'goalX': vehicleX,
       'goalY': vehicleY,
     }.items(),
-    remappings=remappings
   )
 
   start_terrain_analysis = IncludeLaunchDescription(

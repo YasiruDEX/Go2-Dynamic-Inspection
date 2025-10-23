@@ -80,6 +80,10 @@ def generate_launch_description():
         prefix=LaunchConfiguration('launch_prefix'),
         respawn=True,
         respawn_delay=0.0,
+        remappings=[
+            ('/open3d/scan2map_odometry', '/state_estimation'),
+            ('/open3d/assembled_map', '/registered_scan'),
+        ],
     )
 
     launch_dir = os.path.dirname(os.path.realpath(__file__))

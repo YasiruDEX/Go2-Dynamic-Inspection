@@ -46,7 +46,9 @@ def generate_launch_description():
             FindPackageShare('direct_lidar_inertial_odometry'), '/launch/dlio.launch.py'
         ]),
         launch_arguments={
-            'rviz': 'false'
+            'rviz': 'false',
+            'pointcloud_topic': '/velodyne_points',
+            'imu_topic': '/imu/data'
         }.items()
     )
     
@@ -72,7 +74,8 @@ def generate_launch_description():
                 ]),
                 launch_arguments={
                     'use_sim_time': 'true',
-                    'launch_rviz': 'false'
+                    'launch_rviz': 'false',
+                    'cloud_topic': '/velodyne_points',
                 }.items()
             )
         ]

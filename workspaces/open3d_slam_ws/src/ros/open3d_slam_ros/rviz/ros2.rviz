@@ -85,6 +85,8 @@ Visualization Manager:
           Value: true
         map_o3d:
           Value: true
+        odom_dlio:
+          Value: true
         sensor:
           Value: true
       Marker Scale: 1
@@ -93,8 +95,16 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        livox_frame:
-          map_o3d:
+        base_link:
+          imu:
+            {}
+          livox_frame:
+            odom_dlio:
+              {}
+            sensor:
+              {}
+        map_o3d:
+          map:
             {}
       Update Interval: 0
       Value: true
@@ -210,7 +220,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /open3d/assembled_map
+        Value: /registered_scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -251,7 +261,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /open3d/scan2map_odometry
+        Value: /state_estimation
       Value: true
     - Angle Tolerance: 0
       Class: rviz_default_plugins/Odometry
