@@ -43,6 +43,7 @@ far_planner:
     graph/clear_dumper_thred: 4
     graph/node_finalize_thred: 6
     graph/filter_pool_size: 12
+    graph/use_gpu: true  # Enable GPU acceleration for visibility checking (requires CUDA GPU)
 
     # Corner Detector Params
     c_detector/resize_ratio: 3.0

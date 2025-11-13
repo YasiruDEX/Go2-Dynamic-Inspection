@@ -164,10 +164,93 @@ void DynamicGraph::UpdateNavGraph(const NodePtrStack& new_nodes,
         }
         // reconnect between near nodes
         NodePtrStack outside_break_nodes;
+        
+        // GPU-accelerated visibility checking for near nodes
+        const bool cuda_available = FARPlannerCUDA::CUDAVisibilityChecker::IsCUDAAvailable();
+        const size_t num_nodes = near_nav_nodes_.size();
+        
+        // Debug logging (only once per 100 calls to avoid spam)
+        static int debug_counter = 0;
+        if (debug_counter++ % 100 == 0 && !is_freeze_vgraph) {
+            RCLCPP_INFO(nh_->get_logger(), "DG: GPU check - use_gpu:%d, cuda_available:%d, num_nodes:%zu (need >10)", 
+                        dg_params_.use_gpu, cuda_available, num_nodes);
+        }
+        
+        if (dg_params_.use_gpu && cuda_available && num_nodes > 10) {
+            RCLCPP_INFO(nh_->get_logger(), "DG: Using GPU for %zu nodes visibility check", num_nodes);
+            try {
+                FARPlannerCUDA::CUDAVisibilityChecker cuda_checker;
+                
+                // Collect global contour edges for collision checking
+                std::vector<PointPair> all_contour_edges;
+                all_contour_edges.insert(all_contour_edges.end(), 
+                                        ContourGraph::global_contour_.begin(), 
+                                        ContourGraph::global_contour_.end());
+                all_contour_edges.insert(all_contour_edges.end(), 
+                                        ContourGraph::boundary_contour_.begin(), 
+                                        ContourGraph::boundary_contour_.end());
+                
+                // Run GPU visibility check
+                auto connection_matrix = cuda_checker.CheckVisibilityConnections(
+                    near_nav_nodes_, all_contour_edges, 
+                    FARUtil::kProjectDist, FARUtil::kNavClearDist
+                );
+                
+                // Apply GPU results to graph connections
+                for (std::size_t i=0; i<near_nav_nodes_.size(); i++) {
+                    const NavNodePtr nav_ptr1 = near_nav_nodes_[i];
+                    if (nav_ptr1->is_odom) continue;
+                    
+                    for (std::size_t j=0; j<near_nav_nodes_.size(); j++) {
+                        const NavNodePtr nav_ptr2 = near_nav_nodes_[j];
+                        if (i == j || j > i || nav_ptr2->is_odom) continue;
+                        
+                        // Use GPU result and verify with contour check
+                        if (connection_matrix[i][j] == 1) {
+                            // GPU says can connect, verify with full IsValidConnect for contour votes
+                            if (this->IsValidConnect(nav_ptr1, nav_ptr2, true)) {
+                                this->AddPolyEdge(nav_ptr1, nav_ptr2), this->AddEdge(nav_ptr1, nav_ptr2);
+                            } else {
+                                this->ErasePolyEdge(nav_ptr1, nav_ptr2), this->EraseEdge(nav_ptr1, nav_ptr2);
+                            }
+                        } else {
+                            this->ErasePolyEdge(nav_ptr1, nav_ptr2), this->EraseEdge(nav_ptr1, nav_ptr2);
+                        }
+                    }
+                }
+                
+                if (FARUtil::IsDebug) {
+                    RCLCPP_INFO(nh_->get_logger(), "DG: GPU visibility check completed for %zu nodes", near_nav_nodes_.size());
+                }
+                
+            } catch (const std::exception& e) {
+                RCLCPP_WARN(nh_->get_logger(), "DG: GPU visibility check failed: %s. Falling back to CPU.", e.what());
+                // Fall back to CPU version below
+                goto cpu_fallback;
+            }
+        } else {
+            cpu_fallback:
+            // CPU version - original code
+            for (std::size_t i=0; i<near_nav_nodes_.size(); i++) {
+                const NavNodePtr nav_ptr1 = near_nav_nodes_[i];
+                if (nav_ptr1->is_odom) continue;
+                
+                for (std::size_t j=0; j<near_nav_nodes_.size(); j++) {
+                    const NavNodePtr nav_ptr2 = near_nav_nodes_[j];
+                    if (i == j || j > i || nav_ptr2->is_odom) continue;
+                    if (this->IsValidConnect(nav_ptr1, nav_ptr2, true)) {
+                        this->AddPolyEdge(nav_ptr1, nav_ptr2), this->AddEdge(nav_ptr1, nav_ptr2);
+                    } else {
+                        this->ErasePolyEdge(nav_ptr1, nav_ptr2), this->EraseEdge(nav_ptr1, nav_ptr2);
+                    }
+                }
+            }
+        }
+        
+        // Re-evaluate nodes which are not in near (common for both GPU and CPU paths)
         for (std::size_t i=0; i<near_nav_nodes_.size(); i++) {
             const NavNodePtr nav_ptr1 = near_nav_nodes_[i];
             if (nav_ptr1->is_odom) continue;
-            // re-evaluate nodes which are not in near
             const NodePtrStack copy_connect_nodes = nav_ptr1->connect_nodes;
             for (const auto& cnode : copy_connect_nodes) {
                 if (cnode->is_odom || cnode->is_near_nodes || FARUtil::IsOutsideGoal(cnode) || FARUtil::IsTypeInStack(cnode, nav_ptr1->contour_connects)) continue;
@@ -177,15 +260,6 @@ void DynamicGraph::UpdateNavGraph(const NodePtrStack& new_nodes,
                     this->ErasePolyEdge(nav_ptr1, cnode) ,this->EraseEdge(nav_ptr1, cnode);
                     outside_break_nodes.push_back(cnode);
                 } 
-            }
-            for (std::size_t j=0; j<near_nav_nodes_.size(); j++) {
-                const NavNodePtr nav_ptr2 = near_nav_nodes_[j];
-                if (i == j || j > i || nav_ptr2->is_odom) continue;
-                if (this->IsValidConnect(nav_ptr1, nav_ptr2, true)) {
-                    this->AddPolyEdge(nav_ptr1, nav_ptr2), this->AddEdge(nav_ptr1, nav_ptr2);
-                } else {
-                    this->ErasePolyEdge(nav_ptr1, nav_ptr2), this->EraseEdge(nav_ptr1, nav_ptr2);
-                }
             }
             for (const auto& oc_node_ptr : out_contour_nodes_) {
                 if (!oc_node_ptr->is_contour_match || !nav_ptr1->is_contour_match) continue;

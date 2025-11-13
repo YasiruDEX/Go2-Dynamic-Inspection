@@ -1,6 +1,7 @@
 #ifndef NODE_STRUCT_H
 #define NODE_STRUCT_H
 
+#include <unordered_set>
 #include "point_struct.h"
 
 enum NodeType {

@@ -2,3 +2,4 @@
 world_frame                             : map
 visual_scale_ratio                      : 0.5
 height_tolz                             : 2.0
+use_gpu                                 : true   # Enable GPU acceleration (CUDA)

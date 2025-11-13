@@ -592,6 +592,7 @@ void FARMaster::LoadROSParams() {
   nh_->declare_parameter<int>(graph_prefix   + "/filter_pool_size", 12);
   nh_->declare_parameter<float>(graph_prefix + "/connect_angle_thred", 10.0);
   nh_->declare_parameter<float>(graph_prefix + "/dirs_filter_margin", 10.0);
+  nh_->declare_parameter<bool>(graph_prefix  + "/use_gpu", true);
 
   nh_->get_parameter(graph_prefix + "/connect_votes_size", graph_params_.votes_size);
   nh_->get_parameter(graph_prefix + "/clear_dumper_thred", graph_params_.dumper_thred);
@@ -599,11 +600,25 @@ void FARMaster::LoadROSParams() {
   nh_->get_parameter(graph_prefix + "/filter_pool_size", graph_params_.pool_size);
   nh_->get_parameter(graph_prefix + "/connect_angle_thred", graph_params_.kConnectAngleThred);
   nh_->get_parameter(graph_prefix + "/dirs_filter_margin", graph_params_.filter_dirs_margin);
+  nh_->get_parameter(graph_prefix + "/use_gpu", graph_params_.use_gpu);
 
   graph_params_.filter_pos_margin        = FARUtil::kNavClearDist;
   graph_params_.filter_dirs_margin       = FARUtil::kAngleNoise;
   graph_params_.kConnectAngleThred       = FARUtil::kAcceptAlign;
   graph_params_.frontier_perimeter_thred = FARUtil::kMatchDist * 4.0f;
+
+  // Check GPU availability for graph operations
+  if (graph_params_.use_gpu) {
+    if (FARPlannerCUDA::CUDAVisibilityChecker::IsCUDAAvailable()) {
+      std::string gpu_info = FARPlannerCUDA::CUDAVisibilityChecker::GetGPUInfo();
+      RCLCPP_INFO(nh_->get_logger(), "FAR Planner: GPU acceleration ENABLED for visibility checking. %s", gpu_info.c_str());
+    } else {
+      RCLCPP_WARN(nh_->get_logger(), "FAR Planner: GPU requested but CUDA not available. Using CPU for visibility checking.");
+      graph_params_.use_gpu = false;
+    }
+  } else {
+    RCLCPP_INFO(nh_->get_logger(), "FAR Planner: GPU acceleration DISABLED. Using CPU for visibility checking.");
+  }
 
   // graph messager params
   nh_->declare_parameter<int>(msger_prefix + "/robot_id", 0);

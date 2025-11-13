@@ -8,6 +8,7 @@
 
 #include "boundary_handler/graph_extractor.h"
 #include "boundary_handler/intersection.h"
+#include "boundary_handler/graph_cuda_wrapper.h"
 
 /***************************************************************************************/
 
@@ -47,6 +48,7 @@ void GraphExtractor::LoadParmas() {
     nh_->declare_parameter("graph_file", "graph.txt");
     nh_->declare_parameter("visual_scale_ratio", 1.0f);
     nh_->declare_parameter("height_tolz", 1.0f);
+    nh_->declare_parameter("use_gpu", true);  // GPU acceleration enabled by default
 
     // Fetch parameters
     std::string folder_path;
@@ -57,11 +59,25 @@ void GraphExtractor::LoadParmas() {
     nh_->get_parameter("graph_file", ge_params_.vgraph_path);
     nh_->get_parameter("visual_scale_ratio", ge_params_.viz_scale_ratio);
     nh_->get_parameter("height_tolz", ge_params_.height_tolz);
+    nh_->get_parameter("use_gpu", ge_params_.use_gpu);
 
     // Append folder_path to the paths
     ge_params_.vgraph_path    = folder_path + ge_params_.vgraph_path;
     ge_params_.bd_file_path   = folder_path + ge_params_.bd_file_path;
     ge_params_.traj_file_path = folder_path + ge_params_.traj_file_path;
+    
+    // Check GPU availability
+    if (ge_params_.use_gpu) {
+        if (GraphCUDA::CUDAGraphBuilder::IsCUDAAvailable()) {
+            std::string gpu_info = GraphCUDA::CUDAGraphBuilder::GetGPUInfo();
+            RCLCPP_INFO(nh_->get_logger(), "GPU acceleration ENABLED. Using GPU: %s", gpu_info.c_str());
+        } else {
+            RCLCPP_WARN(nh_->get_logger(), "GPU requested but CUDA not available. Falling back to CPU.");
+            ge_params_.use_gpu = false;
+        }
+    } else {
+        RCLCPP_INFO(nh_->get_logger(), "GPU acceleration DISABLED. Using CPU.");
+    }
 }
 
 
@@ -131,7 +147,15 @@ void GraphExtractor::Run() {
     RCLCPP_INFO(nh_->get_logger(), "Start reading boundary file ...");
     this->ReadBoundaryFile(boundary_ptr_, extracted_polys_);
     RCLCPP_INFO(nh_->get_logger(), "Boundary reading success, constructing V-Graph ...");
-    this->ConstructVGraph(extracted_polys_, extracted_graph_);
+    
+    if (ge_params_.use_gpu) {
+        RCLCPP_INFO(nh_->get_logger(), "Using GPU-accelerated visibility graph construction");
+        this->ConstructVGraphGPU(extracted_polys_, extracted_graph_);
+    } else {
+        RCLCPP_INFO(nh_->get_logger(), "Using CPU visibility graph construction");
+        this->ConstructVGraph(extracted_polys_, extracted_graph_);
+    }
+    
     RCLCPP_INFO(nh_->get_logger(), "V-Graph constructed.");
     this->SaveVGraph(extracted_graph_);
     RCLCPP_INFO(nh_->get_logger(), "V-Graph saved, process terminated.");
@@ -609,6 +633,107 @@ void GraphExtractor::VisualizeGraph(const NodePtrStack& graphIn) {
     graph_marker_array.markers.push_back(corner_surf_marker);
     graph_marker_array.markers.push_back(corner_helper_marker);
     graph_viz_pub_->publish(graph_marker_array);
+}
+
+void GraphExtractor::ConstructVGraphGPU(const PolygonStack& polysIn, NodePtrStack& graphOut) {
+    graphOut.clear();
+    if (polysIn.empty()) return;
+    
+    RCLCPP_INFO(nh_->get_logger(), "Preparing data for GPU computation...");
+    
+    // Step 1: Create navigation nodes from polygons (same as CPU version)
+    for (const auto& poly_ptr : polysIn) {
+        NavNodePtr temp_node_ptr = NULL;
+        NodePtrStack node_stack;
+        node_stack.clear();
+        const int N = poly_ptr->vertices.size();
+        for (std::size_t idx=0; idx<N; idx++) {
+            this->CreateNavNode(poly_ptr->vertices[idx], temp_node_ptr);
+            node_stack.push_back(temp_node_ptr);
+        }
+        // Add connections to contour nodes
+        for (int idx=0; idx<N; idx++) {
+            const NavNodePtr cur_node_ptr = node_stack[idx];
+            int ref_idx = this->Mod(idx-1, N);
+            cur_node_ptr->surf_dirs.first = (node_stack[ref_idx]->position - cur_node_ptr->position).normalize_flat();
+            ref_idx = this->Mod(idx+1, N);
+            cur_node_ptr->surf_dirs.second = (node_stack[ref_idx]->position - cur_node_ptr->position).normalize_flat();
+            // Analysis convexity
+            this->AnalysisConvexity(cur_node_ptr, poly_ptr);
+            // Connect boundary
+            this->ConnectBoundary(node_stack[ref_idx], cur_node_ptr);
+            graphOut.push_back(cur_node_ptr);
+        }
+    }
+    
+    const std::size_t GN = graphOut.size();
+    RCLCPP_INFO(nh_->get_logger(), "Created %zu nodes, preparing for GPU visibility computation...", GN);
+    
+    // Step 2: Convert nodes to GPU-compatible format
+    std::vector<NavNode_GPU> gpu_nodes(GN);
+    for (std::size_t i = 0; i < GN; i++) {
+        const NavNodePtr& node_ptr = graphOut[i];
+        gpu_nodes[i].position = Point3D_GPU(node_ptr->position.x, node_ptr->position.y, node_ptr->position.z);
+        gpu_nodes[i].id = node_ptr->id;
+        gpu_nodes[i].free_direct = static_cast<int>(node_ptr->free_direct);
+        gpu_nodes[i].surf_dir_first = Point3D_GPU(node_ptr->surf_dirs.first.x, 
+                                                   node_ptr->surf_dirs.first.y, 
+                                                   node_ptr->surf_dirs.first.z);
+        gpu_nodes[i].surf_dir_second = Point3D_GPU(node_ptr->surf_dirs.second.x, 
+                                                    node_ptr->surf_dirs.second.y, 
+                                                    node_ptr->surf_dirs.second.z);
+        gpu_nodes[i].is_active = true;
+        gpu_nodes[i].is_boundary = node_ptr->is_boundary;
+        // Copy contour connections
+        gpu_nodes[i].num_contour_connects = std::min((int)node_ptr->contour_idxs.size(), 100);
+        for (int j = 0; j < gpu_nodes[i].num_contour_connects; j++) {
+            gpu_nodes[i].contour_connects[j] = node_ptr->contour_idxs[j];
+        }
+    }
+    
+    // Step 3: Convert polygons to GPU format
+    std::vector<PolygonVertex_GPU> gpu_polygons;
+    int poly_id = 0;
+    for (const auto& poly_ptr : polysIn) {
+        for (const auto& vertex : poly_ptr->vertices) {
+            PolygonVertex_GPU gpu_vertex;
+            gpu_vertex.position = Point3D_GPU(vertex.x, vertex.y, vertex.z);
+            gpu_vertex.polygon_id = poly_id;
+            gpu_vertex.vertex_index = gpu_polygons.size();
+            gpu_polygons.push_back(gpu_vertex);
+        }
+        poly_id++;
+    }
+    
+    RCLCPP_INFO(nh_->get_logger(), "Launching GPU kernel for %zu nodes and %zu polygon vertices...", 
+                GN, gpu_polygons.size());
+    
+    // Step 4: Run GPU computation
+    try {
+        GraphCUDA::CUDAGraphBuilder cuda_builder;
+        auto connection_matrix = cuda_builder.BuildVisibilityGraph(gpu_nodes, gpu_polygons, ge_params_.height_tolz);
+        
+        RCLCPP_INFO(nh_->get_logger(), "GPU computation completed. Processing results...");
+        
+        // Step 5: Apply connections from GPU results
+        int connection_count = 0;
+        for (std::size_t i = 0; i < GN; i++) {
+            for (std::size_t j = 0; j < GN; j++) {
+                if (i >= j) continue;  // Only process upper triangle
+                if (connection_matrix[i][j] == 1) {
+                    this->ConnectVEdge(graphOut[i], graphOut[j]);
+                    connection_count++;
+                }
+            }
+        }
+        
+        RCLCPP_INFO(nh_->get_logger(), "GPU visibility graph complete: %d visibility connections created", connection_count);
+        
+    } catch (const std::exception& e) {
+        RCLCPP_ERROR(nh_->get_logger(), "GPU computation failed: %s. Falling back to CPU.", e.what());
+        // Fall back to CPU version
+        this->ConstructVGraph(polysIn, graphOut);
+    }
 }
 
 int main(int argc, char** argv){

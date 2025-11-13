@@ -94,6 +94,7 @@ struct GraphExtractorParams {
     std::string traj_file_path;
     float viz_scale_ratio;
     float height_tolz;
+    bool use_gpu;  // Enable GPU acceleration
 };
 
 class GraphExtractor {
@@ -128,6 +129,7 @@ private:
     void LoadParmas();
 
     void ConstructVGraph(const PolygonStack& polysIn, NodePtrStack& graphOut);
+    void ConstructVGraphGPU(const PolygonStack& polysIn, NodePtrStack& graphOut);
 
     void SetMarker(const VizColor& color, 
                    const std::string& ns,
