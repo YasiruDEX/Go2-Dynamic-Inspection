@@ -12,6 +12,11 @@
 
 cmake_minimum_required(VERSION 3.12.4)
 project(direct_lidar_inertial_odometry)
+
+# Enable C++ and CUDA languages
+enable_language(CXX)
+enable_language(CUDA)
+
 find_package(rosidl_default_generators REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -24,16 +29,19 @@ find_package(pcl_ros REQUIRED)
 find_package(PCL REQUIRED)
 find_package( Eigen3 REQUIRED )
 find_package(Threads REQUIRED)
+find_package(CUDA REQUIRED)
 
 set(CMAKE_BUILD_TYPE "Release")
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CUDA_STANDARD 17)
+
+# CUDA architecture for RTX 2060 (Turing - compute capability 7.5)
+set(CMAKE_CUDA_ARCHITECTURES 75)
 
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 
-# Not all machines have <cpuid.h> available
-set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
-
+# Generate ROS interfaces
 rosidl_generate_interfaces(
     ${PROJECT_NAME}
         srv/SavePCD.srv
@@ -44,6 +52,7 @@ rosidl_get_typesupport_target(cpp_typesupport_target
 
 include_directories(${PCL_INCLUDE_DIRS})
 include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories(${CUDA_INCLUDE_DIRS})
 
 include_directories(include)
 include_directories(SYSTEM)
@@ -55,17 +64,37 @@ add_library(nanoflann STATIC
 target_link_libraries(nanoflann ${PCL_LIBRARIES})
 ament_target_dependencies(nanoflann)
 
+# CUDA-accelerated modules
+add_library(cuda_modules STATIC
+  src/nano_gicp/cuda/cuda_knn.cu
+  src/nano_gicp/cuda/cuda_covariance.cu
+  src/nano_gicp/cuda/cuda_transform.cu
+  src/nano_gicp/cuda/cuda_gicp.cu
+)
+set_target_properties(cuda_modules PROPERTIES 
+  CUDA_SEPARABLE_COMPILATION ON
+  CUDA_RESOLVE_DEVICE_SYMBOLS ON
+  POSITION_INDEPENDENT_CODE ON
+)
+target_link_libraries(cuda_modules ${CUDA_LIBRARIES} ${PCL_LIBRARIES})
+target_compile_options(cuda_modules PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+  --expt-relaxed-constexpr
+  --use_fast_math
+  -O3
+  >)
+
 # NanoGICP
 add_library(nano_gicp STATIC
   src/nano_gicp/lsq_registration.cc
   src/nano_gicp/nano_gicp.cc
+  src/nano_gicp/gpu_accelerator.cc
 )
-target_link_libraries(nano_gicp ${PCL_LIBRARIES} ${OpenMP_LIBS} nanoflann)
+target_link_libraries(nano_gicp ${PCL_LIBRARIES} ${OpenMP_LIBS} nanoflann cuda_modules ${CUDA_LIBRARIES})
 ament_target_dependencies(nano_gicp)
 
 # Odometry Node
 add_executable(dlio_odom_node src/dlio/odom_node.cc src/dlio/odom.cc)
-target_link_libraries(dlio_odom_node ${PCL_LIBRARIES} ${OpenMP_LIBS} Threads::Threads nano_gicp)
+target_link_libraries(dlio_odom_node ${PCL_LIBRARIES} ${OpenMP_LIBS} Threads::Threads nano_gicp cuda_modules ${CUDA_LIBRARIES})
 ament_target_dependencies(dlio_odom_node "tf2_ros" "pcl_ros" "nav_msgs" "pcl_conversions" "rclcpp" "sensor_msgs" "geometry_msgs")
 
 # Mapping Node
@@ -74,7 +103,7 @@ target_link_libraries(dlio_map_node ${PCL_LIBRARIES}  ${cpp_typesupport_target})
 ament_target_dependencies(dlio_map_node "tf2_ros" "pcl_ros" "pcl_conversions" "rclcpp")
 
 ament_export_include_directories(include)
-ament_export_libraries(${PROJECT_NAME} nano_gicp nanoflann)
+ament_export_libraries(${PROJECT_NAME} nano_gicp nanoflann cuda_modules)
 ament_export_dependencies(rclcpp std_msgs sensor_msgs geometry_msgs pcl_ros)
 ament_package()
 
