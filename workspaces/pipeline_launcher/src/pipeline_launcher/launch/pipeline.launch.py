@@ -1,5 +1,5 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, TimerAction
+from launch.actions import IncludeLaunchDescription, TimerAction, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.substitutions import FindPackageShare
 import os
@@ -72,16 +72,23 @@ def generate_launch_description():
                 ]),
                 launch_arguments={
                     'use_sim_time': 'true',
-                    'launch_rviz': 'false'
+                    'launch_rviz': 'true'
                 }.items()
             )
         ]
     )
     
-    return LaunchDescription([
+    # Configure CycloneDDS environment for all launched nodes
+    env_actions = [
+        SetEnvironmentVariable(name='ROS_DOMAIN_ID', value='30'),
+        SetEnvironmentVariable(name='RMW_IMPLEMENTATION', value='rmw_cyclonedds_cpp'),
+        SetEnvironmentVariable(name='CYCLONEDDS_URI', value='file:///home/yasiru/cyclonedds.xml'),
+    ]
+
+    return LaunchDescription(env_actions + [
         # fast_lio_launch,
         dlio_launch,
-        vehicle_simulator_launch,
-        far_planner_launch,
+        # vehicle_simulator_launch,
+        # far_planner_launch,
         open3d_slam_launch,
     ])

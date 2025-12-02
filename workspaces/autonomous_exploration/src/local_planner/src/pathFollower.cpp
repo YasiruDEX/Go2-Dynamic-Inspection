@@ -267,7 +267,7 @@ int main(int argc, char** argv)
 
 
   // geometry_msgs::msg::TwistStamped cmd_vel;
-  // cmd_vel.header.frame_id = "vehicle";
+  // cmd_vel.header.frame_id = "base_link";
 
   if (autonomyMode) {
     joySpeed = autonomySpeed / maxSpeed;

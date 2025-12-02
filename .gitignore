@@ -3,6 +3,10 @@ build/
 install/
 log/
 
+# But keep important log folder in vehicle_simulator
+!workspaces/autonomous_exploration/src/vehicle_simulator/log/
+!workspaces/autonomous_exploration/src/vehicle_simulator/log/**
+
 # Python
 __pycache__/
 *.py[cod]
@@ -37,6 +41,9 @@ docs/build/
 # ROS
 *.bag
 *.db3
+
+# PLY files (large point cloud data) - exclude generated submaps
+workspaces/open3d_slam_ws/src/ros/open3d_slam_ros/data/*.ply
 
 # CMake
 CMakeCache.txt

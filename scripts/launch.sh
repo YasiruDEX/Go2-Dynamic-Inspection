@@ -48,9 +48,9 @@ echo "  T=6s: far_planner starts"
 echo ""
 
 # Launch the pipeline
-ros2 launch go2_config gazebo_velodyne.launch.py &
-ros2 launch pipeline_launcher pipeline.launch.py &
-ros2 bag play ~/Documents/rosbags/rosbag_003 &
+# ros2 launch go2_config gazebo_velodyne.launch.py &
+ros2 launch pipeline_launcher pipeline_real.launch.py &
+# ros2 bag play ~/Documents/rosbags/rosbag_003 &
 
 
 # --- Publish static transforms ---
