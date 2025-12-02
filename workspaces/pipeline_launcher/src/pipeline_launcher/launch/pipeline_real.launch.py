@@ -9,28 +9,17 @@ from launch.launch_description_sources import FrontendLaunchDescriptionSource  #
 def generate_launch_description():
     """
     Launch the complete pipeline with sequential delays:
-    1. fast_lio mapping_mid360.launch.py (starts immediately)
-    2. vehicle_simulator system_real_robot.launch (after 3 seconds)
-    3. far_planner far_planner.launch (after 6 seconds total)
+    1. DLIO (starts immediately)
+    2. Open3D SLAM (after 10 seconds)
+    3. Vehicle Simulator (after 15 seconds - 10 + 5)
+    4. Far Planner (after 20 seconds - 15 + 5)
     """
     
     # Find package paths
     vehicle_simulator_pkg = FindPackageShare('vehicle_simulator')
     far_planner_pkg = FindPackageShare('far_planner')
     
-    # Launch vehicle_simulator after 3 seconds
-    vehicle_simulator_launch = TimerAction(
-        period=3.0,
-        actions=[
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([
-                    vehicle_simulator_pkg, '/launch/system_real_robot.launch'
-                ])
-            )
-        ]
-    )
-
-    # Launch dlio (assuming it is part of the pipeline)
+    # 1. Launch DLIO immediately
     dlio_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             FindPackageShare('direct_lidar_inertial_odometry'), '/launch/dlio.launch.py'
@@ -41,29 +30,10 @@ def generate_launch_description():
             'imu_topic': '/livox/imu',
         }.items()
     )
-    
-    # Launch far_planner after 6 seconds total (3 more after vehicle_simulator)
-    far_planner_launch = TimerAction(
-        period=6.0,
-        actions=[
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([
-                    far_planner_pkg, '/launch/far_planner.launch'
-                ])
-            )
-        ]
-    )
 
-    # Foxglove Bridge launch (starts immediately)
-    foxglove_bridge_launch = IncludeLaunchDescription(
-        FrontendLaunchDescriptionSource([
-            FindPackageShare('foxglove_bridge'), '/launch/foxglove_bridge_launch.xml'
-        ])
-    )
-
-    # Launch open3d_slam mapping after 6 seconds total (3 more after vehicle_simulator)
+    # 2. Launch Open3D SLAM after 10 seconds
     open3d_slam_launch = TimerAction(
-        period=6.0,
+        period=10.0,
         actions=[
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([
@@ -77,11 +47,42 @@ def generate_launch_description():
             )
         ]
     )
+
+    # 3. Launch Vehicle Simulator after 15 seconds (10 + 5)
+    vehicle_simulator_launch = TimerAction(
+        period=15.0,
+        actions=[
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([
+                    vehicle_simulator_pkg, '/launch/system_real_robot.launch'
+                ])
+            )
+        ]
+    )
+    
+    # 4. Launch Far Planner after 20 seconds (15 + 5)
+    far_planner_launch = TimerAction(
+        period=20.0,
+        actions=[
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([
+                    far_planner_pkg, '/launch/far_planner.launch'
+                ])
+            )
+        ]
+    )
+
+    # Foxglove Bridge launch (optional, starts immediately)
+    foxglove_bridge_launch = IncludeLaunchDescription(
+        FrontendLaunchDescriptionSource([
+            FindPackageShare('foxglove_bridge'), '/launch/foxglove_bridge_launch.xml'
+        ])
+    )
     
     return LaunchDescription([
-        dlio_launch,
-        vehicle_simulator_launch,
-        far_planner_launch,
-        open3d_slam_launch,
+        dlio_launch,           # 0s  - DLIO starts first
+        open3d_slam_launch,    # 10s - Open3D SLAM
+        vehicle_simulator_launch,  # 15s - Vehicle Simulator
+        far_planner_launch,    # 20s - Far Planner
         # foxglove_bridge_launch,
     ])

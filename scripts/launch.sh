@@ -50,6 +50,8 @@ echo ""
 # Launch the pipeline
 # ros2 launch go2_config gazebo_velodyne.launch.py &
 ros2 launch pipeline_launcher pipeline_real.launch.py &
+# ros2 launch pipeline_launcher pipeline_real_no_vehicle.launch.py &
+# ros2 launch pipeline_launcher pipeline_real_no_far_planner.launch.py &
 # ros2 bag play ~/Documents/rosbags/rosbag_003 &
 
 

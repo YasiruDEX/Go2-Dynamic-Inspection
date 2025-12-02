@@ -2,12 +2,12 @@ far_planner:
   ros__parameters:
     # Dynamic Planner Default Params
     main_run_freq: 2.5 # [Hz] How often the *planner* runs (replan rate).
-    voxel_dim: 0.15  # Unit: meter. Smaller → sharper obstacle detail but heavier CPU/memory.
-    robot_dim: 0.4   # Unit: meter. Collision *inflation radius* (effective robot “circle”) used for planning.
+    voxel_dim: 0.08  # Unit: meter. Smaller → sharper obstacle detail but heavier CPU/memory. (was 0.15, reduced for small obstacles)
+    robot_dim: 0.4   # Unit: meter. Collision *inflation radius* (effective robot "circle") used for planning.
     vehicle_height: 0.3  # Unit: meter. Height of the robot base/sensor above ground used in terrain checks.
     sensor_range: 30.0  # Unit: meter. Max range of points used from the depth/LiDAR stream for mapping/planning.
     terrain_range: 15.0  # Unit: meter. Radius around the robot within which terrain analysis/costs are computed/maintained.
-    local_planner_range: 5.0   # Unit: meter. Look-ahead radius/window for the local planner’s search.
+    local_planner_range: 5.0   # Unit: meter. Look-ahead radius/window for the local planner's search.
     visualize_ratio: 0.75
     is_viewpoint_extend: true
     is_multi_layer: false
@@ -30,7 +30,7 @@ far_planner:
     # Dynamic Planner Utility Params
     util/angle_noise: 15.0 # Unit: degree
     util/accept_max_align_angle: 4.0  # Unit: degree
-    util/obs_inflate_size: 1
+    util/obs_inflate_size: 2  # Number of voxels to inflate obstacles by (was 1, increased to catch small obstacles better)
     util/new_intensity_thred: 2.0
     util/terrain_free_Z: 0.2
     util/dyosb_update_thred: 4
