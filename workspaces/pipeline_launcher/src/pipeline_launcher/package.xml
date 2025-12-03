@@ -2,19 +2,33 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>pipeline_launcher</name>
-  <version>0.0.1</version>
-  <description>A ROS2 package to launch the complete pipeline with sequential delays</description>
-  <maintainer email="your_email@example.com">Your Name</maintainer>
+  <version>1.0.0</version>
+  <description>
+    ROS 2 launch package for the Go2 autonomous exploration pipeline.
+    Provides launch files for real robot operation, simulation, and
+    development workflows with configurable timing and sensor topics.
+  </description>
+
+  <maintainer email="quadruped-dyn-insp@users.noreply.github.com">Quadruped-dyn-insp</maintainer>
   <license>Apache-2.0</license>
 
-  <buildtool_depend>ament_cmake</buildtool_depend>
+  <url type="repository">https://github.com/Quadruped-dyn-insp/Go2_planner_suite</url>
 
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <!-- Launch dependencies -->
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
-  <exec_depend>fast_lio</exec_depend>
+
+  <!-- Pipeline component dependencies -->
+  <exec_depend>direct_lidar_inertial_odometry</exec_depend>
+  <exec_depend>open3d_slam_ros</exec_depend>
   <exec_depend>vehicle_simulator</exec_depend>
   <exec_depend>far_planner</exec_depend>
+  <exec_depend>foxglove_bridge</exec_depend>
 
+  <!-- Test dependencies -->
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 

@@ -1,66 +1,115 @@
 #!/bin/bash
+# =============================================================================
+# Real Robot Pipeline Launch Script
+# =============================================================================
+# Copyright 2025 Quadruped-dyn-insp
+# SPDX-License-Identifier: Apache-2.0
+#
+# Launches the complete autonomy pipeline for real robot operation.
+#
+# Launch Sequence:
+#   T=0s:  Foxglove Bridge (visualization)
+#   T=5s:  DLIO (LiDAR-Inertial Odometry)
+#   T=15s: Open3D SLAM (3D mapping)
+#   T=20s: Vehicle Simulator (motion planning interface)
+#   T=25s: Far Planner (global path planning)
+#
+# Usage:
+#   ./scripts/launch.sh              # Launch with default settings
+#   ./scripts/launch.sh --mapping    # Launch mapping-only pipeline
+#   ./scripts/launch.sh --dev        # Launch development pipeline
+# =============================================================================
 
-# Pipeline Launch Script
-# This script sources the required setup files and launches the complete pipeline
+set -e  # Exit on any error
 
-echo "=== Simulation Launch Script ==="
-echo "Sourcing required setup files..."
+# -----------------------------------------------------------------------------
+# Configuration
+# -----------------------------------------------------------------------------
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_ROOT="$(dirname "$SCRIPT_DIR")"
 
-# Source the autonomous exploration workspace
-echo "Sourcing autonomous_exploration workspace setup..."
-source ~/Documents/unitree_sim_ws/install/setup.sh
+# Default launch file
+LAUNCH_FILE="pipeline_real.launch.py"
 
+# Parse command line arguments
+case "$1" in
+    --mapping|-m)
+        LAUNCH_FILE="pipeline_mapping.launch.py"
+        ;;
+    --dev|-d)
+        LAUNCH_FILE="pipeline_dev.launch.py"
+        ;;
+    --sim|-s)
+        echo "For simulation, use ./scripts/sim.sh instead"
+        exit 1
+        ;;
+    --help|-h)
+        echo "Usage: $0 [OPTIONS]"
+        echo ""
+        echo "Options:"
+        echo "  --mapping, -m   Launch mapping-only pipeline (DLIO + Open3D SLAM)"
+        echo "  --dev, -d       Launch development pipeline (no Far Planner)"
+        echo "  --help, -h      Show this help message"
+        exit 0
+        ;;
+esac
 
-echo "=== Pipeline Launch Script ==="
-echo "Sourcing required setup files..."
+# -----------------------------------------------------------------------------
+# Source Workspaces
+# -----------------------------------------------------------------------------
+echo "=== Real Robot Pipeline Launch ==="
+echo "Sourcing workspace environments..."
 
-# Source the autonomous exploration workspace
-echo "Sourcing autonomous_exploration workspace setup..."
-source ~/Documents/Far_planner_test/workspaces/autonomous_exploration/install/setup.sh
+# Source workspaces in dependency order
+WORKSPACES=(
+    "autonomous_exploration"
+    "far_planner"
+    "dlio"
+    "open3d_slam_ws"
+    "pipeline_launcher"
+)
 
-# Source the far_planner workspace
-echo "Sourcing far_planner workspace setup..."
-source ~/Documents/Far_planner_test/workspaces/far_planner/install/setup.sh
+for ws in "${WORKSPACES[@]}"; do
+    ws_setup="$WORKSPACE_ROOT/workspaces/$ws/install/setup.bash"
+    if [[ -f "$ws_setup" ]]; then
+        source "$ws_setup"
+        echo "  ✓ $ws"
+    else
+        echo "  ⚠ $ws (not found, skipping)"
+    fi
+done
 
-# Source the fastlio2 workspace
-echo "Sourcing fastlio2 workspace setup..."
-source ~/Documents/Far_planner_test/workspaces/fastlio2/install/setup.sh
-
-# Source the dlio workspace 
-echo "Sourcing dlio workspace setup..."
-source ~/Documents/Far_planner_test/workspaces/dlio/install/setup.sh
-
-echo "Sourcing open3d slam workspace setup..."
-source ~/Documents/Far_planner_test/workspaces/open3d_slam_ws/install/setup.sh
-
-
-# Source the pipeline_launcher workspace
-echo "Sourcing pipeline_launcher workspace setup..."
-source ~/Documents/Far_planner_test/workspaces/pipeline_launcher/install/setup.sh
-
-echo "All setup files sourced successfully!"
 echo ""
+
+# -----------------------------------------------------------------------------
+# Launch Pipeline
+# -----------------------------------------------------------------------------
 echo "=== Launching Pipeline ==="
-echo "Starting the complete pipeline with the following sequence:"
-echo "  T=0s: fast_lio mapping starts"
-echo "  T=3s: vehicle_simulator starts"  
-echo "  T=6s: far_planner starts"
+echo "Launch file: $LAUNCH_FILE"
+echo ""
+echo "Component startup sequence:"
+echo "  T=0s:  Foxglove Bridge"
+echo "  T=5s:  DLIO"
+echo "  T=15s: Open3D SLAM"
+echo "  T=20s: Vehicle Simulator"
+echo "  T=25s: Far Planner"
 echo ""
 
-# Launch the pipeline
-# ros2 launch go2_config gazebo_velodyne.launch.py &
-ros2 launch pipeline_launcher pipeline_real.launch.py &
-# ros2 launch pipeline_launcher pipeline_real_no_vehicle.launch.py &
-# ros2 launch pipeline_launcher pipeline_real_no_far_planner.launch.py &
-# ros2 bag play ~/Documents/rosbags/rosbag_003 &
+# Launch the pipeline in background
+ros2 launch pipeline_launcher "$LAUNCH_FILE" &
+PIPELINE_PID=$!
 
-
-# --- Publish static transforms ---
-sleep 2  # Small delay to ensure ROS nodes are up
+# -----------------------------------------------------------------------------
+# Static Transforms
+# -----------------------------------------------------------------------------
+sleep 2  # Wait for nodes to initialize
 
 echo "Publishing static transforms..."
 ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 1 livox_frame sensor &
 ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 1 map_o3d map &
 
+echo ""
+echo "Pipeline launched successfully. Press Ctrl+C to stop."
 
-wait  # Wait for both background processes to finish
+# Wait for pipeline to finish
+wait $PIPELINE_PID
