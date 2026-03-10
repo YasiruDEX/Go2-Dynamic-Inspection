@@ -70,3 +70,6 @@ rosbag2_2026_03_03-14_37_07/rosbag2_2026_03_03-14_37_07_0.mcap
 rosbag2_2026_03_03-14_46_17/metadata.yaml
 rosbag2_2026_03_03-14_46_17/rosbag2_2026_03_03-14_46_17_0.mcap
 commands
+workspaces/mola_lo/rosbag_01/rosbag_01_0.mcap
+workspaces/mola_lo/rosbag_01/metadata.yaml
+workspaces/mola_lo/myMap.simplemap
