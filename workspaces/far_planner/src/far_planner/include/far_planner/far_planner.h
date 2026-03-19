@@ -81,6 +81,8 @@ private:
 
     bool is_cloud_init_, is_scan_init_, is_odom_init_, is_planner_running_;
     bool is_graph_init_;
+    bool is_pending_graph_load_;
+    std::string pending_graph_load_path_;
 
     PointCloudPtr new_vertices_ptr_;
     PointCloudPtr temp_obs_ptr_;
@@ -191,18 +193,27 @@ private:
     }
 
     inline void ReadFileCommand(const std_msgs::msg::String::SharedPtr msg) {
-        if (!FARUtil::IsDebug) { // Terminal Output
-            printf("\033[2J"), printf("\033[0;0H"); // cleanup screen
-            FakeTerminalInit();
+        std::string filename = msg->data;
+        if (filename.empty()) {
+            RCLCPP_WARN(nh_->get_logger(), "No filename provided for loading visibility graph");
+            return;
         }
+        RCLCPP_INFO(nh_->get_logger(), "Loading visibility graph from: %s", filename.c_str());
+        LoadVisibilityGraph(filename);
     }
 
     inline void SaveFileCommand(const std_msgs::msg::String::SharedPtr msg) {
-        if (!FARUtil::IsDebug) { // Terminal Output
-            printf("\033[2J"), printf("\033[0;0H"); // cleanup screen
-            FakeTerminalInit();
+        std::string filename = msg->data;
+        if (filename.empty()) {
+            RCLCPP_WARN(nh_->get_logger(), "No filename provided for saving visibility graph");
+            return;
         }
+        RCLCPP_INFO(nh_->get_logger(), "Saving visibility graph to: %s", filename.c_str());
+        SaveVisibilityGraph(filename);
     }
+    
+    void SaveVisibilityGraph(const std::string& filename);
+    void LoadVisibilityGraph(const std::string& filename);
 
     void ScanCallBack(const sensor_msgs::msg::PointCloud2::SharedPtr scan_pc);
     void WaypointCallBack(const geometry_msgs::msg::PointStamped& route_goal);

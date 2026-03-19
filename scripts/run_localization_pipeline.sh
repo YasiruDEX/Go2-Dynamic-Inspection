@@ -41,7 +41,8 @@ run_tf() {
 }
 
 run_bag() {
-    local bag_dir="${1:-$WORKSPACE_ROOT/rosbags/rosbag2_2026_03_03-15_06_01}"
+    local bag_dir="${1:-$WORKSPACE_ROOT/rosbags/rosbags-20260310T064339Z-3-002/rosbags/rosbag_003}"
+    echo "Playing rosbag: $bag_dir"
     ros2 bag play "$bag_dir" --loop
 }
 

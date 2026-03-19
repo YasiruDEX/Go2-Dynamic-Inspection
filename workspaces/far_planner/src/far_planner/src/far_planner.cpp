@@ -57,6 +57,10 @@ void FARMaster::Init() {
   //print publisher and subscriber init complete
   // RCLCPP_INFO(nh_->get_logger(), "FAR Planner Subscriber and Publisher Initiated");
 
+  // Initialize pending graph load flags BEFORE LoadROSParams, which may set them
+  is_pending_graph_load_ = false;
+  pending_graph_load_path_ = "";
+
   this->LoadROSParams();
 
   //print ROS params load complete
@@ -93,6 +97,9 @@ void FARMaster::Init() {
   is_reset_env_       = false;
   is_stop_update_     = false;
   is_init_completed_  = false;
+  // NOTE: is_pending_graph_load_ and pending_graph_load_path_ are NOT reset here
+  // because they are set by LoadROSParams() which runs BEFORE this block.
+  // Resetting them here would overwrite the auto-load configuration.
 
   // allocate memory to pointers
   new_vertices_ptr_     = PointCloudPtr(new pcl::PointCloud<PCLPoint>());
@@ -138,6 +145,14 @@ void FARMaster::Init() {
   // init complete
   is_init_completed_ = true;
   RCLCPP_INFO(nh_->get_logger(), "FAR Planner Initiated Complete");
+
+  // Load visibility graph immediately if auto-load is enabled (no need to wait for odom)
+  if (is_pending_graph_load_ && !pending_graph_load_path_.empty()) {
+    RCLCPP_WARN(nh_->get_logger(), "=== VGRAPH: Loading graph immediately from: %s ===", pending_graph_load_path_.c_str());
+    this->LoadVisibilityGraph(pending_graph_load_path_);
+    is_pending_graph_load_ = false;
+    pending_graph_load_path_ = "";
+  }
 }
 
 void FARMaster::ResetEnvironmentAndGraph() {
@@ -169,6 +184,7 @@ void FARMaster::MainLoopCallBack() {
   if (!is_init_completed_) {
     return;
   }
+
   if (is_reset_env_) {
       this->ResetEnvironmentAndGraph();
       is_reset_env_ = false;
@@ -177,6 +193,11 @@ void FARMaster::MainLoopCallBack() {
   }
 
   if (!this->PreconditionCheck()) {
+      // Even if preconditions aren't met, keep visualizing the loaded graph
+      if (is_graph_init_ && !nav_graph_.empty()) {
+        planner_viz_.VizGraph(nav_graph_);
+        planner_viz_.VizGlobalPolygons(ContourGraph::global_contour_, ContourGraph::unmatched_contour_);
+      }
       return;
   }
 
@@ -633,6 +654,39 @@ void FARMaster::LoadROSParams() {
   cdetect_params_.kBlurSize    = (int)std::round(FARUtil::kNavClearDist / master_params_.voxel_dim);
   cdetect_params_.sensor_range = master_params_.sensor_range;
   cdetect_params_.voxel_dim    = master_params_.voxel_dim;
+  
+  // Visibility graph save/load params
+  nh_->declare_parameter<bool>("vgraph_autoload", false);
+  nh_->declare_parameter<std::string>("vgraph_file_path", "");
+  nh_->declare_parameter<bool>("vgraph_autosave", false);
+  nh_->declare_parameter<float>("vgraph_save_interval", 60.0);
+  
+  bool vgraph_autoload = false;
+  std::string vgraph_file_path = "";
+  
+  nh_->get_parameter("vgraph_autoload", vgraph_autoload);
+  nh_->get_parameter("vgraph_file_path", vgraph_file_path);
+  
+  RCLCPP_WARN(nh_->get_logger(), "=== VGRAPH CONFIG: autoload=%s, path='%s' ===", 
+              vgraph_autoload ? "TRUE" : "FALSE", vgraph_file_path.c_str());
+  
+  // Auto-load visibility graph if enabled
+  if (vgraph_autoload && !vgraph_file_path.empty()) {
+    std::ifstream test_file(vgraph_file_path);
+    if (test_file.good()) {
+      test_file.close();
+      RCLCPP_WARN(nh_->get_logger(), "=== VGRAPH: File found! Setting pending load flag ===");
+      // Set flag for MainLoopCallBack to load the graph when odom is ready
+      pending_graph_load_path_ = vgraph_file_path;
+      is_pending_graph_load_ = true;
+    } else {
+      RCLCPP_WARN(nh_->get_logger(), "Visibility graph file not found: %s", vgraph_file_path.c_str());
+      RCLCPP_INFO(nh_->get_logger(), "Will build graph from scratch");
+    }
+  } else {
+    RCLCPP_WARN(nh_->get_logger(), "=== VGRAPH: Auto-load NOT enabled (autoload=%s, path_empty=%s) ===",
+                vgraph_autoload ? "true" : "false", vgraph_file_path.empty() ? "true" : "false");
+  }
 }
 
 void FARMaster::OdomCallBack(const nav_msgs::msg::Odometry::SharedPtr msg) {
@@ -898,6 +952,281 @@ std::unordered_set<int> MapHandler::extend_obs_indices_;
 std::unique_ptr<grid_ns::Grid<PointCloudPtr>> MapHandler::world_free_cloud_grid_;
 std::unique_ptr<grid_ns::Grid<PointCloudPtr>> MapHandler::world_obs_cloud_grid_;
 std::unique_ptr<grid_ns::Grid<std::vector<float>>> MapHandler::terrain_height_grid_;
+
+/***************************************************************************************/
+// Save/Load Visibility Graph Functions
+/***************************************************************************************/
+
+void FARMaster::SaveVisibilityGraph(const std::string& filename) {
+    std::ofstream ofs(filename, std::ios::binary);
+    if (!ofs.is_open()) {
+        RCLCPP_ERROR(nh_->get_logger(), "Failed to open file for saving: %s", filename.c_str());
+        return;
+    }
+
+    try {
+        // Get the global graph
+        const NodePtrStack& graph = graph_manager_.GetNavGraph();
+        
+        // Save graph size
+        std::size_t graph_size = graph.size();
+        ofs.write(reinterpret_cast<const char*>(&graph_size), sizeof(graph_size));
+        
+        RCLCPP_INFO(nh_->get_logger(), "Saving %zu nodes...", graph_size);
+        
+        // Create ID mapping
+        std::unordered_map<NavNodePtr, std::size_t> node_to_idx;
+        for (std::size_t i = 0; i < graph.size(); i++) {
+            node_to_idx[graph[i]] = i;
+        }
+        
+        // Save each node
+        for (const auto& node_ptr : graph) {
+            if (node_ptr == NULL) continue;
+            
+            // Save node ID
+            ofs.write(reinterpret_cast<const char*>(&node_ptr->id), sizeof(node_ptr->id));
+            
+            // Save position
+            ofs.write(reinterpret_cast<const char*>(&node_ptr->position.x), sizeof(float));
+            ofs.write(reinterpret_cast<const char*>(&node_ptr->position.y), sizeof(float));
+            ofs.write(reinterpret_cast<const char*>(&node_ptr->position.z), sizeof(float));
+            
+            // Save node properties
+            ofs.write(reinterpret_cast<const char*>(&node_ptr->is_covered), sizeof(bool));
+            ofs.write(reinterpret_cast<const char*>(&node_ptr->is_frontier), sizeof(bool));
+            ofs.write(reinterpret_cast<const char*>(&node_ptr->is_navpoint), sizeof(bool));
+            ofs.write(reinterpret_cast<const char*>(&node_ptr->is_boundary), sizeof(bool));
+            ofs.write(reinterpret_cast<const char*>(&node_ptr->free_direct), sizeof(int));
+            
+            // Save connections
+            std::size_t connect_size = node_ptr->connect_nodes.size();
+            ofs.write(reinterpret_cast<const char*>(&connect_size), sizeof(connect_size));
+            for (const auto& connected_node : node_ptr->connect_nodes) {
+                std::size_t idx = node_to_idx[connected_node];
+                ofs.write(reinterpret_cast<const char*>(&idx), sizeof(idx));
+            }
+            
+            // Save polygon connections
+            std::size_t poly_size = node_ptr->poly_connects.size();
+            ofs.write(reinterpret_cast<const char*>(&poly_size), sizeof(poly_size));
+            for (const auto& poly_node : node_ptr->poly_connects) {
+                std::size_t idx = node_to_idx[poly_node];
+                ofs.write(reinterpret_cast<const char*>(&idx), sizeof(idx));
+            }
+            
+            // Save contour connections
+            std::size_t contour_size = node_ptr->contour_connects.size();
+            ofs.write(reinterpret_cast<const char*>(&contour_size), sizeof(contour_size));
+            for (const auto& contour_node : node_ptr->contour_connects) {
+                std::size_t idx = node_to_idx[contour_node];
+                ofs.write(reinterpret_cast<const char*>(&idx), sizeof(idx));
+            }
+        }
+        
+        ofs.close();
+        RCLCPP_INFO(nh_->get_logger(), "Successfully saved visibility graph to: %s", filename.c_str());
+        
+    } catch (const std::exception& e) {
+        RCLCPP_ERROR(nh_->get_logger(), "Error saving visibility graph: %s", e.what());
+    }
+}
+
+void FARMaster::LoadVisibilityGraph(const std::string& filename) {
+    std::ifstream ifs(filename, std::ios::binary);
+    if (!ifs.is_open()) {
+        RCLCPP_ERROR(nh_->get_logger(), "Failed to open file for loading: %s", filename.c_str());
+        return;
+    }
+
+    try {
+        // Clear current graph
+        RCLCPP_INFO(nh_->get_logger(), "Clearing current visibility graph...");
+        graph_manager_.ResetCurrentGraph();
+        
+        // Read graph size
+        std::size_t graph_size;
+        ifs.read(reinterpret_cast<char*>(&graph_size), sizeof(graph_size));
+        
+        RCLCPP_INFO(nh_->get_logger(), "Loading %zu nodes...", graph_size);
+        
+        std::size_t max_id = 0;
+        
+        // Create nodes first with FULL initialization (mimicking CreateNavNodeFromPoint)
+        std::vector<NavNodePtr> loaded_nodes(graph_size);
+        for (std::size_t i = 0; i < graph_size; i++) {
+            NavNodePtr node_ptr = std::make_shared<NavNode>();
+            
+            // Read node ID
+            ifs.read(reinterpret_cast<char*>(&node_ptr->id), sizeof(node_ptr->id));
+            if (node_ptr->id > max_id) max_id = node_ptr->id;
+            
+            // Read position
+            float x, y, z;
+            ifs.read(reinterpret_cast<char*>(&x), sizeof(float));
+            ifs.read(reinterpret_cast<char*>(&y), sizeof(float));
+            ifs.read(reinterpret_cast<char*>(&z), sizeof(float));
+            node_ptr->position = Point3D(x, y, z);
+            
+            // Read saved node properties
+            ifs.read(reinterpret_cast<char*>(&node_ptr->is_covered), sizeof(bool));
+            ifs.read(reinterpret_cast<char*>(&node_ptr->is_frontier), sizeof(bool));
+            ifs.read(reinterpret_cast<char*>(&node_ptr->is_navpoint), sizeof(bool));
+            ifs.read(reinterpret_cast<char*>(&node_ptr->is_boundary), sizeof(bool));
+            ifs.read(reinterpret_cast<char*>(&node_ptr->free_direct), sizeof(int));
+            
+            // Initialize ALL other node properties properly (mimic CreateNavNodeFromPoint)
+            node_ptr->pos_filter_vec.clear();
+            node_ptr->pos_filter_vec.push_back(node_ptr->position);
+            node_ptr->surf_dirs_vec.clear();
+            node_ptr->surf_dirs = {Point3D(0,0,-1), Point3D(0,0,-1)};
+            node_ptr->ctnode = NULL;
+            node_ptr->is_active = true;
+            node_ptr->is_block_frontier = false;
+            node_ptr->is_contour_match = false;
+            node_ptr->is_odom = false;
+            node_ptr->is_near_nodes = true;
+            node_ptr->is_wide_near = true;
+            node_ptr->is_merged = false;
+            node_ptr->is_finalized = true;  // Mark as finalized so dynamic graph doesn't try to refine
+            node_ptr->is_traversable = true;
+            node_ptr->is_free_traversable = true;
+            node_ptr->is_goal = false;
+            node_ptr->clear_dumper_count = 0;
+            node_ptr->frontier_votes.clear();
+            node_ptr->invalid_boundary.clear();
+            node_ptr->connect_nodes.clear();
+            node_ptr->poly_connects.clear();
+            node_ptr->contour_connects.clear();
+            node_ptr->contour_votes.clear();
+            node_ptr->potential_contours.clear();
+            node_ptr->trajectory_connects.clear();
+            node_ptr->trajectory_votes.clear();
+            node_ptr->terrain_votes.clear();
+            node_ptr->potential_edges.clear();
+            node_ptr->edge_votes.clear();
+            // Planner members
+            node_ptr->is_block_to_goal = false;
+            node_ptr->gscore = FARUtil::kINF;
+            node_ptr->fgscore = FARUtil::kINF;
+            node_ptr->parent = NULL;
+            node_ptr->free_parent = NULL;
+            
+            // Skip connection data for now (read but don't use yet)
+            std::size_t connect_size;
+            ifs.read(reinterpret_cast<char*>(&connect_size), sizeof(connect_size));
+            for (std::size_t j = 0; j < connect_size; j++) {
+                std::size_t idx;
+                ifs.read(reinterpret_cast<char*>(&idx), sizeof(idx));
+            }
+            
+            std::size_t poly_size;
+            ifs.read(reinterpret_cast<char*>(&poly_size), sizeof(poly_size));
+            for (std::size_t j = 0; j < poly_size; j++) {
+                std::size_t idx;
+                ifs.read(reinterpret_cast<char*>(&idx), sizeof(idx));
+            }
+            
+            std::size_t contour_size;
+            ifs.read(reinterpret_cast<char*>(&contour_size), sizeof(contour_size));
+            for (std::size_t j = 0; j < contour_size; j++) {
+                std::size_t idx;
+                ifs.read(reinterpret_cast<char*>(&idx), sizeof(idx));
+            }
+            
+            loaded_nodes[i] = node_ptr;
+            // Add to global graph AND register in idx_node_map
+            DynamicGraph::AddNodeToGraph(node_ptr);
+            DynamicGraph::RegisterNodeWithId(node_ptr);
+        }
+        
+        // Set id_tracker_ to be beyond all loaded IDs to avoid conflicts
+        DynamicGraph::SetIdTracker(max_id + 1);
+        
+        // Now re-read file to restore connections
+        ifs.clear();
+        ifs.seekg(sizeof(graph_size), std::ios::beg);
+        
+        for (std::size_t i = 0; i < graph_size; i++) {
+            NavNodePtr node_ptr = loaded_nodes[i];
+            
+            // Skip to connection data (re-read node fields)
+            std::size_t node_id;
+            float x, y, z;
+            bool b1, b2, b3, b4;
+            int fd;
+            
+            ifs.read(reinterpret_cast<char*>(&node_id), sizeof(node_id));
+            ifs.read(reinterpret_cast<char*>(&x), sizeof(float));
+            ifs.read(reinterpret_cast<char*>(&y), sizeof(float));
+            ifs.read(reinterpret_cast<char*>(&z), sizeof(float));
+            ifs.read(reinterpret_cast<char*>(&b1), sizeof(bool));
+            ifs.read(reinterpret_cast<char*>(&b2), sizeof(bool));
+            ifs.read(reinterpret_cast<char*>(&b3), sizeof(bool));
+            ifs.read(reinterpret_cast<char*>(&b4), sizeof(bool));
+            ifs.read(reinterpret_cast<char*>(&fd), sizeof(int));
+            
+            // Read and restore connections
+            std::size_t connect_size;
+            ifs.read(reinterpret_cast<char*>(&connect_size), sizeof(connect_size));
+            for (std::size_t j = 0; j < connect_size; j++) {
+                std::size_t idx;
+                ifs.read(reinterpret_cast<char*>(&idx), sizeof(idx));
+                if (idx < loaded_nodes.size()) {
+                    DynamicGraph::AddEdge(node_ptr, loaded_nodes[idx]);
+                }
+            }
+            
+            std::size_t poly_size;
+            ifs.read(reinterpret_cast<char*>(&poly_size), sizeof(poly_size));
+            for (std::size_t j = 0; j < poly_size; j++) {
+                std::size_t idx;
+                ifs.read(reinterpret_cast<char*>(&idx), sizeof(idx));
+                if (idx < loaded_nodes.size()) {
+                    DynamicGraph::AddPolyEdge(node_ptr, loaded_nodes[idx]);
+                }
+            }
+            
+            std::size_t contour_size;
+            ifs.read(reinterpret_cast<char*>(&contour_size), sizeof(contour_size));
+            for (std::size_t j = 0; j < contour_size; j++) {
+                std::size_t idx;
+                ifs.read(reinterpret_cast<char*>(&idx), sizeof(idx));
+                if (idx < loaded_nodes.size()) {
+                    // Restore contour connections
+                    if (!FARUtil::IsTypeInStack(loaded_nodes[idx], node_ptr->contour_connects)) {
+                        node_ptr->contour_connects.push_back(loaded_nodes[idx]);
+                    }
+                }
+            }
+        }
+        
+        ifs.close();
+        
+        // Mark graph as initialized
+        is_graph_init_ = true;
+        RCLCPP_INFO(nh_->get_logger(), "Successfully loaded visibility graph from: %s", filename.c_str());
+        RCLCPP_INFO(nh_->get_logger(), "Loaded %zu nodes with connections (id_tracker set to %zu)", graph_size, max_id + 1);
+        
+        // Update nav_graph_ with loaded graph
+        nav_graph_ = graph_manager_.GetNavGraph();
+        RCLCPP_INFO(nh_->get_logger(), "Updating visualization and contour extraction...");
+        
+        // Update all dependent modules with loaded graph
+        contour_graph_.ExtractGlobalContours();      // Extract polygons from loaded graph
+        graph_planner_.UpdaetVGraph(nav_graph_);     // Update graph planner
+        graph_msger_.UpdateGlobalGraph(nav_graph_);  // Update graph messager
+        
+        // Visualize the loaded graph immediately
+        planner_viz_.VizGraph(nav_graph_);
+        planner_viz_.VizGlobalPolygons(ContourGraph::global_contour_, ContourGraph::unmatched_contour_);
+        
+        RCLCPP_INFO(nh_->get_logger(), "Graph integration complete. System ready for dynamic updates.");
+        
+    } catch (const std::exception& e) {
+        RCLCPP_ERROR(nh_->get_logger(), "Error loading visibility graph: %s", e.what());
+    }
+}
 
 
 int main(int argc, char** argv){

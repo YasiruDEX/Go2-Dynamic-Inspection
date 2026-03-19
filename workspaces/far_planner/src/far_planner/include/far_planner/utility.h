@@ -8,6 +8,8 @@
 #include <queue>
 #include <algorithm>
 #include <unordered_set>
+#include <thread>
+#include <chrono>
 #include <boost/functional/hash.hpp>
 
 /*Internal Library*/

@@ -615,6 +615,16 @@ public:
         }
     }
 
+    /* Set id tracker to a specific value (used after loading saved graphs) */
+    static inline void SetIdTracker(const std::size_t new_id) {
+        if (new_id > id_tracker_) id_tracker_ = new_id;
+    }
+
+    /* Register a node with a specific ID in the id map (used for loaded nodes) */
+    static inline void RegisterNodeWithId(const NavNodePtr& node_ptr) {
+        idx_node_map_.insert({node_ptr->id, node_ptr});
+    }
+
     static inline void AddPolyEdge(const NavNodePtr& node_ptr1, const NavNodePtr& node_ptr2) {
         if (node_ptr1 == node_ptr2) return;
         if (!FARUtil::IsTypeInStack(node_ptr2, node_ptr1->poly_connects) &&
