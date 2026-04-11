@@ -18,7 +18,7 @@
     <param name="minDyObsVFOV" value="-16.0" />
     <param name="maxDyObsVFOV" value="16.0" />
     <param name="minDyObsPointNum" value="1" />
-    <param name="noDataObstacle" value="true" />
+    <param name="noDataObstacle" value="false" />
     <param name="noDataBlockSkipNum" value="0" />
     <param name="minBlockPointNum" value="10" />
     <param name="vehicleHeight" value="0.5" />

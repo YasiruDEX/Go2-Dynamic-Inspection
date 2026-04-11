@@ -87,3 +87,154 @@ mola-lo-gui-rosbag2 /home/yasiru/Documents/rosbags/rosbag_004
 sm2mm -i myMap.simplemap -o myMap.mm -p sm2mm_no_decim_imu_mls_keyframe_map.yaml
 
 mm-viewer myMap.mm  -l libmola_metric_maps.so
+
+cd workspaces/go2_webrtc_bridge/
+source install/setup.bash 
+ros2 launch go2_webrtc_bridge bridge.launch.py robot_ip:=192.168.8.160
+
+MOLA_MINIMUM_RANGE_FILTER=0.05
+./scripts/run_localization_pipeline.sh all-real
+
+./scripts/run_localization_pipeline.sh local
+
+cd workspaces/far_planner/
+source install/setup.bash 
+rviz2 -d src/far_planner/config/far_planner.rviz
+
+colcon  build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
+
+ssh rgen@192.168.8.181
+
+
+#rosbag recording ws
+
+source install/setup.bash
+ros2 run rosbag_recorder recorder_node
+
+source install/setup.bash
+ros2 action send_goal /record_bag rosbag_recorder_msgs/action/Record "{record: true}"
+
+#map_creator_ws
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/mola_lo
+source install/setup.bash
+cd /home/yasiru/Documents/Far_planner_test/workspaces/map_creator_ws
+source install/setup.bash
+ros2 run map_creator map_creator_node
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/map_creator_ws
+source install/setup.bash
+ros2 action send_goal /create_map map_creator_msgs/action/CreateMap "{rosbag_path: '/path/to/your/rosbag'}"
+
+
+
+
+# cd /home/yasiru/Documents/Far_planner_test/workspaces/mola_lo
+# source install/setup.bash
+# cd /home/yasiru/Documents/Far_planner_test/workspaces/map_creator_ws
+# source install/setup.bash
+
+
+# ros2 run rosbag_recorder recorder_node &
+# ros2 run map_creator map_creator_node &
+
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/mola_lo
+source install/setup.bash
+cd /home/yasiru/Documents/Far_planner_test/workspaces/map_creator_ws
+source install/setup.bash
+ros2 action send_goal /record_bag rosbag_recorder_msgs/action/Record "{record: true}"
+
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/mola_lo
+source install/setup.bash
+cd /home/yasiru/Documents/Far_planner_test/workspaces/map_creator_ws
+source install/setup.bash
+ros2 action send_goal /create_map map_creator_msgs/action/CreateMap "{rosbag_path: '/home/yasiru/Documents/Far_planner_test/rosbags/recorded_mcap_bag'}"
+
+
+# zenoh-bridge-ros2dds -e tcp/192.168.8.181:7447
+# zenoh-bridge-ros2dds
+
+source workspaces/mola_lo/install/setup.bash 
+mm-viewer /home/yasiru/Documents/Far_planner_test/maps/myMap.mm  -l libmola_metric_maps.so
+
+
+/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh all-real
+/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh foxglove
+
+
+/home/yasiru/Documents/Far_planner_test/scripts/launch_mapping_nodes.sh
+
+
+# cd workspaces/far_planner/
+# source install/setup.bash 
+# rviz2 -d /home/yasiru/Downloads/far_planner.rviz
+
+
+# cd /home/yasiru/Documents/Far_planner_test/workspaces
+# source install/setup.bash
+# ros2 run goal_convertor goal_convertor_node
+
+
+#go2 control
+
+python3 /home/yasiru/Documents/Far_planner_test/workspaces/go2_webrtc_bridge/src/launch/joystick.launch.py 
+
+cd workspaces/go2_webrtc_bridge/
+source install/setup.bash 
+ros2 launch go2_webrtc_bridge bridge.launch.py robot_ip:=192.168.8.160
+
+
+
+#camera
+
+ source Documents/Visual_Inspection_ws/inspection_ws/install/setup.bash
+ ros2 run visual_inspection_ros camera_node
+
+ source Documents/Visual_Inspection_ws/inspection_ws/install/setup.bash
+ ros2 run visual_inspection_ros ibvs_action_server 
+
+
+
+ ros2 topic pub --once /initialpose geometry_msgs/msg/PoseWithCovarianceStamped "
+header:
+  frame_id: 'map'
+pose:
+  pose:
+    position:
+      x: 7.7779
+      y: -17.2161
+      z: 0.0
+    orientation:
+      z: 0.2925
+      w: 0.9563
+  covariance: [0.25, 0, 0, 0, 0, 0,
+               0, 0.25, 0, 0, 0, 0,
+               0, 0, 0.25, 0, 0, 0,
+               0, 0, 0, 0.1, 0, 0,
+               0, 0, 0, 0, 0.1, 0,
+               0, 0, 0, 0, 0, 0.1]
+"
+
+
+
+ros2 topic pub --once /initialpose geometry_msgs/msg/PoseWithCovarianceStamped "
+header:
+  frame_id: 'map'
+pose:
+  pose:
+    position:
+      x: 7.7779
+      y: -17.2161
+      z: -3.0
+    orientation:
+      z: 0.2925
+      w: 0.9563
+  covariance: [0.25, 0, 0, 0, 0, 0,
+               0, 0.25, 0, 0, 0, 0,
+               0, 0, 0.25, 0, 0, 0,
+               0, 0, 0, 0.1, 0, 0,
+               0, 0, 0, 0, 0.1, 0,
+               0, 0, 0, 0, 0, 0.1]
+"

@@ -1,0 +1,8 @@
+string rosbag_path
+---
+bool success
+string message
+string map_path
+---
+string status
+float32 progress

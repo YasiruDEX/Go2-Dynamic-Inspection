@@ -35,7 +35,7 @@ run_localization() {
         imu_topic_name:="/livox/imu" \
         mola_tf_base_link:="base_link" \
         mola_deskew_method:="MotionCompensationMethod::IMU" \
-        mola_initial_map_mm_file:="$(pwd)/myMap.mm"
+        mola_initial_map_mm_file:="/home/yasiru/Documents/Far_planner_test/maps/Ground/myMap.mm"
 }
 
 run_tf() {
@@ -43,7 +43,7 @@ run_tf() {
 }
 
 run_bag() {
-    local bag_dir="${1:-$WORKSPACE_ROOT/rosbags/rosbag2_2026_03_03-15_06_01}"
+    local bag_dir="${1:-/home/yasiru/Documents/rosbag2_2026_03_26-18_18_08}"
     ros2 bag play "$bag_dir" --loop
 }
 
@@ -69,6 +69,12 @@ run_foxglove() {
     ros2 run foxglove_bridge foxglove_bridge
 }
 
+run_rviz() {
+    cd "$WORKSPACE_ROOT/workspaces/far_planner"
+    source install/setup.bash
+    rviz2 -d /home/yasiru/Downloads/far_planner.rviz
+}
+
 cleanup() {
     echo ""
     echo "Stopping launched processes..."
@@ -84,8 +90,8 @@ case "$cmd" in
     localization-active)
         run_localization "True"
         ;;
-    tf)
-        run_tf
+    foxglove)
+        run_foxglove
         ;;
     bag)
         run_bag "$2"
@@ -115,7 +121,7 @@ case "$cmd" in
         run_foxglove &
         wait
         ;;
-    all-active)
+    all-bag)
         trap cleanup SIGINT SIGTERM
         run_localization "True" &
         sleep 2
@@ -124,9 +130,22 @@ case "$cmd" in
         run_terrain &
         run_terrain_ext &
         run_far &
-        run_local &
         run_foxglove &
+        run_local &
         run_bag &
+        wait
+        ;;
+     all-real)
+        trap cleanup SIGINT SIGTERM
+        run_localization "False" &
+        sleep 2
+        run_tf &
+        sleep 1
+        run_terrain &
+        run_terrain_ext &
+        run_far &
+        run_local &
+        run_rviz &
         wait
         ;;
     -h|--help|help)

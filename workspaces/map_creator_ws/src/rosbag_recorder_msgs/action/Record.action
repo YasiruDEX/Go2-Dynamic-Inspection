@@ -1,0 +1,6 @@
+bool record
+---
+bool success
+string message
+---
+float32 duration

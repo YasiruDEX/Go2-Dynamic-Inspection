@@ -596,7 +596,7 @@ int main(int argc, char** argv)
 
   auto subLaserCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>("/lidar_odometry/deskewed_scan_points", 5, laserCloudHandler);
 
-  auto subTerrainCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>("/terrain_map_ext", 5, terrainCloudHandler);
+  auto subTerrainCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>("/terrain_map", 5, terrainCloudHandler);
 
   auto subJoystick = nh->create_subscription<sensor_msgs::msg::Joy>("/joy", 5, joystickHandler);
 

@@ -10,7 +10,7 @@ far_planner:
     local_planner_range: 5.0   # Unit: meter
     visualize_ratio: 0.75
     is_viewpoint_extend: false
-    is_multi_layer: false
+    is_multi_layer: true
     is_opencv_visual: false # Obstacle Image Display
     is_static_env: false
     is_pub_boundary: true
@@ -28,15 +28,15 @@ far_planner:
     map_handler/map_grad_max_height: 100.0   # Unit: meter
 
     # Dynamic Planner Utility Params
-    util/angle_noise: 15.0 # Unit: degree
-    util/accept_max_align_angle: 4.0  # Unit: degree
+    util/angle_noise: 20.0 # Unit: degree
+    util/accept_max_align_angle: 6.0  # Unit: degree
     util/obs_inflate_size: 1
     util/new_intensity_thred: 2.0
     util/terrain_free_Z: 0.2
-    util/dyosb_update_thred: 8
-    util/new_point_counter: 5
-    util/dynamic_obs_dacay_time: 2.0 # Unit: second
-    util/new_points_decay_time: 1.0  # Unit: second
+    util/dyosb_update_thred: 10
+    util/new_point_counter: 7
+    util/dynamic_obs_dacay_time: 3.0 # Unit: second
+    util/new_points_decay_time: 2.0  # Unit: second
 
     # Dynamic Graph Params
     graph/connect_votes_size: 10

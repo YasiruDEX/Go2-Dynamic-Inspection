@@ -2,6 +2,9 @@
 build/
 install/
 log/
+**/build/
+**/install/
+**/log/
 
 # But keep important log folder in vehicle_simulator
 !workspaces/autonomous_exploration/src/vehicle_simulator/log/
@@ -47,6 +50,9 @@ docs/build/
 # ROS
 *.bag
 *.db3
+*.mcap
+*.simplemap
+*.mm
 
 # PLY files (large point cloud data) - exclude generated submaps
 workspaces/open3d_slam_ws/src/ros/open3d_slam_ros/data/*.ply
@@ -76,3 +82,7 @@ workspaces/mola_lo/myMap.simplemap
 
 
 /maps
+
+# MOLA specific
+workspaces/mola_lo/src/mola_test_datasets/
+workspaces/mola_lo/rosbag_01/
