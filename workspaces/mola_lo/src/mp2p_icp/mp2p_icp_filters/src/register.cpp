@@ -1,0 +1,94 @@
+/*               _
+ _ __ ___   ___ | | __ _
+| '_ ` _ \ / _ \| |/ _` | Modular Optimization framework for
+| | | | | | (_) | | (_| | Localization and mApping (MOLA)
+|_| |_| |_|\___/|_|\__,_| https://github.com/MOLAorg/mola
+
+ A repertory of multi primitive-to-primitive (MP2P) ICP algorithms
+ and map building tools. mp2p_icp is part of MOLA.
+
+ Copyright (C) 2018-2026 Jose Luis Blanco, University of Almeria,
+                         and individual contributors.
+ SPDX-License-Identifier: BSD-3-Clause
+*/
+/**
+ * @file   register.cpp
+ * @brief  RTTI registry
+ * @author Jose Luis Blanco Claraco
+ * @date   Jun 10, 2019
+ */
+
+/** \defgroup mp2p_icp_filters_grp mp2p_icp_filters library
+ * LiDAR and point cloud segmentation and filtering algorithms.
+ *
+ */
+
+#include <mp2p_icp_filters/FilterAbsoluteTimestamp.h>
+#include <mp2p_icp_filters/FilterAdjustTimestamps.h>
+#include <mp2p_icp_filters/FilterBoundingBox.h>
+#include <mp2p_icp_filters/FilterByExpression.h>
+#include <mp2p_icp_filters/FilterByIntensity.h>
+#include <mp2p_icp_filters/FilterByRange.h>
+#include <mp2p_icp_filters/FilterByRing.h>
+#include <mp2p_icp_filters/FilterClear.h>
+#include <mp2p_icp_filters/FilterCurvature.h>
+#include <mp2p_icp_filters/FilterDecimate.h>
+#include <mp2p_icp_filters/FilterDecimateAdaptive.h>
+#include <mp2p_icp_filters/FilterDecimateVoxels.h>
+#include <mp2p_icp_filters/FilterDeleteLayer.h>
+#include <mp2p_icp_filters/FilterDeskew.h>
+#include <mp2p_icp_filters/FilterEdgesPlanes.h>
+#include <mp2p_icp_filters/FilterFartherPointSampling.h>
+#include <mp2p_icp_filters/FilterMLS.h>
+#include <mp2p_icp_filters/FilterMerge.h>
+#include <mp2p_icp_filters/FilterNormalizeIntensity.h>
+#include <mp2p_icp_filters/FilterPoleDetector.h>
+#include <mp2p_icp_filters/FilterRemoveByVoxelOccupancy.h>
+#include <mp2p_icp_filters/FilterRemovePointCloudField.h>
+#include <mp2p_icp_filters/FilterRenameLayer.h>
+#include <mp2p_icp_filters/FilterSOR.h>
+#include <mp2p_icp_filters/FilterVoxelSOR.h>
+#include <mp2p_icp_filters/FilterVoxelSlice.h>
+#include <mp2p_icp_filters/Generator.h>
+#include <mp2p_icp_filters/GeneratorEdgesFromCurvature.h>
+#include <mp2p_icp_filters/GeneratorEdgesFromRangeImage.h>
+#include <mrpt/core/initializer.h>
+
+MRPT_INITIALIZER(register_mola_lidar_segmentation)
+{
+    using mrpt::rtti::registerClass;
+
+    // Generators:
+    registerClass(CLASS_ID(mp2p_icp_filters::Generator));
+    registerClass(CLASS_ID(mp2p_icp_filters::GeneratorEdgesFromRangeImage));
+    registerClass(CLASS_ID(mp2p_icp_filters::GeneratorEdgesFromCurvature));
+
+    // Filters:
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterAbsoluteTimestamp));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterAdjustTimestamps));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterBase));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterBoundingBox));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterByExpression));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterByIntensity));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterByRange));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterByRing));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterClear));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterCurvature));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterDecimate));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterDecimateAdaptive));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterDecimateVoxels));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterDeleteLayer));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterDeskew));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterEdgesPlanes));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterFartherPointSampling));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterMerge));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterMLS));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterNormalizeIntensity));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterPoleDetector));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterRemoveByVoxelOccupancy));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterRemovePointCloudField));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterRenameLayer));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterSOR));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterVoxelSlice));
+    registerClass(CLASS_ID(mp2p_icp_filters::FilterVoxelSOR));
+}

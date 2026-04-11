@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<!-- This is a ROS package file, intended to allow this library to be built
+     side-by-side to ROS packages in a catkin/ament environment.
+-->
+<package format="3">
+  <name>mola_georeferencing</name>
+  <version>2.2.0</version>
+  <description>C++ library for georeferencing key-frame maps (simplemaps) and related CLI tools</description>
+
+  <maintainer email="joseluisblancoc@gmail.com">Jose-Luis Blanco-Claraco</maintainer>
+  <license file="LICENSE">GPLv3</license>
+
+  <url type="website">https://docs.mola-slam.org/</url>
+  <url type="repository">https://github.com/MOLAorg/mola_state_estimation/</url>
+
+  <author email="joseluisblancoc@gmail.com">Jose-Luis Blanco-Claraco</author>
+
+  <!-- <depend>cli11</depend> -->
+  <depend>gtsam</depend>
+  <depend>mola_common</depend>
+  <depend>mola_gtsam_factors</depend>
+  <depend>mola_yaml</depend>
+  <depend>mp2p_icp</depend>
+  <depend>mrpt_libmaps</depend>
+  <depend>mrpt_libtclap</depend>
+
+  <doc_depend>doxygen</doc_depend>
+
+  <!-- Minimum entries to release non-catkin pkgs: -->
+  <buildtool_depend>cmake</buildtool_depend>
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+  <!-- End -->
+
+
+</package>

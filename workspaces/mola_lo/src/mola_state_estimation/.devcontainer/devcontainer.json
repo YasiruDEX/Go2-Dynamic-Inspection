@@ -1,0 +1,40 @@
+{
+  "name": "ROS2 Rolling Dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": [
+    "--init",
+    "--net=host",
+    "--ipc=host"
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "remoteUser": "ubuntu",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+        "ms-iot.vscode-ros",
+        "twxs.cmake",
+        "ms-python.python"
+      ],
+      "settings": {
+        "C_Cpp.intelliSenseEngine": "disabled",  // disable cpptools IntelliSense
+        "clangd.path": "/usr/bin/clangd",        // ensure VS Code uses container clangd
+        "cmake.generator": "Ninja",
+        "cmake.configureOnOpen": true
+      }    
+    }
+  },
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+
+  "postCreateCommand": "bash /opt/ros/setup-dev.sh"
+}

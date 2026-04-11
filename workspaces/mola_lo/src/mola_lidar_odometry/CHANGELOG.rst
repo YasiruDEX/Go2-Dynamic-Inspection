@@ -1,0 +1,361 @@
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Changelog for package mola_lidar_odometry
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.3.1 (2025-12-29)
+------------------
+* Merge pull request #36 from MOLAorg/feat/use-generic-map-fields
+  Use CGenericPointsMap to propagate all sensor per-point fields thru mapping pipelines
+* Support to visualize clouds in MOLA Viz recolorized by any cloud point field
+* Use CGenericPointsMap to propagate all sensor per-point fields thru mapping pipelines
+* Contributors: Jose Luis Blanco-Claraco
+
+1.3.0 (2025-12-15)
+------------------
+* Add CI and documentation badges to README
+  Added badges for CI build, clang-format, documentation, and code coverage.
+* Add option 'use_imu_orientation' to disable using IMU orientation for initialization
+* docs: add table clarifying localmap types
+* Make it compatible with observations w/o cov
+* Discard GPS readings with invalid cov matrix
+* Add warning if sensor stamps go backwards in time
+* Update usage instructions for mola_lo_apps.rst
+  Added usage instructions for LIO with Ouster in mola_lo_apps.rst.
+* Contributors: Jose Luis Blanco-Claraco
+
+1.2.2 (2025-11-08)
+------------------
+* Add quick instructions to launch mola-lo-gui on an Ouster dataset
+* Add option to store persistent settings and check version
+* Fix: missing publication of LocalMap if BridgeROS2 loads after this module.
+* Contributors: Jose Luis Blanco-Claraco
+
+1.2.1 (2025-10-28)
+------------------
+* Fix build against upcoming mrpt v2.15.0
+* Reduce the limit of published points to avoid FoxGlove WS overflow
+* docs: show first usage with rosbags & rawlogs
+* Contributors: Jose Luis Blanco-Claraco
+
+1.2.0 (2025-10-21)
+------------------
+* Tune ROS2 publication rates for reduced viz load
+* New option 'publish_deskewed_scans'
+* Fix unit tests
+* ros2 launch: sort arguments
+* Contributors: Jose Luis Blanco-Claraco
+
+1.1.0 (2025-10-20)
+------------------
+* Docs: describe the new GICP and LIO pipelines
+* Update rviz settings
+* Prefer to publish deskewed clouds in 'map' frame
+* FIX: ROS2 interface must use correct cloud and pose timestamps
+* Update and fix LIO ROS2 launch demo and docs
+* ROS: support rendering deskewed clouds
+* Replace deprecated ament_target_dependencies() with pure cmake
+* Publish deskewed scans for ROS visualization
+* Make use of ConstPtr for processing incoming observations
+* Code clean up: remove macros for building against very old mola_kernel versions
+* ros2 launch: add argument 'mola_tf_base_link'
+* Contributors: Jose Luis Blanco-Claraco
+
+1.0.0 (2025-10-13)
+------------------
+* Merge pull request #26 from MOLAorg/feature/better-lio
+  Better LIO & new GICP pipeline
+* CI: Run on ROS testing only
+* Add custom 'name' to pipeline stages for profiler
+* Update docs: Show example of use for MOLA_TF_BASE_LINK=os_sensor
+* Feature: add option to save deskewed clouds
+* refactor part of processScan() for code clarity
+* fix clang-tidy warnings
+* New config flag MOLA_SAVE_MM to save final metric map at session end
+* add option to re-colorize clouds by intensity (local map)
+* Add a clear message at initialization showing the name of the used pipeline
+* Fix macro to detect newer mp2p_icp version
+* cli app: show LO pose
+* Refactor the way Lidar scans are enqueued depending on LO/LIO usage
+* ICP pipelines: renamed old 'default' as 'icp', and add new 'default' symlink pointing to 'gicp'
+* cli: use MOLA YAML parser for state estimation files
+* Fix kitti eval scripts
+* cli: fix expected contents of state estimation param files
+* Debug traces: more covariance data
+* GUI: Show keyframe stats
+* configurable icp quality setpoint
+* Fix lidar rate for multiple lidars
+* New param to change the color of trajectory in the GUI
+* reset local viz clouds when re-localizing
+* gicp pipeline: use 2 resolutions (icp / map)
+* Auto-scale intensity for visualization
+* Less aggressive P controller for adaptive sigma
+* Use adaptive sampler
+* Update to latest mp2p_icp library API
+* Progress optimizing new gicp pipeline
+* New GICP pipeline file
+* Fix for latest mola imu API changes
+* Send velocity and orientations to the local velocity buffer
+* Better visualization of current / past clouds, with configurable colormaps from the yaml file
+* Move to the new deskew_method flag in mp2p_icp
+* README.md: update bibtex reference
+* Move IMU initialization to package mola_imu_preintegration
+* IMU initializer moved out to the mola_imu_preintegration package for better reusability
+* PitchRoll init: Add to-do note on IMU bias
+* GUI: show lidar & imu rates
+* remove obsolete pipeline
+* Fix typos in YAML comments
+* Configurable GUI background color
+* Implement display dense local map (decaying deskewed clouds)
+* Implement visualization of past clouds as transparent, decaying clouds
+* Add missing header for latest mola_kernel
+* option to show mulran dataset clouds with their real intensity channel
+* Visualization: show the deskewed current observation instead of raw
+* Contributors: Jose Luis Blanco-Claraco
+
+0.9.0 (2025-08-26)
+------------------
+* FIX: bug in formula for pitch-roll initialization from IMU
+* Store local IMU velocity buffer in key-frame simplemaps
+* mola-lidar-odometry-cli: New CLI arguments to support datasets with IMUs
+* Implement precise IMU-based deskew (requires latest mp2p_icp library)
+* fix clang-format
+* Modernize copyright notices
+* rosbag2 mola-cli launch file: add `MOLA_ROS2BAG_EXPORT_TO_RAWLOG_FILE` optional env var
+* Contributors: Jose Luis Blanco-Claraco
+
+0.8.0 (2025-06-06)
+------------------
+* Publish mp2p_icp metric map metadata, if existing in loaded maps.
+* state estimation config yaml file: expose IMU sensor name env var
+* Update mola_lo_pipelines.rst: explicitly show an example of using the NDT pipeline
+* ros2 launch: add new argument to control the scan validity filter based on minimum point count (now, enabled by default)
+* Update broken link to ROS Index
+* mola-lidar-odometry-cli: now also forward raw sensor data to state estimator
+* Fix build against mola <1.8.0
+* Docs: better explain existing variables to override sensor poses
+* gui option: implement show as orthographic camera
+* Contributors: Jose Luis Blanco-Claraco
+
+0.7.3 (2025-05-25)
+------------------
+* feature: new threshold to discard state estimation as invalid if uncertainty is too high
+* Fixed unit tests in CI
+* Prepare GUI for ortho camera option
+* progress implementing init pitch/roll from IMU
+* pipelines YAML files reformated with RedHat YAML formatter
+* Update env var name to explicitly mention LO: MOLA_LO_INITIAL_LOCALIZATION_METHOD
+* docs: on initial localization methods
+* ROS2 launch: Add new `mola_state_estimator_reference_frame` argument.
+  It should be used together with `mola_lo_reference_frame` to use an alternative reference map TF frame than the default `map`.
+* Fix wrong namespace in class name (it worked anyway because of a fall-back mechanism using unqualified names)
+* Expose env vars to change the reference frame_id for smoother (MOLA_TF_MAP)
+* fix: potential missing publication of updated poses if there is no map subscriber
+* lidar 3d pipeline: add rendering options for local map
+* Contributors: Jose Luis Blanco-Claraco
+
+0.7.2 (2025-04-23)
+------------------
+* better integration of clang-tidy, colcon_defaults, and clangd with vscode
+* Expose two more env vars: MOLA_MAP_CLOUD_DECIMATION, MOLA_ICP_CLOUD_DECIMATION
+* FIX: also initial pose for localmap
+* BUGFIX: Initial twist was wrong for custom initial poses
+* Contributors: Jose Luis Blanco-Claraco
+
+0.7.1 (2025-03-15)
+------------------
+* FIX: Handle correctly the case of input scans with non-normal numbers
+* docs: format of ros2 launch argument
+* FIX: reset map to start again might lead to divergence; Add new 'reset_state' command via MOLA dynamic variables
+* Force requiring valid poses for IMU and GNSS inputs
+* Refactor implementation source into several smaller files
+* FIX: mola-lo didn't exit due to waiting ICP queue if fed faster than ICP processing
+* FIX: mola-lo-gui apps may show duplicated UI controls in particular circumstances
+* Drop frames warning message now tells the exact drop ratio
+* Initial localization method is now loadable from yaml or ros2 launch file
+* MOLA-LO no longer subscribes to wheels odometry. That is now delegated directly to state estimation modules.
+* Add new ROS2 launch argument: `forward_ros_tf_odom_to_mola`
+* Contributors: Jose Luis Blanco-Claraco
+
+0.7.0 (2025-02-22)
+------------------
+* Implement new mola_kernel diagnostics API
+* Ensure map is published after ROS2 bridge is already listening (FIXES: potential loss of map publication if MM map is given via env var)
+* FIX: Proper configurable dropped frames mechanism and stats
+* FIX: Update GUI, publish maps, correctly independently of whether MolaGUI is enabled
+* launch: fix localization source name
+* FIX: Do not ever reset the map when in localization mode
+* Fix: refresh GUI with initial map
+* Allow dropping LiDAR frames in too slow for real-time, but not any other observation type
+* FIX: ensure georef metadata is published when map_load service is called
+* rename kitti ros2 demo file to unclutter ros2 launch autocompletion
+* Add ros launch argument 'use_state_estimator'
+* FIX: publish georeferencing metadata at start up
+* Add ROS2 launch arguments to select an state_estimator method
+* update citation
+* Add more params to smoother state estimation default YAML file
+* Add env variable MOLA_STATE_ESTIMATOR_PUBLISH_RATE to control filtered pose update rate
+* Add new env var MOLA_NAVSTATE_ENFORCE_PLANAR_MOTION and ros2 launch argument for it
+* Add new ros launch argument mola_footprint_to_base_link_tf
+* Fix expected pose format in yaml
+* ROS2 launch: shutdown if mvsim crashes
+* Fix parse error with default .mm and .simplemap launch arguments
+* Contributors: Jose Luis Blanco Claraco, Jose Luis Blanco-Claraco
+
+0.6.2 (2025-02-13)
+------------------
+* ros2 launch: add .mm and .simplemap optional initial map arguments
+* All exhaustive docs on ros2-related mola launch YAML files with the meaning of all BridgeROS2 parameter
+* Delegate publishing georeference info to BridgeROS2
+* Contributors: Jose Luis Blanco-Claraco
+
+0.6.1 (2025-01-26)
+------------------
+* Do not re-publish the map if it does not change, e.g. in localization-only mode
+* ros2 launch file: two new arguments 'mola_lo_pipeline' and 'generate_simplemap'
+* Default 3D-LO pipeline: Add new env var 'MOLA_LOCALMAP_LAYER_NAME', useful when localizing with prebuilt maps
+* Merge pull request #12 from r-aguilera/develop
+  fix launch file params
+* fix launch file params
+* Contributors: Jose Luis Blanco-Claraco, Raúl Aguilera
+
+0.6.0 (2025-01-21)
+------------------
+* Fix: publish map on first iteration
+* Publish georeferencing frames (utm, enu) when loading a metric map with georef. info
+* ros2 lidar odometry launch: add ros argument for /tf reference_frame
+* ROS2 kitti Lidar-Odometry demo: fixed to publish correct /tf's
+* Add new frame parameters to pipeline YAML files
+* Two new parameters (publish_reference_frame, publish_vehicle_frame), to have explicit control on frame names published to both, ROS, and the MOLA state_estimator
+* ROS2 service call for load_map(): more concise error messages
+* Contributors: Jose Luis Blanco-Claraco
+
+0.5.4 (2025-01-16)
+------------------
+* Add a debug helper env var MOLA_BRIDGE_ROS2_EXPORT_TO_RAWLOG_FILE
+* Do not reset the state estimator on a bad ICP, allowing merging from other sensors or extrapolating.
+* Docs: add missing ros2 launch args
+* More ROS2 launch arguments
+* Contributors: Jose Luis Blanco-Claraco
+
+0.5.3 (2025-01-15)
+------------------
+* FIX: mola_state_estimator_simple must be available as a build dep too for easier usage of mola-lo-cli
+* Contributors: Jose Luis Blanco-Claraco
+
+0.5.2 (2025-01-11)
+------------------
+* Merge pull request #11 from MOLAorg/10-bad-first-icp-re-starting-from-scratch-with-a-new-local-map
+  Fix NaN pointcloud radius in doInitializeEstimatedMaxSensorRange()
+* Unit tests: add test run against MulRan dataset fragment (Lidar+IMU)
+* cli: fix name of example pipeline file when --help invoked
+* unit tests: fix wrong usage of state estimator yaml file
+* mola-lo-gui-mulran: show IMU & GPS data in GUI
+* Define a sensible value for maxRange
+* Fix cmake warning when built w/o mola_state_estimation_simple sourced in the env
+* Contributors: Jose Luis Blanco-Claraco
+
+0.5.1 (2025-01-07)
+------------------
+* mola-lidar-odometry-cli: add flags to select the state estimation method
+* Contributors: Jose Luis Blanco-Claraco
+
+0.5.0 (2024-12-29)
+------------------
+* cmake test logic: add find_package() for state_estimation_simple
+* Merge pull request #7 from MOLAorg/wip/new-state-estimators
+  New state estimators (Merge after MOLA 1.5.0 is installable via apt)
+* Split state estimation params so each implementation has its own yaml file
+* CI: build against both, ROS testing and stable
+* Add new state estimator module in all MOLA-CLI yaml files
+* Update to new state estimation packages
+* Reorganization such as state estimator is now an independent external module
+* docs: add new ros-arg publish_localization_following_rep105
+* FIX: publish local map even when not active
+* Contributors: Jose Luis Blanco-Claraco
+
+0.4.1 (2024-12-20)
+------------------
+* ROS2 launch: add ros argument for new option publish_localization_following_rep105
+* rviz2 demo file: better orbit view
+* ROS2 config file: define env vars for all tf frames (odom, map, base_link)
+* Contributors: Jose Luis Blanco-Claraco
+
+0.4.0 (2024-12-18)
+------------------
+* demo rviz file: fix lidar topic name
+* Include /tf remaps too in ros2 launch
+* mola launch for ROS 2: Add placeholder for ros args parsing
+* mola launch for ROS 2: add env variables to quickly control verbosity of each module.
+  Env. vars. are:  MOLA_VERBOSITY_MOLA_VIZ, MOLA_VERBOSITY_MOLA_LO,MOLA_VERBOSITY_BRIDGE_ROS2 (Default: INFO)
+* Support for ROS2 namespaces in launch file
+* docs; and fix launch var typo
+* ROS 2 launch: add more ros args
+* move MOLA-LO ROS2 docs to the main MOLA repo
+* Expose one more runtime param: generate_simplemap
+* clarify docs on sensor input topic names
+* runtime parameters: update in GUI too
+* publish ICP quality as part of localization updates
+* mola module name changed: 'icp_odom' -> 'lidar_odom'
+* Do not publish localization if ICP is not good
+* Expose runtime parameters using MOLA v1.4.0 configurable parameters: active, mapping_enabled
+* docs clarifications
+* map_load service: allow not having a .simplemap file and don't report it as an error
+* FIX: motion model handling during re-localization
+* Implement map_save
+* reset adaptive sigma upon relocalization
+* Implement map_load; Implement relocalize around pose
+* Forward IMU readings to the navstate fusion module
+* CI and readme: remove ROS2 iron
+* Merge branch 'wip/map_load_save' into develop
+* docs: add ref to yaml extensions
+* Add docs on 3D-NDT pipeline and demo usage with Mulran
+* parameterize maximum_sigma
+* CLI: add flag to retrieve all twists in a file; avoid use of "static" variables
+* LO: Add a getter for the latest pose and twist
+* doc: explain "no tf" error message
+* tune 3D-NDT defaults
+* Kitti and Mulran evaluation scripts: extend so they can be run with other pipelines
+* ros2 launch: Add 'use_rviz' argument
+* NDT pipeline: expose max sigma as parameter too
+* Avoid anoying warning message when not really needed
+* Extend options for GNSS initialization
+* Add docs on mola-lo-gui-rawlog
+* Default pipeline: reduce density of keyframes in simplemap
+* Docs: mola_lo_apps.rst fix PIPELINE_YAML var name
+* Update mola_lo_pipelines.rst: fix format
+* recover passing var args to mola-lo-gui-rosbag2 script
+* UI: show instantaneous max. sensor range too
+* FIX: formula for the estimated max. sensor range fixed for asymmetric cases
+* add new visualization param ground_grid_spacing
+* viz: grow ground grid as the local map grows
+* FIX: disabling visualization of raw observations left last raw observation rendered
+* fix: separate GPS topic and sensorLabel variables
+* Consistent GPS topic name
+* Add another env variable: MOLA_LOCAL_VOXELMAP_RESOLUTION
+* Expose new param for local map max size
+* enable the relocalize API
+* Expose fixed sensor pose coords as optional env variables
+* Readme: add ROS badges for arm64 badges
+* GitHub actions: use ROS2-testing packages
+* Contributors: Jose Luis Blanco-Claraco
+
+0.3.3 (2024-09-01)
+------------------
+* default 3D pipeline: Expose a couple more parameters as env variables
+* Depend on new mrpt_lib packages (deprecate mrpt2)
+* Contributors: Jose Luis Blanco-Claraco
+
+0.3.2 (2024-08-26)
+------------------
+* Support input dataset directories for split bags
+* Contributors: Jose Luis Blanco-Claraco
+
+0.3.1 (2024-08-22)
+------------------
+* add missing exec dependencies to package.xml for mola-lo-* commands.
+* Contributors: Jose Luis Blanco-Claraco
+
+0.3.0 (2024-08-14)
+------------------
+* First public release
+* Contributors: Jose Luis Blanco-Claraco

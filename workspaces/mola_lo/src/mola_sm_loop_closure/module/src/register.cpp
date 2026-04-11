@@ -1,0 +1,30 @@
+/*               _
+ _ __ ___   ___ | | __ _
+| '_ ` _ \ / _ \| |/ _` | Modular Optimization framework for
+| | | | | | (_) | | (_| | Localization and mApping (MOLA)
+|_| |_| |_|\___/|_|\__,_| https://github.com/MOLAorg/mola
+
+ Copyright (C) 2018-2026 Jose Luis Blanco, University of Almeria,
+                         and individual contributors.
+ SPDX-License-Identifier: GPL-3.0
+ See LICENSE for full license information.
+ Closed-source licenses available upon request, for this package
+ alone or in combination with the complete SLAM system.
+*/
+
+/**
+ * @file   register.cpp
+ * @brief  Register RTTI classes
+ * @author Jose Luis Blanco Claraco
+ * @date   Jan 15, 2026
+ */
+
+#include <mola_sm_loop_closure/FrameToFrameLoopClosure.h>
+#include <mola_sm_loop_closure/SimplemapLoopClosure.h>
+#include <mrpt/core/initializer.h>
+
+MRPT_INITIALIZER(do_register_sm_loop_closure)  // NOLINT(misc-use-anonymous-namespace)
+{
+    mrpt::rtti::registerClass(CLASS_ID(mola::FrameToFrameLoopClosure));
+    mrpt::rtti::registerClass(CLASS_ID(mola::SimplemapLoopClosure));
+}

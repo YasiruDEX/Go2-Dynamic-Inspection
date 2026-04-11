@@ -1,0 +1,66 @@
+# -----------------------------------------------------------------------------
+#                        SLAM system definition for MOLA
+# This file defines an input dataset from a directory of images.
+# No actual SLAM or localization defined in this file!
+#
+# Invoke setting IMAGE_DIR to the directory where images are stored, e.g:
+#
+#   IMAGE_DIR=/path/to/my/images/ mola-cli image_directory_just_replay.yaml
+#
+# -----------------------------------------------------------------------------
+
+modules:
+  # =====================
+  # VideoDataset
+  # =====================
+  - name: video_input
+    type: mola::VideoDataset
+    # Should be higher than the camera frame rate
+    execution_rate: 50 # Hz
+
+    # (The following requires creating a MolaViz instance)
+    gui_preview_sensors:
+      - raw_sensor_label: cam0
+        decimation: 1
+        win_pos: 5 80 500 200 # [x,y,width,height]
+    params:
+      input_mode: "mola::InputMode::ImageDirectory" # 'ImageDirectory|VideoFile|LiveCamera'
+      sensor_label: cam0
+
+      image_dir: ${IMAGE_DIR} # Directory containing images
+      image_ext: "png" # Image file extension to look for
+      image_publish_rate: 10 # Hz
+
+      time_warp_scale: 1.0
+      start_paused: ${MOLA_DATASET_START_PAUSED|false}
+
+      # The camera pose on the vehicle/robot frame:
+      camera_pose: "0 0 0 -90 0 -90" # 'x y z yaw_deg pitch_deg roll_deg'
+
+      # The following parameters are used to set the camera intrinsics of published images:
+      camera_model:
+        image_width: 800
+        image_height: 600
+        camera_matrix:
+          cols: 3 # [ fx, 0, cx ]
+          rows: 3 # [ 0, fy, cy ]
+          #         [ 0,  0,  1 ]
+          data: [500, 0, 400, 0, 500, 300, 0, 0, 1]
+        # Disttortion model:
+        #  - none: images are undistorted. Coefficients are ignored.
+        #  - plumb_bob: [k1, k2, p1, p2, k3] 5-param Brown-Conrady or Plumb-Bob pinhole distortion model:
+        #  - kannala_brandt: [k1, k2, k3, k4] 4-parameter Kannala Brandt distortion model (fisheye):
+        distortion_model: none
+        distortion_coefficients:
+          cols: 4
+          rows: 1
+          data: [0.0, 0.0, 0.0, 0.0]
+        camera_name: "my_camera" # Identifier for the camera, not used here but must be provided.
+
+  # =====================
+  # MolaViz
+  # =====================
+  - name: viz
+    type: mola::MolaViz
+    #verbosity_level: DEBUG
+    params: ~ # none

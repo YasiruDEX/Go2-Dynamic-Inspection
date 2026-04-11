@@ -1,0 +1,194 @@
+/*               _
+ _ __ ___   ___ | | __ _
+| '_ ` _ \ / _ \| |/ _` | Modular Optimization framework for
+| | | | | | (_) | | (_| | Localization and mApping (MOLA)
+|_| |_| |_|\___/|_|\__,_| https://github.com/MOLAorg/mola
+
+ A repertory of multi primitive-to-primitive (MP2P) ICP algorithms
+ and map building tools. mp2p_icp is part of MOLA.
+
+ Copyright (C) 2018-2026 Jose Luis Blanco, University of Almeria,
+                         and individual contributors.
+ SPDX-License-Identifier: BSD-3-Clause
+*/
+/**
+ * @file   FilterByRing.cpp
+ * @brief  Keeps only a given subset of an input cloud by LiDAR "ring_id"
+ * @author Jose Luis Blanco Claraco
+ * @date   Jun 20, 2024
+ */
+
+#include <mp2p_icp_filters/FilterByRing.h>
+#include <mp2p_icp_filters/GetOrCreatePointLayer.h>
+#include <mrpt/containers/yaml.h>
+#include <mrpt/version.h>
+
+IMPLEMENTS_MRPT_OBJECT(FilterByRing, mp2p_icp_filters::FilterBase, mp2p_icp_filters)
+
+using namespace mp2p_icp_filters;
+
+void FilterByRing::Parameters::load_from_yaml(const mrpt::containers::yaml& c)
+{
+    MCP_LOAD_REQ(c, input_pointcloud_layer);
+
+    MCP_LOAD_OPT(c, output_layer_selected);
+    MCP_LOAD_OPT(c, output_layer_non_selected);
+
+    selected_ring_ids.clear();
+
+    auto cfgIn = c["selected_ring_ids"];
+    if (cfgIn.isScalar())
+    {
+        // only one:
+        selected_ring_ids.insert(cfgIn.as<int>());
+    }
+    else
+    {
+        ASSERTMSG_(
+            cfgIn.isSequence(),
+            "YAML configuration must have an entry `selected_ring_ids` "
+            "with a scalar or sequence.");
+
+        for (const auto& n : cfgIn.asSequenceRange())
+        {
+            selected_ring_ids.insert(n.as<int>());
+        }
+    }
+    ASSERT_(!selected_ring_ids.empty());
+}
+
+FilterByRing::FilterByRing() = default;
+
+void FilterByRing::initialize_filter(const mrpt::containers::yaml& c)
+{
+    MRPT_LOG_DEBUG_STREAM("Loading these params:\n" << c);
+    params.load_from_yaml(c);
+}
+
+void FilterByRing::filter(mp2p_icp::metric_map_t& inOut) const
+{
+    MRPT_START
+
+    // In:
+    const auto& pcPtr = inOut.point_layer(params.input_pointcloud_layer);
+    ASSERTMSG_(
+        pcPtr,
+        mrpt::format(
+            "Input point cloud layer '%s' was not found.", params.input_pointcloud_layer.c_str()));
+
+    const auto& pc = *pcPtr;
+
+    // Outputs:
+    // Create if new: Append to existing layer, if already existed.
+    mrpt::maps::CPointsMap::Ptr outSelected = GetOrCreatePointLayer(
+        inOut, params.output_layer_selected, true /*allow empty for nullptr*/,
+        /* create cloud of the same type */
+        pcPtr->GetRuntimeClass()->className);
+
+    if (outSelected)
+    {
+        outSelected->reserve(outSelected->size() + pc.size() / 10);
+    }
+
+    // Create if new: Append to existing layer, if already existed.
+    mrpt::maps::CPointsMap::Ptr outNonSel = GetOrCreatePointLayer(
+        inOut, params.output_layer_non_selected, true /*allow empty for nullptr*/,
+        /* create cloud of the same type */
+        pcPtr->GetRuntimeClass()->className);
+
+    if (outNonSel)
+    {
+        outNonSel->reserve(outNonSel->size() + pc.size() / 10);
+    }
+
+    ASSERTMSG_(
+        outSelected || outNonSel,
+        "At least one of 'output_layer_selected' or "
+        "'output_layer_non_selected' must be provided.");
+
+    ASSERT_NOT_EQUAL_(params.input_pointcloud_layer, params.output_layer_non_selected);
+    ASSERT_NOT_EQUAL_(params.input_pointcloud_layer, params.output_layer_selected);
+
+    const auto& xs = pc.getPointsBufferRef_x();
+
+#if MRPT_VERSION >= 0x020f04  // 2.15.4
+    const auto* ptrR = pc.getPointsBufferRef_uint16_field("ring");
+#elif MRPT_VERSION >= 0x020f00  // 2.15.0
+    const auto* ptrR = pc.getPointsBufferRef_uint_field("ring");
+#else
+    const auto* ptrR = pc.getPointsBufferRef_ring();
+#endif
+
+    if (!ptrR || ptrR->empty())
+    {
+        THROW_EXCEPTION_FMT(
+            "Error: this filter needs the input layer '%s' to has an "
+            "'ring' point channel.",
+            params.input_pointcloud_layer.c_str());
+    }
+
+#if MRPT_VERSION >= 0x020f00  // 2.15.0
+    mrpt::maps::CPointsMap::InsertCtx ctxSelected;
+    if (outSelected)
+    {
+        outSelected->registerPointFieldsFrom(pc);
+        ctxSelected = outSelected->prepareForInsertPointsFrom(pc);
+    }
+    mrpt::maps::CPointsMap::InsertCtx ctxNotSelected;
+    if (outNonSel)
+    {
+        outNonSel->registerPointFieldsFrom(pc);
+        ctxNotSelected = outNonSel->prepareForInsertPointsFrom(pc);
+    }
+#endif
+
+    const auto& Rs = *ptrR;
+    ASSERT_EQUAL_(Rs.size(), xs.size());
+    const size_t N = xs.size();
+
+    size_t countSel = 0, countNon = 0;
+
+    for (size_t i = 0; i < N; i++)
+    {
+        const auto R = Rs[i];
+
+        mrpt::maps::CPointsMap* trg = nullptr;
+#if MRPT_VERSION >= 0x020f00  // 2.15.0
+        mrpt::maps::CPointsMap::InsertCtx* ctx = nullptr;
+#endif
+
+        if (params.selected_ring_ids.count(R) != 0)
+        {
+            trg = outSelected.get();
+            ++countSel;
+#if MRPT_VERSION >= 0x020f00  // 2.15.0
+            ctx = &ctxSelected;
+#endif
+        }
+        else
+        {
+            trg = outNonSel.get();
+            ++countNon;
+#if MRPT_VERSION >= 0x020f00  // 2.15.0
+            ctx = &ctxNotSelected;
+#endif
+        }
+
+        if (trg)
+        {
+#if MRPT_VERSION >= 0x020f03  // 2.15.3
+            trg->insertPointFrom(i, *ctx);
+#elif MRPT_VERSION >= 0x020f00  // 2.15.0
+            trg->insertPointFrom(pc, i, *ctx);
+#else
+            trg->insertPointFrom(pc, i);
+#endif
+        }
+    }
+
+    MRPT_LOG_DEBUG_STREAM(
+        "[FilterByRing] Input points=" << N << " selected=" << countSel
+                                       << " non-selected=" << countNon);
+
+    MRPT_END
+}

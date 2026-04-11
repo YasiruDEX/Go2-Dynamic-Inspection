@@ -1,0 +1,45 @@
+# -----------------------------------------------------------------------------
+#                        SLAM system definition for MOLA
+#
+# This file just replays (no SLAM) the raw data of a sequence of the Mulran dataset
+# -----------------------------------------------------------------------------
+
+modules:
+  # =====================
+  # MulranDataset
+  # =====================
+  - type: mola::MulranDataset
+    name: dataset_input
+    execution_rate: 20 # Hz
+    #export_to_rawlog: mulran_${MULRAN_SEQ}.rawlog
+    #verbosity_level: INFO
+    gui_preview_sensors:
+      - raw_sensor_label: lidar
+        decimation: 1
+        win_pos: 5 70 400 400
+        color_from_z: false
+      - raw_sensor_label: gps
+        decimation: 1
+        win_pos: 5 400 400 400
+      - raw_sensor_label: imu
+        decimation: 10
+        win_pos: 5 550 400 400
+    params:
+      base_dir: ${MULRAN_BASE_DIR}
+      sequence: ${MULRAN_SEQ}
+      time_warp_scale: 1.0
+      start_paused: ${MOLA_DATASET_START_PAUSED|false}
+      publish_lidar: true
+      publish_ground_truth: true
+      publish_imu: true
+      publish_gps: true
+      #normalize_intensity_channel_maximum: 6500
+      #lidar_to_ground_truth_1to1: false
+
+  # =====================
+  # MolaViz
+  # =====================
+  - name: viz
+    type: mola::MolaViz
+    #verbosity_level: DEBUG
+    params: ~ # none

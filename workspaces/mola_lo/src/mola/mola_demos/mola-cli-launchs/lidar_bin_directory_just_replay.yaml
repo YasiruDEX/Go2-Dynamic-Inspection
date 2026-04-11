@@ -1,0 +1,32 @@
+# -----------------------------------------------------------------------------
+#                        SLAM system definition for MOLA
+#
+# This file just replays (no SLAM) the raw data of a directory with .bin LiDAR
+# files, stored in the "KITTI" binary format.
+# -----------------------------------------------------------------------------
+
+modules:
+  # =====================
+  # BinFileDataset
+  # =====================
+  - type: mola::BinFileDataset
+    name: dataset_input
+    execution_rate: 20 # Hz
+    #export_to_rawlog: lidar.rawlog
+    #verbosity_level: INFO
+    gui_preview_sensors:
+      - raw_sensor_label: lidar
+        decimation: 1
+        win_pos: 5 70 400 400
+    params:
+      bin_dir: ${LIDAR_BIN_DIR}
+      rate_hz: ${LIDAR_BIN_RATE_HZ|10.0}
+      start_paused: ${MOLA_DATASET_START_PAUSED|false}
+
+  # =====================
+  # MolaViz
+  # =====================
+  - name: viz
+    type: mola::MolaViz
+    #verbosity_level: DEBUG
+    params: ~ # none

@@ -1,0 +1,83 @@
+/*               _
+ _ __ ___   ___ | | __ _
+| '_ ` _ \ / _ \| |/ _` | Modular Optimization framework for
+| | | | | | (_) | | (_| | Localization and mApping (MOLA)
+|_| |_| |_|\___/|_|\__,_| https://github.com/MOLAorg/mola
+
+ A repertory of multi primitive-to-primitive (MP2P) ICP algorithms
+ and map building tools. mp2p_icp is part of MOLA.
+
+ Copyright (C) 2018-2026 Jose Luis Blanco, University of Almeria,
+                         and individual contributors.
+ SPDX-License-Identifier: BSD-3-Clause
+*/
+/**
+ * @file   icp_pipeline_from_yaml.cpp
+ * @brief  Loads and setup an ICP pipeline from a YAML configuration file
+ * @author Jose Luis Blanco Claraco
+ * @date   Jun 10, 2020
+ */
+
+#include <mp2p_icp/icp_pipeline_from_yaml.h>
+#include <mp2p_icp/load_plugin.h>
+
+using namespace mp2p_icp;
+
+std::tuple<mp2p_icp::ICP::Ptr, mp2p_icp::Parameters> mp2p_icp::icp_pipeline_from_yaml(
+    const mrpt::containers::yaml& icpParams, const mrpt::system::VerbosityLevel& vLevel)
+{
+    MRPT_START
+
+    // ICP algorithm class:
+    const std::string icpClassName = icpParams["class_name"].as<std::string>();
+
+    // optional plugin module?
+    if (icpParams.has("plugin"))
+    {
+        const auto moduleToLoad = icpParams["plugin"].as<std::string>();
+        mp2p_icp::load_plugin(moduleToLoad);
+    }
+
+    auto icp = std::dynamic_pointer_cast<mp2p_icp::ICP>(mrpt::rtti::classFactory(icpClassName));
+    if (!icp)
+    {
+        THROW_EXCEPTION_FMT("Could not instantiate ICP algorithm named '%s'", icpClassName.c_str());
+    }
+
+    icp->setVerbosityLevel(vLevel);
+
+    // Special derived-classes for library wrappers:
+    bool isDerived = false;
+    if (icpParams.has("derived"))
+    {
+        icp->initialize_derived(icpParams["derived"]);
+        isDerived = true;
+    }
+
+    // ICP solver class:
+    if (icpParams.has("solvers"))
+    {
+        icp->initialize_solvers(icpParams["solvers"]);
+    }
+
+    // ICP matchers class:
+    if (icpParams.has("matchers"))
+    {
+        icp->initialize_matchers(icpParams["matchers"]);
+    }
+
+    // ICP quality class:
+    ASSERT_(icpParams.has("quality"));
+    icp->initialize_quality_evaluators(icpParams["quality"]);
+
+    // ICP parameters:
+    Parameters params;
+    if (!isDerived)
+    {
+        ASSERT_(icpParams.has("params"));
+        params.load_from(icpParams["params"]);
+    }
+
+    return {icp, params};
+    MRPT_END
+}

@@ -1,0 +1,176 @@
+/*               _
+ _ __ ___   ___ | | __ _
+| '_ ` _ \ / _ \| |/ _` | Modular Optimization framework for
+| | | | | | (_) | | (_| | Localization and mApping (MOLA)
+|_| |_| |_|\___/|_|\__,_| https://github.com/MOLAorg/mola
+
+ A repertory of multi primitive-to-primitive (MP2P) ICP algorithms
+ and map building tools. mp2p_icp is part of MOLA.
+
+ Copyright (C) 2018-2026 Jose Luis Blanco, University of Almeria,
+                         and individual contributors.
+ SPDX-License-Identifier: BSD-3-Clause
+*/
+/**
+ * @file   FilterByRange.cpp
+ * @brief  Leaves or removes points by min/max range from the origin.
+ * @author Jose Luis Blanco Claraco
+ * @date   Nov 14, 2023
+ */
+
+#include <mp2p_icp_filters/FilterByRange.h>
+#include <mp2p_icp_filters/GetOrCreatePointLayer.h>
+#include <mrpt/containers/yaml.h>
+#include <mrpt/math/TPoint3D.h>
+#include <mrpt/version.h>
+
+IMPLEMENTS_MRPT_OBJECT(FilterByRange, mp2p_icp_filters::FilterBase, mp2p_icp_filters)
+
+using namespace mp2p_icp_filters;
+
+void FilterByRange::Parameters::load_from_yaml(
+    const mrpt::containers::yaml& c, FilterByRange& parent)
+{
+    MCP_LOAD_REQ(c, input_pointcloud_layer);
+    MCP_LOAD_OPT(c, output_layer_between);
+    MCP_LOAD_OPT(c, output_layer_outside);
+    MCP_LOAD_OPT(c, metric_l_infinity);
+    DECLARE_PARAMETER_IN_REQ(c, range_min, parent);
+    DECLARE_PARAMETER_IN_REQ(c, range_max, parent);
+
+    ASSERTMSG_(
+        !output_layer_between.empty() || !output_layer_outside.empty(),
+        "At least one 'output_layer_between' or "
+        "'output_layer_outside' must be provided.");
+
+    if (c.has("center"))
+    {
+        ASSERT_(c["center"].isSequence() && c["center"].asSequence().size() == 3);
+
+        auto cc = c["center"].asSequence();
+
+        for (int i = 0; i < 3; i++)
+        {
+            parent.parseAndDeclareParameter(cc.at(i).as<std::string>(), center[i]);
+        }
+    }
+}
+
+FilterByRange::FilterByRange() { mrpt::system::COutputLogger::setLoggerName("FilterByRange"); }
+
+void FilterByRange::initialize_filter(const mrpt::containers::yaml& c)
+{
+    MRPT_START
+
+    MRPT_LOG_DEBUG_STREAM("Loading these params:\n" << c);
+    params.load_from_yaml(c, *this);
+
+    MRPT_END
+}
+
+void FilterByRange::filter(mp2p_icp::metric_map_t& inOut) const
+{
+    MRPT_START
+
+    checkAllParametersAreRealized();
+
+    ASSERT_NOT_EQUAL_(params.input_pointcloud_layer, params.output_layer_between);
+    ASSERT_NOT_EQUAL_(params.input_pointcloud_layer, params.output_layer_outside);
+
+    // In:
+    const auto pcPtr = inOut.point_layer(params.input_pointcloud_layer);
+    ASSERTMSG_(
+        pcPtr,
+        mrpt::format(
+            "Input point cloud layer '%s' was not found.", params.input_pointcloud_layer.c_str()));
+
+    const auto& pc = *pcPtr;
+
+    // Create if new: Append to existing layer, if already existed.
+    mrpt::maps::CPointsMap::Ptr outBetween = GetOrCreatePointLayer(
+        inOut, params.output_layer_between, true /*allow empty for nullptr*/,
+        /* create cloud of the same type */
+        pcPtr->GetRuntimeClass()->className);
+
+    if (outBetween)
+    {
+        outBetween->reserve(outBetween->size() + pc.size() / 10);
+    }
+
+    // Optional output layer for deleted points:
+    mrpt::maps::CPointsMap::Ptr outOutside = GetOrCreatePointLayer(
+        inOut, params.output_layer_outside, true /*allow empty for nullptr*/,
+        /* create cloud of the same type */
+        pcPtr->GetRuntimeClass()->className);
+
+    if (outOutside)
+    {
+        outOutside->reserve(outOutside->size() + pc.size() / 10);
+    }
+
+    const auto& xs = pc.getPointsBufferRef_x();
+    const auto& ys = pc.getPointsBufferRef_y();
+    const auto& zs = pc.getPointsBufferRef_z();
+
+    const float sqrMin = mrpt::square(params.range_min);
+    const float sqrMax = mrpt::square(params.range_max);
+
+#if MRPT_VERSION >= 0x020f00  // 2.15.0
+    std::optional<mrpt::maps::CPointsMap::InsertCtx> ctxBetween;
+    std::optional<mrpt::maps::CPointsMap::InsertCtx> ctxOutside;
+    if (outBetween)
+    {
+        outBetween->registerPointFieldsFrom(pc);
+        ctxBetween = outBetween->prepareForInsertPointsFrom(pc);
+    }
+    if (outOutside)
+    {
+        outOutside->registerPointFieldsFrom(pc);
+        ctxOutside = outOutside->prepareForInsertPointsFrom(pc);
+    }
+#endif
+
+    for (size_t i = 0; i < xs.size(); i++)
+    {
+        bool isInside;
+
+        if (params.metric_l_infinity)
+        {
+            const float lInfNorm = mrpt::max3(
+                std::abs(xs[i] - params.center.x), std::abs(ys[i] - params.center.y),
+                std::abs(zs[i] - params.center.z));
+
+            isInside = lInfNorm >= params.range_min && lInfNorm <= params.range_max;
+        }
+        else
+        {
+            const float sqrNorm =
+                (mrpt::math::TPoint3Df(xs[i], ys[i], zs[i]) - params.center).sqrNorm();
+
+            isInside = sqrNorm >= sqrMin && sqrNorm <= sqrMax;
+        }
+
+        auto* targetPc = isInside ? outBetween.get() : outOutside.get();
+
+        if (targetPc)
+        {
+#if MRPT_VERSION >= 0x020f03  // 2.15.3
+            const auto& ctx = isInside ? ctxBetween : ctxOutside;
+            targetPc->insertPointFrom(i, ctx.value());
+#elif MRPT_VERSION >= 0x020f00  // 2.15.0
+            const auto& ctx = isInside ? ctxBetween : ctxOutside;
+            targetPc->insertPointFrom(pc, i, ctx.value());
+#else
+            targetPc->insertPointFrom(pc, i);
+#endif
+        }
+    }
+
+    MRPT_LOG_DEBUG_STREAM(
+        "Have run on input layer: "
+        << pc.asString()
+        << " outputBetween: " << (outBetween ? outBetween->asString().c_str() : "(none)")
+        << " outputOutside: " << (outOutside ? outOutside->asString().c_str() : "(none)"));
+
+    MRPT_END
+}

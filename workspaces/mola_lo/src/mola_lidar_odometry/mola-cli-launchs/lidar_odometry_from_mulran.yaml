@@ -1,0 +1,59 @@
+# -----------------------------------------------------------------------------
+#                        SLAM system definition for MOLA
+# This file defines:
+# An input sensor from a ROS 2 topic, and the MOLA Visualizer.
+# -----------------------------------------------------------------------------
+
+modules:
+  # =====================
+  # MolaViz
+  # =====================
+  - name: viz
+    type: mola::MolaViz
+    verbosity_level: "${MOLA_VERBOSITY_MOLA_VIZ|INFO}"
+    params: ~ # none
+
+  # Offline or online sensory data sources =====================
+  # =====================
+  # MulranDataset
+  # =====================
+  - type: mola::MulranDataset
+    name: dataset_input
+    execution_rate: 20 # Hz
+    #export_to_rawlog: mulran_${MULRAN_SEQ}.rawlog
+    #verbosity_level: INFO
+    quit_mola_app_on_dataset_end: ${MOLA_QUIT_ON_DATASET_END|false}
+
+    gui_preview_sensors:
+      - raw_sensor_label: lidar
+        decimation: 1
+        win_pos: 5 70 400 400
+        color_from_z: false
+      - raw_sensor_label: gps
+        decimation: 1
+        win_pos: 5 400 400 400
+      - raw_sensor_label: imu
+        decimation: 10
+        win_pos: 5 550 400 400
+    params:
+      base_dir: ${MULRAN_BASE_DIR}
+      sequence: ${MULRAN_SEQ}
+      time_warp_scale: ${MOLA_TIME_WARP|1.0}
+      start_paused: ${MOLA_DATASET_START_PAUSED|false}
+      publish_lidar: true
+      publish_ground_truth: true
+
+  - name: lidar_odom
+    type: mola::LidarOdometry
+    verbosity_level: "${MOLA_VERBOSITY_MOLA_LO|INFO}"
+    raw_data_source: "dataset_input"
+    # This includes here a whole block "params: (...)"
+    # with the LIDAR-Odometry pipeline configuration:
+    params: "${MOLA_ODOMETRY_PIPELINE_YAML|../pipelines/lidar3d-default.yaml}"
+
+  - name: state_estimation
+    type: "${MOLA_STATE_ESTIMATOR|mola::state_estimation_simple::StateEstimationSimple}"
+    verbosity_level: "${MOLA_VERBOSITY_MOLA_STATE_ESTIMATOR|INFO}"
+
+    # This includes here a whole block "params: (...)":
+    params: "${MOLA_STATE_ESTIMATOR_YAML|../state-estimator-params/state-estimation-simple.yaml}"

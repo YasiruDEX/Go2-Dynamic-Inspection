@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<!-- This is a ROS package file, intended to allow this library to be built
+     side-by-side to ROS packages in a catkin/ament environment.
+-->
+<package format="3">
+  <name>mola_lidar_odometry</name>
+  <version>1.3.1</version>
+  <description>LIDAR odometry system based on MOLA and MRPT components</description>
+
+  <maintainer email="joseluisblancoc@gmail.com">Jose-Luis Blanco-Claraco</maintainer>
+  <license>GPLv3</license>
+
+  <url type="website">https://docs.mola-slam.org/</url>
+  <url type="repository">https://github.com/MOLAorg/mola_lidar_odometry/</url>
+
+  <!-- core dependencies -->
+  <depend>mola_common</depend>
+  <depend>mola_kernel</depend>
+  <depend>mp2p_icp</depend>
+  <depend>mola_pose_list</depend>
+
+  <depend>mrpt_libtclap</depend>
+  <depend>mrpt_libmaps</depend>
+
+  <!-- dataset input sources (all are actually optional) -->
+  <depend>mola_input_kitti_dataset</depend>
+  <depend>mola_input_kitti360_dataset</depend>
+  <depend>mola_input_mulran_dataset</depend>
+  <depend>mola_input_rawlog</depend>
+  <depend>mola_input_rosbag2</depend>
+  <depend>mola_input_paris_luco_dataset</depend>
+
+  <doc_depend>doxygen</doc_depend>
+
+  <!-- Entries to make ROS 2 to discover this as a proper package -->
+  <build_depend>ros_environment</build_depend>
+
+  <build_depend>ament_cmake_xmllint</build_depend>
+
+  <buildtool_depend>cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_gtest</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_cmake_xmllint</test_depend>
+  <test_depend>ament_lint_cmake</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  
+  <!-- for C++ unit tests -->
+  <!-- <test_depend>mola_state_estimation_simple</test_depend> -->
+  <!-- for it to be detected and used as default s.e. in the cli -->
+  <depend>mola_state_estimation_simple</depend>
+  <depend>mola_imu_preintegration</depend>
+
+  <!-- Needed by the mola-lo-* scripts: -->
+  <exec_depend>mola_launcher</exec_depend>
+  <exec_depend>mola_viz</exec_depend>
+
+  <!-- Test datasets to run on them: -->
+  <test_depend>mola_test_datasets</test_depend>
+  <test_depend>mola_metric_maps</test_depend>
+  <test_depend>rosbag2_storage_mcap</test_depend> <!-- Needed to be able to open mcap test files -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>  
+  <!-- End -->
+
+</package>

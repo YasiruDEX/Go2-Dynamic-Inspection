@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<!-- This is a ROS package file, intended to allow this library to be built
+     side-by-side to ROS packages in a catkin/ament environment.
+-->
+<package format="3">
+  <name>mola_kernel</name>
+  <version>2.5.0</version>
+  <description>Fundamental C++ virtual interfaces and data types for the rest of MOLA modules</description>
+
+  <maintainer email="joseluisblancoc@gmail.com">Jose-Luis Blanco-Claraco</maintainer>
+  <license file="LICENSE">GPLv3</license>
+
+  <url type="website">https://github.com/MOLAorg/mola/tree/develop/mola_kernel</url>
+
+
+  <depend>mola_common</depend>
+  <depend>mola_yaml</depend>
+
+  <depend>mrpt_libobs</depend>
+  <depend>mrpt_libmaps</depend>
+  <depend>mrpt_libgui</depend>
+
+  <doc_depend>doxygen</doc_depend>
+
+  <!-- Minimum entries to release non-catkin pkgs: -->
+  <buildtool_depend>cmake</buildtool_depend>
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+  <!-- End -->
+
+</package>

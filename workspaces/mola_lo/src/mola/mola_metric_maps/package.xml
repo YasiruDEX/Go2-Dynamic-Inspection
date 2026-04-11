@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<!-- This is a ROS package file, intended to allow this library to be built
+     side-by-side to ROS packages in a catkin/ament environment.
+-->
+<package format="3">
+  <name>mola_metric_maps</name>
+  <version>2.5.0</version>
+  <description>Advanced metric map classes, using the generic `mrpt::maps::CMetricMap` interface, for use in other MOLA odometry and SLAM modules.</description>
+
+  <maintainer email="joseluisblancoc@gmail.com">Jose-Luis Blanco-Claraco</maintainer>
+  <license file="LICENSE">GPLv3</license>
+
+  <url type="website">https://github.com/MOLAorg/mola/tree/develop/mola_metric_maps</url>
+
+
+  <depend>mola_common</depend>
+
+  <depend>mrpt_libmaps</depend>
+  <depend>mp2p_icp</depend>  <!-- actually, just the mp2p_icp_map library -->
+
+  <depend>tbb</depend>
+
+  <doc_depend>doxygen</doc_depend>
+
+  <build_depend>ros_environment</build_depend>
+
+  <buildtool_depend>cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_gtest</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  <build_depend>ament_cmake_xmllint</build_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+
+</package>

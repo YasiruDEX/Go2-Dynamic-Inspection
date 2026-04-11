@@ -1,0 +1,67 @@
+/*               _
+ _ __ ___   ___ | | __ _
+| '_ ` _ \ / _ \| |/ _` | Modular Optimization framework for
+| | | | | | (_) | | (_| | Localization and mApping (MOLA)
+|_| |_| |_|\___/|_|\__,_| https://github.com/MOLAorg/mola
+
+ A repertory of multi primitive-to-primitive (MP2P) ICP algorithms
+ and map building tools. mp2p_icp is part of MOLA.
+
+ Copyright (C) 2018-2026 Jose Luis Blanco, University of Almeria,
+                         and individual contributors.
+ SPDX-License-Identifier: BSD-3-Clause
+*/
+/**
+ * @file   Solver_GaussNewton.cpp
+ * @brief  ICP registration for points and planes
+ * @author Jose Luis Blanco Claraco
+ * @date   May 11, 2019
+ */
+
+#include <mp2p_icp/Solver_GaussNewton.h>
+#include <mp2p_icp/optimal_tf_gauss_newton.h>
+#include <mrpt/core/exceptions.h>
+
+IMPLEMENTS_MRPT_OBJECT(Solver_GaussNewton, mp2p_icp::Solver, mp2p_icp)
+
+using namespace mp2p_icp;
+
+void Solver_GaussNewton::initialize(const mrpt::containers::yaml& params)
+{
+    Solver::initialize(params);
+
+    MCP_LOAD_REQ(params, maxIterations);
+    MCP_LOAD_OPT(params, innerLoopVerbose);
+    MCP_LOAD_OPT(params, robustKernel);
+
+    DECLARE_PARAMETER_OPT(params, robustKernelParam);
+
+    if (params.has("pair_weights")) pairWeights.load_from(params["pair_weights"]);
+}
+
+bool Solver_GaussNewton::impl_optimal_pose(
+    const Pairings& pairings, OptimalTF_Result& out, [[maybe_unused]] const SolverContext& sc) const
+{
+    MRPT_START
+
+    checkAllParametersAreRealized();
+
+    out = OptimalTF_Result();
+
+    OptimalTF_GN_Parameters gnParams;
+    gnParams.maxInnerLoopIterations = maxIterations;
+    gnParams.pairWeights            = pairWeights;
+    gnParams.kernel                 = robustKernel;
+    gnParams.kernelParam            = robustKernelParam;
+    gnParams.prior                  = sc.prior;
+
+    ASSERT_(sc.guessRelativePose.has_value());
+    gnParams.linearizationPoint = mrpt::poses::CPose3D(sc.guessRelativePose.value());
+
+    gnParams.verbose = innerLoopVerbose;
+
+    // Compute the optimal pose, and return its validity:
+    return optimal_tf_gauss_newton(pairings, out, gnParams);
+
+    MRPT_END
+}

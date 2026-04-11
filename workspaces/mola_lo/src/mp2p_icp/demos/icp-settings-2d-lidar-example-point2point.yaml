@@ -1,0 +1,40 @@
+# YAML configuration file for use with the CLI tool icp-run or
+# programmatically from function mp2p_icp::icp_pipeline_from_yaml()
+#
+class_name: mp2p_icp::ICP
+
+# See: mp2p_icp::Parameter
+params:
+  maxIterations: 100
+  minAbsStep_trans: 1e-4
+  minAbsStep_rot: 1e-4
+
+  debugPrintIterationProgress: true  # Print progress
+  #generateDebugFiles: true
+  #debugFileNameFormat: "icp-run-$LOCAL_ID$LOCAL_LABEL-to-$GLOBAL_ID$GLOBAL_LABEL.icplog"
+  #saveIterationDetails: true
+  #decimationIterationDetails: 10
+
+solvers:
+  - class: mp2p_icp::Solver_Horn
+    params:
+      ~
+
+# Sequence of one or more pairs (class, params) defining mp2p_icp::Matcher
+# instances to pair geometric entities between pointclouds.
+matchers:
+  - class: mp2p_icp::Matcher_Points_DistanceThreshold
+    params:
+      threshold: 0.15
+      thresholdAngularDeg: 0
+      #pairingsPerPoint: 1
+      #
+      # If "pointLayerMatches" is not defined, layers will be matched against
+      # those with the same name in both maps:
+      #pointLayerMatches:
+      #  - {global: "2d_lidar", local: "2d_lidar", weight: 1.0}
+
+quality:
+  - class: mp2p_icp::QualityEvaluator_PairedRatio
+    params:
+      ~  # none required

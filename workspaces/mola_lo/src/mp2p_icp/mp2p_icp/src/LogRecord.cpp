@@ -1,0 +1,183 @@
+/*               _
+ _ __ ___   ___ | | __ _
+| '_ ` _ \ / _ \| |/ _` | Modular Optimization framework for
+| | | | | | (_) | | (_| | Localization and mApping (MOLA)
+|_| |_| |_|\___/|_|\__,_| https://github.com/MOLAorg/mola
+
+ A repertory of multi primitive-to-primitive (MP2P) ICP algorithms
+ and map building tools. mp2p_icp is part of MOLA.
+
+ Copyright (C) 2018-2026 Jose Luis Blanco, University of Almeria,
+                         and individual contributors.
+ SPDX-License-Identifier: BSD-3-Clause
+*/
+
+#include <mp2p_icp/LogRecord.h>
+#include <mrpt/serialization/CArchive.h>
+#include <mrpt/serialization/optional_serialization.h>
+#include <mrpt/serialization/stl_serialization.h>
+#include <mrpt/version.h>
+
+#if MRPT_VERSION >= 0x020f07
+#include <mrpt/io/CCompressedInputStream.h>
+#include <mrpt/io/CCompressedOutputStream.h>
+#else
+#include <mrpt/io/CFileGZInputStream.h>
+#include <mrpt/io/CFileGZOutputStream.h>
+#endif
+
+IMPLEMENTS_MRPT_OBJECT(LogRecord, mrpt::serialization::CSerializable, mp2p_icp)
+
+using namespace mp2p_icp;
+
+// Implementation of the CSerializable virtual interface:
+uint8_t LogRecord::serializeGetVersion() const { return 1; }
+void    LogRecord::serializeTo(mrpt::serialization::CArchive& out) const
+{
+    if (pcGlobal)
+    {
+        out.WriteAs<bool>(true);
+        out << *pcGlobal;
+    }
+    else
+    {
+        out.WriteAs<bool>(false);
+    }
+    if (pcLocal)
+    {
+        out.WriteAs<bool>(true);
+        out << *pcLocal;
+    }
+    else
+    {
+        out.WriteAs<bool>(false);
+    }
+    out << initialGuessLocalWrtGlobal;
+    out << icpParameters;
+    out << icpResult;
+    out << iterationsDetails;
+    out << dynamicVariables;  // added in v1
+}
+void LogRecord::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
+{
+    *this = LogRecord();
+
+    switch (version)
+    {
+        case 0:
+        case 1:
+        {
+            if (in.ReadAs<bool>())
+            {
+                pcGlobal = metric_map_t::Create();
+                in >> const_cast<metric_map_t&>(*pcGlobal);
+            }
+            if (in.ReadAs<bool>())
+            {
+                pcLocal = metric_map_t::Create();
+                in >> const_cast<metric_map_t&>(*pcLocal);
+            }
+
+            in >> initialGuessLocalWrtGlobal >> icpParameters >> icpResult >> iterationsDetails;
+
+            if (version >= 1)
+            {
+                in >> dynamicVariables;
+            }
+            else
+            {
+                dynamicVariables.clear();
+            }
+        }
+        break;
+        default:
+            MRPT_THROW_UNKNOWN_SERIALIZATION_VERSION(version);
+    };
+}
+
+bool LogRecord::save_to_file(
+#if MRPT_VERSION >= 0x020f07
+    const std::string& fileName, const mrpt::io::CompressionOptions& co
+#else
+    const std::string& fileName
+#endif
+) const
+{
+    try
+    {
+#if MRPT_VERSION >= 0x020f07
+        auto f = mrpt::io::CCompressedOutputStream(fileName, mrpt::io::OpenMode::TRUNCATE, co);
+#else
+        auto f = mrpt::io::CFileGZOutputStream(fileName);
+#endif
+        if (!f.is_open())
+        {
+            return false;
+        }
+
+        auto arch = mrpt::serialization::archiveFrom(f);
+        arch << *this;
+
+        return true;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "[LogRecord::save_to_file] Error: " << e.what();
+        return false;
+    }
+}
+
+bool LogRecord::load_from_file(const std::string& fileName)
+{
+    try
+    {
+#if MRPT_VERSION >= 0x020f07
+        auto f = mrpt::io::CCompressedInputStream(fileName);
+#else
+        auto f = mrpt::io::CFileGZInputStream(fileName);
+#endif
+        if (!f.is_open())
+        {
+            return false;
+        }
+
+        auto arch = mrpt::serialization::archiveFrom(f);
+        arch >> *this;
+
+        return true;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "[LogRecord::load_from_file] Error: " << e.what();
+        return false;
+    }
+}
+
+static const uint8_t DIPI_SERIALIZATION_VERSION = 0;
+
+void LogRecord::DebugInfoPerIteration::serializeTo(mrpt::serialization::CArchive& out) const
+{
+    out.WriteAs<uint8_t>(DIPI_SERIALIZATION_VERSION);
+
+    out << optimalPose << pairings;
+}
+void LogRecord::DebugInfoPerIteration::serializeFrom(mrpt::serialization::CArchive& in)
+{
+    const auto readVersion = in.ReadAs<uint8_t>();
+    ASSERT_EQUAL_(readVersion, DIPI_SERIALIZATION_VERSION);
+    in >> optimalPose >> pairings;
+}
+
+mrpt::serialization::CArchive& mrpt::serialization::operator<<(
+    mrpt::serialization::CArchive& out, const LogRecord::DebugInfoPerIteration& obj)
+{
+    obj.serializeTo(out);
+    return out;
+}
+
+mrpt::serialization::CArchive& mrpt::serialization::operator>>(
+    mrpt::serialization::CArchive& in, LogRecord::DebugInfoPerIteration& obj)
+{
+    obj.serializeFrom(in);
+    return in;
+}

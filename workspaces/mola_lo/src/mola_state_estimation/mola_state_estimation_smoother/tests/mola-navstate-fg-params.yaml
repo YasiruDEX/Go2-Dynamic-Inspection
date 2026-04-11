@@ -1,0 +1,107 @@
+# ============================================================================
+# Configuration for MOLA NavStateFGParams (State Estimation Smoother)
+# ============================================================================
+# See: https://github.com/MOLAorg/mola
+#
+# This configuration file defines parameters for the state estimation smoother
+# that fuses multiple sensor inputs (IMU, odometry, GNSS) for robust pose and
+# velocity estimation.
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Reference Frame IDs
+# ----------------------------------------------------------------------------
+
+# Frame name for the vehicle/robot base
+vehicle_frame_name: "base_link"
+
+# Reference frame for pose publication (typically 'map' or 'odom')
+reference_frame_name: "map"
+
+# ----------------------------------------------------------------------------
+# Kinematic Model & Motion Factors
+# ----------------------------------------------------------------------------
+
+# Kinematic model for internal motion model factors
+# Options: KinematicModel::ConstantVelocity, KinematicModel::Tricycle
+kinematic_model: KinematicModel::ConstantVelocity
+
+# Time window to keep past observations in the filter [seconds]
+sliding_window_length: 5.0
+
+# Minimum time difference between frames to create a new frame [seconds]
+min_time_difference_to_create_new_frame: 0.01
+
+# Maximum time to extrapolate velocity model since last observation [seconds]
+# Beyond this time, empty estimations will be returned
+max_time_to_use_velocity_model: 2.0
+
+# Warning threshold: emit warning if time between keyframes exceeds this [seconds]
+# Algorithm continues trying its best even if exceeded
+time_between_frames_to_warning: 2.0
+
+# Random walk model for linear acceleration uncertainty [m/s²]
+sigma_random_walk_acceleration_linear: 1.0
+
+# Random walk model for angular acceleration uncertainty [rad/s²]
+sigma_random_walk_acceleration_angular: 1.0
+
+# Integrator uncertainty for position [m]
+sigma_integrator_position: 0.10
+
+# Integrator uncertainty for orientation [rad]
+sigma_integrator_orientation: 0.10
+# Uncertainty for linear velocity estimated from consecutive poses [m/s]
+#sigma_twist_from_consecutive_poses_linear: 1.0
+
+# Uncertainty for angular velocity estimated from consecutive poses [rad/s]
+#sigma_twist_from_consecutive_poses_angular: 1.0
+
+# Enforce planar (2D) motion constraint
+#enforce_planar_motion: false
+
+# ----------------------------------------------------------------------------
+# Initial State Estimation
+# ----------------------------------------------------------------------------
+
+# Initial velocity twist (linear: vx, vy, vz; angular: wx, wy, wz)
+#initial_twist: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+# Defaults: somewhat confident that the vehicle is near rest.
+# Change these if needed to start with the vehicle at high speed.
+# Initial linear velocity uncertainty [m/s]
+#initial_twist_sigma_lin: 0.1
+
+# Initial angular velocity uncertainty [rad/s]
+#initial_twist_sigma_ang: 0.1
+
+# ----------------------------------------------------------------------------
+# Geo-referencing
+# ----------------------------------------------------------------------------
+
+# Enable estimation of geo-referencing from GNSS and other sensors
+# If false, geo-reference must be provided externally or via fixed_geo_reference
+#estimate_geo_reference: false
+
+# Fixed geo-reference to use when estimate_geo_reference is false
+#fixed_geo_reference: { latitude_deg: 0.0, longitude_deg: 0.0, altitude: 0.0 }
+
+# ----------------------------------------------------------------------------
+# Sensor Input Filtering (Regex Patterns)
+# ----------------------------------------------------------------------------
+
+# Regular expression to filter IMU sensor labels/topics for processing
+# Default accepts all: ".*"
+#do_process_imu_labels_re: ".*"
+
+# Regular expression to filter odometry input labels/topics for processing
+# Default accepts all: ".*"
+#do_process_odometry_labels_re: ".*"
+
+# Regular expression to filter GNSS (GPS) labels/topics for processing
+# Default accepts all: ".*"
+#do_process_gnss_labels_re: ".*"
+
+# ============================================================================
+# End of Configuration
+# ============================================================================

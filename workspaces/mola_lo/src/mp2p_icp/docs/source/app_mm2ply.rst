@@ -1,0 +1,145 @@
+.. _app_mm2ply:
+
+===============================
+Application: ``mm2ply``
+===============================
+
+Overview
+--------
+
+``mm2ply`` is a command-line tool that exports the layers of a MOLA metric map (\*.mm) file as PLY point cloud files. It converts metric map files into the widely-supported PLY format, making it easy to visualize and process point cloud data in various 3D viewers and processing tools.
+
+Features
+--------
+
+- Exports all point cloud layers from a metric map file
+- Selectively exports specific fields in a custom order
+- Supports both ASCII and binary PLY formats
+- Preserves all point fields (coordinates, colors, intensities, etc.)
+- Automatic field name mapping for standard color attributes
+- Generic field handling for custom point cloud attributes
+
+Usage
+-----
+
+.. code-block:: bash
+
+   mm2ply -i <input.mm> [-o <output_prefix>] [-b] [--export-fields <field1,field2,...>] [--ignore-missing-fields] [--frame map|enu]
+
+Arguments
+^^^^^^^^^
+
+- ``-i, --input <file.mm>`` (required): Input metric map file
+- ``-o, --output <prefix>`` (optional): Prefix for output PLY files. If not specified, uses the input filename without extension
+- ``-b, --binary`` (optional): Export in binary format instead of ASCII (default: ASCII)
+- ``--export-fields <field1,field2,...>`` (optional): Comma-separated list of fields to export in the specified order. If not provided, all available fields will be exported. Spaces around commas are allowed
+- ``--ignore-missing-fields`` (optional): If defined, the lack of any of the ``--export-fields`` in the map will be considered a warning instead of an error.
+- ``--frame <map|enu>`` (optional): Coordinate frame for exported points. ``map`` (default) exports coordinates in the map local frame. ``enu`` transforms all point coordinates to the East-North-Up frame using the georeferencing information stored in the map. Requires that the input map contains georeferencing data; otherwise, an error is raised.
+
+Examples
+^^^^^^^^
+
+Export a metric map to ASCII PLY files:
+
+.. code-block:: bash
+
+   mm2ply -i mymap.mm
+
+Export with a custom output prefix:
+
+.. code-block:: bash
+
+   mm2ply -i mymap.mm -o processed/map
+
+Export in binary format for smaller file sizes:
+
+.. code-block:: bash
+
+   mm2ply -i mymap.mm -b
+
+Export only specific fields in a custom order:
+
+.. code-block:: bash
+
+   mm2ply -i mymap.mm --export-fields "x,y,z,intensity"
+
+Export selected fields in binary format:
+
+.. code-block:: bash
+
+   mm2ply -i mymap.mm -b --export-fields "x, y, z, color_r, color_g, color_b"
+
+Export only 2D coordinates and intensity:
+
+.. code-block:: bash
+
+   mm2ply -i mymap.mm --export-fields "x,y,intensity"
+
+Combine with custom output prefix:
+
+.. code-block:: bash
+
+   mm2ply -i mymap.mm -o results/filtered --export-fields "x,y,z,ring,time"
+
+Export points in the ENU (East-North-Up) frame:
+
+.. code-block:: bash
+
+   mm2ply -i mymap.mm --frame enu
+
+Output
+------
+
+The tool creates separate PLY files for each point cloud layer in the metric map. Files are named using the pattern:
+
+.. code-block:: text
+
+   <prefix>_<layer_name>.ply
+
+For example, if your map contains layers named "raw" and "filtered", you'll get:
+
+- ``mymap_raw.ply``
+- ``mymap_filtered.ply``
+
+Field Selection
+---------------
+
+When using the ``--export-fields`` option:
+
+- Fields must be specified as a comma-separated list
+- Spaces around commas are allowed (e.g., ``"x, y, z"`` or ``"x,y,z"``)
+- Fields will be exported in the exact order specified
+- All specified fields must exist in the point cloud, or an error will be raised (unless ``--ignore-missing-fields`` is added)
+- The tool validates field availability and reports available fields if a requested field is not found
+- Color fields (``color_r``, ``color_g``, ``color_b``) are automatically mapped to PLY standard names (``red``, ``green``, ``blue``) in the output file, even when using field selection
+
+Supported Point Fields
+----------------------
+
+The tool automatically exports all point attributes, including:
+
+- **Coordinates**: x, y, z (float)
+- **Colors**: Automatically maps ``color_r/color_rf`` → ``red``, ``color_g/color_gf`` → ``green``, ``color_b/color_bf`` → ``blue``
+- **Custom float fields**: Exported as float properties (e.g., intensity, normals, curvature)
+- **Custom double fields**: Exported as double properties (e.g., time, timestamps) (MRPT ≥ 2.15.3)
+- **Custom uint16 fields**: Exported as ushort properties (e.g., ring, color channels) (MRPT ≥ 2.15.3)
+- **Custom uint8 fields**: Exported as uchar properties (MRPT ≥ 2.15.3)
+
+The specific fields exported depend on the point cloud type in each layer. Use ``--export-fields`` to select only the fields you need.
+
+PLY Format Details
+------------------
+
+The PLY format written by this tool follows the standard specification:
+
+- **ASCII format**: Human-readable text with space-separated values
+- **Binary format**: Compact binary encoding (little-endian) for reduced file size
+- **Header**: Describes vertex count and property types
+- **Data**: One vertex per line (ASCII) or record (binary)
+
+Color field name mapping ensures compatibility with standard PLY viewers and processing tools.
+
+Coordinate Frames
+-----------------
+
+By default, points are exported in the **map** local frame (the native coordinate system of the metric map). If the map contains georeferencing metadata (see :ref:`app_mm-georef`), you can use ``--frame enu`` to export all point coordinates transformed to the **ENU (East-North-Up)** frame. The transformation uses the ``T_enu_to_map`` SE(3) pose stored in the map's georeferencing data. Non-coordinate fields (colors, intensity, etc.) are not affected by this transformation.

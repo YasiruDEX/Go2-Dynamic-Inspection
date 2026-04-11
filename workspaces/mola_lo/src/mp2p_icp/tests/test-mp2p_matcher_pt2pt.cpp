@@ -1,0 +1,121 @@
+/*               _
+ _ __ ___   ___ | | __ _
+| '_ ` _ \ / _ \| |/ _` | Modular Optimization framework for
+| | | | | | (_) | | (_| | Localization and mApping (MOLA)
+|_| |_| |_|\___/|_|\__,_| https://github.com/MOLAorg/mola
+
+ A repertory of multi primitive-to-primitive (MP2P) ICP algorithms
+ and map building tools. mp2p_icp is part of MOLA.
+
+ Copyright (C) 2018-2026 Jose Luis Blanco, University of Almeria,
+                         and individual contributors.
+ SPDX-License-Identifier: BSD-3-Clause
+*/
+
+/**
+ * @file   test-mp2p_matcher_p2pt.cpp
+ * @brief  Unit tests for matcher
+ * @author Jose Luis Blanco Claraco
+ * @date   July 22, 2020
+ */
+
+#include <mp2p_icp/Matcher_Points_DistanceThreshold.h>
+#include <mp2p_icp/metricmap.h>
+#include <mrpt/maps/CSimplePointsMap.h>
+
+static mrpt::maps::CSimplePointsMap::Ptr generateGlobalPoints()
+{
+    auto pts = mrpt::maps::CSimplePointsMap::Create();
+
+    for (int i = 0; i < 10; i++)
+    {
+        pts->insertPoint(static_cast<float>(i) * 0.01f, 5.0f, .0f);
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        pts->insertPoint(10.0f, static_cast<float>(i) * 0.01f, 1.0f);
+    }
+
+    return pts;
+}
+
+static mrpt::maps::CSimplePointsMap::Ptr generateLocalPoints()
+{
+    auto pts = mrpt::maps::CSimplePointsMap::Create();
+
+    pts->insertPointFast(0.f, 0.f, 0.f);
+    pts->insertPointFast(2.f, 0.f, 0.f);
+
+    return pts;
+}
+
+int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
+{
+    try
+    {
+        mp2p_icp::metric_map_t pcGlobal;
+        pcGlobal.layers[mp2p_icp::metric_map_t::PT_LAYER_RAW] = generateGlobalPoints();
+
+        mp2p_icp::metric_map_t pcLocal;
+        pcLocal.layers[mp2p_icp::metric_map_t::PT_LAYER_RAW] = generateLocalPoints();
+
+        {
+            mp2p_icp::Matcher_Points_DistanceThreshold m;
+            mrpt::containers::yaml                     p;
+            p["threshold"]           = 1.05;
+            p["thresholdAngularDeg"] = .001;
+
+            m.initialize(p);
+
+            // Ensure initialize is correctly parsing the values:
+            ASSERT_NEAR_(m.threshold, 1.05, 1e-4);
+            ASSERT_NEAR_(m.thresholdAngularDeg, .001, 1e-4);
+
+            {
+                // For pose: identity
+                mp2p_icp::Pairings   pairs;
+                mp2p_icp::MatchState ms(pcGlobal, pcLocal);
+                m.match(pcGlobal, pcLocal, {0, 0, 0, 0, 0, 0}, {}, ms, pairs);
+                ASSERT_(pairs.empty());
+            }
+
+            // note: on MRPT naming convention: "this"=global; "other"=local.
+
+            {
+                // For pose #1
+                mp2p_icp::Pairings   pairs;
+                mp2p_icp::MatchState ms(pcGlobal, pcLocal);
+                m.match(pcGlobal, pcLocal, {0, 5, 0, 0, 0, 0}, {}, ms, pairs);
+                ASSERT_EQUAL_(pairs.size(), 1);
+                ASSERT_EQUAL_(pairs.paired_pt2pt.at(0).localIdx, 0);
+                ASSERT_EQUAL_(pairs.paired_pt2pt.at(0).globalIdx, 0);
+            }
+
+            {
+                // For pose #2
+                mp2p_icp::Pairings   pairs;
+                mp2p_icp::MatchState ms(pcGlobal, pcLocal);
+                m.match(pcGlobal, pcLocal, {-2, 5, 0, 0, 0, 0}, {}, ms, pairs);
+                ASSERT_EQUAL_(pairs.size(), 1);
+                ASSERT_EQUAL_(pairs.paired_pt2pt.at(0).globalIdx, 0);
+                ASSERT_EQUAL_(pairs.paired_pt2pt.at(0).localIdx, 1);
+            }
+
+            {
+                // For pose #3
+                mp2p_icp::Pairings   pairs;
+                mp2p_icp::MatchState ms(pcGlobal, pcLocal);
+                m.match(
+                    pcGlobal, pcLocal, {8.5, -1.0, 1, mrpt::DEG2RAD(45.0f), 0, 0}, {}, ms, pairs);
+                ASSERT_EQUAL_(pairs.size(), 1);
+                ASSERT_EQUAL_(pairs.paired_pt2pt.at(0).localIdx, 1);
+                ASSERT_EQUAL_(pairs.paired_pt2pt.at(0).globalIdx, 19);
+            }
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << mrpt::exception_to_str(e) << "\n";
+        return 1;
+    }
+}

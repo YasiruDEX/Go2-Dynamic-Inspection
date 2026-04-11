@@ -1,0 +1,10 @@
+Each subdirectory of this project contains a package.xml file specifying 
+the license under which it is released. Used licenses include:
+
+SPDX-ID:
+* GPL-3.0-only
+* BSD-3-Clause
+
+Contributions to existing files should be made under the license of that file.
+New files should be made under the first license listed in the appropriate
+package.xml file
