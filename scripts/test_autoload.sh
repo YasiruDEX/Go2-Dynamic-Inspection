@@ -9,7 +9,7 @@ echo "============================================"
 echo ""
 
 # Check if graph file exists
-GRAPH_FILE="/home/tharushi/Go2-Dynamic-Inspection/saved_vgraphs/my_graph.vgh"
+GRAPH_FILE="/home/tharushi/Go2-Dynamic-Inspection/saved_vgraphs/vgraph.vgh"
 
 if [ ! -f "$GRAPH_FILE" ]; then
     echo "❌ ERROR: Graph file not found at: $GRAPH_FILE"

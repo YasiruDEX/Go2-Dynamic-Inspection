@@ -12,6 +12,7 @@
   <depend>rclcpp</depend>
   <depend>rclpy</depend>
   <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
   <depend>rviz2</depend>
   <depend>rviz_common</depend>
   <depend>rviz_rendering</depend>

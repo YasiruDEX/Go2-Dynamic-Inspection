@@ -20,6 +20,7 @@ find_package(rviz_ogre_vendor REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -49,6 +50,7 @@ ament_target_dependencies(${PROJECT_NAME}
   "rviz_default_plugins"
   "rviz2"
   "std_msgs"
+  "std_srvs"
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -71,7 +73,8 @@ ament_export_dependencies(
   sensor_msgs
   rviz_default_plugins
   rviz2
-  std_msgs)
+  std_msgs
+  std_srvs)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

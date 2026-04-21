@@ -4,12 +4,12 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /VGraph1/Namespaces1
         - /VGH Nodes1/Namespaces1
         - /VGH Nav Edges1/Namespaces1
         - /VGH Frontier Nodes1/Namespaces1
+        - /VGraph1/Namespaces1
       Splitter Ratio: 0.8294117450714111
-    Tree Height: 666
+    Tree Height: 441
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -26,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: FreePaths
+    SyncSource: ""
   - Class: teleop_rviz_plugin/TeleopPanel
     Name: TeleopPanel
 Visualization Manager:
@@ -435,11 +435,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Nodes
       Namespaces:
-        all_nodes: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/nodes
@@ -448,11 +447,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Nav Edges
       Namespaces:
-        nav_edges: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/nav_edges
@@ -461,11 +459,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Poly Edges
       Namespaces:
-        poly_edges: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/poly_edges
@@ -474,11 +471,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Contour Edges
       Namespaces:
-        contour_edges: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/contour_edges
@@ -487,11 +483,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Frontier Nodes
       Namespaces:
-        frontier_nodes: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/frontier_nodes
@@ -500,11 +495,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Navpoint Nodes
       Namespaces:
-        navpoint_nodes: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/navpoint_nodes
@@ -513,11 +507,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Nodes
       Namespaces:
-        all_nodes: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/nodes
@@ -526,11 +519,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Nav Edges
       Namespaces:
-        nav_edges: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/nav_edges
@@ -539,11 +531,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Poly Edges
       Namespaces:
-        poly_edges: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/poly_edges
@@ -552,11 +543,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Contour Edges
       Namespaces:
-        contour_edges: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/contour_edges
@@ -565,11 +555,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Frontier Nodes
       Namespaces:
-        frontier_nodes: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/frontier_nodes
@@ -578,11 +567,10 @@ Visualization Manager:
       Enabled: true
       Name: VGH Navpoint Nodes
       Namespaces:
-        navpoint_nodes: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
-        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /vgh_graph/navpoint_nodes
@@ -620,10 +608,7 @@ Visualization Manager:
       Enabled: true
       Name: ViewpointExtend
       Namespaces:
-        corner_direct: true
-        extend_viewpoint: true
-        origin_viewpoint: true
-        raytracing_line: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -693,5 +678,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1447
-  X: 58
+  X: 70
   Y: 27

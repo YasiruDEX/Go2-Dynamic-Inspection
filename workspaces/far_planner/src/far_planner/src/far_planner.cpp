@@ -46,6 +46,110 @@ void FARMaster::Init() {
   read_command_sub_   = nh_->create_subscription<std_msgs::msg::String>("/read_file_dir", 1, std::bind(&FARMaster::ReadFileCommand, this, std::placeholders::_1));
   save_command_sub_   = nh_->create_subscription<std_msgs::msg::String>("/save_file_dir", 1, std::bind(&FARMaster::SaveFileCommand, this, std::placeholders::_1));
 
+  // Services
+  start_far_planner_srv_ = nh_->create_service<std_srvs::srv::Trigger>(
+      "/start_far_planner",
+      [this](const std::shared_ptr<std_srvs::srv::Trigger::Request> /*request*/,
+             std::shared_ptr<std_srvs::srv::Trigger::Response> response) {
+        // Gate the planning loop; v-graph updates can still be controlled separately.
+        if (!is_init_completed_) {
+          response->success = false;
+          response->message = "FAR Planner not initialized yet.";
+          return;
+        }
+
+        is_system_started_ = true;
+        response->success = true;
+        response->message = "FAR Planner system started (planning enabled).";
+        RCLCPP_WARN(nh_->get_logger(), "FARMaster: Start FAR planner system (service call).");
+      });
+
+  stop_far_planner_srv_ = nh_->create_service<std_srvs::srv::Trigger>(
+      "/stop_far_planner",
+      [this](const std::shared_ptr<std_srvs::srv::Trigger::Request> /*request*/,
+             std::shared_ptr<std_srvs::srv::Trigger::Response> response) {
+        // Disable planning AND command robot to stop.
+        is_system_started_ = false;
+
+        goal_waypoint_stamped_.header.stamp = nh_->now();
+        goal_waypoint_stamped_.point = FARUtil::Point3DToGeoMsgPoint(robot_pos_);
+        goal_pub_->publish(goal_waypoint_stamped_);
+        NodePtrStack empty_path;
+        planner_viz_.VizPath(empty_path);
+        is_planner_running_ = false;
+        nav_heading_ = Point3D(0, 0, 0);
+
+        response->success = true;
+        response->message = "FAR Planner system stopped (planning disabled; robot stop waypoint published).";
+        RCLCPP_WARN(nh_->get_logger(), "FARMaster: Stop FAR planner system (service call).");
+      });
+
+  stop_vgraph_update_srv_ = nh_->create_service<std_srvs::srv::Trigger>(
+      "/stop_visibility_graph_update",
+      [this](const std::shared_ptr<std_srvs::srv::Trigger::Request> /*request*/,
+             std::shared_ptr<std_srvs::srv::Trigger::Response> response) {
+        is_stop_update_ = true;
+        response->success = true;
+        response->message = "Visibility graph updates stopped (frozen).";
+        RCLCPP_WARN(nh_->get_logger(), "FARMaster: Stop visibility graph update (service call).");
+      });
+
+  resume_vgraph_update_srv_ = nh_->create_service<std_srvs::srv::Trigger>(
+      "/resume_visibility_graph_update",
+      [this](const std::shared_ptr<std_srvs::srv::Trigger::Request> /*request*/,
+             std::shared_ptr<std_srvs::srv::Trigger::Response> response) {
+        // Resume dynamic V-graph updates
+        is_stop_update_ = false;
+        // Force a refresh cycle so it updates right after the request.
+        is_graph_init_ = false;
+
+        response->success = true;
+        response->message = "Visibility graph updates resumed and refresh requested.";
+        RCLCPP_WARN(nh_->get_logger(), "FARMaster: Resume visibility graph update (service call). Rebuilding...");
+      });
+
+  load_vgraph_srv_ = nh_->create_service<std_srvs::srv::Trigger>(
+      "/load_visibility_graph",
+      [this](const std::shared_ptr<std_srvs::srv::Trigger::Request> /*request*/,
+             std::shared_ptr<std_srvs::srv::Trigger::Response> response) {
+        // Uses the same file path as auto-load: ROS parameter "vgraph_file_path".
+        // This keeps the service interface simple (no custom srv) and works well with RViz.
+        std::string filename = "";
+        (void)nh_->get_parameter("vgraph_file_path", filename);
+
+        if (filename.empty()) {
+          response->success = false;
+          response->message = "Missing parameter vgraph_file_path (cannot load visibility graph).";
+          RCLCPP_ERROR(nh_->get_logger(), "FARMaster: /load_visibility_graph called but vgraph_file_path is empty.");
+          return;
+        }
+
+        response->success = true;
+        response->message = std::string("Loading visibility graph from: ") + filename;
+        RCLCPP_WARN(nh_->get_logger(), "FARMaster: Load visibility graph (service call): %s", filename.c_str());
+        this->LoadVisibilityGraph(filename);
+      });
+
+  save_vgraph_srv_ = nh_->create_service<std_srvs::srv::Trigger>(
+      "/save_visibility_graph",
+      [this](const std::shared_ptr<std_srvs::srv::Trigger::Request> /*request*/,
+             std::shared_ptr<std_srvs::srv::Trigger::Response> response) {
+        std::string filename = "";
+        (void)nh_->get_parameter("vgraph_file_path", filename);
+
+        if (filename.empty()) {
+          response->success = false;
+          response->message = "Missing parameter vgraph_file_path (cannot save visibility graph).";
+          RCLCPP_ERROR(nh_->get_logger(), "FARMaster: /save_visibility_graph called but vgraph_file_path is empty.");
+          return;
+        }
+
+        response->success = true;
+        response->message = std::string("Saving visibility graph to: ") + filename;
+        RCLCPP_WARN(nh_->get_logger(), "FARMaster: Save visibility graph (service call): %s", filename.c_str());
+        this->SaveVisibilityGraph(filename);
+      });
+
   // DEBUG Publisher
   dynamic_obs_pub_     = nh_->create_publisher<sensor_msgs::msg::PointCloud2>("/FAR_dynamic_obs_debug",1);
   surround_free_debug_ = nh_->create_publisher<sensor_msgs::msg::PointCloud2>("/FAR_free_debug",1);
@@ -95,8 +199,12 @@ void FARMaster::Init() {
   is_planner_running_ = false;
   is_graph_init_      = false;
   is_reset_env_       = false;
-  is_stop_update_     = false;
+  // Default behavior: keep the v-graph frozen until explicitly resumed (checkbox/service/topic)
+  // so the system can load a saved VGH and plan with it unchanged.
+  is_stop_update_     = true;
   is_init_completed_  = false;
+  // Default behavior: planning stays disabled until explicitly started.
+  is_system_started_  = false;
   // NOTE: is_pending_graph_load_ and pending_graph_load_path_ are NOT reset here
   // because they are set by LoadROSParams() which runs BEFORE this block.
   // Resetting them here would overwrite the auto-load configuration.
@@ -292,7 +400,7 @@ void FARMaster::MainLoopCallBack() {
 }
 
 void FARMaster::PlanningCallBack() {
-  if (!is_init_completed_ || !is_graph_init_) return;
+  if (!is_init_completed_ || !is_graph_init_ || !is_system_started_) return;
   const NavNodePtr goal_ptr = graph_planner_.GetGoalNodePtr();
   if (goal_ptr == NULL) {
     /* Graph Traversablity Update */
@@ -1203,8 +1311,13 @@ void FARMaster::LoadVisibilityGraph(const std::string& filename) {
         
         ifs.close();
         
-        // Mark graph as initialized
-        is_graph_init_ = true;
+  // The loaded graph is now integrated, but we intentionally request a refresh cycle
+  // so dynamic updates (edges validity, near-node sets, etc.) can kick in immediately
+  // when the RViz "Update Visibility Graph" checkbox is enabled.
+  //
+  // NOTE: Do NOT set is_graph_init_=true here. It will be set by MainLoopCallBack
+  // once the next update cycle runs.
+  is_graph_init_ = false;
         RCLCPP_INFO(nh_->get_logger(), "Successfully loaded visibility graph from: %s", filename.c_str());
         RCLCPP_INFO(nh_->get_logger(), "Loaded %zu nodes with connections (id_tracker set to %zu)", graph_size, max_id + 1);
         
@@ -1222,6 +1335,11 @@ void FARMaster::LoadVisibilityGraph(const std::string& filename) {
         planner_viz_.VizGlobalPolygons(ContourGraph::global_contour_, ContourGraph::unmatched_contour_);
         
         RCLCPP_INFO(nh_->get_logger(), "Graph integration complete. System ready for dynamic updates.");
+
+  // If updates are currently enabled, force a rebuild/update pass on the next tick.
+  // If updates are frozen, this flag will still be honored once the user resumes.
+  // (MainLoopCallBack will set is_graph_init_=true after that pass.)
+  // Nothing else needed here.
         
     } catch (const std::exception& e) {
         RCLCPP_ERROR(nh_->get_logger(), "Error loading visibility graph: %s", e.what());

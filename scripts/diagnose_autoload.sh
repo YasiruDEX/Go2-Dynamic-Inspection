@@ -46,7 +46,7 @@ echo ""
 
 # Check graph file
 echo "4. Checking visibility graph file..."
-GRAPH_FILE="/home/tharushi/Go2-Dynamic-Inspection/saved_vgraphs/my_graph.vgh"
+GRAPH_FILE="/home/tharushi/Go2-Dynamic-Inspection/saved_vgraphs/vgraph.vgh"
 if [ -f "$GRAPH_FILE" ]; then
     echo "   ✅ Graph file exists: $(ls -lh "$GRAPH_FILE" | awk '{print $5}')"
 else

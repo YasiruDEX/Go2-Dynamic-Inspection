@@ -11,6 +11,8 @@
 #include "scan_handler.h"
 #include "graph_msger.h"
 
+#include <std_srvs/srv/trigger.hpp>
+
 
 struct FARMasterParams {
     FARMasterParams() = default;
@@ -44,6 +46,14 @@ public:
 private:
     rclcpp::Node::SharedPtr nh_;
 
+    // Services
+    rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr start_far_planner_srv_;
+    rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr stop_far_planner_srv_;
+    rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr stop_vgraph_update_srv_;
+    rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr resume_vgraph_update_srv_;
+    rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr load_vgraph_srv_;
+    rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr save_vgraph_srv_;
+
     rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr reset_graph_sub_;
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_command_sub_;
     rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr update_command_sub_;
@@ -76,6 +86,7 @@ private:
     Point3D robot_pos_, robot_heading_, nav_heading_;
 
     bool is_reset_env_, is_stop_update_, is_init_completed_;
+    bool is_system_started_;
 
     geometry_msgs::msg::PointStamped goal_waypoint_stamped_;
 
@@ -167,6 +178,9 @@ private:
         if (is_stop_update_ && msg->data) {
             if (FARUtil::IsDebug) RCLCPP_WARN(nh_->get_logger(), "FARMaster: Resume visibility graph update.");
             is_stop_update_ = !msg->data;
+            // Force an immediate refresh cycle after re-enabling updates.
+            // This makes the RViz "Update Visibility Graph" checkbox feel responsive.
+            is_graph_init_ = false;
         }
         if (!is_stop_update_ && !msg->data) {
             if (FARUtil::IsDebug) RCLCPP_WARN(nh_->get_logger(), "FARMaster: Stop visibility graph update.");

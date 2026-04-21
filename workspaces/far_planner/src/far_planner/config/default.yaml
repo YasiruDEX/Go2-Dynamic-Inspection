@@ -20,7 +20,7 @@ far_planner:
     
     # Visibility Graph Save/Load
     vgraph_autoload: true  # Automatically load saved graph on startup
-    vgraph_file_path: "/home/tharushi/Documents/university2.vgh"
+    vgraph_file_path: "/home/tharushi/Go2-Dynamic-Inspection/saved_vgraphs/vgraph.vgh"
     vgraph_autosave: false  # Automatically save graph periodically
     vgraph_save_interval: 60.0  # Auto-save interval in seconds (if autosave enabled)
 

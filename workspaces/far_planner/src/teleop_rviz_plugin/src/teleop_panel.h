@@ -21,6 +21,8 @@
 #include <std_msgs/msg/string.hpp>
 #include <sensor_msgs/msg/joy.hpp>
 
+#include <std_srvs/srv/trigger.hpp>
+
 class QLineEdit;
 
 namespace teleop_rviz_plugin
@@ -58,6 +60,16 @@ protected:
   rclcpp::Publisher<std_msgs::msg::Empty>::SharedPtr reset_publisher_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr read_publisher_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr save_publisher_;
+
+  // Service client: request a one-time visibility graph refresh
+  rclcpp::Client<std_srvs::srv::Trigger>::SharedPtr resume_vgraph_client_;
+
+  // Service client: freeze visibility graph updates
+  rclcpp::Client<std_srvs::srv::Trigger>::SharedPtr stop_vgraph_client_;
+
+  // Service client: load/save visibility graph (uses FAR parameter vgraph_file_path)
+  rclcpp::Client<std_srvs::srv::Trigger>::SharedPtr load_vgraph_client_;
+  rclcpp::Client<std_srvs::srv::Trigger>::SharedPtr save_vgraph_client_;
 
 
   // Use shared pointer for the node

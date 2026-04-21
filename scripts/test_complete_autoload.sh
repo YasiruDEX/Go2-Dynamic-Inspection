@@ -11,7 +11,7 @@ echo ""
 echo "Step 1: Checking prerequisites..."
 echo ""
 
-GRAPH_FILE="/home/tharushi/Go2-Dynamic-Inspection/saved_vgraphs/my_graph.vgh"
+GRAPH_FILE="/home/tharushi/Go2-Dynamic-Inspection/saved_vgraphs/vgraph.vgh"
 if [ ! -f "$GRAPH_FILE" ]; then
     echo "❌ Graph file not found: $GRAPH_FILE"
     exit 1

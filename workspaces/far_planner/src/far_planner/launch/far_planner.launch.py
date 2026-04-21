@@ -17,12 +17,29 @@ def generate_launch_description():
     return LaunchDescription([
         SetParameter(name='use_sim_time', value='false'),
 
+        DeclareLaunchArgument(
+            'vgraph_autoload',
+            default_value='false',
+            description='If true, FAR Planner will auto-load a saved visibility graph at startup.',
+        ),
+        DeclareLaunchArgument(
+            'vgraph_file_path',
+            default_value='',
+            description='Absolute path to a .vgh file to load when vgraph_autoload is true.',
+        ),
+
         Node(
             package='far_planner',
             executable='far_planner',
             name='far_planner',
             output='screen',
-            parameters=[default_config],
+            parameters=[
+                default_config,
+                {
+                    'vgraph_autoload': LaunchConfiguration('vgraph_autoload'),
+                    'vgraph_file_path': LaunchConfiguration('vgraph_file_path'),
+                },
+            ],
             remappings=[
                 ('/odom_world', '/lidar_odometry/pose'),
                 ('/terrain_cloud', '/terrain_map_ext'),

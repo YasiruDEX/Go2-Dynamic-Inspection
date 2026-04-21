@@ -46,6 +46,24 @@ echo ""
 echo -e "${GREEN}Configuration:${NC}"
 echo -e "  Map file: $MAP_FILE"
 echo -e "  Rosbag:   $ROSBAG_PATH"
+
+# Ask for visibility graph (.vgh) to autoload
+DEFAULT_VGRAPH_FILE="/home/tharushi/Go2-Dynamic-Inspection/saved_vgraphs/vgraph.vgh"
+echo -e "${YELLOW}Enter the full path to your visibility graph (.vgh) file:${NC}"
+echo -e "${YELLOW}(Press Enter for default: $DEFAULT_VGRAPH_FILE)${NC}"
+read -r VGRAPH_FILE
+VGRAPH_FILE=${VGRAPH_FILE:-$DEFAULT_VGRAPH_FILE}
+VGRAPH_FILE=$(eval echo $VGRAPH_FILE)  # Expand tilde
+
+if [ -f "$VGRAPH_FILE" ]; then
+    echo -e "  VGraph:   $VGRAPH_FILE"
+    VGRAPH_AUTOLOAD="true"
+else
+    echo -e "${YELLOW}Warning: VGraph file not found: $VGRAPH_FILE${NC}"
+    echo -e "${YELLOW}Far Planner will start without loading a saved graph.${NC}"
+    VGRAPH_AUTOLOAD="false"
+fi
+
 echo ""
 
 # Function to wait for a process to be ready
@@ -121,7 +139,9 @@ sleep 2
 echo -e "${GREEN}[6/6] Starting Far Planner...${NC}"
 gnome-terminal --title="Far Planner" -- bash -c "
     source /home/tharushi/Go2-Dynamic-Inspection/workspaces/far_planner/install/setup.bash
-    ros2 launch far_planner far_planner.launch.py; exec bash
+    ros2 launch far_planner far_planner.launch.py \\
+        vgraph_autoload:=$VGRAPH_AUTOLOAD \\
+        vgraph_file_path:='${VGRAPH_FILE}'; exec bash
 "
 
 echo ""
