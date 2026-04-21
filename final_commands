@@ -1,0 +1,142 @@
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: 0.0469057559967041
+  y: -19.900707244873047
+  z: 0.0
+"
+
+
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: 3.0533738136291504
+  y: -17.78563690185547
+  z: 0.0
+"
+
+
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: 3.973910093307495
+  y: -16.693626403808594
+  z: 0.0
+"
+
+
+
+#wala
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: 6.190845489501953
+  y: -11.066904067993164
+  z: 0.0
+"
+
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: -0.7789977788925171
+  y: 0.17992299795150757
+  z: 0.0
+"
+
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: 9.833463668823242
+  y: -16.115888595581055
+  z: 0.0
+"
+
+
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: 7.810900688171387
+  y: -17.08194351196289
+  z: 0.0
+"
+
+
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: -0.20206451416015625
+  y: -15.153105735778809
+  z: 0.0
+"
+
+
+ros2 topic pub --once /initialpose geometry_msgs/msg/PoseWithCovarianceStamped "
+header:
+  frame_id: 'map'
+pose:
+  pose:
+    position:
+      x: 7.7779
+      y: -17.2161
+      z: -3.0
+    orientation:
+      z: 0.2925
+      w: 0.9563
+  covariance: [0.25, 0, 0, 0, 0, 0,
+               0, 0.25, 0, 0, 0, 0,
+               0, 0, 0.25, 0, 0, 0,
+               0, 0, 0, 0.1, 0, 0,
+               0, 0, 0, 0, 0.1, 0,
+               0, 0, 0, 0, 0, 0.1]
+"
+
+
+#2n floor wala
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: 6.190845489501953
+  y: -11.066904067993164
+  z: -3.0
+"
+
+#analog door
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: -0.20206451416015625
+  y: -15.153105735778809
+  z: -3.0
+"
+
+#stair
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: 0.0469057559967041
+  y: -19.900707244873047
+  z: -3.0
+"
+
+
+
+#lift
+ros2 topic pub /goal_point geometry_msgs/msg/PointStamped "
+header:
+  frame_id: 'map'
+point:
+  x: 7.810900688171387
+  y: -17.08194351196289
+  z: -3.0
+"

@@ -164,6 +164,8 @@ mm-viewer /home/yasiru/Documents/Far_planner_test/maps/myMap.mm  -l libmola_metr
 /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh foxglove
 /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh local
 
+
+#MAPPING ACTION SERVERS
 /home/yasiru/Documents/Far_planner_test/scripts/launch_mapping_nodes.sh
 
 
@@ -266,12 +268,16 @@ pose:
 source install/setup.bash
 ros2 launch go2_webrtc_bridge bridge.launch.py robot_ip:=192.168.8.160
 
+#gait 1:walk 2:run 3: climb 4:decend
 ros2 service call /set_gait example_interfaces/srv/AddTwoInts "{a: 1, b: 0}"
 
+#color
 ros2 service call /set_color example_interfaces/srv/AddTwoInts "{a: 5, b: 0}"
 
+#standup
 ros2 service call /set_action example_interfaces/srv/AddTwoInts "{a: 1, b: 0}"
 
+#sit
 ros2 service call /set_action example_interfaces/srv/AddTwoInts "{a: 0, b: 0}"
 
 
@@ -307,3 +313,43 @@ point:
 ros2 run point_cloud_transport republish   --ros-args   --remap in:=/livox/lidar   --remap out:=/points_compressed   -p out_transport:=cloudini
 
 ros2 run cloudini_ros cloudini_topic_converter   --ros-args   -p compressing:=false   -p topic_input:=/out/cloudini   -p topic_output:=/points_raw_decoded
+
+
+
+ros2 topic pub --once /start_exploration std_msgs/msg/Bool "{data: true}"
+ros2 topic pub --once /start_exploration std_msgs/msg/Bool "{data: false}"
+
+
+#HOST PC BASHRC
+
+start_robot() {
+  # Define the workspace path to keep things readable
+  local CLOUD_WS="/home/yasiru/Documents/Far_planner_test/workspaces/cloudini/install/setup.bash"
+  local ROS_BASE="/opt/ros/humble/setup.bash"
+  
+  # Base command to source everything - we will prepend this to every pane
+  local INIT="source $ROS_BASE && source $CLOUD_WS"
+
+  # 1. CREATE THE SESSION FIRST (This fixes the /tmp/tmux error!)
+  tmux new-session -d -s robot
+
+  # Run the Converter in the first pane
+  tmux send-keys -t robot "$INIT && ros2 run cloudini_ros cloudini_topic_converter --ros-args -p compressing:=false -p topic_input:=/out/cloudini -p topic_output:=/points_raw_decoded" C-m
+
+  # 2. Split for the Zenoh Bridge
+  tmux split-window -h -t robot
+  tmux send-keys -t robot "$INIT && zenoh-bridge-ros2dds -e tcp/192.168.8.181:7447" C-m
+
+  # 3. Clean up layout and attach (Fixed the missing space typo here)
+  tmux select-layout -t robot tiled
+  tmux attach -t robot
+}
+
+
+#ROBOT BASHRC
+
+
+
+cd workspaces/tare_planner/
+source install/setup.bash 
+ros2 launch tare_planner explore.launch 

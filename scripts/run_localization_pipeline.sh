@@ -24,6 +24,21 @@ usage() {
     echo "  all-active               Same as 'all' but start localization active and play default bag"
 }
 
+# run_localization() {
+#     local active="$1"
+#     export MOLA_LO_PUBLISH_DESKEWED_SCANS=true
+#     cd "$HOME/ros2_mola_ws"
+#     ros2 launch mola_lidar_odometry ros2-lidar-odometry.launch.py \
+#         start_active:="$active" \
+#         publish_localization_following_rep105:=False \
+#         start_mapping_enabled:=False \
+#         lidar_topic_name:="/livox/lidar" \
+#         imu_topic_name:="/livox/imu" \
+#         mola_tf_base_link:="base_link" \
+#         mola_deskew_method:="MotionCompensationMethod::IMU" \
+#         mola_initial_map_mm_file:="/home/yasiru/Documents/Far_planner_test/maps/Inspection/myMap.mm"
+# }
+
 run_localization() {
     local active="$1"
     export MOLA_LO_PUBLISH_DESKEWED_SCANS=true
@@ -32,11 +47,11 @@ run_localization() {
         start_active:="$active" \
         publish_localization_following_rep105:=False \
         start_mapping_enabled:=False \
-        lidar_topic_name:="/livox/lidar" \
+        lidar_topic_name:="/points_raw_decoded" \
         imu_topic_name:="/livox/imu" \
         mola_tf_base_link:="base_link" \
         mola_deskew_method:="MotionCompensationMethod::IMU" \
-        mola_initial_map_mm_file:="/home/yasiru/Documents/Far_planner_test/maps/Inspection/myMap.mm"
+        mola_initial_map_mm_file:="/home/yasiru/Documents/Far_planner_test/maps/vision_lab/myMap.mm"
 }
 
 run_tf() {
@@ -107,7 +122,8 @@ case "$cmd" in
         run_bag "$2"
         ;;
     terrain)
-        run_terrain
+        run_terrain &
+        run_terrain_ext
         ;;
     terrain-ext)
         run_terrain_ext
@@ -151,8 +167,6 @@ case "$cmd" in
         sleep 2
         run_tf &
         sleep 1
-        run_terrain &
-        run_terrain_ext &
         run_far &
         run_rviz &
         wait
@@ -163,8 +177,6 @@ case "$cmd" in
         sleep 2
         run_tf &
         sleep 1
-        run_terrain &
-        run_terrain_ext &
         run_rviz &
         wait
         ;;
