@@ -19,7 +19,7 @@ source_if_exists "/opt/ros/humble/setup.bash"
 
 # Local project workspaces
 source_if_exists "$WORKSPACE_ROOT/workspaces/terrain_analyzer/install/setup.bash"
-source_if_exists "$WORKSPACE_ROOT/workspaces/far_planner/install/setup.bash"
+source_if_exists "$WORKSPACE_ROOT/workspaces/far_planner_updated/install/setup.bash"
 source_if_exists "$WORKSPACE_ROOT/workspaces/local_planner/install/setup.bash"
 
 # External MOLA workspace used in your commands

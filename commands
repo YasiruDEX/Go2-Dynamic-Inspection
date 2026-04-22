@@ -162,7 +162,8 @@ mm-viewer /home/yasiru/Documents/Far_planner_test/maps/myMap.mm  -l libmola_metr
 
 /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh all-real
 /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh foxglove
-/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh local
+/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh 
+/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh terrain
 
 
 #MAPPING ACTION SERVERS

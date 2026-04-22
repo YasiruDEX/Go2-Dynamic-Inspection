@@ -58,7 +58,7 @@
     <param name="sensorOffsetY" value="$(var sensorOffsetY)" />
     <param name="pubSkipNum" value="1" />
     <param name="twoWayDrive" value="$(var twoWayDrive)" />
-    <param name="lookAheadDis" value="2.0" />
+    <param name="lookAheadDis" value="3.0" />
     <param name="yawRateGain" value="4.0" />
     <param name="stopYawRateGain" value="10.0" />
     <param name="maxYawRate" value="30.0" />
