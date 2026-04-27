@@ -108,6 +108,34 @@ void FARMaster::Init() {
         RCLCPP_WARN(nh_->get_logger(), "FARMaster: Resume visibility graph update (service call). Rebuilding...");
       });
 
+  clear_vgraph_srv_ = nh_->create_service<std_srvs::srv::Trigger>(
+      "/clear_visibility_graph",
+      [this](const std::shared_ptr<std_srvs::srv::Trigger::Request> /*request*/,
+             std::shared_ptr<std_srvs::srv::Trigger::Response> response) {
+  // Clear the current (possibly loaded) graph and associated state.
+  // Do it immediately so RViz/CLI users see it right away, even if the main loop
+  // is currently blocked by missing preconditions (odom/scan/terrain).
+  //
+  // Also clear any remembered load path so we don't accidentally re-load the same
+  // VGH on the next tick.
+
+  // Freeze updates by default after a clear.
+  is_stop_update_ = true;
+
+  // Clear any pending/implicit load state.
+  is_pending_graph_load_ = false;
+  pending_graph_load_path_.clear();
+  (void)nh_->set_parameter(rclcpp::Parameter("vgraph_file_path", std::string("")));
+
+  // Immediately reset graph+env state.
+  this->ResetEnvironmentAndGraph();
+  is_reset_env_ = false;
+
+  response->success = true;
+  response->message = "Visibility graph cleared (graph+env reset executed immediately; updates frozen; vgraph_file_path cleared).";
+  RCLCPP_WARN(nh_->get_logger(), "FARMaster: Clear visibility graph requested (service call). Reset done immediately.");
+      });
+
   load_vgraph_srv_ = nh_->create_service<std_srvs::srv::Trigger>(
       "/load_visibility_graph",
       [this](const std::shared_ptr<std_srvs::srv::Trigger::Request> /*request*/,
@@ -258,6 +286,9 @@ void FARMaster::Init() {
   if (is_pending_graph_load_ && !pending_graph_load_path_.empty()) {
     RCLCPP_WARN(nh_->get_logger(), "=== VGRAPH: Loading graph immediately from: %s ===", pending_graph_load_path_.c_str());
     this->LoadVisibilityGraph(pending_graph_load_path_);
+  // Clear parameter to avoid accidental re-triggering via /load_visibility_graph
+  // (e.g., from RViz panel or launch-time calls). Autoload already consumed it.
+  (void)nh_->set_parameter(rclcpp::Parameter("vgraph_file_path", std::string("")));
     is_pending_graph_load_ = false;
     pending_graph_load_path_ = "";
   }

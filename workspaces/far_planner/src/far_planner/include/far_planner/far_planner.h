@@ -51,6 +51,7 @@ private:
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr stop_far_planner_srv_;
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr stop_vgraph_update_srv_;
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr resume_vgraph_update_srv_;
+    rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr clear_vgraph_srv_;
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr load_vgraph_srv_;
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr save_vgraph_srv_;
 
