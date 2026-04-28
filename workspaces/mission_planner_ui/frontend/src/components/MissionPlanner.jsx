@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Plus, Trash2, Play, Square, Map, ChevronDown, ChevronRight, Crosshair, Home, MapPin } from 'lucide-react';
+import { Plus, Trash2, Play, Square, Map, ChevronDown, ChevronRight, Crosshair, Home, MapPin, ArrowUpDown } from 'lucide-react';
 
 const PURPOSE_OPTIONS = [
     { value: 'none', label: 'None' },
@@ -10,12 +10,18 @@ const PURPOSE_OPTIONS = [
     { value: 'slope_start', label: 'Slope Start' },
     { value: 'slope_end', label: 'Slope End' },
     { value: 'human_analyse', label: 'Human Analyse' },
+    { value: 'elevator_door', label: 'Elevator Door' },
+    { value: 'elevator_inside', label: 'Elevator Inside' },
+    { value: 'elevator_exit', label: 'Elevator Exit' },
 ];
+
+const ELEVATOR_PURPOSES = ['elevator_door', 'elevator_inside', 'elevator_exit'];
 
 const PURPOSE_COLORS = {
     none: 'zinc', fire_extinguisher: 'red', gauge_reading: 'blue',
     staircase_start: 'amber', staircase_end: 'amber',
     slope_start: 'purple', slope_end: 'purple', human_analyse: 'emerald',
+    elevator_door: 'indigo', elevator_inside: 'indigo', elevator_exit: 'indigo',
 };
 
 const STATUS_CFG = {
@@ -51,6 +57,15 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
     const [loading, setLoading] = useState(false);
     const [showCreate, setShowCreate] = useState(false);
     const [showSavedPicker, setShowSavedPicker] = useState(false);
+    const [showElevator, setShowElevator] = useState(false);
+    const [elevDoorX, setElevDoorX] = useState('');
+    const [elevDoorY, setElevDoorY] = useState('');
+    const [elevDoorZ, setElevDoorZ] = useState('');
+    const [elevInsideX, setElevInsideX] = useState('');
+    const [elevInsideY, setElevInsideY] = useState('');
+    const [elevFloorDelta, setElevFloorDelta] = useState('3.0');
+    const [elevExitX, setElevExitX] = useState('');
+    const [elevExitY, setElevExitY] = useState('');
 
     const thm = isDark ? 'dark' : 'light';
 
@@ -158,6 +173,42 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
         setShowSavedPicker(false);
     };
 
+    // Compute current floor Z from last elevator_exit in the stack
+    const getCurrentFloorZ = (wps) => {
+        for (let i = wps.length - 1; i >= 0; i--) {
+            if (wps[i].purpose === 'elevator_exit') return wps[i].z;
+        }
+        return parseFloat(homeZ) || 0;
+    };
+
+    const handleAddElevatorSequence = async () => {
+        if (!activeMissionId) return;
+        setLoading(true);
+        try {
+            const curZ = activeMission ? getCurrentFloorZ(activeMission.waypoints || []) : 0;
+            const delta = parseFloat(elevFloorDelta) || 0;
+            const newZ = curZ + delta;
+            // 1. Door front
+            await apiCall(`/missions/${activeMissionId}/waypoints`, 'POST', {
+                name: 'Elevator Door', x: parseFloat(elevDoorX)||0, y: parseFloat(elevDoorY)||0, z: parseFloat(elevDoorZ)||curZ, purpose: 'elevator_door',
+            });
+            // 2. Inside
+            await apiCall(`/missions/${activeMissionId}/waypoints`, 'POST', {
+                name: 'Elevator Inside', x: parseFloat(elevInsideX)||0, y: parseFloat(elevInsideY)||0, z: curZ, purpose: 'elevator_inside',
+            });
+            // 3. Exit on new floor
+            await apiCall(`/missions/${activeMissionId}/waypoints`, 'POST', {
+                name: `Elevator Exit (${delta > 0 ? '+' : ''}${delta}m)`, x: parseFloat(elevExitX)||0, y: parseFloat(elevExitY)||0, z: newZ, purpose: 'elevator_exit',
+            });
+            setShowElevator(false);
+            setElevDoorX(''); setElevDoorY(''); setElevDoorZ('');
+            setElevInsideX(''); setElevInsideY('');
+            setElevFloorDelta('3.0'); setElevExitX(''); setElevExitY('');
+            await fetchMissions();
+        } catch (e) { console.error(e); }
+        setLoading(false);
+    };
+
     const inputCls = `w-full text-xs px-2.5 py-1.5 rounded-lg border bg-transparent focus:outline-none transition-colors ${isDark ? 'border-zinc-700 focus:border-zinc-500 text-white placeholder-zinc-600' : 'border-zinc-300 focus:border-orange-400 text-zinc-800 placeholder-zinc-400'}`;
     const coordCls = `w-full text-[10px] font-mono px-2 py-1.5 rounded border bg-transparent focus:outline-none ${isDark ? 'border-zinc-700 focus:border-zinc-500 text-white' : 'border-zinc-300 focus:border-orange-400 text-zinc-800'}`;
 
@@ -262,23 +313,40 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
                                     </div>
 
                                     {/* Mission waypoints */}
-                                    {wps.map((wp, idx) => (
-                                        <div key={wp.ID} className={`flex items-center gap-2 p-2 group transition-colors ${isDark ? 'hover:bg-white/5 border-t border-white/5' : 'hover:bg-zinc-50 border-t border-zinc-100'}`}>
-                                            <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black shrink-0 ${isDark ? 'bg-zinc-700 text-zinc-300' : 'bg-zinc-200 text-zinc-600'}`}>{idx + 1}</div>
-                                            <div className="flex-1 min-w-0">
-                                                <div className={`text-[11px] font-bold truncate ${isDark ? 'text-zinc-200' : 'text-zinc-700'}`}>{wp.name}</div>
-                                                <div className={`text-[9px] font-mono ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>({wp.x.toFixed(1)}, {wp.y.toFixed(1)}, {wp.z.toFixed(1)})</div>
-                                            </div>
-                                            {wp.purpose && wp.purpose !== 'none' && (
-                                                <span className={`text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full border shrink-0 ${isDark ? `bg-${PURPOSE_COLORS[wp.purpose]}-500/20 text-${PURPOSE_COLORS[wp.purpose]}-400 border-${PURPOSE_COLORS[wp.purpose]}-500/30` : `bg-${PURPOSE_COLORS[wp.purpose]}-50 text-${PURPOSE_COLORS[wp.purpose]}-600 border-${PURPOSE_COLORS[wp.purpose]}-200`}`}>
-                                                    {PURPOSE_OPTIONS.find(p => p.value === wp.purpose)?.label || wp.purpose}
-                                                </span>
-                                            )}
-                                            {canEdit && (
-                                                <button onClick={() => handleDeleteWp(wp.ID)} className="opacity-0 group-hover:opacity-100 p-1 text-red-500 hover:text-red-400"><Trash2 size={11} /></button>
-                                            )}
-                                        </div>
-                                    ))}
+                                    {wps.map((wp, idx) => {
+                                        const isElev = ELEVATOR_PURPOSES.includes(wp.purpose);
+                                        const prevWp = idx > 0 ? wps[idx - 1] : null;
+                                        const showFloorChange = wp.purpose === 'elevator_exit' && prevWp;
+                                        return (
+                                            <React.Fragment key={wp.ID}>
+                                                {showFloorChange && (
+                                                    <div className={`flex items-center gap-2 px-2 py-1 ${isDark ? 'bg-indigo-500/10 border-t border-indigo-500/20' : 'bg-indigo-50 border-t border-indigo-200'}`}>
+                                                        <ArrowUpDown size={9} className={isDark ? 'text-indigo-400' : 'text-indigo-500'} />
+                                                        <span className={`text-[8px] font-black uppercase tracking-wider ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
+                                                            Floor Change → Z: {wp.z.toFixed(1)}m ({wp.z > (prevWp?.z || 0) ? '↑' : '↓'}{Math.abs(wp.z - (prevWp?.z || 0)).toFixed(1)}m)
+                                                        </span>
+                                                    </div>
+                                                )}
+                                                <div className={`flex items-center gap-2 p-2 group transition-colors ${isDark ? 'hover:bg-white/5 border-t border-white/5' : 'hover:bg-zinc-50 border-t border-zinc-100'} ${isElev ? (isDark ? 'bg-indigo-500/5' : 'bg-indigo-50/30') : ''}`}>
+                                                    <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black shrink-0 ${isElev ? 'bg-indigo-500/20 text-indigo-400' : (isDark ? 'bg-zinc-700 text-zinc-300' : 'bg-zinc-200 text-zinc-600')}`}>
+                                                        {isElev ? <ArrowUpDown size={9} /> : idx + 1}
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className={`text-[11px] font-bold truncate ${isElev ? (isDark ? 'text-indigo-300' : 'text-indigo-700') : (isDark ? 'text-zinc-200' : 'text-zinc-700')}`}>{wp.name}</div>
+                                                        <div className={`text-[9px] font-mono ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>({wp.x.toFixed(1)}, {wp.y.toFixed(1)}, {wp.z.toFixed(1)})</div>
+                                                    </div>
+                                                    {wp.purpose && wp.purpose !== 'none' && (
+                                                        <span className={`text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full border shrink-0 ${isElev ? (isDark ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : 'bg-indigo-50 text-indigo-600 border-indigo-200') : (isDark ? 'bg-zinc-700/50 text-zinc-400 border-zinc-600/50' : 'bg-zinc-100 text-zinc-500 border-zinc-200')}`}>
+                                                            {PURPOSE_OPTIONS.find(p => p.value === wp.purpose)?.label || wp.purpose}
+                                                        </span>
+                                                    )}
+                                                    {canEdit && (
+                                                        <button onClick={() => handleDeleteWp(wp.ID)} className="opacity-0 group-hover:opacity-100 p-1 text-red-500 hover:text-red-400"><Trash2 size={11} /></button>
+                                                    )}
+                                                </div>
+                                            </React.Fragment>
+                                        );
+                                    })}
 
                                     {/* Home end */}
                                     <div className={`flex items-center gap-2 p-2 ${isDark ? 'bg-amber-500/5 border-t border-white/5' : 'bg-amber-50/50 border-t border-zinc-100'}`}>
@@ -338,6 +406,69 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
                                             className={`w-full py-1.5 rounded-lg text-[10px] font-bold uppercase flex items-center justify-center gap-1.5 disabled:opacity-30 ${isDark ? 'bg-zinc-700 hover:bg-zinc-600 text-white' : 'bg-orange-500 hover:bg-orange-400 text-white'}`}>
                                             <Plus size={10} /> Add to Stack
                                         </button>
+                                    </div>
+                                )}
+
+                                {/* Add Elevator Sequence */}
+                                {canEdit && (
+                                    <div className={`mt-2 rounded-lg border ${isDark ? 'bg-indigo-500/5 border-indigo-500/20' : 'bg-indigo-50/50 border-indigo-200'}`}>
+                                        <button onClick={() => setShowElevator(!showElevator)}
+                                            className={`w-full p-2.5 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
+                                            <span className="flex items-center gap-1.5"><ArrowUpDown size={10} /> Add Elevator Sequence</span>
+                                            {showElevator ? <ChevronDown size={10} /> : <ChevronRight size={10} />}
+                                        </button>
+
+                                        {showElevator && (
+                                            <div className="px-2.5 pb-2.5 space-y-2">
+                                                {/* Door Front */}
+                                                <div>
+                                                    <div className={`text-[9px] font-bold uppercase mb-1 ${isDark ? 'text-indigo-300' : 'text-indigo-500'}`}>1. Door Front Position</div>
+                                                    <div className="flex gap-1.5">
+                                                        {[['X', elevDoorX, setElevDoorX], ['Y', elevDoorY, setElevDoorY], ['Z', elevDoorZ, setElevDoorZ]].map(([l,v,s]) => (
+                                                            <div key={l} className="flex-1">
+                                                                <label className={`text-[8px] font-bold ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>{l}</label>
+                                                                <input type="number" step="0.1" value={v} onChange={e => s(e.target.value)} placeholder="0.0" className={coordCls} />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                {/* Inside */}
+                                                <div>
+                                                    <div className={`text-[9px] font-bold uppercase mb-1 ${isDark ? 'text-indigo-300' : 'text-indigo-500'}`}>2. Inside Elevator Position</div>
+                                                    <div className="flex gap-1.5">
+                                                        {[['X', elevInsideX, setElevInsideX], ['Y', elevInsideY, setElevInsideY]].map(([l,v,s]) => (
+                                                            <div key={l} className="flex-1">
+                                                                <label className={`text-[8px] font-bold ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>{l}</label>
+                                                                <input type="number" step="0.1" value={v} onChange={e => s(e.target.value)} placeholder="0.0" className={coordCls} />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                {/* Floor Delta */}
+                                                <div>
+                                                    <div className={`text-[9px] font-bold uppercase mb-1 ${isDark ? 'text-indigo-300' : 'text-indigo-500'}`}>3. Floor Height Change (m)</div>
+                                                    <input type="number" step="0.5" value={elevFloorDelta} onChange={e => setElevFloorDelta(e.target.value)}
+                                                        className={`${coordCls} ${isDark ? 'text-indigo-300' : 'text-indigo-600'}`} placeholder="+3.0 or -3.0" />
+                                                    <div className={`text-[8px] mt-0.5 ${isDark ? 'text-zinc-600' : 'text-zinc-400'}`}>Positive = up, Negative = down</div>
+                                                </div>
+                                                {/* Exit Door */}
+                                                <div>
+                                                    <div className={`text-[9px] font-bold uppercase mb-1 ${isDark ? 'text-indigo-300' : 'text-indigo-500'}`}>4. Exit Door Position (new floor)</div>
+                                                    <div className="flex gap-1.5">
+                                                        {[['X', elevExitX, setElevExitX], ['Y', elevExitY, setElevExitY]].map(([l,v,s]) => (
+                                                            <div key={l} className="flex-1">
+                                                                <label className={`text-[8px] font-bold ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>{l}</label>
+                                                                <input type="number" step="0.1" value={v} onChange={e => s(e.target.value)} placeholder="0.0" className={coordCls} />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <button onClick={handleAddElevatorSequence} disabled={loading}
+                                                    className={`w-full py-1.5 rounded-lg text-[10px] font-bold uppercase flex items-center justify-center gap-1.5 disabled:opacity-30 ${isDark ? 'bg-indigo-600 hover:bg-indigo-500 text-white' : 'bg-indigo-500 hover:bg-indigo-400 text-white'}`}>
+                                                    <ArrowUpDown size={10} /> Add Elevator to Stack
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
 
