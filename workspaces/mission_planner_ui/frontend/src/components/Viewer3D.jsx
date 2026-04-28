@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Line, Html } from '@react-three/drei';
+import { OrbitControls, Line, Html, CatmullRomLine } from '@react-three/drei';
 import * as THREE from 'three';
-import { ChevronDown, ChevronRight, ChevronLeft, Video, MapPin, Sliders, Settings, Sun, Moon, Layout, ArrowUp, User as UserIcon, Satellite, Flag, CloudSun, Clock, Battery, Navigation } from 'lucide-react';
+import { ChevronDown, ChevronRight, ChevronLeft, Video, MapPin, Sliders, Settings, Sun, Moon, Layout, ArrowUp, User as UserIcon, Satellite, Flag, CloudSun, Clock, Battery, Navigation, Home } from 'lucide-react';
 import MissionPlanner from './MissionPlanner';
 
 // --- Configuration ---
@@ -690,6 +690,11 @@ const Viewer3D = ({ onBack, onLogout }) => {
     const [currentTheme, setCurrentTheme] = useState('dark');
     const [pathLength, setPathLength] = useState(0.0);
     const [profilePic, setProfilePic] = useState(null);
+    const [missionWaypoints, setMissionWaypoints] = useState([]);
+    const [missionStatus, setMissionStatus] = useState(null);
+
+    const handleMissionWaypointsChange = useCallback((pts) => setMissionWaypoints(pts), []);
+    const handleMissionStatusChange = useCallback((s) => setMissionStatus(s), []);
 
     const controlsRef = useRef();
     const prevViewRef = useRef(null);
@@ -984,15 +989,13 @@ const Viewer3D = ({ onBack, onLogout }) => {
                     </div>
 
                     <div className="flex-1 overflow-y-auto">
-                        {/* Control Module */}
-                        <SidebarCategory title="Teleoperation" icon={Sliders} defaultOpen={true} theme={theme}>
-                            <div className="p-4 text-xs text-zinc-500 text-center italic">
-                                Use the Map to Navigate
-                            </div>
+                        {/* Mission Planner — PRIMARY */}
+                        <SidebarCategory title="Mission Planner" icon={Navigation} defaultOpen={true} theme={theme}>
+                            <MissionPlanner isDark={isDark} selectedPoint={selectedPoint} onClearSelectedPoint={() => setSelectedPoint(null)} savedLocations={waypoints} onMissionWaypointsChange={handleMissionWaypointsChange} onStatusChange={handleMissionStatusChange} />
                         </SidebarCategory>
 
-                        {/* Saved Locations */}
-                        <SidebarCategory title="Saved Locations" icon={MapPin} defaultOpen={true} theme={theme}>
+                        {/* Saved Locations — collapsed */}
+                        <SidebarCategory title="Saved Locations" icon={MapPin} defaultOpen={false} theme={theme}>
                             <div className={`border rounded-lg overflow-hidden ${isDark ? 'bg-zinc-800/50 border-white/5' : 'bg-white border-zinc-200'}`}>
                                 {(!waypoints || waypoints.length === 0) ? (
                                     <div className="p-4 text-center text-xs text-zinc-500 font-mono">NO DATA</div>
@@ -1012,13 +1015,15 @@ const Viewer3D = ({ onBack, onLogout }) => {
                             </div>
                         </SidebarCategory>
 
-                        {/* Mission Planner */}
-                        <SidebarCategory title="Mission Planner" icon={Navigation} defaultOpen={true} theme={theme}>
-                            <MissionPlanner isDark={isDark} selectedPoint={selectedPoint} onClearSelectedPoint={() => setSelectedPoint(null)} />
+                        {/* Teleoperation — collapsed */}
+                        <SidebarCategory title="Teleoperation" icon={Sliders} defaultOpen={false} theme={theme}>
+                            <div className="p-4 text-xs text-zinc-500 text-center italic">
+                                Use the Map to Navigate
+                            </div>
                         </SidebarCategory>
 
-                        {/* System Control (was User Settings) */}
-                        <SidebarCategory title="System Control" icon={Settings} theme={theme} defaultOpen={true}>
+                        {/* System Control — collapsed */}
+                        <SidebarCategory title="System Control" icon={Settings} theme={theme} defaultOpen={false}>
                             <div className="flex flex-col gap-4">
                                 <button
                                     onClick={onLogout}
@@ -1118,6 +1123,34 @@ const Viewer3D = ({ onBack, onLogout }) => {
                         <CameraFeed />
                     </div>
 
+                    {/* Mission Status HUD */}
+                    {missionStatus && (missionStatus.status === 'running' || missionStatus.status === 'mapping') && (
+                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 pointer-events-none animate-in fade-in slide-in-from-top-4 duration-500">
+                            <div className={`flex items-center gap-3 px-5 py-2.5 rounded-xl border backdrop-blur-xl shadow-2xl ${
+                                missionStatus.status === 'running'
+                                    ? isDark ? 'bg-blue-500/10 border-blue-500/30 text-blue-300' : 'bg-blue-50/90 border-blue-300 text-blue-700'
+                                    : isDark ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300' : 'bg-cyan-50/90 border-cyan-300 text-cyan-700'
+                            }`}>
+                                <div className={`w-3 h-3 rounded-full animate-pulse shadow-lg ${
+                                    missionStatus.status === 'running' ? 'bg-blue-500 shadow-blue-500/50' : 'bg-cyan-500 shadow-cyan-500/50'
+                                }`}></div>
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">
+                                        {missionStatus.status === 'running' ? 'MISSION ACTIVE' : 'MAPPING ACTIVE'}
+                                    </span>
+                                    <span className="text-xs font-bold">{missionStatus.name}</span>
+                                </div>
+                                <div className={`text-[9px] font-mono px-2 py-0.5 rounded-full border ${
+                                    missionStatus.status === 'running'
+                                        ? isDark ? 'border-blue-500/30 bg-blue-500/10' : 'border-blue-300 bg-blue-100'
+                                        : isDark ? 'border-cyan-500/30 bg-cyan-500/10' : 'border-cyan-300 bg-cyan-100'
+                                }`}>
+                                    {missionStatus.status === 'running' ? 'EXECUTING' : 'RECORDING'}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     <Canvas camera={{ position: [5, 5, 5], fov: 50 }} dpr={[1, 2]} shadows>
                         <color attach="background" args={[theme.bg]} />
                         <fog attach="fog" args={[theme.bg, 50, 300]} />
@@ -1136,6 +1169,37 @@ const Viewer3D = ({ onBack, onLogout }) => {
                                 onPathUpdate={(path) => setPathLength(calculatePathLength(path))}
                             />
                             {waypoints.map((wp, i) => <WaypointMarker key={i} index={i} isCompleted={i < 2 && waypoints.length > 2} wp={wp} onClick={handleNavigate} theme={theme} />)}
+
+                            {/* Mission Waypoint Spline */}
+                            {missionWaypoints.length >= 2 && (
+                                <>
+                                    <CatmullRomLine
+                                        points={missionWaypoints.map(p => [p.x, p.y, p.z])}
+                                        color={isDark ? '#38bdf8' : '#0ea5e9'}
+                                        lineWidth={3}
+                                        segments={64}
+                                        curveType="catmullrom"
+                                        tension={0.5}
+                                    />
+                                    {missionWaypoints.map((wp, i) => (
+                                        <group key={`mwp-${i}`} position={[wp.x, wp.y, wp.z]}>
+                                            <mesh>
+                                                <sphereGeometry args={[wp.purpose === 'home' ? 0.2 : 0.15]} />
+                                                <meshBasicMaterial color={wp.purpose === 'home' ? '#f59e0b' : '#38bdf8'} transparent opacity={0.8} />
+                                            </mesh>
+                                            <Html position={[0, 0, 0.35]} center distanceFactor={18} style={{ pointerEvents: 'none' }}>
+                                                <div className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider whitespace-nowrap border backdrop-blur-md shadow-lg ${
+                                                    wp.purpose === 'home'
+                                                        ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                                                        : 'bg-sky-500/20 text-sky-300 border-sky-500/30'
+                                                }`}>
+                                                    {wp.purpose === 'home' ? '🏠 HOME' : `${i}. ${wp.name}`}
+                                                </div>
+                                            </Html>
+                                        </group>
+                                    ))}
+                                </>
+                            )}
 
 
                             {selectedPoint && (
