@@ -592,28 +592,28 @@ const DashboardMetrics = ({ theme }) => {
     };
 
     return (
-        <div className={`p-4 border-t flex flex-col gap-4 font-mono ${theme.panelBorder} ${isDark ? 'text-zinc-300' : 'text-zinc-600'}`}>
-            <div className="flex items-center gap-4">
-                <Satellite size={20} className={isDark ? "text-zinc-400" : "text-zinc-500"} />
-                <span className="text-xl font-medium tracking-widest">{mqttRate}</span>
+        <div className={`p-2 border-t flex flex-row items-center justify-between font-mono ${theme.panelBorder} ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+            <div className="flex items-center gap-2" title="Signal Rate">
+                <Satellite size={14} />
+                <span className="text-xs font-bold tracking-tighter">{mqttRate}</span>
             </div>
 
-            <div className="flex items-center gap-4">
-                <Flag size={20} className={isDark ? "text-zinc-400" : "text-zinc-500"} />
-                <div className="flex items-baseline gap-1.5">
-                    <span className="text-xl font-medium tracking-widest">{speed.toFixed(1)}</span>
-                    <span className="text-sm">m/s</span>
+            <div className="flex items-center gap-2" title="Current Speed">
+                <Flag size={14} />
+                <div className="flex items-baseline gap-0.5">
+                    <span className="text-xs font-bold tracking-tighter">{speed.toFixed(1)}</span>
+                    <span className="text-[10px]">m/s</span>
                 </div>
             </div>
 
-            <div className="flex items-center gap-4">
-                <CloudSun size={20} className={isDark ? "text-zinc-400" : "text-zinc-500"} />
-                <span className="text-xl font-medium tracking-widest">{weather.temp}°</span>
+            <div className="flex items-center gap-2" title="Temperature">
+                <CloudSun size={14} />
+                <span className="text-xs font-bold tracking-tighter">{weather.temp}°</span>
             </div>
 
-            <div className="flex items-center gap-4 pt-2 mt-2 border-t border-dashed border-zinc-500/30">
-                <Clock size={16} className={isDark ? "text-zinc-500" : "text-zinc-400"} />
-                <span className="text-sm font-bold tracking-widest">{formatTime(time)}</span>
+            <div className="flex items-center gap-2 pl-2 border-l border-zinc-500/20" title="Time">
+                <Clock size={12} />
+                <span className="text-[10px] font-bold tracking-tighter">{formatTime(time)}</span>
             </div>
         </div>
     );
@@ -876,27 +876,17 @@ const Viewer3D = ({ onBack, onLogout }) => {
                 <aside className={`w-80 z-10 flex flex-col shadow-2xl transition-colors duration-300 border-r ${theme.panel} ${theme.panelBorder}`}>
 
                     {/* Top User Profile Block */}
-                    <div className={`p-6 border-b relative flex flex-col items-center justify-center ${theme.panelBorder}`}>
-                        <button
-                            className={`absolute top-4 right-4 p-1.5 rounded transition-all ${isDark ? 'text-zinc-400 hover:text-white hover:bg-white/10' : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'}`}
-                            onClick={() => {
-                                setNewName(displayName || username);
-                                setIsEditingName(!isEditingName);
-                            }}
-                        >
-                            <Settings size={18} />
-                        </button>
-
-                        <div className="relative group cursor-pointer mb-3" onClick={() => document.getElementById('profileUpload').click()}>
-                            <div className={`w-20 h-20 rounded-full overflow-hidden border-2 flex items-center justify-center shrink-0 shadow-lg ${isDark ? 'border-zinc-600 bg-zinc-800' : 'border-zinc-300 bg-zinc-200'}`}>
+                    <div className={`p-3 border-b relative flex items-center gap-3 ${theme.panelBorder}`}>
+                        <div className="relative group cursor-pointer" onClick={() => document.getElementById('profileUpload').click()}>
+                            <div className={`w-10 h-10 rounded-full overflow-hidden border flex items-center justify-center shrink-0 shadow-sm ${isDark ? 'border-zinc-700 bg-zinc-800' : 'border-zinc-300 bg-zinc-200'}`}>
                                 {profilePic ? (
                                     <img src={profilePic} alt="Profile" className="w-full h-full object-cover" />
                                 ) : (
-                                    <UserIcon size={32} className={isDark ? "text-zinc-600" : "text-zinc-400"} />
+                                    <UserIcon size={16} className={isDark ? "text-zinc-600" : "text-zinc-400"} />
                                 )}
                             </div>
                             <div className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                                <span className="text-[10px] font-bold text-white uppercase text-center leading-tight">Change<br />Pic</span>
+                                <span className="text-[8px] font-bold text-white uppercase text-center leading-tight">Edit</span>
                             </div>
                             <input
                                 type="file"
@@ -955,37 +945,53 @@ const Viewer3D = ({ onBack, onLogout }) => {
                             />
                         </div>
 
-                        {isEditingName ? (
-                            <div className="flex flex-col items-center w-full px-4 mb-2">
-                                <input
-                                    type="text"
-                                    value={newName}
-                                    onChange={(e) => setNewName(e.target.value)}
-                                    className={`w-full text-center text-sm font-bold uppercase tracking-wider bg-transparent border-b outline-none pb-1 ${isDark ? 'text-white border-zinc-500' : 'text-zinc-800 border-orange-500'}`}
-                                    autoFocus
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') handleUpdateName();
-                                        if (e.key === 'Escape') setIsEditingName(false);
-                                    }}
-                                />
-                                <div className="flex gap-2 mt-2">
-                                    <button onClick={handleUpdateName} className={`text-[10px] px-2 py-1 rounded font-bold text-white ${isDark ? 'bg-zinc-700 hover:bg-zinc-600' : 'bg-orange-500 hover:bg-orange-400'}`}>SAVE</button>
-                                    <button onClick={() => setIsEditingName(false)} className={`text-[10px] px-2 py-1 rounded font-bold ${isDark ? 'bg-zinc-800 hover:bg-zinc-600 text-zinc-300' : 'bg-zinc-200 hover:bg-zinc-300 text-zinc-800'}`}>CANCEL</button>
+                        <div className="flex-1 min-w-0">
+                            {isEditingName ? (
+                                <div className="flex flex-col w-full">
+                                    <input
+                                        type="text"
+                                        value={newName}
+                                        onChange={(e) => setNewName(e.target.value)}
+                                        className={`w-full text-xs font-bold uppercase tracking-wider bg-transparent border-b outline-none ${isDark ? 'text-white border-zinc-500' : 'text-zinc-800 border-orange-500'}`}
+                                        autoFocus
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') handleUpdateName();
+                                            if (e.key === 'Escape') setIsEditingName(false);
+                                        }}
+                                    />
+                                    <div className="flex gap-1 mt-1">
+                                        <button onClick={handleUpdateName} className={`text-[8px] px-1.5 py-0.5 rounded font-bold text-white ${isDark ? 'bg-zinc-700 hover:bg-zinc-600' : 'bg-orange-500 hover:bg-orange-400'}`}>OK</button>
+                                        <button onClick={() => setIsEditingName(false)} className={`text-[8px] px-1.5 py-0.5 rounded font-bold ${isDark ? 'bg-zinc-800 hover:bg-zinc-600 text-zinc-300' : 'bg-zinc-200 hover:bg-zinc-300 text-zinc-800'}`}>X</button>
+                                    </div>
                                 </div>
-                            </div>
-                        ) : (
-                            <h2 className={`text-sm font-bold uppercase tracking-wider mb-2 ${isDark ? 'text-white' : 'text-zinc-800'}`}>
-                                {displayName || username || 'GUEST USER'}
-                            </h2>
-                        )}
-
-                        <div className={`flex items-center gap-2 px-3 py-1 rounded-full border ${isDark ? 'bg-black/40 border-white/5' : 'bg-zinc-100 border-zinc-200'}`}>
-                            <span className={`text-[10px] font-bold ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>CONNECTED</span>
-                            <div className="flex gap-1">
-                                <div className="w-2 h-2 rounded-full bg-zinc-500 shadow-[0_0_5px_rgba(59,130,246,0.6)]"></div>
-                                <div className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.6)]"></div>
-                            </div>
+                            ) : (
+                                <div className="flex flex-col">
+                                    <h2 
+                                        className={`text-xs font-bold uppercase tracking-wider truncate cursor-pointer hover:underline ${isDark ? 'text-zinc-300' : 'text-zinc-800'}`}
+                                        onClick={() => {
+                                            setNewName(displayName || username);
+                                            setIsEditingName(true);
+                                        }}
+                                    >
+                                        {displayName || username || 'GUEST'}
+                                    </h2>
+                                    <div className="flex items-center gap-1.5 mt-0.5">
+                                        <div className="w-1 h-1 rounded-full bg-green-500 shadow-[0_0_2px_lime]"></div>
+                                        <span className={`text-[9px] font-bold ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>ACTIVE</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
+
+                        <button
+                            className={`p-1 rounded transition-all ${isDark ? 'text-zinc-500 hover:text-white' : 'text-zinc-400 hover:text-zinc-800'}`}
+                            onClick={() => {
+                                setNewName(displayName || username);
+                                setIsEditingName(!isEditingName);
+                            }}
+                        >
+                            <Settings size={14} />
+                        </button>
                     </div>
 
                     <div className="flex-1 overflow-y-auto">
