@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Line, Html } from '@react-three/drei';
 import * as THREE from 'three';
-import { ChevronDown, ChevronRight, ChevronLeft, Video, MapPin, Sliders, Settings, Sun, Moon, Layout, ArrowUp, User as UserIcon, Satellite, Flag, CloudSun, Clock, Battery } from 'lucide-react';
+import { ChevronDown, ChevronRight, ChevronLeft, Video, MapPin, Sliders, Settings, Sun, Moon, Layout, ArrowUp, User as UserIcon, Satellite, Flag, CloudSun, Clock, Battery, Navigation } from 'lucide-react';
+import MissionPlanner from './MissionPlanner';
 
 // --- Configuration ---
 const VOXEL_SIZE = 0.18;
@@ -1009,6 +1010,11 @@ const Viewer3D = ({ onBack, onLogout }) => {
                                     </ul>
                                 )}
                             </div>
+                        </SidebarCategory>
+
+                        {/* Mission Planner */}
+                        <SidebarCategory title="Mission Planner" icon={Navigation} defaultOpen={true} theme={theme}>
+                            <MissionPlanner isDark={isDark} selectedPoint={selectedPoint} onClearSelectedPoint={() => setSelectedPoint(null)} />
                         </SidebarCategory>
 
                         {/* System Control (was User Settings) */}

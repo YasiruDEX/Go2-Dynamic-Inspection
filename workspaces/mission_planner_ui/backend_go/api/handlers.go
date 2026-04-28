@@ -11,6 +11,7 @@ import (
 	"mission_planner_backend/mqttclient"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 // AuthMiddleware protects routes requiring JWT
@@ -243,4 +244,214 @@ func DeleteWaypoint(c *gin.Context) {
 		"status":    "Deleted",
 		"waypoints": updated,
 	})
+}
+
+// --- Mission Planner Handlers ---
+
+// CreateMission creates a new mission
+func CreateMission(c *gin.Context) {
+	var req models.MissionCreateRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	mission := models.Mission{
+		Name:   req.Name,
+		Status: "created",
+	}
+
+	if err := database.DB.Create(&mission).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create mission. Name may already exist."})
+		return
+	}
+
+	c.JSON(http.StatusOK, mission)
+}
+
+// GetMissions returns all missions with their waypoints
+func GetMissions(c *gin.Context) {
+	var missions []models.Mission
+	database.DB.Preload("Waypoints", func(db *gorm.DB) *gorm.DB {
+		return db.Order("\"order\" ASC")
+	}).Order("created_at DESC").Find(&missions)
+	c.JSON(http.StatusOK, missions)
+}
+
+// GetMission returns a single mission with waypoints
+func GetMission(c *gin.Context) {
+	id := c.Param("id")
+	var mission models.Mission
+	if err := database.DB.Preload("Waypoints", func(db *gorm.DB) *gorm.DB {
+		return db.Order("\"order\" ASC")
+	}).First(&mission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Mission not found"})
+		return
+	}
+	c.JSON(http.StatusOK, mission)
+}
+
+// DeleteMission deletes a mission and its waypoints
+func DeleteMission(c *gin.Context) {
+	id := c.Param("id")
+
+	// Delete waypoints first
+	database.DB.Where("mission_id = ?", id).Delete(&models.MissionWaypoint{})
+
+	var mission models.Mission
+	if err := database.DB.First(&mission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Mission not found"})
+		return
+	}
+
+	database.DB.Delete(&mission)
+	c.JSON(http.StatusOK, gin.H{"status": "Mission deleted"})
+}
+
+// AddMissionWaypoint adds an ordered waypoint to a mission
+func AddMissionWaypoint(c *gin.Context) {
+	id := c.Param("id")
+
+	var mission models.Mission
+	if err := database.DB.First(&mission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Mission not found"})
+		return
+	}
+
+	var req models.MissionWaypointCreateRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Determine next order number
+	var maxOrder int
+	database.DB.Model(&models.MissionWaypoint{}).Where("mission_id = ?", mission.ID).Select("COALESCE(MAX(\"order\"), 0)").Scan(&maxOrder)
+
+	purpose := req.Purpose
+	if purpose == "" {
+		purpose = "none"
+	}
+
+	wp := models.MissionWaypoint{
+		MissionID: mission.ID,
+		Order:     maxOrder + 1,
+		Name:      req.Name,
+		X:         req.X,
+		Y:         req.Y,
+		Z:         req.Z,
+		Purpose:   purpose,
+	}
+
+	if err := database.DB.Create(&wp).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to add waypoint"})
+		return
+	}
+
+	// Return updated mission
+	database.DB.Preload("Waypoints", func(db *gorm.DB) *gorm.DB {
+		return db.Order("\"order\" ASC")
+	}).First(&mission, mission.ID)
+	c.JSON(http.StatusOK, mission)
+}
+
+// DeleteMissionWaypoint removes a waypoint from a mission
+func DeleteMissionWaypoint(c *gin.Context) {
+	wpId := c.Param("wpId")
+
+	var wp models.MissionWaypoint
+	if err := database.DB.First(&wp, wpId).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Waypoint not found"})
+		return
+	}
+
+	missionID := wp.MissionID
+	database.DB.Delete(&wp)
+
+	// Return updated mission
+	var mission models.Mission
+	database.DB.Preload("Waypoints", func(db *gorm.DB) *gorm.DB {
+		return db.Order("\"order\" ASC")
+	}).First(&mission, missionID)
+	c.JSON(http.StatusOK, mission)
+}
+
+// StartMission sends MQTT start command and updates mission status
+func StartMission(c *gin.Context) {
+	id := c.Param("id")
+
+	var mission models.Mission
+	if err := database.DB.First(&mission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Mission not found"})
+		return
+	}
+
+	if err := mqttclient.PublishMissionCommand("start", mission.Name); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish MQTT command"})
+		return
+	}
+
+	mission.Status = "running"
+	database.DB.Save(&mission)
+	c.JSON(http.StatusOK, gin.H{"status": "Mission started", "mission": mission})
+}
+
+// TerminateMission sends MQTT terminate command and updates mission status
+func TerminateMission(c *gin.Context) {
+	id := c.Param("id")
+
+	var mission models.Mission
+	if err := database.DB.First(&mission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Mission not found"})
+		return
+	}
+
+	if err := mqttclient.PublishMissionCommand("terminate", mission.Name); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish MQTT command"})
+		return
+	}
+
+	mission.Status = "terminated"
+	database.DB.Save(&mission)
+	c.JSON(http.StatusOK, gin.H{"status": "Mission terminated", "mission": mission})
+}
+
+// StartMapping sends MQTT mapping start command and updates mission status
+func StartMapping(c *gin.Context) {
+	id := c.Param("id")
+
+	var mission models.Mission
+	if err := database.DB.First(&mission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Mission not found"})
+		return
+	}
+
+	if err := mqttclient.PublishMappingCommand("start"); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish MQTT command"})
+		return
+	}
+
+	mission.Status = "mapping"
+	database.DB.Save(&mission)
+	c.JSON(http.StatusOK, gin.H{"status": "Mapping started", "mission": mission})
+}
+
+// StopMapping sends MQTT mapping stop command and updates mission status
+func StopMapping(c *gin.Context) {
+	id := c.Param("id")
+
+	var mission models.Mission
+	if err := database.DB.First(&mission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Mission not found"})
+		return
+	}
+
+	if err := mqttclient.PublishMappingCommand("stop"); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish MQTT command"})
+		return
+	}
+
+	mission.Status = "ready"
+	database.DB.Save(&mission)
+	c.JSON(http.StatusOK, gin.H{"status": "Mapping stopped", "mission": mission})
 }

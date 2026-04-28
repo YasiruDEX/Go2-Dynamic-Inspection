@@ -13,6 +13,40 @@ type User struct {
 	ProfilePic     string `gorm:"type:text"` // Base64 encoded small image
 }
 
+// Mission represents a mission plan in the database
+type Mission struct {
+	gorm.Model
+	Name      string            `gorm:"uniqueIndex;not null" json:"name"`
+	Status    string            `gorm:"default:created" json:"status"` // created, mapping, ready, running, terminated
+	Waypoints []MissionWaypoint `gorm:"foreignKey:MissionID;constraint:OnDelete:CASCADE" json:"waypoints"`
+}
+
+// MissionWaypoint represents an ordered waypoint within a mission
+type MissionWaypoint struct {
+	gorm.Model
+	MissionID uint    `gorm:"not null" json:"mission_id"`
+	Order     int     `gorm:"not null" json:"order"`
+	Name      string  `gorm:"not null" json:"name"`
+	X         float64 `json:"x"`
+	Y         float64 `json:"y"`
+	Z         float64 `json:"z"`
+	Purpose   string  `gorm:"default:none" json:"purpose"` // none, fire_extinguisher, gauge_reading, staircase_start, staircase_end, slope_start, slope_end, human_analyse
+}
+
+// MissionCreateRequest is the request payload for creating a mission
+type MissionCreateRequest struct {
+	Name string `json:"name" binding:"required"`
+}
+
+// MissionWaypointCreateRequest is the request payload for adding a waypoint to a mission
+type MissionWaypointCreateRequest struct {
+	Name    string  `json:"name" binding:"required"`
+	X       float64 `json:"x"`
+	Y       float64 `json:"y"`
+	Z       float64 `json:"z"`
+	Purpose string  `json:"purpose"` // none, fire_extinguisher, gauge_reading, staircase_start, staircase_end, slope_start, slope_end, human_analyse
+}
+
 // UserProfile represents the public-facing user profile
 type UserProfile struct {
 	Username    string `json:"username"`

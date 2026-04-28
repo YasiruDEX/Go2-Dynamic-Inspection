@@ -62,6 +62,18 @@ func main() {
 		// Profile Endpoints
 		protected.GET("/profile", api.GetProfile)
 		protected.POST("/profile", api.UpdateProfile)
+
+		// Mission Planner Endpoints
+		protected.POST("/missions", api.CreateMission)
+		protected.GET("/missions", api.GetMissions)
+		protected.GET("/missions/:id", api.GetMission)
+		protected.DELETE("/missions/:id", api.DeleteMission)
+		protected.POST("/missions/:id/waypoints", api.AddMissionWaypoint)
+		protected.DELETE("/missions/:id/waypoints/:wpId", api.DeleteMissionWaypoint)
+		protected.POST("/missions/:id/start", api.StartMission)
+		protected.POST("/missions/:id/terminate", api.TerminateMission)
+		protected.POST("/missions/:id/mapping/start", api.StartMapping)
+		protected.POST("/missions/:id/mapping/stop", api.StopMapping)
 	}
 
 	// Server

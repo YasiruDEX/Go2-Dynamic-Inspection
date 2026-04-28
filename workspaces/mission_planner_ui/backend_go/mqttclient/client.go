@@ -123,3 +123,34 @@ func PublishNavigate(req models.GoalRequest) error {
 	token.Wait()
 	return token.Error()
 }
+
+// PublishMissionCommand sends mission start/terminate commands via MQTT
+func PublishMissionCommand(action string, missionName string) error {
+	payload, err := json.Marshal(map[string]string{
+		"action":  action,
+		"mission": missionName,
+	})
+	if err != nil {
+		return err
+	}
+	topic := baseTopic + "/mission"
+	log.Printf("MQTT Publish -> %s: %s", topic, string(payload))
+	token := Client.Publish(topic, 1, false, payload)
+	token.Wait()
+	return token.Error()
+}
+
+// PublishMappingCommand sends mapping start/stop commands via MQTT
+func PublishMappingCommand(action string) error {
+	payload, err := json.Marshal(map[string]string{
+		"action": action,
+	})
+	if err != nil {
+		return err
+	}
+	topic := baseTopic + "/mapping"
+	log.Printf("MQTT Publish -> %s: %s", topic, string(payload))
+	token := Client.Publish(topic, 1, false, payload)
+	token.Wait()
+	return token.Error()
+}
