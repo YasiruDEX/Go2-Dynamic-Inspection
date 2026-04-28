@@ -20,7 +20,7 @@ far_planner:
     
     # Visibility Graph Save/Load
     vgraph_autoload: true  # Automatically load saved graph on startup
-    vgraph_file_path: "/home/yasiru/Documents/Far_planner_test/saved_vgraphs/vgraph_20260421_170425.vgh"
+    vgraph_file_path: "/home/yasiru/Documents/Far_planner_test/saved_vgraphs/vgraph_20260424_152030.vgh"
     vgraph_autosave: false  # Automatically save graph periodically
     vgraph_save_interval: 60.0  # Auto-save interval in seconds (if autosave enabled)
 

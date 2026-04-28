@@ -86,3 +86,7 @@ workspaces/mola_lo/myMap.simplemap
 # MOLA specific
 workspaces/mola_lo/src/mola_test_datasets/
 workspaces/mola_lo/rosbag_01/
+
+/saved_vgraphs
+maps.zip
+workspaces/unitree_sim_ws/src/unitree-go2-ros2/robots/configs/go2_config/worlds/simpleWorld.world

@@ -164,7 +164,8 @@ mm-viewer /home/yasiru/Documents/Far_planner_test/maps/myMap.mm  -l libmola_metr
 /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh foxglove
 /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh 
 /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh terrain
-
+/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh dlio
+/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh far
 
 #MAPPING ACTION SERVERS
 /home/yasiru/Documents/Far_planner_test/scripts/launch_mapping_nodes.sh
@@ -354,3 +355,14 @@ start_robot() {
 cd workspaces/tare_planner/
 source install/setup.bash 
 ros2 launch tare_planner explore.launch 
+
+
+
+
+cd workspaces/local_planner_linear/
+source install/setup.bash 
+ros2 launch local_planner local_planner.launch 
+
+
+
+ros2 service call /resume_visibility_graph_update std_srvs/srv/Trigger {}

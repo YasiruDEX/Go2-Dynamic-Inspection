@@ -20,7 +20,7 @@ def generate_launch_description():
 
     # Set default arguments
     rviz = LaunchConfiguration('rviz', default='true')
-    pointcloud_topic = LaunchConfiguration('pointcloud_topic', default='/points_raw_decoded')
+    pointcloud_topic = LaunchConfiguration('pointcloud_topic', default='/livox/lidar')
     imu_topic = LaunchConfiguration('imu_topic', default='/livox/imu')
     # 'true'  -> DLIO starts immediately with the launch
     # 'false' -> only the manager node starts; use the /dlio/enable service to start DLIO later
