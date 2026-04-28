@@ -1,0 +1,7 @@
+# Request: gait type index
+# 0=Idle  1=Trot  2=Run  3=Stair  4=Sport
+int32 gait_type
+---
+# Response
+bool success
+string message

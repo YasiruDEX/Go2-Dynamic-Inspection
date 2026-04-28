@@ -1,0 +1,7 @@
+# Request: LED color index
+# 0=WHITE  1=RED  2=YELLOW  3=BLUE  4=GREEN  5=CYAN  6=PURPLE
+int32 color_index
+---
+# Response
+bool success
+string message

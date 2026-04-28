@@ -1,0 +1,8 @@
+# Request: desired pose
+# true  = StandUp
+# false = StandDown
+bool stand_up
+---
+# Response
+bool success
+string message

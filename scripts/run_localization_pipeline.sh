@@ -24,21 +24,6 @@ usage() {
     echo "  all-active               Same as 'all' but start localization active and play default bag"
 }
 
-run_localization() {
-    local active="$1"
-    export MOLA_LO_PUBLISH_DESKEWED_SCANS=true
-    cd "$HOME/ros2_mola_ws"
-    ros2 launch mola_lidar_odometry ros2-lidar-odometry.launch.py \
-        start_active:="$active" \
-        publish_localization_following_rep105:=False \
-        start_mapping_enabled:=False \
-        lidar_topic_name:="/livox/lidar" \
-        imu_topic_name:="/livox/imu" \
-        mola_tf_base_link:="base_link" \
-        mola_deskew_method:="MotionCompensationMethod::IMU" \
-        mola_initial_map_mm_file:="/home/yasiru/Documents/Far_planner_test/maps/Inspection/myMap.mm"
-}
-
 # run_localization() {
 #     local active="$1"
 #     export MOLA_LO_PUBLISH_DESKEWED_SCANS=true
@@ -47,12 +32,29 @@ run_localization() {
 #         start_active:="$active" \
 #         publish_localization_following_rep105:=False \
 #         start_mapping_enabled:=False \
-#         lidar_topic_name:="/points_raw_decoded" \
+#         lidar_topic_name:="/livox/lidar" \
 #         imu_topic_name:="/livox/imu" \
 #         mola_tf_base_link:="base_link" \
 #         mola_deskew_method:="MotionCompensationMethod::IMU" \
 #         mola_initial_map_mm_file:="/home/yasiru/Documents/Far_planner_test/maps/Inspection/myMap.mm"
 # }
+
+
+
+run_localization() {
+    local active="$1"
+    export MOLA_LO_PUBLISH_DESKEWED_SCANS=true
+    cd "$HOME/ros2_mola_ws"
+    ros2 launch mola_lidar_odometry ros2-lidar-odometry.launch.py \
+        start_active:="$active" \
+        publish_localization_following_rep105:=False \
+        start_mapping_enabled:=False \
+        lidar_topic_name:="/points_raw_decoded" \
+        imu_topic_name:="/livox/imu" \
+        mola_tf_base_link:="base_link" \
+        mola_deskew_method:="MotionCompensationMethod::IMU" \
+        mola_initial_map_mm_file:="/home/yasiru/Documents/Far_planner_test/maps/vision_lab/myMap.mm"
+}
 
 run_tf() {
     ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 base_link livox_frame

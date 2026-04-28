@@ -366,3 +366,21 @@ ros2 launch local_planner local_planner.launch
 
 
 ros2 service call /resume_visibility_graph_update std_srvs/srv/Trigger {}
+
+
+
+
+
+ros2 service call /set_gait go2_interfaces/srv/SetGait "{gait_type: 1}" 
+
+response: go2_interfaces.srv.SetGait_Response(success=True, message='Gait switch to type 1 dispatched') 
+
+ros2 service call /set_led go2_interfaces/srv/SetLed "{color_index: 3}" 
+
+response: go2_interfaces.srv.SetLed_Response(success=True, message='LED colour set to BLUE') 
+
+ros2 service call /set_pose go2_interfaces/srv/SetPose "{stand_up: true}" 
+ros2 service call /set_pose go2_interfaces/srv/SetPose "{stand_up: false}" 
+
+
+response: go2_interfaces.srv.SetPose_Response(success=True, message="Pose command 'StandUp' dispatched successfully")
