@@ -1,9 +1,7 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
-	"os"
 
 	"mission_planner_backend/auth"
 	"mission_planner_backend/database"
@@ -175,29 +173,14 @@ func Navigate(c *gin.Context) {
 	})
 }
 
-const waypointsFile = "waypoints.json"
-
-// GetWaypoints reads from JSON config
+// GetWaypoints reads saved waypoints from the database
 func GetWaypoints(c *gin.Context) {
-	if _, err := os.Stat(waypointsFile); os.IsNotExist(err) {
-		c.JSON(http.StatusOK, make([]models.Waypoint, 0))
-		return
-	}
-
-	file, err := os.ReadFile(waypointsFile)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read waypoints"})
-		return
-	}
-
-	var waypoints []models.Waypoint
-	if err := json.Unmarshal(file, &waypoints); err != nil {
-		waypoints = make([]models.Waypoint, 0)
-	}
+	var waypoints []models.SavedWaypoint
+	database.DB.Order("created_at ASC").Find(&waypoints)
 	c.JSON(http.StatusOK, waypoints)
 }
 
-// SaveWaypoint adds to JSON config
+// SaveWaypoint adds a saved waypoint to the database
 func SaveWaypoint(c *gin.Context) {
 	var wp models.Waypoint
 	if err := c.ShouldBindJSON(&wp); err != nil {
@@ -205,44 +188,41 @@ func SaveWaypoint(c *gin.Context) {
 		return
 	}
 
-	var waypoints []models.Waypoint
-	if file, err := os.ReadFile(waypointsFile); err == nil {
-		json.Unmarshal(file, &waypoints)
+	saved := models.SavedWaypoint{
+		Name: wp.Name,
+		X:    wp.X,
+		Y:    wp.Y,
+		Z:    wp.Z,
 	}
 
-	waypoints = append(waypoints, wp)
+	if err := database.DB.Create(&saved).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save waypoint. Name may already exist."})
+		return
+	}
 
-	fileData, _ := json.Marshal(waypoints)
-	os.WriteFile(waypointsFile, fileData, 0644)
-
+	var waypoints []models.SavedWaypoint
+	database.DB.Order("created_at ASC").Find(&waypoints)
 	c.JSON(http.StatusOK, gin.H{
 		"status":    "Saved",
 		"waypoints": waypoints,
 	})
 }
 
-// DeleteWaypoint removes from JSON config
+// DeleteWaypoint removes a saved waypoint from the database
 func DeleteWaypoint(c *gin.Context) {
 	name := c.Param("name")
 
-	var waypoints []models.Waypoint
-	if file, err := os.ReadFile(waypointsFile); err == nil {
-		json.Unmarshal(file, &waypoints)
+	result := database.DB.Where("name = ?", name).Delete(&models.SavedWaypoint{})
+	if result.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Waypoint not found"})
+		return
 	}
 
-	var updated []models.Waypoint
-	for _, w := range waypoints {
-		if w.Name != name {
-			updated = append(updated, w)
-		}
-	}
-
-	fileData, _ := json.Marshal(updated)
-	os.WriteFile(waypointsFile, fileData, 0644)
-
+	var waypoints []models.SavedWaypoint
+	database.DB.Order("created_at ASC").Find(&waypoints)
 	c.JSON(http.StatusOK, gin.H{
 		"status":    "Deleted",
-		"waypoints": updated,
+		"waypoints": waypoints,
 	})
 }
 

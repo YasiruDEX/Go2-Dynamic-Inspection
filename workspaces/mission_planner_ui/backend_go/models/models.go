@@ -81,6 +81,15 @@ type Waypoint struct {
 	Z    float64 `json:"z" binding:"required"`
 }
 
+// SavedWaypoint is the GORM model for saved locations in the database
+type SavedWaypoint struct {
+	gorm.Model
+	Name string  `gorm:"uniqueIndex;not null" json:"name"`
+	X    float64 `json:"x"`
+	Y    float64 `json:"y"`
+	Z    float64 `json:"z"`
+}
+
 // TFAxis defines rotation or translation
 type TFAxis struct {
 	X float64 `json:"x"`

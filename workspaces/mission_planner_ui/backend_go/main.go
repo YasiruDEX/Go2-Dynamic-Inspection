@@ -14,8 +14,10 @@ import (
 )
 
 func main() {
-	if err := godotenv.Load("../backend/.env"); err != nil {
-		log.Println("No .env file found in parent directory, proceeding with environment variables")
+	if err := godotenv.Load(); err != nil {
+		if err2 := godotenv.Load("../backend/.env"); err2 != nil {
+			log.Println("No .env file found, proceeding with environment variables")
+		}
 	}
 
 	// Init Singletons
