@@ -286,9 +286,6 @@ void FARMaster::Init() {
   if (is_pending_graph_load_ && !pending_graph_load_path_.empty()) {
     RCLCPP_WARN(nh_->get_logger(), "=== VGRAPH: Loading graph immediately from: %s ===", pending_graph_load_path_.c_str());
     this->LoadVisibilityGraph(pending_graph_load_path_);
-  // Clear parameter to avoid accidental re-triggering via /load_visibility_graph
-  // (e.g., from RViz panel or launch-time calls). Autoload already consumed it.
-  (void)nh_->set_parameter(rclcpp::Parameter("vgraph_file_path", std::string("")));
     is_pending_graph_load_ = false;
     pending_graph_load_path_ = "";
   }
