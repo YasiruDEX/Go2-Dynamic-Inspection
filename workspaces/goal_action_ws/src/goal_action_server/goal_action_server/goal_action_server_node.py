@@ -92,73 +92,161 @@ class GoalActionServer(Node):
         target_y = target_point_msg.point.y
         target_z = target_point_msg.point.z
         target_heading = goal_handle.request.goal_heading
+        is_walking = goal_handle.request.is_walking
         
         # Publish the goal to /goal_point topic as requested
         if not target_point_msg.header.frame_id:
             target_point_msg.header.frame_id = 'map'
         
         self.goal_publisher.publish(target_point_msg)
-        self.get_logger().info(f'Published goal to /goal_point: x={target_x}, y={target_y}, z={target_z}, heading={target_heading}')
+        self.get_logger().info(f'Published goal to /goal_point: x={target_x}, y={target_y}, z={target_z}, heading={target_heading}, is_walking={is_walking}')
         
         feedback_msg = NavigateToGoal.Feedback()
         
-        # --- Phase 1: Wait to reach the position ---
-        self.set_local_planner_state(True)
-        while rclpy.ok():
-            if goal_handle.is_cancel_requested:
-                goal_handle.canceled()
-                self.get_logger().info('Goal canceled.')
-                result = NavigateToGoal.Result()
-                result.success = False
-                result.message = "Goal canceled"
-                return result
-            
-            if self.current_pose is None:
-                self.get_logger().info('Waiting for odometry...', throttle_duration_sec=2.0)
-                time.sleep(0.1)
-                continue
-            
-            curr_x = self.current_pose.position.x
-            curr_y = self.current_pose.position.y
-            curr_z = self.current_pose.position.z
-            
-            dx = curr_x - target_x
-            dy = curr_y - target_y
-            dz = curr_z - target_z
-            distance = math.sqrt(dx**2 + dy**2 + dz**2)
-            
-            self.get_logger().info(f'Distance to goal: {distance:.2f} meters', throttle_duration_sec=1.0)
-            
-            feedback_msg.distance_remaining = distance
-            goal_handle.publish_feedback(feedback_msg)
-            
-            if distance < 1.0:
-                self.get_logger().info('Goal position reached (distance < 0.8m).')
-                break
-            
-            time.sleep(0.1)
-
-        # --- Phase 2: Wait until stationary ---
-        self.get_logger().info('Waiting for robot to be stationary...')
-        while rclpy.ok():
-            if goal_handle.is_cancel_requested:
-                goal_handle.canceled()
-                result = NavigateToGoal.Result()
-                result.success = False
-                return result
-            
-            if len(self.pose_history) == 15:
-                xs = [p[0] for p in self.pose_history]
-                ys = [p[1] for p in self.pose_history]
-                max_dx =  max(xs) - min(xs)
-                max_dy = max(ys) - min(ys)
+        if is_walking:
+            # --- Phase 1: Wait to reach the position ---
+            self.set_local_planner_state(True)
+            while rclpy.ok():
+                if goal_handle.is_cancel_requested:
+                    goal_handle.canceled()
+                    self.get_logger().info('Goal canceled.')
+                    result = NavigateToGoal.Result()
+                    result.success = False
+                    result.message = "Goal canceled"
+                    return result
                 
-                if max_dx < 0.05 and max_dy < 0.05:
-                    self.get_logger().info('Robot is stationary.')
-                    self.set_local_planner_state(False)
+                if self.current_pose is None:
+                    self.get_logger().info('Waiting for odometry...', throttle_duration_sec=2.0)
+                    time.sleep(0.1)
+                    continue
+                
+                curr_x = self.current_pose.position.x
+                curr_y = self.current_pose.position.y
+                curr_z = self.current_pose.position.z
+                
+                dx = curr_x - target_x
+                dy = curr_y - target_y
+                dz = curr_z - target_z
+                distance = math.sqrt(dx**2 + dy**2 + dz**2)
+                
+                self.get_logger().info(f'Distance to goal: {distance:.2f} meters', throttle_duration_sec=1.0)
+                
+                feedback_msg.distance_remaining = distance
+                goal_handle.publish_feedback(feedback_msg)
+                
+                if distance < 1.0:
+                    self.get_logger().info('Goal position reached (distance < 1.0m).')
                     break
+                
+                time.sleep(0.1)
+
+            # --- Phase 2: Wait until stationary ---
+            self.get_logger().info('Waiting for robot to be stationary...')
+            while rclpy.ok():
+                if goal_handle.is_cancel_requested:
+                    goal_handle.canceled()
+                    result = NavigateToGoal.Result()
+                    result.success = False
+                    return result
+                
+                if len(self.pose_history) == 15:
+                    xs = [p[0] for p in self.pose_history]
+                    ys = [p[1] for p in self.pose_history]
+                    max_dx =  max(xs) - min(xs)
+                    max_dy = max(ys) - min(ys)
+                    
+                    if max_dx < 0.05 and max_dy < 0.05:
+                        self.get_logger().info('Robot is stationary.')
+                        self.set_local_planner_state(False)
+                        break
+                
+                time.sleep(0.1)
+        else:
+            # --- Alternative Phase 1 & 2: Direct PID control ---
+            self.get_logger().info('is_walking is false. Using direct PID control to reach position.')
             
-            time.sleep(0.1)
+            prev_dist_err = 0.0
+            integral_dist = 0.0
+            
+            kp_dist = 0.5
+            ki_dist = 0.0
+            kd_dist = 0.1
+            kp_heading = 0.8
+            dt = 0.1
+            twist_msg = Twist()
+            
+            while rclpy.ok():
+                if goal_handle.is_cancel_requested:
+                    twist_msg.linear.x = 0.0
+                    twist_msg.angular.z = 0.0
+                    self.cmd_vel_publisher.publish(twist_msg)
+                    goal_handle.canceled()
+                    self.get_logger().info('Goal canceled.')
+                    result = NavigateToGoal.Result()
+                    result.success = False
+                    result.message = "Goal canceled"
+                    return result
+                
+                if self.current_pose is None:
+                    self.get_logger().info('Waiting for odometry...', throttle_duration_sec=2.0)
+                    time.sleep(0.1)
+                    continue
+                
+                curr_x = self.current_pose.position.x
+                curr_y = self.current_pose.position.y
+                
+                dx = target_x - curr_x
+                dy = target_y - curr_y
+                distance = math.sqrt(dx**2 + dy**2)
+                
+                target_angle = math.atan2(dy, dx)
+                current_yaw = get_yaw_from_quaternion(self.current_pose.orientation)
+                
+                heading_err = target_angle - current_yaw
+                # Normalize to [-pi, pi]
+                while heading_err > math.pi: heading_err -= 2 * math.pi
+                while heading_err < -math.pi: heading_err += 2 * math.pi
+                
+                self.get_logger().info(f'Distance to goal: {distance:.2f} meters, heading err: {math.degrees(heading_err):.2f} deg', throttle_duration_sec=1.0)
+                
+                feedback_msg.distance_remaining = distance
+                goal_handle.publish_feedback(feedback_msg)
+                
+                if distance < 1.0:
+                    self.get_logger().info('Goal position reached (distance < 1.0m) using PID.')
+                    twist_msg.linear.x = 0.0
+                    twist_msg.angular.z = 0.0
+                    self.cmd_vel_publisher.publish(twist_msg)
+                    break
+                
+                # PID for distance
+                integral_dist += distance * dt
+                derivative_dist = (distance - prev_dist_err) / dt
+                prev_dist_err = distance
+                
+                linear_vel = kp_dist * distance + ki_dist * integral_dist + kd_dist * derivative_dist
+                # clamp linear velocity
+                max_lin_vel = 0.5
+                linear_vel = max(min(linear_vel, max_lin_vel), -max_lin_vel)
+                
+                # P for heading
+                angular_vel = kp_heading * heading_err
+                max_ang_vel = 0.5
+                angular_vel = max(min(angular_vel, max_ang_vel), -max_ang_vel)
+                
+                # Prevent driving forward if severely misaligned
+                if abs(heading_err) > math.radians(45.0):
+                    linear_vel = 0.0
+                    
+                twist_msg.linear.x = linear_vel
+                twist_msg.linear.y = 0.0
+                twist_msg.linear.z = 0.0
+                twist_msg.angular.x = 0.0
+                twist_msg.angular.y = 0.0
+                twist_msg.angular.z = angular_vel
+                self.cmd_vel_publisher.publish(twist_msg)
+                
+                time.sleep(dt)
             
         # --- Phase 3: Heading Correction ---
         self.get_logger().info('Starting heading correction...')

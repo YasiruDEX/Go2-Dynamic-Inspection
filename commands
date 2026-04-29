@@ -541,3 +541,5 @@ ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateTo
 cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
 source install/setup.bash
 ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 0.4090111255645752, y: -0.8622617721557617, z: 0.0}}, goal_heading: 2.6}"
+
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 5.0, y: 5.0, z: 0.0}}, goal_heading: 0.0, is_walking: false}"

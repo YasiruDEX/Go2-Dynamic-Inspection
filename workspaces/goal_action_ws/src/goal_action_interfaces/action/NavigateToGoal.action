@@ -1,6 +1,7 @@
 # Request
 geometry_msgs/PointStamped goal_point
 float32 goal_heading
+bool is_walking
 ---
 # Result
 bool success
