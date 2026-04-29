@@ -5,10 +5,15 @@ from rclpy.node import Node
 from rclpy.action import ActionServer
 from rclpy.action.server import ServerGoalHandle
 
-from geometry_msgs.msg import PointStamped
+from geometry_msgs.msg import PointStamped, Twist
 from nav_msgs.msg import Odometry
 
 from goal_action_interfaces.action import NavigateToGoal
+
+def get_yaw_from_quaternion(q):
+    t3 = +2.0 * (q.w * q.z + q.x * q.y)
+    t4 = +1.0 - 2.0 * (q.y * q.y + q.z * q.z)
+    return math.atan2(t3, t4)
 
 
 class GoalActionServer(Node):
@@ -22,8 +27,16 @@ class GoalActionServer(Node):
             10
         )
         
+        # Publisher for the velocity
+        self.cmd_vel_publisher = self.create_publisher(
+            Twist,
+            '/cmd_vel',
+            10
+        )
+        
         # Odometry subscriber
         self.current_pose = None
+        self.pose_history = []
         self.odom_subscriber = self.create_subscription(
             Odometry,
             '/lidar_odometry/pose',
@@ -43,6 +56,9 @@ class GoalActionServer(Node):
 
     def odom_callback(self, msg: Odometry):
         self.current_pose = msg.pose.pose
+        self.pose_history.append((self.current_pose.position.x, self.current_pose.position.y))
+        if len(self.pose_history) > 15: # 1.5 seconds at 10Hz
+            self.pose_history.pop(0)
 
     def execute_callback(self, goal_handle: ServerGoalHandle):
         self.get_logger().info('Received goal request.')
@@ -52,19 +68,18 @@ class GoalActionServer(Node):
         target_x = target_point_msg.point.x
         target_y = target_point_msg.point.y
         target_z = target_point_msg.point.z
+        target_heading = goal_handle.request.goal_heading
         
         # Publish the goal to /goal_point topic as requested
-        # Ensure frame_id is 'map'
         if not target_point_msg.header.frame_id:
             target_point_msg.header.frame_id = 'map'
         
         self.goal_publisher.publish(target_point_msg)
-        self.get_logger().info(f'Published goal to /goal_point: x={target_x}, y={target_y}, z={target_z}')
+        self.get_logger().info(f'Published goal to /goal_point: x={target_x}, y={target_y}, z={target_z}, heading={target_heading}')
         
         feedback_msg = NavigateToGoal.Feedback()
         
-        rate = self.create_rate(10) # 10 Hz loop
-        
+        # --- Phase 1: Wait to reach the position ---
         while rclpy.ok():
             if goal_handle.is_cancel_requested:
                 goal_handle.canceled()
@@ -79,7 +94,6 @@ class GoalActionServer(Node):
                 time.sleep(0.1)
                 continue
             
-            # Calculate vector distance
             curr_x = self.current_pose.position.x
             curr_y = self.current_pose.position.y
             curr_z = self.current_pose.position.z
@@ -87,29 +101,85 @@ class GoalActionServer(Node):
             dx = curr_x - target_x
             dy = curr_y - target_y
             dz = curr_z - target_z
-            
             distance = math.sqrt(dx**2 + dy**2 + dz**2)
             
             feedback_msg.distance_remaining = distance
             goal_handle.publish_feedback(feedback_msg)
             
-            self.get_logger().info(f'Distance to goal: {distance:.2f}m', throttle_duration_sec=1.0)
-            
-            # Check success condition
             if distance < 0.8:
-                self.get_logger().info('Goal reached (distance < 0.8m)!')
-                goal_handle.succeed()
-                
+                self.get_logger().info('Goal position reached (distance < 0.8m).')
+                break
+            
+            time.sleep(0.1)
+
+        # --- Phase 2: Wait until stationary ---
+        self.get_logger().info('Waiting for robot to be stationary...')
+        while rclpy.ok():
+            if goal_handle.is_cancel_requested:
+                goal_handle.canceled()
                 result = NavigateToGoal.Result()
-                result.success = True
-                result.message = "Goal successfully reached."
+                result.success = False
                 return result
             
-            time.sleep(0.1) # sleep instead of rate.sleep() in action callbacks unless using multithreading
-            # Note: in Python Action Server, execute_callback is run in a separate thread if using MultiThreadedExecutor,
-            # but default is SingleThreadedExecutor where time.sleep() might block other callbacks.
-            # However, rclpy action servers by default execute the callback in a separate thread, so time.sleep is fine.
-            # Actually, starting in recent rclpy versions, action callbacks run in a thread pool.
+            if len(self.pose_history) == 15:
+                xs = [p[0] for p in self.pose_history]
+                ys = [p[1] for p in self.pose_history]
+                max_dx = max(xs) - min(xs)
+                max_dy = max(ys) - min(ys)
+                
+                if max_dx < 0.05 and max_dy < 0.05:
+                    self.get_logger().info('Robot is stationary.')
+                    break
+            
+            time.sleep(0.1)
+            
+        # --- Phase 3: Heading Correction ---
+        self.get_logger().info('Starting heading correction...')
+        twist_msg = Twist()
+        
+        while rclpy.ok():
+            if goal_handle.is_cancel_requested:
+                twist_msg.angular.z = 0.0
+                self.cmd_vel_publisher.publish(twist_msg)
+                goal_handle.canceled()
+                result = NavigateToGoal.Result()
+                result.success = False
+                return result
+
+            current_yaw = get_yaw_from_quaternion(self.current_pose.orientation)
+            
+            # Shortest angular distance
+            heading_err = target_heading - current_yaw
+            # Normalize to [-pi, pi]
+            while heading_err > math.pi: heading_err -= 2 * math.pi
+            while heading_err < -math.pi: heading_err += 2 * math.pi
+            
+            feedback_msg.heading_remaining = heading_err
+            goal_handle.publish_feedback(feedback_msg)
+            
+            if abs(heading_err) < math.radians(10.0):
+                self.get_logger().info('Heading aligned (error < 10 degrees).')
+                twist_msg.angular.z = 0.0
+                self.cmd_vel_publisher.publish(twist_msg)
+                break
+                
+            # Proportional control for rotation
+            kp = 0.5
+            angular_z = kp * heading_err
+            # Clamp angular velocity
+            max_ang_vel = 0.5
+            twist_msg.angular.z = max(min(angular_z, max_ang_vel), -max_ang_vel)
+            self.cmd_vel_publisher.publish(twist_msg)
+            
+            time.sleep(0.1)
+            
+        # --- Success ---
+        goal_handle.succeed()
+        result = NavigateToGoal.Result()
+        result.success = True
+        result.message = "Goal successfully reached and aligned."
+        return result
+
 
 
 def main(args=None):

@@ -15,6 +15,7 @@
 #include <std_msgs/msg/float32.hpp>
 #include <std_msgs/msg/bool.hpp>
 #include <nav_msgs/msg/path.hpp>
+#include <std_srvs/srv/set_bool.hpp>
 
 #include <geometry_msgs/msg/twist_stamped.hpp>
 #include <geometry_msgs/msg/point_stamped.hpp>
@@ -137,6 +138,20 @@ bool pathYawInit = false;
 
 pcl::VoxelGrid<pcl::PointXYZI> laserDwzFilter, terrainDwzFilter;
 rclcpp::Node::SharedPtr nh;
+
+bool plannerEnabled = true;
+
+void enablePlannerHandler(const std::shared_ptr<std_srvs::srv::SetBool::Request> req,
+                          std::shared_ptr<std_srvs::srv::SetBool::Response> res)
+{
+  plannerEnabled = req->data;
+  res->success = true;
+  if (plannerEnabled) {
+    res->message = "Local planner enabled";
+  } else {
+    res->message = "Local planner disabled";
+  }
+}
 
 void odometryHandler(const nav_msgs::msg::Odometry::ConstSharedPtr odom)
 {
@@ -613,6 +628,8 @@ int main(int argc, char** argv)
   auto pubPath = nh->create_publisher<nav_msgs::msg::Path>("/path", 5);
   nav_msgs::msg::Path path;
 
+  auto srvEnablePlanner = nh->create_service<std_srvs::srv::SetBool>("/enable_local_planner", enablePlannerHandler);
+
   #if PLOTPATHSET == 1
   auto pubFreePaths = nh->create_publisher<sensor_msgs::msg::PointCloud2>("/free_paths", 2);
   #endif
@@ -662,6 +679,12 @@ int main(int argc, char** argv)
 
     RCLCPP_INFO_THROTTLE(nh->get_logger(), *nh->get_clock(), 3000, "DEBUG mainloop: newLaser=%d, newTerrain=%d, useTerrainAnalysis=%d, vX=%.2f, vY=%.2f, goalX=%.2f, goalY=%.2f, joySpeed=%.2f, joyDir=%.2f", 
                 newLaserCloud, newTerrainCloud, useTerrainAnalysis, vehicleX, vehicleY, goalX, goalY, joySpeed, joyDir);
+
+    if (!plannerEnabled) {
+      status = rclcpp::ok();
+      rate.sleep();
+      continue;
+    }
 
     if (newLaserCloud || newTerrainCloud) {
       if (newLaserCloud) {

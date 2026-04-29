@@ -395,3 +395,10 @@ ros2 run goal_action_server goal_action_server_node
 
 source /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws/install/setup.bash
 ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 6.190845489501953, y: -11.066904067993164, z: -3.0}}}"
+
+
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 3.0533738136291504, y: -17.78563690185547, z: 0.0}}, goal_heading: 1.57}"
+
+
+ros2 service call /enable_local_planner std_srvs/srv/SetBool "{data: false}" # to disable
+ros2 service call /enable_local_planner std_srvs/srv/SetBool "{data: true}"  # to enable
