@@ -6,6 +6,9 @@ log/
 **/install/
 **/log/
 
+
+.env
+
 # But keep important log folder in vehicle_simulator
 !workspaces/autonomous_exploration/src/vehicle_simulator/log/
 !workspaces/autonomous_exploration/src/vehicle_simulator/log/**

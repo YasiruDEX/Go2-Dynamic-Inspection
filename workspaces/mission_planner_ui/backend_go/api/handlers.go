@@ -598,11 +598,16 @@ Here is the current mission data context:
 	geminiURL := fmt.Sprintf("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=%s", apiKey)
 
 	geminiReq := map[string]interface{}{
+		"systemInstruction": map[string]interface{}{
+			"parts": []map[string]string{
+				{"text": systemPrompt},
+			},
+		},
 		"contents": []map[string]interface{}{
 			{
 				"role": "user",
 				"parts": []map[string]string{
-					{"text": systemPrompt + "\n\nUser question: " + req.Message},
+					{"text": req.Message},
 				},
 			},
 		},
@@ -615,7 +620,7 @@ Here is the current mission data context:
 	jsonBody, _ := json.Marshal(geminiReq)
 	resp, err := http.Post(geminiURL, "application/json", bytes.NewBuffer(jsonBody))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to call Gemini API"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Failed to call Gemini API: %v", err)})
 		return
 	}
 	defer resp.Body.Close()
@@ -623,18 +628,36 @@ Here is the current mission data context:
 	body, _ := io.ReadAll(resp.Body)
 
 	var geminiResp map[string]interface{}
-	json.Unmarshal(body, &geminiResp)
+	if err := json.Unmarshal(body, &geminiResp); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid response from Gemini API"})
+		return
+	}
 
-	// Extract text from Gemini response
-	reply := "I couldn't generate a response. Please check your API key."
+	// Check for API-level error
+	if apiErr, ok := geminiResp["error"].(map[string]interface{}); ok {
+		msg, _ := apiErr["message"].(string)
+		c.JSON(http.StatusOK, gin.H{"reply": fmt.Sprintf("Gemini API error: %s", msg)})
+		return
+	}
+
+	// Extract text from candidates
+	reply := ""
 	if candidates, ok := geminiResp["candidates"].([]interface{}); ok && len(candidates) > 0 {
-		if content, ok := candidates[0].(map[string]interface{})["content"].(map[string]interface{}); ok {
+		candidate := candidates[0].(map[string]interface{})
+		// Check finish reason
+		if reason, ok := candidate["finishReason"].(string); ok && reason == "SAFETY" {
+			reply = "Response was blocked by safety filters. Please rephrase your question."
+		} else if content, ok := candidate["content"].(map[string]interface{}); ok {
 			if parts, ok := content["parts"].([]interface{}); ok && len(parts) > 0 {
 				if text, ok := parts[0].(map[string]interface{})["text"].(string); ok {
 					reply = text
 				}
 			}
 		}
+	}
+
+	if reply == "" {
+		reply = "No response generated. The model may have filtered the content."
 	}
 
 	c.JSON(http.StatusOK, gin.H{"reply": reply})
