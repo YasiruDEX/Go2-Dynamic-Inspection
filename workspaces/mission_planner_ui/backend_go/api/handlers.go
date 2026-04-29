@@ -553,6 +553,7 @@ func ChatWithGemini(c *gin.Context) {
 	var contextParts []string
 
 	if req.MissionID > 0 {
+		// Specific mission requested
 		var mission models.Mission
 		database.DB.Preload("Waypoints").First(&mission, req.MissionID)
 		contextParts = append(contextParts, fmt.Sprintf("Mission: %s (ID: %d, Status: %s)", mission.Name, mission.ID, mission.Status))
@@ -572,26 +573,82 @@ func ChatWithGemini(c *gin.Context) {
 				if r.MissionWaypoint.Name != "" {
 					wpName = r.MissionWaypoint.Name
 				}
-				contextParts = append(contextParts, fmt.Sprintf(
-					"- Waypoint: %s | Purpose: %s | Success: %s | Confidence: %.0f%% | Analysis: %s | Image: %s",
-					wpName, r.MissionWaypoint.Purpose, r.Success, r.Confidence*100, r.Analysis, r.ImageURL,
-				))
+				contextParts = append(contextParts,
+					fmt.Sprintf(
+						"- Waypoint: %s | Purpose: %s | Success: %s | Confidence: %.0f%% | Analysis: %s",
+						wpName, r.MissionWaypoint.Purpose, r.Success, r.Confidence*100, r.Analysis,
+					))
 			}
 		} else {
-			contextParts = append(contextParts, "No inspection results found for the specified criteria.")
+			contextParts = append(contextParts, "No inspection results recorded for this date. The user may not have entered results yet.")
 		}
 
-		// Also include available dates
+		// Include all available dates for this mission
 		var dates []string
 		database.DB.Model(&models.MissionResult{}).Where("mission_id = ?", req.MissionID).Distinct("date").Pluck("date", &dates)
 		if len(dates) > 0 {
-			contextParts = append(contextParts, fmt.Sprintf("\nAvailable result dates: %s", strings.Join(dates, ", ")))
+			contextParts = append(contextParts, fmt.Sprintf("\nAll recorded result dates for this mission: %s", strings.Join(dates, ", ")))
+		}
+	} else {
+		// No specific mission — load ALL missions with their most recent results
+		var missions []models.Mission
+		database.DB.Preload("Waypoints").Order("created_at DESC").Find(&missions)
+
+		if len(missions) == 0 {
+			contextParts = append(contextParts, "No missions have been created yet.")
+		} else {
+			contextParts = append(contextParts, fmt.Sprintf("Total missions in the system: %d", len(missions)))
+			for _, m := range missions {
+				contextParts = append(contextParts, fmt.Sprintf("\n== Mission: %s (ID: %d, Status: %s, Waypoints: %d) ==",
+					m.Name, m.ID, m.Status, len(m.Waypoints)))
+
+				// Get the most recent date with results for this mission
+				var latestDate string
+				database.DB.Model(&models.MissionResult{}).Where("mission_id = ?", m.ID).
+					Distinct("date").Order("date DESC").Limit(1).Pluck("date", &latestDate)
+
+				if latestDate == "" {
+					contextParts = append(contextParts, "  No inspection results recorded yet for this mission.")
+					continue
+				}
+
+				contextParts = append(contextParts, fmt.Sprintf("  Most recent inspection date: %s", latestDate))
+
+				var results []models.MissionResult
+				database.DB.Where("mission_id = ? AND date = ?", m.ID, latestDate).Preload("MissionWaypoint").Find(&results)
+
+				for _, r := range results {
+					wpName := r.MissionWaypoint.Name
+					if wpName == "" {
+						wpName = "Unknown"
+					}
+					contextParts = append(contextParts, fmt.Sprintf(
+						"  - Waypoint: %s | Purpose: %s | Result: %s | Confidence: %.0f%% | Analysis: %s",
+						wpName, r.MissionWaypoint.Purpose, r.Success, r.Confidence*100, r.Analysis,
+					))
+				}
+
+				// List all available dates
+				var allDates []string
+				database.DB.Model(&models.MissionResult{}).Where("mission_id = ?", m.ID).Distinct("date").Pluck("date", &allDates)
+				if len(allDates) > 1 {
+					contextParts = append(contextParts, fmt.Sprintf("  All recorded dates: %s", strings.Join(allDates, ", ")))
+				}
+			}
 		}
 	}
 
-	systemPrompt := `You are an expert mission inspection analyst for a robotic dog (Unitree Go2) that performs daily facility inspections. You analyze mission results data and provide insights, summaries, and recommendations. Be concise, professional, and actionable. When discussing results, reference specific waypoints and their outcomes. Use clear language and highlight any failures or low-confidence results that need attention.
+	systemPrompt := `You are an expert mission inspection analyst for a Unitree Go2 quadruped robot that performs daily facility inspections. You have full access to all mission and inspection result data.
 
-Here is the current mission data context:
+Your job:
+- Answer questions about inspection outcomes, specific waypoints, dates, and trends
+- Summarize results clearly: reference waypoint names, success/failure status, confidence levels, and analysis notes
+- Highlight failures or low-confidence readings that need attention
+- Compare results across dates when asked
+- Be concise, professional, and actionable — no vague responses
+- If asked about a specific date or mission not in the context, say so clearly
+
+Here is ALL available mission and inspection data:
 ` + strings.Join(contextParts, "\n")
 
 	// Call Gemini API

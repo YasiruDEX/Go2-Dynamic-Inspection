@@ -26,25 +26,35 @@ const AIChatbot = ({ contextMissionId, contextDate }) => {
     const endRef = useRef(null);
 
     useEffect(() => {
-        apiCall('/missions').then(d => setMissions(d || [])).catch(() => {});
+        apiCall('/missions').then(d => {
+            const list = d || [];
+            setMissions(list);
+            // Auto-select first mission if no context provided
+            if (!contextMissionId && list.length > 0) {
+                setSelectedMission(String(list[0].ID));
+            }
+        }).catch(() => {});
     }, []);
 
     useEffect(() => {
-        if (contextMissionId) setSelectedMission(contextMissionId);
+        if (contextMissionId) setSelectedMission(String(contextMissionId));
         if (contextDate) setSelectedDate(contextDate);
     }, [contextMissionId, contextDate]);
 
     useEffect(() => {
         if (!selectedMission) { setDates([]); return; }
         apiCall(`/missions/${selectedMission}/results/dates`).then(d => {
-            setDates(d || []);
-            if (!selectedDate && d && d.length > 0) setSelectedDate(d[0]);
+            const list = d || [];
+            setDates(list);
+            // Auto-select most recent date
+            if (list.length > 0) setSelectedDate(list[0]);
         }).catch(() => {});
     }, [selectedMission]);
 
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
+
 
     const send = async () => {
         if (!input.trim()) return;
