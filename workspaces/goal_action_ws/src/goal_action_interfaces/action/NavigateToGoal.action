@@ -1,0 +1,9 @@
+# Request
+geometry_msgs/PointStamped goal_point
+---
+# Result
+bool success
+string message
+---
+# Feedback
+float32 distance_remaining
