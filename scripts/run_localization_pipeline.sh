@@ -24,23 +24,6 @@ usage() {
     echo "  all-active               Same as 'all' but start localization active and play default bag"
 }
 
-run_localization() {
-    local active="$1"
-    export MOLA_LO_PUBLISH_DESKEWED_SCANS=true
-    cd "$HOME/ros2_mola_ws"
-    ros2 launch mola_lidar_odometry ros2-lidar-odometry.launch.py \
-        start_active:="$active" \
-        publish_localization_following_rep105:=False \
-        start_mapping_enabled:=False \
-        lidar_topic_name:="/livox/lidar" \
-        imu_topic_name:="/livox/imu" \
-        mola_tf_base_link:="base_link" \
-        mola_deskew_method:="MotionCompensationMethod::IMU" \
-        mola_initial_map_mm_file:="/home/yasiru/Documents/Far_planner_test/maps/Inspection/myMap.mm"
-}
-
-
-
 # run_localization() {
 #     local active="$1"
 #     export MOLA_LO_PUBLISH_DESKEWED_SCANS=true
@@ -49,12 +32,29 @@ run_localization() {
 #         start_active:="$active" \
 #         publish_localization_following_rep105:=False \
 #         start_mapping_enabled:=False \
-#         lidar_topic_name:="/points_raw_decoded" \
+#         lidar_topic_name:="/livox/lidar" \
 #         imu_topic_name:="/livox/imu" \
 #         mola_tf_base_link:="base_link" \
 #         mola_deskew_method:="MotionCompensationMethod::IMU" \
 #         mola_initial_map_mm_file:="/home/yasiru/Documents/Far_planner_test/maps/Inspection/myMap.mm"
 # }
+
+
+
+run_localization() {
+    local active="$1"
+    export MOLA_LO_PUBLISH_DESKEWED_SCANS=true
+    cd "$HOME/ros2_mola_ws"
+    ros2 launch mola_lidar_odometry ros2-lidar-odometry.launch.py \
+        start_active:="$active" \
+        publish_localization_following_rep105:=False \
+        start_mapping_enabled:=False \
+        lidar_topic_name:="/points_raw_decoded" \
+        imu_topic_name:="/livox/imu" \
+        mola_tf_base_link:="base_link" \
+        mola_deskew_method:="MotionCompensationMethod::IMU" \
+        mola_initial_map_mm_file:="/home/yasiru/Documents/Far_planner_test/maps/Inspection/myMap.mm"
+}
 
 run_tf() {
     ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 base_link livox_frame
@@ -99,6 +99,17 @@ run_dlio() {
     cd "$WORKSPACE_ROOT/workspaces/dlio"
     source install/setup.bash
     ros2 launch direct_lidar_inertial_odometry dlio_mapping.launch.py start_dlio:=false
+}
+
+run_localization_trigger() {
+    source ~/Documents/Far_planner_test/workspaces/localization_trigger_ws/install/setup.bash
+    ros2 run localization_trigger_server localization_trigger_server_node
+}
+
+run_goal_action() {
+    cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+    source install/setup.bash
+    ros2 run goal_action_server goal_action_server_node
 }
 
 cleanup() {
@@ -174,8 +185,8 @@ case "$cmd" in
         run_far &
         run_terrain &
         run_terrain_ext &
-        run_local &
         run_rviz &
+        run_localization_trigger &
         wait
         ;;
     all-no-far)

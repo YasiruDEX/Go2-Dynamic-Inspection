@@ -401,6 +401,11 @@ source install/setup.bash
 ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 3.0533738136291504, y: -17.78563690185547, z: 0.0}}, goal_heading: 1.57}"
 
 
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 3.973910093307495, y: -16.693626403808594, z: 0.0}}, goal_heading: 1.57}"
+
+
 ros2 service call /enable_local_planner std_srvs/srv/SetBool "{data: false}" # to disable
 ros2 service call /enable_local_planner std_srvs/srv/SetBool "{data: true}"  # to enable
 
@@ -421,6 +426,8 @@ ros2 launch go2_webrtc_bridge bridge.launch.py robot_ip:=192.168.8.160
 
 
 ros2 service call /resume_visibility_graph_update std_srvs/srv/Trigger {}
+ros2 service call /stop_visibility_graph_update std_srvs/srv/Trigger {}
+
 
 ros2 service call /start_far_planner std_srvs/srv/Trigger {}
 
@@ -444,5 +451,6 @@ source ~/Documents/Far_planner_test/workspaces/localization_trigger_ws/install/s
 ros2 run localization_trigger_server localization_trigger_server_node
 
 
+source ~/Documents/Far_planner_test/workspaces/localization_trigger_ws/install/setup.bash
 ros2 action send_goal -f /toggle_system localization_trigger_interfaces/action/ToggleSystem "{enable: true}"
 ros2 action send_goal -f /toggle_system localization_trigger_interfaces/action/ToggleSystem "{enable: false}"

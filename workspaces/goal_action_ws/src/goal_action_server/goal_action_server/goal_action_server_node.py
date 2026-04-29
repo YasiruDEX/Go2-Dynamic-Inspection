@@ -150,8 +150,8 @@ class GoalActionServer(Node):
             if len(self.pose_history) == 15:
                 xs = [p[0] for p in self.pose_history]
                 ys = [p[1] for p in self.pose_history]
-                max_dx = max(xs) - min(xs)
-                max_dy = max(ys) - min(ys)
+                max_dx = 0 #max(xs) - min(xs)
+                max_dy = 0# max(ys) - min(ys)
                 
                 if max_dx < 0.05 and max_dy < 0.05:
                     self.get_logger().info('Robot is stationary.')
@@ -197,7 +197,12 @@ class GoalActionServer(Node):
             angular_z = kp * heading_err
             # Clamp angular velocity
             max_ang_vel = 0.5
-            twist_msg.angular.z = max(min(angular_z, max_ang_vel), -max_ang_vel)
+            twist_msg.linear.x = 0.0
+            twist_msg.linear.y = 0.0
+            twist_msg.linear.z = 0.0
+            twist_msg.angular.x = 0.0
+            twist_msg.angular.y = 0.0
+            twist_msg.angular.z = 0.5 #max(min(angular_z, max_ang_vel), -max_ang_vel)
             self.cmd_vel_publisher.publish(twist_msg)
             
             time.sleep(0.1)

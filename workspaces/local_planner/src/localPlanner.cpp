@@ -138,6 +138,8 @@ bool pathYawInit = false;
 
 pcl::VoxelGrid<pcl::PointXYZI> laserDwzFilter, terrainDwzFilter;
 rclcpp::Node::SharedPtr nh;
+rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pubPath;
+rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr pubPlannerEnabled;
 
 bool plannerEnabled = false;
 
@@ -150,7 +152,17 @@ void enablePlannerHandler(const std::shared_ptr<std_srvs::srv::SetBool::Request>
     res->message = "Local planner enabled";
   } else {
     res->message = "Local planner disabled";
+    // Publish empty path to stop the robot
+    nav_msgs::msg::Path empty_path;
+    empty_path.header.stamp = nh->now();
+    empty_path.header.frame_id = "map";
+    pubPath->publish(empty_path);
   }
+
+  // Broadcast state to other nodes (like pathFollower)
+  std_msgs::msg::Bool msg;
+  msg.data = plannerEnabled;
+  pubPlannerEnabled->publish(msg);
 }
 
 void odometryHandler(const nav_msgs::msg::Odometry::ConstSharedPtr odom)
@@ -625,7 +637,8 @@ int main(int argc, char** argv)
 
   auto subCheckObstacle = nh->create_subscription<std_msgs::msg::Bool>("/check_obstacle", 5, checkObstacleHandler);
 
-  auto pubPath = nh->create_publisher<nav_msgs::msg::Path>("/path", 5);
+  pubPath = nh->create_publisher<nav_msgs::msg::Path>("/path", 5);
+  pubPlannerEnabled = nh->create_publisher<std_msgs::msg::Bool>("/local_planner_enabled", 5);
   nav_msgs::msg::Path path;
 
   auto srvEnablePlanner = nh->create_service<std_srvs::srv::SetBool>("/enable_local_planner", enablePlannerHandler);

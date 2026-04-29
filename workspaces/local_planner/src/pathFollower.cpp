@@ -111,6 +111,13 @@ bool goalRotationDone = false; // latch: once we reach the target angle, stop pe
 nav_msgs::msg::Path path;
 rclcpp::Node::SharedPtr nh;
 
+bool followerEnabled = false;
+
+void plannerEnabledHandler(const std_msgs::msg::Bool::ConstSharedPtr msg)
+{
+  followerEnabled = msg->data;
+}
+
 void odomHandler(const nav_msgs::msg::Odometry::ConstSharedPtr odomIn)
 {
   odomTime = rclcpp::Time(odomIn->header.stamp).seconds();
@@ -289,6 +296,8 @@ int main(int argc, char** argv)
   // Subscribe to goal pose for orientation target
   auto subGoalPose = nh->create_subscription<geometry_msgs::msg::PoseStamped>("/goal_pose", 5, goalPoseHandler);
 
+  auto subPlannerEnabled = nh->create_subscription<std_msgs::msg::Bool>("/local_planner_enabled", 5, plannerEnabledHandler);
+
   // auto pubSpeed = nh->create_publisher<geometry_msgs::msg::TwistStamped>("/cmd_vel", 5);
 
   auto pubSpeed = nh->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 5);  // Change from TwistStamped
@@ -383,9 +392,11 @@ int main(int argc, char** argv)
 
         pubSkipCount--;
         if (pubSkipCount < 0) {
-          cmd_vel.linear.x = 0;
-          cmd_vel.angular.z = vehicleYawRate;
-          pubSpeed->publish(cmd_vel);
+          if (followerEnabled) {
+            cmd_vel.linear.x = 0;
+            cmd_vel.angular.z = vehicleYawRate;
+            pubSpeed->publish(cmd_vel);
+          }
           pubSkipCount = pubSkipNum;
         }
 
@@ -400,9 +411,11 @@ int main(int argc, char** argv)
 
         pubSkipCount--;
         if (pubSkipCount < 0) {
-          cmd_vel.linear.x = 0;
-          cmd_vel.angular.z = 0;
-          pubSpeed->publish(cmd_vel);
+          if (followerEnabled) {
+            cmd_vel.linear.x = 0;
+            cmd_vel.angular.z = 0;
+            pubSpeed->publish(cmd_vel);
+          }
           pubSkipCount = pubSkipNum;
         }
 
@@ -501,10 +514,12 @@ int main(int argc, char** argv)
 
         pubSkipCount--;
         if (pubSkipCount < 0) {
-          if (fabs(vehicleSpeed) <= maxAccel / 100.0) cmd_vel.linear.x = 0; 
-          else cmd_vel.linear.x = vehicleSpeed;  
-          cmd_vel.angular.z = vehicleYawRate;  
-          pubSpeed->publish(cmd_vel);
+          if (followerEnabled) {
+            if (fabs(vehicleSpeed) <= maxAccel / 100.0) cmd_vel.linear.x = 0; 
+            else cmd_vel.linear.x = vehicleSpeed;  
+            cmd_vel.angular.z = vehicleYawRate;  
+            pubSpeed->publish(cmd_vel);
+          }
 
           RCLCPP_INFO_THROTTLE(nh->get_logger(), *nh->get_clock(), 1000, "Vel: %.2f, Yaw: %.2f, JoyS: %.2f, Auto: %d, Safe: %d, Path: %d", 
                       vehicleSpeed, vehicleYawRate, joySpeed, autonomyMode, safetyStop, pathInit);
