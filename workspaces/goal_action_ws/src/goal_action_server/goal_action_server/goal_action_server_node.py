@@ -127,6 +127,8 @@ class GoalActionServer(Node):
             dz = curr_z - target_z
             distance = math.sqrt(dx**2 + dy**2 + dz**2)
             
+            self.get_logger().info(f'Distance to goal: {distance:.2f} meters', throttle_duration_sec=1.0)
+            
             feedback_msg.distance_remaining = distance
             goal_handle.publish_feedback(feedback_msg)
             
@@ -182,7 +184,7 @@ class GoalActionServer(Node):
             feedback_msg.heading_remaining = heading_err
             goal_handle.publish_feedback(feedback_msg)
             
-            self.get_logger().info(f'Heading error: {math.degrees(heading_err):.2f} degrees', throttle_duration_sec=1.0)
+            self.get_logger().info(f'Heading angle correction: {math.degrees(heading_err):.2f} degrees', throttle_duration_sec=1.0)
             
             if abs(heading_err) < math.radians(10.0):
                 self.get_logger().info('Heading aligned (error < 10 degrees).')

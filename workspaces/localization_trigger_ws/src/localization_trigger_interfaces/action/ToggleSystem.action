@@ -1,0 +1,6 @@
+bool enable
+---
+bool success
+string message
+---
+string current_state
