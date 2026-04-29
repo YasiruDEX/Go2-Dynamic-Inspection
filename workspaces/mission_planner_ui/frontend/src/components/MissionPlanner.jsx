@@ -32,12 +32,13 @@ const STATUS_CFG = {
     terminated: { dark: 'bg-red-500/20 text-red-400', light: 'bg-red-50 text-red-600', label: 'TERMINATED' },
 };
 
+import { API_BASE } from '../lib/config'
+
 const apiCall = async (path, method = 'GET', body = null) => {
     const token = localStorage.getItem('auth_token');
-    const HOST = window.location.hostname;
     const opts = { method, headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` } };
     if (body) opts.body = JSON.stringify(body);
-    const res = await fetch(`http://${HOST}:8000${path}`, opts);
+    const res = await fetch(`${API_BASE}${path}`, opts);
     if (!res.ok) throw new Error(`API error: ${res.status}`);
     return res.json();
 };

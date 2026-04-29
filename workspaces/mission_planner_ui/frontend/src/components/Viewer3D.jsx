@@ -4,6 +4,9 @@ import { OrbitControls, Line, Html, CatmullRomLine } from '@react-three/drei';
 import * as THREE from 'three';
 import { ChevronDown, ChevronRight, ChevronLeft, Video, MapPin, Sliders, Settings, Sun, Moon, Layout, ArrowUp, User as UserIcon, Satellite, Flag, CloudSun, Clock, Battery, Navigation, Home } from 'lucide-react';
 import MissionPlanner from './MissionPlanner';
+import { API_BASE } from '../lib/config'
+
+const WS_BASE = API_BASE.replace(/^http/, 'ws');
 
 // --- Configuration ---
 const VOXEL_SIZE = 0.18;
@@ -453,8 +456,7 @@ const CameraFeed = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
-        const HOST = window.location.hostname;
-        const ws = new WebSocket(`ws://${HOST}:8000/ws/video?token=${token}`);
+                const ws = new WebSocket(`${WS_BASE}/ws/video?token=${token}`);
         ws.onmessage = (event) => {
             setImageSrc(`data:image/jpeg;base64,${event.data}`);
         };
@@ -703,12 +705,12 @@ const Viewer3D = ({ onBack, onLogout }) => {
     const isDark = currentTheme === 'dark';
 
     useEffect(() => {
-        const fetchWps = () => {
+        const fetchWps = async () => {
             const token = localStorage.getItem('auth_token');
-            const HOST = window.location.hostname;
 
             // Fetch Waypoints
-            fetch(`http://${HOST}:8000/waypoints`, {
+            const { API_BASE } = await import('../lib/config');
+            fetch(`${API_BASE}/waypoints`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             }).then(res => {
                 if (res.ok) return res.json();
@@ -716,7 +718,7 @@ const Viewer3D = ({ onBack, onLogout }) => {
             }).then(data => setWaypoints(data || [])).catch(e => console.error(e));
 
             // Fetch Profile Picture and DisplayName
-            fetch(`http://${HOST}:8000/profile`, {
+            fetch(`${API_BASE}/profile`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             }).then(res => {
                 if (res.ok) return res.json();
@@ -739,8 +741,7 @@ const Viewer3D = ({ onBack, onLogout }) => {
             return;
         }
         const token = localStorage.getItem('auth_token');
-        const HOST = window.location.hostname;
-        fetch(`http://${HOST}:8000/profile`, {
+        fetch(`${API_BASE}/profile`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -783,8 +784,7 @@ const Viewer3D = ({ onBack, onLogout }) => {
 
     const handleNavigate = (point) => {
         const token = localStorage.getItem('auth_token');
-        const HOST = window.location.hostname;
-        fetch(`http://${HOST}:8000/navigate`, {
+        fetch(`${API_BASE}/navigate`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -797,8 +797,7 @@ const Viewer3D = ({ onBack, onLogout }) => {
     const handleSaveWaypoint = () => {
         if (!selectedPoint || !wpName) return;
         const token = localStorage.getItem('auth_token');
-        const HOST = window.location.hostname;
-        fetch(`http://${HOST}:8000/waypoints`, {
+        fetch(`${API_BASE}/waypoints`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -814,8 +813,7 @@ const Viewer3D = ({ onBack, onLogout }) => {
 
     const handleDeleteWaypoint = (name) => {
         const token = localStorage.getItem('auth_token');
-        const HOST = window.location.hostname;
-        fetch(`http://${HOST}:8000/waypoints/${name}`, {
+        fetch(`${API_BASE}/waypoints/${name}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         }).then(res => res.json()).then(data => setWaypoints(data.waypoints || []));
@@ -927,8 +925,7 @@ const Viewer3D = ({ onBack, onLogout }) => {
                                             setProfilePic(dataUrl);
 
                                             const token = localStorage.getItem('auth_token');
-                                            const HOST = window.location.hostname;
-                                            fetch(`http://${HOST}:8000/profile`, {
+                                            fetch(`${API_BASE}/profile`, {
                                                 method: 'POST',
                                                 headers: {
                                                     'Content-Type': 'application/json',
@@ -1169,9 +1166,9 @@ const Viewer3D = ({ onBack, onLogout }) => {
                         <axesHelper args={[2]} />
 
                         <group rotation={[-Math.PI / 2, 0, 0]}>
-                            <VoxelCloud url={`ws://${window.location.hostname}:8000/ws/points`} brightness={pointCloudBrightness} />
+                            <VoxelCloud url={`${WS_BASE}/ws/points`} brightness={pointCloudBrightness} />
                             <DataVisualizer
-                                url={`ws://${window.location.hostname}:8000/ws/tf`}
+                                url={`${WS_BASE}/ws/tf`}
                                 onPathUpdate={(path) => setPathLength(calculatePathLength(path))}
                             />
                             {waypoints.map((wp, i) => <WaypointMarker key={i} index={i} isCompleted={i < 2 && waypoints.length > 2} wp={wp} onClick={handleNavigate} theme={theme} />)}

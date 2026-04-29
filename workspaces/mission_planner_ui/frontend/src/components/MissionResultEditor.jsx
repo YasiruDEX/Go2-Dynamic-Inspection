@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Save, Check, X, Calendar, Image, ChevronRight, Layers, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
+import { API_BASE } from '../lib/config'
+
 const apiCall = async (path, method = 'GET', body = null) => {
     const token = localStorage.getItem('auth_token');
-    const HOST = window.location.hostname;
     const opts = { method, headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` } };
     if (body) opts.body = JSON.stringify(body);
-    const res = await fetch(`http://${HOST}:8000${path}`, opts);
+    const res = await fetch(`${API_BASE}${path}`, opts);
     if (!res.ok) throw new Error(`API error: ${res.status}`);
     return res.json();
 };
