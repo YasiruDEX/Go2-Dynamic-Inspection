@@ -7,7 +7,7 @@ WORKSPACE_ROOT="$(dirname "$SCRIPT_DIR")"
 source "$SCRIPT_DIR/source_workspaces.sh"
 
 usage() {
-    echo "Usage: $0 [localization|localization-active|tf|bag|terrain|terrain-ext|far|local|foxglove|all|all-active]"
+    echo "Usage: $0 [localization|localization-active|tf|bag|terrain|terrain-ext|far|local|foxglove|dog|all|all-active]"
     echo ""
     echo "Commands:"
     echo "  localization             Run MOLA localization (start_active:=False)"
@@ -19,6 +19,7 @@ usage() {
     echo "  far                      Launch far_planner"
     echo "  local                    Launch local_planner"
     echo "  foxglove                 Start Foxglove bridge node"
+    echo "  dog                      Start Go2 WebRTC bridge"
     echo "  dlio                     Launch DLIO odometry and mapping (start_dlio:=false)"
     echo "  all                      Launch localization + terrain + terrain-ext + far + local + tf + foxglove"
     echo "  all-active               Same as 'all' but start localization active and play default bag"
@@ -90,7 +91,7 @@ run_foxglove() {
 }
 
 run_rviz() {
-    cd "$WORKSPACE_ROOT/workspaces/far_planner"
+    cd "$WORKSPACE_ROOT/workspaces/far_planner_updated"
     source install/setup.bash
     rviz2 -d /home/yasiru/Downloads/far_planner.rviz
 }
@@ -110,6 +111,12 @@ run_goal_action() {
     cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
     source install/setup.bash
     ros2 run goal_action_server goal_action_server_node
+}
+
+run_dog() {
+    cd "$WORKSPACE_ROOT/workspaces/go2_webrtc_bridge"
+    source install/setup.bash
+    ros2 launch go2_webrtc_bridge bridge.launch.py robot_ip:=192.168.8.160
 }
 
 cleanup() {
@@ -132,6 +139,9 @@ case "$cmd" in
         ;;
     foxglove)
         run_foxglove
+        ;;
+    dog)
+        run_dog
         ;;
     bag)
         run_bag "$2"

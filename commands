@@ -420,15 +420,15 @@ ros2 launch go2_webrtc_bridge bridge.launch.py robot_ip:=192.168.8.160
 /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh all-real
 /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh local
 /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh terrain
+/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh dog
+
 # /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh foxglove
 # /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh dlio
 # /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh far
 
-
+#far planner
 ros2 service call /resume_visibility_graph_update std_srvs/srv/Trigger {}
 ros2 service call /stop_visibility_graph_update std_srvs/srv/Trigger {}
-
-
 ros2 service call /start_far_planner std_srvs/srv/Trigger {}
 
 
