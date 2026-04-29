@@ -595,7 +595,7 @@ Here is the current mission data context:
 ` + strings.Join(contextParts, "\n")
 
 	// Call Gemini API
-	geminiURL := fmt.Sprintf("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=%s", apiKey)
+	geminiURL := fmt.Sprintf("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=%s", apiKey)
 
 	geminiReq := map[string]interface{}{
 		"systemInstruction": map[string]interface{}{

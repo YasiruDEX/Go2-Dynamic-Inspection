@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, CatmullRomLine, Html } from '@react-three/drei';
 import { ArrowLeft, Calendar, MessageCircle, Send, X as XIcon, CheckCircle, XCircle, Bot } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 const apiCall = async (path, method = 'GET', body = null) => {
     const token = localStorage.getItem('auth_token');
@@ -265,8 +266,12 @@ const MissionResultViewer = ({ onBack }) => {
                             )}
                             {chatMessages.map((msg, i) => (
                                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[85%] px-3 py-2 rounded-xl text-xs leading-relaxed ${msg.role === 'user' ? 'bg-sky-600 text-white rounded-br-sm' : 'bg-zinc-800 text-zinc-300 rounded-bl-sm'}`}>
-                                        {msg.text.split('\n').map((line, j) => <p key={j} className={j > 0 ? 'mt-1' : ''}>{line}</p>)}
+                                    <div className={`max-w-[85%] px-3 py-2 rounded-xl text-xs leading-relaxed overflow-hidden ${msg.role === 'user' ? 'bg-sky-600 text-white rounded-br-sm' : 'bg-zinc-800 text-zinc-300 rounded-bl-sm [&_p]:mb-2 [&_p:last-child]:mb-0 [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_li]:mb-1 [&_strong]:text-white'}`}>
+                                        {msg.role === 'user' ? (
+                                            msg.text.split('\n').map((line, j) => <p key={j} className={j > 0 ? 'mt-1' : ''}>{line}</p>)
+                                        ) : (
+                                            <ReactMarkdown>{msg.text}</ReactMarkdown>
+                                        )}
                                     </div>
                                 </div>
                             ))}
