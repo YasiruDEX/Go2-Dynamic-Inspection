@@ -1,7 +1,13 @@
 package api
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
+	"os"
+	"strings"
 
 	"mission_planner_backend/auth"
 	"mission_planner_backend/database"
@@ -434,4 +440,202 @@ func StopMapping(c *gin.Context) {
 	mission.Status = "ready"
 	database.DB.Save(&mission)
 	c.JSON(http.StatusOK, gin.H{"status": "Mapping stopped", "mission": mission})
+}
+
+// --- Mission Result Handlers ---
+
+// GetMissionResults returns results for a mission, optionally filtered by date
+func GetMissionResults(c *gin.Context) {
+	id := c.Param("id")
+	date := c.Query("date")
+
+	query := database.DB.Where("mission_id = ?", id).Preload("MissionWaypoint")
+	if date != "" {
+		query = query.Where("date = ?", date)
+	}
+
+	var results []models.MissionResult
+	query.Order("mission_waypoint_id ASC").Find(&results)
+	c.JSON(http.StatusOK, results)
+}
+
+// GetMissionResultDates returns distinct dates that have results for a mission
+func GetMissionResultDates(c *gin.Context) {
+	id := c.Param("id")
+	var dates []string
+	database.DB.Model(&models.MissionResult{}).Where("mission_id = ?", id).Distinct("date").Order("date DESC").Pluck("date", &dates)
+	c.JSON(http.StatusOK, dates)
+}
+
+// CreateMissionResult creates or upserts a result entry
+func CreateMissionResult(c *gin.Context) {
+	id := c.Param("id")
+	var req models.MissionResultCreateRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var missionID uint
+	fmt.Sscanf(id, "%d", &missionID)
+
+	// Upsert: find existing or create new
+	var result models.MissionResult
+	err := database.DB.Where("mission_id = ? AND mission_waypoint_id = ? AND date = ?", missionID, req.MissionWaypointID, req.Date).First(&result).Error
+
+	if err == gorm.ErrRecordNotFound {
+		result = models.MissionResult{
+			MissionID:         missionID,
+			MissionWaypointID: req.MissionWaypointID,
+			Date:              req.Date,
+		}
+	}
+
+	result.ImageURL = req.ImageURL
+	result.Success = req.Success
+	result.Analysis = req.Analysis
+	result.Confidence = req.Confidence
+
+	database.DB.Save(&result)
+	c.JSON(http.StatusOK, result)
+}
+
+// UpdateMissionResult updates an existing result
+func UpdateMissionResult(c *gin.Context) {
+	resultId := c.Param("resultId")
+	var result models.MissionResult
+	if err := database.DB.First(&result, resultId).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Result not found"})
+		return
+	}
+
+	var req models.MissionResultCreateRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	result.ImageURL = req.ImageURL
+	result.Success = req.Success
+	result.Analysis = req.Analysis
+	result.Confidence = req.Confidence
+
+	database.DB.Save(&result)
+	c.JSON(http.StatusOK, result)
+}
+
+// DeleteMissionResult deletes a result
+func DeleteMissionResult(c *gin.Context) {
+	resultId := c.Param("resultId")
+	result := database.DB.Delete(&models.MissionResult{}, resultId)
+	if result.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Result not found"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"status": "Deleted"})
+}
+
+// ChatWithGemini handles AI chat about mission results
+func ChatWithGemini(c *gin.Context) {
+	var req models.ChatRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	apiKey := os.Getenv("GEMINI_API_KEY")
+	if apiKey == "" || apiKey == "your_gemini_api_key_here" {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gemini API key not configured"})
+		return
+	}
+
+	// Build context from mission results
+	var contextParts []string
+
+	if req.MissionID > 0 {
+		var mission models.Mission
+		database.DB.Preload("Waypoints").First(&mission, req.MissionID)
+		contextParts = append(contextParts, fmt.Sprintf("Mission: %s (ID: %d, Status: %s)", mission.Name, mission.ID, mission.Status))
+
+		query := database.DB.Where("mission_id = ?", req.MissionID).Preload("MissionWaypoint")
+		if req.Date != "" {
+			query = query.Where("date = ?", req.Date)
+		}
+
+		var results []models.MissionResult
+		query.Find(&results)
+
+		if len(results) > 0 {
+			contextParts = append(contextParts, fmt.Sprintf("\nInspection Results for %s:", req.Date))
+			for _, r := range results {
+				wpName := "Unknown"
+				if r.MissionWaypoint.Name != "" {
+					wpName = r.MissionWaypoint.Name
+				}
+				contextParts = append(contextParts, fmt.Sprintf(
+					"- Waypoint: %s | Purpose: %s | Success: %s | Confidence: %.0f%% | Analysis: %s | Image: %s",
+					wpName, r.MissionWaypoint.Purpose, r.Success, r.Confidence*100, r.Analysis, r.ImageURL,
+				))
+			}
+		} else {
+			contextParts = append(contextParts, "No inspection results found for the specified criteria.")
+		}
+
+		// Also include available dates
+		var dates []string
+		database.DB.Model(&models.MissionResult{}).Where("mission_id = ?", req.MissionID).Distinct("date").Pluck("date", &dates)
+		if len(dates) > 0 {
+			contextParts = append(contextParts, fmt.Sprintf("\nAvailable result dates: %s", strings.Join(dates, ", ")))
+		}
+	}
+
+	systemPrompt := `You are an expert mission inspection analyst for a robotic dog (Unitree Go2) that performs daily facility inspections. You analyze mission results data and provide insights, summaries, and recommendations. Be concise, professional, and actionable. When discussing results, reference specific waypoints and their outcomes. Use clear language and highlight any failures or low-confidence results that need attention.
+
+Here is the current mission data context:
+` + strings.Join(contextParts, "\n")
+
+	// Call Gemini API
+	geminiURL := fmt.Sprintf("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=%s", apiKey)
+
+	geminiReq := map[string]interface{}{
+		"contents": []map[string]interface{}{
+			{
+				"role": "user",
+				"parts": []map[string]string{
+					{"text": systemPrompt + "\n\nUser question: " + req.Message},
+				},
+			},
+		},
+		"generationConfig": map[string]interface{}{
+			"temperature":     0.7,
+			"maxOutputTokens": 1024,
+		},
+	}
+
+	jsonBody, _ := json.Marshal(geminiReq)
+	resp, err := http.Post(geminiURL, "application/json", bytes.NewBuffer(jsonBody))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to call Gemini API"})
+		return
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+
+	var geminiResp map[string]interface{}
+	json.Unmarshal(body, &geminiResp)
+
+	// Extract text from Gemini response
+	reply := "I couldn't generate a response. Please check your API key."
+	if candidates, ok := geminiResp["candidates"].([]interface{}); ok && len(candidates) > 0 {
+		if content, ok := candidates[0].(map[string]interface{})["content"].(map[string]interface{}); ok {
+			if parts, ok := content["parts"].([]interface{}); ok && len(parts) > 0 {
+				if text, ok := parts[0].(map[string]interface{})["text"].(string); ok {
+					reply = text
+				}
+			}
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"reply": reply})
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LandingPage = ({ onOperate }) => {
+const LandingPage = ({ onOperate, onResultEditor, onResultViewer }) => {
     return (
         <div className="min-h-screen bg-midnight text-white font-sans overflow-x-hidden relative">
             {/* Background Gradients */}
@@ -31,13 +31,31 @@ const LandingPage = ({ onOperate }) => {
                     Sri Lanka's first Robotics & AI Lab, driving innovation in smart mobility, physical AI, and industrial automation.
                 </p>
 
-                <button
-                    onClick={onOperate}
-                    className="group relative px-8 py-3 rounded-full bg-slate-800/50 border border-slate-700/50 text-blue-200 text-sm font-medium tracking-wide hover:bg-slate-700/50 hover:border-blue-500/30 transition-all duration-300 backdrop-blur-md overflow-hidden"
-                >
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    Operate Obo Dog
-                </button>
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                    <button
+                        onClick={onOperate}
+                        className="group relative px-8 py-3 rounded-full bg-slate-800/50 border border-slate-700/50 text-blue-200 text-sm font-medium tracking-wide hover:bg-slate-700/50 hover:border-blue-500/30 transition-all duration-300 backdrop-blur-md overflow-hidden"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        Operate Obo Dog
+                    </button>
+
+                    <button
+                        onClick={onResultEditor}
+                        className="group relative px-8 py-3 rounded-full bg-emerald-900/30 border border-emerald-800/40 text-emerald-200 text-sm font-medium tracking-wide hover:bg-emerald-800/40 hover:border-emerald-500/30 transition-all duration-300 backdrop-blur-md overflow-hidden"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        Result Editor
+                    </button>
+
+                    <button
+                        onClick={onResultViewer}
+                        className="group relative px-8 py-3 rounded-full bg-sky-900/30 border border-sky-800/40 text-sky-200 text-sm font-medium tracking-wide hover:bg-sky-800/40 hover:border-sky-500/30 transition-all duration-300 backdrop-blur-md overflow-hidden"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        Mission Results
+                    </button>
+                </div>
             </main>
 
             {/* Info Section - Dynamic Inspection Pipeline */}

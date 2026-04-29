@@ -76,6 +76,16 @@ func main() {
 		protected.POST("/missions/:id/terminate", api.TerminateMission)
 		protected.POST("/missions/:id/mapping/start", api.StartMapping)
 		protected.POST("/missions/:id/mapping/stop", api.StopMapping)
+
+		// Mission Result Endpoints
+		protected.GET("/missions/:id/results", api.GetMissionResults)
+		protected.GET("/missions/:id/results/dates", api.GetMissionResultDates)
+		protected.POST("/missions/:id/results", api.CreateMissionResult)
+		protected.PUT("/results/:resultId", api.UpdateMissionResult)
+		protected.DELETE("/results/:resultId", api.DeleteMissionResult)
+
+		// AI Chat
+		protected.POST("/chat", api.ChatWithGemini)
 	}
 
 	// Server

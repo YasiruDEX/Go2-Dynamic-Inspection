@@ -19,7 +19,7 @@ func InitDB(dbUrl string) {
 	}
 
 	// Migrate the schema
-	err = DB.AutoMigrate(&models.User{}, &models.Mission{}, &models.MissionWaypoint{}, &models.SavedWaypoint{})
+	err = DB.AutoMigrate(&models.User{}, &models.Mission{}, &models.MissionWaypoint{}, &models.SavedWaypoint{}, &models.MissionResult{})
 	if err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
