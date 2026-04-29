@@ -195,7 +195,6 @@ case "$cmd" in
         run_far &
         run_terrain &
         run_terrain_ext &
-        run_local &
         run_goal_action &
         run_rviz &
         run_localization_trigger &

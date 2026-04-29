@@ -450,9 +450,10 @@ ros2 service call /enable_terrain_analysis std_srvs/srv/SetBool "{data: false}" 
 source ~/Documents/Far_planner_test/workspaces/localization_trigger_ws/install/setup.bash
 ros2 run localization_trigger_server localization_trigger_server_node
 
-
+#mola + terrain
 source ~/Documents/Far_planner_test/workspaces/localization_trigger_ws/install/setup.bash
 ros2 action send_goal -f /toggle_system localization_trigger_interfaces/action/ToggleSystem "{enable: true}"
+
 ros2 action send_goal -f /toggle_system localization_trigger_interfaces/action/ToggleSystem "{enable: false}"
 
 
@@ -470,3 +471,73 @@ ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateTo
 cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
 source install/setup.bash
 ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 6.190845489501953, y: -11.066904067993164, z: 0.0}}, goal_heading: -0.75}"
+
+
+
+#start
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 0.5994768142700195, y: -16.806425094604492, z: 0.0}}, goal_heading: -0.85}"
+
+#fire 1
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 2.3080663681030273, y: -17.247333526611328, z: 0.0}}, goal_heading: -0.75}"
+
+#Door
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 0.6978228092193604, y: -19.020984649658203, z: 0.0}}, goal_heading: 0.1}"
+
+#guage 1
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 3.7998881340026855, y: -16.132720947265625, z: 0.0}}, goal_heading: 1.5}"
+
+#door exit 2
+
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 7.706258296966553, y: -14.518960952758789, z: 0.0}}, goal_heading: 0.0}"
+
+
+#guage 2
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 6.568938255310059, y: -12.505269050598145, z: 0.0}}, goal_heading: 0.55}"
+
+#fire 2
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 6.803761005401611, y: -11.29658031463623, z: 0.0}}, goal_heading: 2.5}"
+
+#stair base
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 4.369065761566162, y: -9.709500312805176, z: 0.0}}, goal_heading: 2.1}"
+
+# fire 3
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: -1.1261205673217773, y: 0.6664496064186096, z: 0.0}}, goal_heading: 2.2}"
+
+#door last
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 0.4090111255645752, y: -0.8622617721557617, z: 0.0}}, goal_heading: -2.8}"
+
+#door last
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 0.4090111255645752, y: -0.8622617721557617, z: 0.0}}, goal_heading: 2.6}"

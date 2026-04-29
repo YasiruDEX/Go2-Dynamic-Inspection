@@ -33,7 +33,7 @@
     <param name="minRelZ" value="-0.2" />
     <param name="maxRelZ" value="1.0" />
     <param name="maxSpeed" value="$(var maxSpeed)" />
-    <param name="dirWeight" value="0.20" />
+    <param name="dirWeight" value="0.10" />
     <param name="dirThre" value="120.0" />
     <param name="dirToVehicle" value="true" />
     <param name="pathScale" value="1.25" />
