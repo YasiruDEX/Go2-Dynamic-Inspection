@@ -88,9 +88,13 @@ func main() {
 		protected.POST("/chat", api.ChatWithGemini)
 	}
 
-	// Server
-	log.Println("Go Backend Command Center starting on port 8000...")
-	if err := r.Run(":8000"); err != nil {
+	// Server: use PORT env var when provided (Render sets this)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
+	log.Printf("Go Backend Command Center starting on port %s...", port)
+	if err := r.Run(":" + port); err != nil {
 		log.Fatalf("Server failed: %v", err)
 	}
 }

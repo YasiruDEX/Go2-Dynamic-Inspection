@@ -4,49 +4,69 @@ import LandingPage from './components/LandingPage';
 import Login from './components/Login';
 import MissionResultEditor from './components/MissionResultEditor';
 import MissionResultViewer from './components/MissionResultViewer';
+import AIChatbot from './components/AIChatbot';
 
 function App() {
   const [view, setView] = useState('landing');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('auth_token');
     if (token) {
       setIsAuthenticated(true);
+      // Decode display name from JWT if available
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        setUser(payload.sub || null);
+      } catch {}
     }
   }, []);
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
     setView('landing');
+    try {
+      const token = localStorage.getItem('auth_token');
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      setUser(payload.sub || null);
+    } catch {}
   };
 
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
     setIsAuthenticated(false);
+    setUser(null);
     setView('landing');
   };
 
-  // If not authenticated, force login view
   if (!isAuthenticated) {
     return <Login onLoginSuccess={handleLoginSuccess} />;
   }
 
   return (
     <div className="App w-full h-full relative">
-      {view === 'landing' ? (
+      {view === 'landing' && (
         <LandingPage
           onOperate={() => setView('viz')}
           onResultEditor={() => setView('result-editor')}
           onResultViewer={() => setView('result-viewer')}
+          onLogout={handleLogout}
+          user={user}
         />
-      ) : view === 'result-editor' ? (
-        <MissionResultEditor onBack={() => setView('landing')} />
-      ) : view === 'result-viewer' ? (
-        <MissionResultViewer onBack={() => setView('landing')} />
-      ) : (
+      )}
+      {view === 'viz' && (
         <Viewer3D onBack={() => setView('landing')} onLogout={handleLogout} />
       )}
+      {view === 'result-editor' && (
+        <MissionResultEditor onBack={() => setView('landing')} />
+      )}
+      {view === 'result-viewer' && (
+        <MissionResultViewer onBack={() => setView('landing')} />
+      )}
+
+      {/* Global floating AI chatbot — visible on all authenticated pages */}
+      <AIChatbot />
     </div>
   );
 }
