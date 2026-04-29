@@ -139,7 +139,7 @@ bool pathYawInit = false;
 pcl::VoxelGrid<pcl::PointXYZI> laserDwzFilter, terrainDwzFilter;
 rclcpp::Node::SharedPtr nh;
 
-bool plannerEnabled = true;
+bool plannerEnabled = false;
 
 void enablePlannerHandler(const std::shared_ptr<std_srvs::srv::SetBool::Request> req,
                           std::shared_ptr<std_srvs::srv::SetBool::Response> res)

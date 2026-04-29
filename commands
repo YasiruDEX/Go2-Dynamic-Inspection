@@ -402,3 +402,36 @@ ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateTo
 
 ros2 service call /enable_local_planner std_srvs/srv/SetBool "{data: false}" # to disable
 ros2 service call /enable_local_planner std_srvs/srv/SetBool "{data: true}"  # to enable
+
+
+
+
+cd workspaces/go2_webrtc_bridge/
+source install/setup.bash 
+ros2 launch go2_webrtc_bridge bridge.launch.py robot_ip:=192.168.8.160
+
+
+/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh all-real
+/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh local
+/home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh terrain
+# /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh foxglove
+# /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh dlio
+# /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh far
+
+
+ros2 service call /resume_visibility_graph_update std_srvs/srv/Trigger {}
+
+ros2 service call /start_far_planner std_srvs/srv/Trigger {}
+
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 run goal_action_server goal_action_server_node
+
+
+
+ros2 service call /mola_runtime_param_set mola_msgs/srv/MolaRuntimeParamSet \ "{parameters: \"mola::LidarOdometry:lidar_odom:\n active: true\n\"}"
+
+
+ros2 service call /enable_terrain_analysis std_srvs/srv/SetBool "{data: true}" # enable
+ros2 service call /enable_terrain_analysis std_srvs/srv/SetBool "{data: false}" # disable

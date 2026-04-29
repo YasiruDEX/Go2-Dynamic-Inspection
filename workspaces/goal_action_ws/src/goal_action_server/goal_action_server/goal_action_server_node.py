@@ -7,6 +7,7 @@ from rclpy.action.server import ServerGoalHandle
 
 from geometry_msgs.msg import PointStamped, Twist
 from nav_msgs.msg import Odometry
+from std_srvs.srv import SetBool
 
 from goal_action_interfaces.action import NavigateToGoal
 
@@ -52,7 +53,29 @@ class GoalActionServer(Node):
             self.execute_callback
         )
         
+        # Service client to enable/disable local planner
+        self.enable_planner_client = self.create_client(SetBool, '/enable_local_planner')
+        
         self.get_logger().info('Goal Action Server has been started.')
+
+    def set_local_planner_state(self, state: bool):
+        if not self.enable_planner_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().warn('/enable_local_planner service not available')
+            return
+        
+        req = SetBool.Request()
+        req.data = state
+        self.get_logger().info(f'Calling /enable_local_planner with data={state}')
+        
+        future = self.enable_planner_client.call_async(req)
+        def _service_done_cb(fut):
+            try:
+                res = fut.result()
+                self.get_logger().info(f'Local planner service call returned: success={res.success}, message="{res.message}"')
+            except Exception as e:
+                self.get_logger().error(f'Service call failed: {e}')
+                
+        future.add_done_callback(_service_done_cb)
 
     def odom_callback(self, msg: Odometry):
         self.current_pose = msg.pose.pose
@@ -80,6 +103,7 @@ class GoalActionServer(Node):
         feedback_msg = NavigateToGoal.Feedback()
         
         # --- Phase 1: Wait to reach the position ---
+        self.set_local_planner_state(True)
         while rclpy.ok():
             if goal_handle.is_cancel_requested:
                 goal_handle.canceled()
@@ -129,6 +153,7 @@ class GoalActionServer(Node):
                 
                 if max_dx < 0.05 and max_dy < 0.05:
                     self.get_logger().info('Robot is stationary.')
+                    self.set_local_planner_state(False)
                     break
             
             time.sleep(0.1)
@@ -156,6 +181,8 @@ class GoalActionServer(Node):
             
             feedback_msg.heading_remaining = heading_err
             goal_handle.publish_feedback(feedback_msg)
+            
+            self.get_logger().info(f'Heading error: {math.degrees(heading_err):.2f} degrees', throttle_duration_sec=1.0)
             
             if abs(heading_err) < math.radians(10.0):
                 self.get_logger().info('Heading aligned (error < 10 degrees).')

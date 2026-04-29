@@ -12,6 +12,7 @@
 #include "sensor_msgs/msg/point_cloud2.hpp"
 #include <sensor_msgs/msg/joy.hpp>
 #include <std_msgs/msg/float32.hpp>
+#include <std_srvs/srv/set_bool.hpp>
 
 #include "tf2/transform_datatypes.h"
 #include "tf2_ros/transform_broadcaster.h"
@@ -110,6 +111,20 @@ float sinVehiclePitch = 0, cosVehiclePitch = 0;
 float sinVehicleYaw = 0, cosVehicleYaw = 0;
 
 pcl::VoxelGrid<pcl::PointXYZI> downSizeFilter;
+
+bool analyzerEnabled = false;
+
+void enableAnalyzerHandler(const std::shared_ptr<std_srvs::srv::SetBool::Request> req,
+                           std::shared_ptr<std_srvs::srv::SetBool::Response> res)
+{
+  analyzerEnabled = req->data;
+  res->success = true;
+  if (analyzerEnabled) {
+    res->message = "Terrain analyzer enabled";
+  } else {
+    res->message = "Terrain analyzer disabled";
+  }
+}
 
 // state estimation callback function
 void odometryHandler(const nav_msgs::msg::Odometry::ConstSharedPtr odom) {
@@ -265,6 +280,8 @@ int main(int argc, char **argv) {
 
   auto pubLaserCloud = nh->create_publisher<sensor_msgs::msg::PointCloud2>("/terrain_map", 2);
 
+  auto srvEnableAnalyzer = nh->create_service<std_srvs::srv::SetBool>("/enable_terrain_analysis", enableAnalyzerHandler);
+
   for (int i = 0; i < terrainVoxelNum; i++) {
     terrainVoxelCloud[i].reset(new pcl::PointCloud<pcl::PointXYZI>());
   }
@@ -275,6 +292,14 @@ int main(int argc, char **argv) {
   bool status = rclcpp::ok();
   while (status) {
     rclcpp::spin_some(nh);
+    
+    if (!analyzerEnabled) {
+      newlaserCloud = false;
+      status = rclcpp::ok();
+      rate.sleep();
+      continue;
+    }
+
     if (newlaserCloud) {
       newlaserCloud = false;
 
