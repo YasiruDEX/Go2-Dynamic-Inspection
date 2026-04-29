@@ -132,7 +132,7 @@ class GoalActionServer(Node):
             feedback_msg.distance_remaining = distance
             goal_handle.publish_feedback(feedback_msg)
             
-            if distance < 0.8:
+            if distance < 1.0:
                 self.get_logger().info('Goal position reached (distance < 0.8m).')
                 break
             
@@ -202,7 +202,7 @@ class GoalActionServer(Node):
             twist_msg.linear.z = 0.0
             twist_msg.angular.x = 0.0
             twist_msg.angular.y = 0.0
-            twist_msg.angular.z = 0.5 #max(min(angular_z, max_ang_vel), -max_ang_vel)
+            twist_msg.angular.z = max(min(angular_z, max_ang_vel), -max_ang_vel)
             self.cmd_vel_publisher.publish(twist_msg)
             
             time.sleep(0.1)
