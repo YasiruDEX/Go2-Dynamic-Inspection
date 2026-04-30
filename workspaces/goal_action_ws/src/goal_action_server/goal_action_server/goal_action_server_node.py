@@ -161,6 +161,85 @@ class GoalActionServer(Node):
                         break
                 
                 time.sleep(0.1)
+
+            # --- Phase 2.5: Correct distance error with PID ---
+            self.get_logger().info('Correcting distance error using PID (walking mode)...')
+            prev_dist_err = 0.0
+            integral_dist = 0.0
+            kp_dist = 0.5
+            ki_dist = 0.0
+            kd_dist = 0.1
+            kp_heading = 0.8
+            dt = 0.1
+            twist_msg = Twist()
+            
+            while rclpy.ok():
+                if goal_handle.is_cancel_requested:
+                    twist_msg.linear.x = 0.0
+                    twist_msg.angular.z = 0.0
+                    self.cmd_vel_publisher.publish(twist_msg)
+                    goal_handle.canceled()
+                    self.get_logger().info('Goal canceled.')
+                    result = NavigateToGoal.Result()
+                    result.success = False
+                    result.message = "Goal canceled"
+                    return result
+                
+                if self.current_pose is None:
+                    time.sleep(0.1)
+                    continue
+                
+                curr_x = self.current_pose.position.x
+                curr_y = self.current_pose.position.y
+                
+                dx = target_x - curr_x
+                dy = target_y - curr_y
+                distance = math.sqrt(dx**2 + dy**2)
+                
+                target_angle = math.atan2(dy, dx)
+                current_yaw = get_yaw_from_quaternion(self.current_pose.orientation)
+                
+                heading_err = target_angle - current_yaw
+                while heading_err > math.pi: heading_err -= 2 * math.pi
+                while heading_err < -math.pi: heading_err += 2 * math.pi
+                
+                self.get_logger().info(f'Walking PID Correction - Distance: {distance:.2f}m, Heading err: {math.degrees(heading_err):.2f}deg', throttle_duration_sec=1.0)
+                
+                feedback_msg.distance_remaining = distance
+                goal_handle.publish_feedback(feedback_msg)
+                
+                if distance < 0.1:
+                    self.get_logger().info('Goal position reached (distance < 0.1m) after PID correction.')
+                    twist_msg.linear.x = 0.0
+                    twist_msg.linear.y = 0.0
+                    twist_msg.angular.z = 0.0
+                    self.cmd_vel_publisher.publish(twist_msg)
+                    break
+                
+                integral_dist += distance * dt
+                derivative_dist = (distance - prev_dist_err) / dt
+                prev_dist_err = distance
+                
+                linear_vel = kp_dist * distance + ki_dist * integral_dist + kd_dist * derivative_dist
+                max_lin_vel = 0.4
+                linear_vel = max(min(linear_vel, max_lin_vel), -max_lin_vel)
+                
+                angular_vel = kp_heading * heading_err
+                max_ang_vel = 0.5
+                angular_vel = max(min(angular_vel, max_ang_vel), -max_ang_vel)
+                
+                if abs(heading_err) > math.radians(45.0):
+                    linear_vel = 0.0
+                    
+                twist_msg.linear.x = linear_vel
+                twist_msg.linear.y = 0.0
+                twist_msg.linear.z = 0.0
+                twist_msg.angular.x = 0.0
+                twist_msg.angular.y = 0.0
+                twist_msg.angular.z = angular_vel
+                self.cmd_vel_publisher.publish(twist_msg)
+                
+                time.sleep(dt)
         else:
             # --- Alternative Phase 1 & 2: Direct PID control ---
             self.get_logger().info('is_walking is false. Using direct PID control to reach position.')
@@ -284,11 +363,11 @@ class GoalActionServer(Node):
                 self.cmd_vel_publisher.publish(twist_msg)
                 break
                 
-            # Proportional control for rotation
-            kp = 0.5
+            # Proportional control for rotation (faster)
+            kp = 1.0
             angular_z = kp * heading_err
             # Clamp angular velocity
-            max_ang_vel = 0.5
+            max_ang_vel = 0.8
             twist_msg.linear.x = 0.0
             twist_msg.linear.y = 0.0
             twist_msg.linear.z = 0.0
