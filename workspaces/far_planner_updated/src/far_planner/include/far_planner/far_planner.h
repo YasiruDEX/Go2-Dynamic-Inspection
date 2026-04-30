@@ -51,6 +51,7 @@ private:
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr stop_far_planner_srv_;
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr stop_vgraph_update_srv_;
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr resume_vgraph_update_srv_;
+    rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr clear_vgraph_srv_;
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr load_vgraph_srv_;
     rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr save_vgraph_srv_;
 
@@ -178,9 +179,11 @@ private:
         if (is_stop_update_ && msg->data) {
             if (FARUtil::IsDebug) RCLCPP_WARN(nh_->get_logger(), "FARMaster: Resume visibility graph update.");
             is_stop_update_ = !msg->data;
-            // Force an immediate refresh cycle after re-enabling updates.
-            // This makes the RViz "Update Visibility Graph" checkbox feel responsive.
-            is_graph_init_ = false;
+            // IMPORTANT: Do NOT reset is_graph_init_ here.
+            // If we loaded a saved V-graph at startup, is_graph_init_ should remain true
+            // so the planner can keep running immediately using the loaded graph.
+            // Enabling updates should only allow graph mutation, not temporarily disable
+            // planning.
         }
         if (!is_stop_update_ && !msg->data) {
             if (FARUtil::IsDebug) RCLCPP_WARN(nh_->get_logger(), "FARMaster: Stop visibility graph update.");

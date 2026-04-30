@@ -620,3 +620,17 @@ ros2 service call /set_pose go2_interfaces/srv/SetPose "{stand_up: true}"
 cd workspaces/go2_webrtc_bridge/
 source install/setup.bash 
 ros2 service call /set_pose go2_interfaces/srv/SetPose "{stand_up: false}" 
+
+
+
+
+#far
+
+ros2 service call /start_far_planner std_srvs/srv/Trigger {}
+
+ros2 service call /resume_visibility_graph_update std_srvs/srv/Trigger {}
+
+ros2 service call /stop_visibility_graph_update std_srvs/srv/Trigger {}
+
+ros2 param set /far_planner vgraph_file_path /home/yasiru/Documents/Far_planner_test/saved_vgraphs/vgraph_20260421_170425.vgh 
+ros2 service call /load_visibility_graph std_srvs/srv/Trigger "{}"
