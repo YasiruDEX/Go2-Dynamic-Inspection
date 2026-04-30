@@ -146,6 +146,9 @@ case "$cmd" in
     bag)
         run_bag "$2"
         ;;
+    goal)
+        run_goal_action "$2"
+        ;;
     terrain)
         run_terrain &
         run_terrain_ext
@@ -195,7 +198,6 @@ case "$cmd" in
         run_far &
         run_terrain &
         run_terrain_ext &
-        run_goal_action &
         run_rviz &
         run_localization_trigger &
         wait

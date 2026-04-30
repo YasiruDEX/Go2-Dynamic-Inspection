@@ -212,9 +212,10 @@ class GoalActionServer(Node):
                 feedback_msg.distance_remaining = distance
                 goal_handle.publish_feedback(feedback_msg)
                 
-                if distance < 1.0:
-                    self.get_logger().info('Goal position reached (distance < 1.0m) using PID.')
+                if distance < 0.2:
+                    self.get_logger().info('Goal position reached (distance < 0.2m) using PID.')
                     twist_msg.linear.x = 0.0
+                    twist_msg.linear.y = 0.0
                     twist_msg.angular.z = 0.0
                     self.cmd_vel_publisher.publish(twist_msg)
                     break
@@ -226,7 +227,7 @@ class GoalActionServer(Node):
                 
                 linear_vel = kp_dist * distance + ki_dist * integral_dist + kd_dist * derivative_dist
                 # clamp linear velocity
-                max_lin_vel = 0.5
+                max_lin_vel = 0.4
                 linear_vel = max(min(linear_vel, max_lin_vel), -max_lin_vel)
                 
                 # P for heading
@@ -245,6 +246,9 @@ class GoalActionServer(Node):
                 twist_msg.angular.y = 0.0
                 twist_msg.angular.z = angular_vel
                 self.cmd_vel_publisher.publish(twist_msg)
+
+                self.get_logger().info(f'Velocity to goal: {linear_vel:.2f}', throttle_duration_sec=1.0)
+
                 
                 time.sleep(dt)
             
