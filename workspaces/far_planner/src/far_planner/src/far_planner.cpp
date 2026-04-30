@@ -100,8 +100,8 @@ void FARMaster::Init() {
              std::shared_ptr<std_srvs::srv::Trigger::Response> response) {
         // Resume dynamic V-graph updates
         is_stop_update_ = false;
-        // Force a refresh cycle so it updates right after the request.
-        is_graph_init_ = false;
+  // Do NOT reset is_graph_init_ here. If a graph was loaded, keep it "initialized"
+  // so planning can continue uninterrupted while updates are enabled.
 
         response->success = true;
         response->message = "Visibility graph updates resumed and refresh requested.";
@@ -792,6 +792,8 @@ void FARMaster::LoadROSParams() {
   cdetect_params_.voxel_dim    = master_params_.voxel_dim;
   
   // Visibility graph save/load params
+  // These must exist as *global* params because our services (/load_visibility_graph, /save_visibility_graph)
+  // read them directly by name.
   nh_->declare_parameter<bool>("vgraph_autoload", false);
   nh_->declare_parameter<std::string>("vgraph_file_path", "");
   nh_->declare_parameter<bool>("vgraph_autosave", false);
@@ -799,11 +801,30 @@ void FARMaster::LoadROSParams() {
   
   bool vgraph_autoload = false;
   std::string vgraph_file_path = "";
-  
+
+  // Prefer values loaded from the node-scoped YAML (far_planner.ros__parameters.*).
+  // HOWEVER, the launch file currently overrides these with LaunchConfiguration() and
+  // ROS2 may pass empty strings when the launch arg is not set. That breaks autoload.
+  //
+  // So: read current params, and if the current vgraph_file_path is empty, try to read
+  // a node-scoped fallback ("far_planner.vgraph_file_path") if it exists.
   nh_->get_parameter("vgraph_autoload", vgraph_autoload);
   nh_->get_parameter("vgraph_file_path", vgraph_file_path);
+
+  // Fallback: some deployments namespace params under the node name.
+  if (vgraph_file_path.empty()) {
+    std::string fallback = "";
+    if (nh_->has_parameter("far_planner.vgraph_file_path")) {
+      (void)nh_->get_parameter("far_planner.vgraph_file_path", fallback);
+    }
+    if (!fallback.empty()) {
+      vgraph_file_path = fallback;
+      // Mirror into the global param so services will work.
+      (void)nh_->set_parameter(rclcpp::Parameter("vgraph_file_path", vgraph_file_path));
+    }
+  }
   
-  RCLCPP_WARN(nh_->get_logger(), "=== VGRAPH CONFIG: autoload=%s, path='%s' ===", 
+  RCLCPP_WARN(nh_->get_logger(), "=== VGRAPH CONFIG (resolved): autoload=%s, path='%s' ===",
               vgraph_autoload ? "TRUE" : "FALSE", vgraph_file_path.c_str());
   
   // Auto-load visibility graph if enabled

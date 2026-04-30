@@ -2,11 +2,12 @@ import os
 import yaml
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-from launch.substitutions import LaunchConfiguration
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node, SetParameter
 from ament_index_python.packages import get_package_share_directory
-from launch.substitutions import PythonExpression, PathJoinSubstitution
+from launch.substitutions import PathJoinSubstitution
 import launch_ros
 
 def generate_launch_description():
@@ -28,6 +29,15 @@ def generate_launch_description():
             description='Absolute path to a .vgh file to load when vgraph_autoload is true.',
         ),
 
+        # Only override vgraph_file_path if the user actually passes a non-empty value.
+        # This prevents clobbering the value from default.yaml (node-scoped params)
+        # with an empty string.
+        SetParameter(
+            name='vgraph_file_path',
+            value=LaunchConfiguration('vgraph_file_path'),
+            condition=IfCondition(PythonExpression(["'", LaunchConfiguration('vgraph_file_path'), "' != ''"])),
+        ),
+
         Node(
             package='far_planner',
             executable='far_planner',
@@ -37,7 +47,6 @@ def generate_launch_description():
                 default_config,
                 {
                     'vgraph_autoload': LaunchConfiguration('vgraph_autoload'),
-                    'vgraph_file_path': LaunchConfiguration('vgraph_file_path'),
                 },
             ],
             remappings=[

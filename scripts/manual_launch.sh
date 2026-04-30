@@ -139,9 +139,9 @@ sleep 2
 echo -e "${GREEN}[6/6] Starting Far Planner...${NC}"
 gnome-terminal --title="Far Planner" -- bash -c "
     source /home/tharushi/Go2-Dynamic-Inspection/workspaces/far_planner/install/setup.bash
-    ros2 launch far_planner far_planner.launch.py \\
-        vgraph_autoload:=$VGRAPH_AUTOLOAD \\
-        vgraph_file_path:='${VGRAPH_FILE}'; exec bash
+        ros2 launch far_planner far_planner.launch.py \
+            vgraph_autoload:=${VGRAPH_AUTOLOAD} \
+            vgraph_file_path:=${VGRAPH_FILE} \
 "
 
 echo ""
