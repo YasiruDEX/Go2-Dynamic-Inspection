@@ -379,7 +379,12 @@ ros2 service call /set_led go2_interfaces/srv/SetLed "{color_index: 3}"
 
 response: go2_interfaces.srv.SetLed_Response(success=True, message='LED colour set to BLUE') 
 
+cd workspaces/go2_webrtc_bridge/
+source install/setup.bash 
 ros2 service call /set_pose go2_interfaces/srv/SetPose "{stand_up: true}" 
+
+cd workspaces/go2_webrtc_bridge/
+source install/setup.bash 
 ros2 service call /set_pose go2_interfaces/srv/SetPose "{stand_up: false}" 
 
 
@@ -427,12 +432,6 @@ ros2 launch go2_webrtc_bridge bridge.launch.py robot_ip:=192.168.8.160
 # /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh dlio
 # /home/yasiru/Documents/Far_planner_test/scripts/run_localization_pipeline.sh far
 
-#far planner
-ros2 service call /resume_visibility_graph_update std_srvs/srv/Trigger {}
-ros2 service call /stop_visibility_graph_update std_srvs/srv/Trigger {}
-ros2 service call /start_far_planner std_srvs/srv/Trigger {}
-
-
 cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
 source install/setup.bash
 ros2 run goal_action_server goal_action_server_node
@@ -454,6 +453,12 @@ ros2 run localization_trigger_server localization_trigger_server_node
 #mola + terrain
 source ~/Documents/Far_planner_test/workspaces/localization_trigger_ws/install/setup.bash
 ros2 action send_goal -f /toggle_system localization_trigger_interfaces/action/ToggleSystem "{enable: true}"
+
+#far planner
+ros2 service call /resume_visibility_graph_update std_srvs/srv/Trigger {}
+ros2 service call /stop_visibility_graph_update std_srvs/srv/Trigger {}
+ros2 service call /start_far_planner std_srvs/srv/Trigger {}
+
 
 ros2 action send_goal -f /toggle_system localization_trigger_interfaces/action/ToggleSystem "{enable: false}"
 
@@ -536,13 +541,41 @@ ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateTo
 
 cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
 source install/setup.bash
-ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 6.803761005401611, y: -11.29658031463623, z: 0.0}}, goal_heading: 2.5}"
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 6.803761005401611, y: -11.29658031463623, z: 0.0}}, goal_heading: 2.5, is_walking: true}"
 
 #stair base
 
 cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
 source install/setup.bash
-ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 4.369065761566162, y: -9.709500312805176, z: 0.0}}, goal_heading: 2.1}"
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 4.678258419036865, y: -9.641469955444336, z: 0.0}}, goal_heading: 2.1, is_walking: true}"
+
+# ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 4.369065761566162, y: -9.709500312805176, z: 0.0}}, goal_heading: 2.1}"
+
+
+cd workspaces/go2_webrtc_bridge/
+source install/setup.bash 
+ros2 service call /set_gait go2_interfaces/srv/SetGait "{gait_type: 3}" 
+
+#stair middle
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 3.713869094848633, y: -8.00930118560791, z: 0.0}}, goal_heading: 2.1, is_walking: false}"
+
+cd workspaces/go2_webrtc_bridge/
+source install/setup.bash 
+ros2 service call /set_gait go2_interfaces/srv/SetGait "{gait_type: 4}" 
+
+#stair end
+
+cd /home/yasiru/Documents/Far_planner_test/workspaces/goal_action_ws
+source install/setup.bash
+ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 2.6942553520202637, y: -6.046241760253906, z: 0.0}}, goal_heading: 2.1, is_walking: false}"
+
+
+cd workspaces/go2_webrtc_bridge/
+source install/setup.bash 
+ros2 service call /set_gait go2_interfaces/srv/SetGait "{gait_type: 1}" 
 
 # fire 3
 
@@ -563,3 +596,27 @@ source install/setup.bash
 ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 0.4090111255645752, y: -0.8622617721557617, z: 0.0}}, goal_heading: 2.6}"
 
 ros2 action send_goal /navigate_to_goal goal_action_interfaces/action/NavigateToGoal "{goal_point: {header: {frame_id: 'map'}, point: {x: 5.0, y: 5.0, z: 0.0}}, goal_heading: 0.0, is_walking: false}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#dog webrts emergency switch
+python3 "/home/yasiru/Documents/emergency switch/emergency_wrapper.py"
+
+cd workspaces/go2_webrtc_bridge/
+source install/setup.bash 
+ros2 service call /set_pose go2_interfaces/srv/SetPose "{stand_up: true}" 
+
+cd workspaces/go2_webrtc_bridge/
+source install/setup.bash 
+ros2 service call /set_pose go2_interfaces/srv/SetPose "{stand_up: false}" 

@@ -152,10 +152,10 @@ class GoalActionServer(Node):
                 if len(self.pose_history) == 15:
                     xs = [p[0] for p in self.pose_history]
                     ys = [p[1] for p in self.pose_history]
-                    max_dx =  max(xs) - min(xs)
-                    max_dy = max(ys) - min(ys)
+                    max_dx =  0 #max(xs) - min(xs)
+                    max_dy = 0 #max(ys) - min(ys)
                     
-                    if max_dx < 0.05 and max_dy < 0.05:
+                    if max_dx < 0.02 and max_dy < 0.02:
                         self.get_logger().info('Robot is stationary.')
                         self.set_local_planner_state(False)
                         break
@@ -332,6 +332,7 @@ class GoalActionServer(Node):
                 time.sleep(dt)
             
         # --- Phase 3: Heading Correction ---
+        # time.sleep(2)
         self.get_logger().info('Starting heading correction...')
         twist_msg = Twist()
         
