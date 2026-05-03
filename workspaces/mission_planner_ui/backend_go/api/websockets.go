@@ -48,7 +48,7 @@ func WsPoints(c *gin.Context) {
 	defer conn.Close()
 
 	for {
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(10 * time.Second)
 		mqttclient.StateMutex.RLock()
 		payload := mqttclient.PointsMsg
 		mqttclient.StateMutex.RUnlock()
@@ -166,6 +166,37 @@ func WsRobotStatus(c *gin.Context) {
 			}
 		case <-ticker.C:
 			if err := conn.WriteMessage(websocket.PingMessage, nil); err != nil {
+				return
+			}
+		}
+	}
+}
+
+// WsPose streams MOLA robot pose updates to the browser.
+// Polls PoseMsg every 1 second and sends the latest value.
+// Each message is a raw JSON string:
+//
+//	{
+//	  "x": float, "y": float, "z": float,
+//	  "qx": float, "qy": float, "qz": float, "qw": float,
+//	  "frame_id": string, "stamp": float
+//	}
+func WsPose(c *gin.Context) {
+	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	if err != nil {
+		log.Println("WsPose Upgrade Error:", err)
+		return
+	}
+	defer conn.Close()
+
+	for {
+		time.Sleep(1 * time.Second)
+		mqttclient.StateMutex.RLock()
+		payload := mqttclient.PoseMsg
+		mqttclient.StateMutex.RUnlock()
+
+		if len(payload) > 0 {
+			if err := conn.WriteMessage(websocket.TextMessage, payload); err != nil {
 				return
 			}
 		}

@@ -24,12 +24,19 @@ var (
 	PathMsg    []models.PathPoint
 	VideoMsg   string
 
+	// PoseMsg holds the latest robot pose published by MOLA
+	PoseMsg []byte
+
 	MqttCount int
 	MqttRate  float64
 
 	// RobotStatusSubs receives inbound robot/{robot_id}/status/# messages for WebSocket broadcast
 	RobotStatusSubs   []chan []byte
 	robotStatusSubsMu sync.Mutex
+
+	// PoseSubs receives pose messages for /ws/pose WebSocket broadcast
+	PoseSubs   []chan []byte
+	poseSubsMu sync.Mutex
 )
 
 // AddRobotStatusSub registers a channel to receive status messages
@@ -61,6 +68,38 @@ func broadcastStatus(payload []byte) {
 		case ch <- payload:
 		default:
 			// Non-blocking: drop if subscriber is slow
+		}
+	}
+}
+
+// AddPoseSub registers a channel to receive MOLA pose messages
+func AddPoseSub(ch chan []byte) {
+	poseSubsMu.Lock()
+	defer poseSubsMu.Unlock()
+	PoseSubs = append(PoseSubs, ch)
+}
+
+// RemovePoseSub unregisters a pose channel
+func RemovePoseSub(ch chan []byte) {
+	poseSubsMu.Lock()
+	defer poseSubsMu.Unlock()
+	updated := PoseSubs[:0]
+	for _, c := range PoseSubs {
+		if c != ch {
+			updated = append(updated, c)
+		}
+	}
+	PoseSubs = updated
+}
+
+// broadcastPose fans out a pose payload to all /ws/pose subscribers
+func broadcastPose(payload []byte) {
+	poseSubsMu.Lock()
+	defer poseSubsMu.Unlock()
+	for _, ch := range PoseSubs {
+		select {
+		case ch <- payload:
+		default:
 		}
 	}
 }
@@ -102,12 +141,20 @@ func InitMQTT() {
 			log.Printf("Subscribed to %s", telemetryTopic)
 		}
 
-		// Subscribe to canonical robot status topics (inbound from robot-bt)
+		// Subscribe to canonical robot status topics (inbound from robot-bt and MOLA bridge)
 		statusTopic := "robot/" + robotID + "/status/#"
 		if t := c.Subscribe(statusTopic, 0, statusHandler); t.Wait() && t.Error() != nil {
 			log.Printf("Error subscribing to %s: %v", statusTopic, t.Error())
 		} else {
 			log.Printf("Subscribed to %s", statusTopic)
+		}
+
+		// Subscribe to MOLA localmap points (fed by ros2_mqtt_bridge)
+		localmapTopic := "robo_gen_labs/go2_robot_1/telemetry/points"
+		if t := c.Subscribe(localmapTopic, 0, localmapHandler); t.Wait() && t.Error() != nil {
+			log.Printf("Error subscribing to %s: %v", localmapTopic, t.Error())
+		} else {
+			log.Printf("Subscribed to %s", localmapTopic)
 		}
 
 		// Start MQTT rate tracker
@@ -163,13 +210,31 @@ func telemetryHandler(client mqtt.Client, msg mqtt.Message) {
 	}
 }
 
+// localmapHandler stores MOLA localmap binary points (already in PointsMsg slot used by /ws/points)
+func localmapHandler(client mqtt.Client, msg mqtt.Message) {
+	StateMutex.Lock()
+	MqttCount++
+	PointsMsg = msg.Payload()
+	StateMutex.Unlock()
+}
+
 // statusHandler processes canonical robot/{robot_id}/status/# messages and broadcasts to WebSocket subs
 func statusHandler(client mqtt.Client, msg mqtt.Message) {
 	StateMutex.Lock()
 	MqttCount++
 	StateMutex.Unlock()
 
-	// Wrap with topic metadata for WebSocket consumers
+	// If this is a pose message, store it and broadcast to /ws/pose subscribers
+	poseTopic := "robot/" + robotID + "/status/pose"
+	if msg.Topic() == poseTopic {
+		StateMutex.Lock()
+		PoseMsg = msg.Payload()
+		StateMutex.Unlock()
+		broadcastPose(msg.Payload())
+		return
+	}
+
+	// Wrap with topic metadata for WebSocket consumers (non-pose status messages)
 	envelope := map[string]interface{}{
 		"topic":     msg.Topic(),
 		"payload":   json.RawMessage(msg.Payload()),

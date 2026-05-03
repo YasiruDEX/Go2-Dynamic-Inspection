@@ -52,6 +52,7 @@ func main() {
 	r.GET("/ws/tf", api.WsTF)
 	r.GET("/ws/video", api.WsVideo)
 	r.GET("/ws/robot_status", api.WsRobotStatus)
+	r.GET("/ws/pose", api.WsPose) // MOLA LiDAR-Odometry pose stream
 
 	// Protected Routes
 	protected := r.Group("/")
