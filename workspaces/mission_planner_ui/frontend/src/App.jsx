@@ -5,11 +5,13 @@ import Login from './components/Login';
 import MissionResultEditor from './components/MissionResultEditor';
 import MissionResultViewer from './components/MissionResultViewer';
 import AIChatbot from './components/AIChatbot';
+import RobotConsole from './components/RobotConsole';
 
 function App() {
   const [view, setView] = useState('landing');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [showConsole, setShowConsole] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('auth_token');
@@ -51,6 +53,7 @@ function App() {
           onOperate={() => setView('viz')}
           onResultEditor={() => setView('result-editor')}
           onResultViewer={() => setView('result-viewer')}
+          onConsole={() => setShowConsole(true)}
           onLogout={handleLogout}
           user={user}
         />
@@ -67,6 +70,13 @@ function App() {
 
       {/* Global floating AI chatbot — visible on all authenticated pages */}
       <AIChatbot />
+
+      {/* Global Robot Console overlay */}
+      {showConsole && (
+        <div className="fixed top-0 right-0 h-full z-[100]">
+            <RobotConsole onClose={() => setShowConsole(false)} />
+        </div>
+      )}
     </div>
   );
 }

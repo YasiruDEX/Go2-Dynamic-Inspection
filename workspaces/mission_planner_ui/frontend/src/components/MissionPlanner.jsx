@@ -46,8 +46,10 @@ const apiCall = async (path, method = 'GET', body = null) => {
 const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLocations = [], onMissionWaypointsChange, onStatusChange }) => {
     const [missions, setMissions] = useState([]);
     const [newMissionName, setNewMissionName] = useState('');
+    const [locationCode, setLocationCode] = useState('SITE');
     const [activeMissionId, setActiveMissionId] = useState(null);
     const [wpName, setWpName] = useState('');
+    const [wpFloor, setWpFloor] = useState('1');
     const [wpPurpose, setWpPurpose] = useState('none');
     const [wpX, setWpX] = useState('');
     const [wpY, setWpY] = useState('');
@@ -117,11 +119,16 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
     }, [activeMission?.status, activeMission?.name, onStatusChange]);
 
     const handleCreate = async () => {
-        if (!newMissionName.trim()) return;
+        if (!newMissionName.trim() || !locationCode.trim()) return;
         setLoading(true);
         try {
-            const c = await apiCall('/missions', 'POST', { name: newMissionName.trim() });
-            setNewMissionName(''); setShowCreate(false);
+            const c = await apiCall('/missions', 'POST', { 
+                name: newMissionName.trim(),
+                location_code: locationCode.trim().toUpperCase()
+            });
+            setNewMissionName(''); 
+            setLocationCode('SITE');
+            setShowCreate(false);
             await fetchMissions();
             setActiveMissionId(c.ID);
         } catch (e) { console.error(e); }
@@ -143,9 +150,14 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
         setLoading(true);
         try {
             await apiCall(`/missions/${activeMissionId}/waypoints`, 'POST', {
-                name: wpName.trim(), x: parseFloat(wpX) || 0, y: parseFloat(wpY) || 0, z: parseFloat(wpZ) || 0, purpose: wpPurpose,
+                name: wpName.trim(), 
+                floor: parseInt(wpFloor) || 1,
+                x: parseFloat(wpX) || 0, 
+                y: parseFloat(wpY) || 0, 
+                z: parseFloat(wpZ) || 0, 
+                purpose: wpPurpose,
             });
-            setWpName(''); setWpPurpose('none'); setWpX(''); setWpY(''); setWpZ('');
+            setWpName(''); setWpPurpose('none'); setWpX(''); setWpY(''); setWpZ(''); setWpFloor('1');
             if (onClearSelectedPoint) onClearSelectedPoint();
             await fetchMissions();
         } catch (e) { console.error(e); }
@@ -223,11 +235,19 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
                 </button>
             ) : (
                 <div className={`p-3 rounded-lg border ${isDark ? 'bg-zinc-800/50 border-white/5' : 'bg-white border-zinc-200'}`}>
-                    <div className={`text-[10px] font-bold uppercase tracking-wider mb-2 ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>Mission Name</div>
-                    <input value={newMissionName} onChange={e => setNewMissionName(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleCreate()} placeholder="e.g. Floor_1_Inspection" className={inputCls} autoFocus />
+                    <div className="flex gap-2 mb-2">
+                        <div className="flex-1">
+                            <div className={`text-[10px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>Mission Name</div>
+                            <input value={newMissionName} onChange={e => setNewMissionName(e.target.value)} placeholder="e.g. Floor_1_Inspection" className={inputCls} autoFocus />
+                        </div>
+                        <div className="w-24">
+                            <div className={`text-[10px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>Loc Code</div>
+                            <input value={locationCode} onChange={e => setLocationCode(e.target.value.toUpperCase().slice(0,4))} placeholder="ENTC" className={inputCls} maxLength={4} />
+                        </div>
+                    </div>
                     <div className="flex gap-1.5 mt-2">
-                        <button onClick={handleCreate} disabled={loading || !newMissionName.trim()} className={`flex-1 py-1.5 rounded-lg text-[10px] font-bold uppercase disabled:opacity-40 ${isDark ? 'bg-zinc-600 hover:bg-zinc-500 text-white' : 'bg-orange-500 hover:bg-orange-400 text-white'}`}>Create</button>
-                        <button onClick={() => { setShowCreate(false); setNewMissionName(''); }} className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-600'}`}>Cancel</button>
+                        <button onClick={handleCreate} disabled={loading || !newMissionName.trim() || !locationCode.trim()} className={`flex-1 py-1.5 rounded-lg text-[10px] font-bold uppercase disabled:opacity-40 ${isDark ? 'bg-zinc-600 hover:bg-zinc-500 text-white' : 'bg-orange-500 hover:bg-orange-400 text-white'}`}>Create</button>
+                        <button onClick={() => { setShowCreate(false); setNewMissionName(''); setLocationCode('SITE'); }} className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase ${isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-600'}`}>Cancel</button>
                     </div>
                 </div>
             )}
@@ -247,7 +267,10 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
                             <div className="flex items-center gap-2 min-w-0 flex-1">
                                 {isActive ? <ChevronDown size={12} className="opacity-50" /> : <ChevronRight size={12} className="opacity-50" />}
                                 <div className="min-w-0 flex-1">
-                                    <div className={`text-xs font-bold truncate ${isDark ? 'text-zinc-200' : 'text-zinc-800'}`}>{mission.name}</div>
+                                    <div className="flex items-center gap-2">
+                                        <div className={`text-xs font-bold truncate ${isDark ? 'text-zinc-200' : 'text-zinc-800'}`}>{mission.name}</div>
+                                        <div className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${isDark ? 'bg-zinc-800 border-zinc-700 text-sky-400' : 'bg-zinc-100 border-zinc-200 text-sky-600'}`}>{mission.mqtt_id}</div>
+                                    </div>
                                     <div className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>{wps.length} waypoint{wps.length !== 1 ? 's' : ''}</div>
                                 </div>
                             </div>
@@ -258,12 +281,22 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
                         {isActive && (
                             <div className={`px-3 pb-3 ${isDark ? 'bg-zinc-800/20' : 'bg-zinc-50/50'}`}>
                                 {/* Action Buttons */}
-                                <div className="flex gap-1.5 mb-3 pt-1">
+                                <div className="flex flex-wrap gap-1.5 mb-3 pt-1">
                                     {mission.status === 'mapping' ? (
-                                        <button onClick={() => handleAction('mapping/stop')} disabled={loading}
-                                            className="flex-1 py-2 rounded-lg text-[10px] font-bold uppercase flex items-center justify-center gap-1.5 bg-cyan-500 hover:bg-cyan-400 text-white shadow-[0_0_12px_rgba(6,182,212,0.3)]">
-                                            <Square size={10} /> Stop Mapping
-                                        </button>
+                                        <>
+                                            <button onClick={() => handleAction('mapping/end')} disabled={loading}
+                                                className="flex-1 py-2 rounded-lg text-[10px] font-bold uppercase flex items-center justify-center gap-1.5 bg-cyan-600 hover:bg-cyan-500 text-white">
+                                                <Square size={10} /> End Map
+                                            </button>
+                                            <button onClick={() => handleAction('mapping/generate')} disabled={loading}
+                                                className="flex-1 py-2 rounded-lg text-[10px] font-bold uppercase flex items-center justify-center gap-1.5 bg-violet-600 hover:bg-violet-500 text-white">
+                                                <Map size={10} /> Generate
+                                            </button>
+                                            <button onClick={() => handleAction('mapping/abort')} disabled={loading}
+                                                className="flex-1 py-2 rounded-lg text-[10px] font-bold uppercase flex items-center justify-center gap-1.5 bg-red-500/20 text-red-500 hover:bg-red-500/30">
+                                                Abort Map
+                                            </button>
+                                        </>
                                     ) : (
                                         <button onClick={() => handleAction('mapping/start')} disabled={loading || mission.status === 'running'}
                                             className={`flex-1 py-2 rounded-lg text-[10px] font-bold uppercase flex items-center justify-center gap-1.5 disabled:opacity-30 border ${isDark ? 'bg-zinc-700/50 text-cyan-400 border-cyan-500/30' : 'bg-cyan-50 text-cyan-600 border-cyan-200'}`}>
@@ -271,9 +304,9 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
                                         </button>
                                     )}
                                     {mission.status === 'running' ? (
-                                        <button onClick={() => handleAction('terminate')} disabled={loading}
+                                        <button onClick={() => handleAction('abort')} disabled={loading}
                                             className="flex-1 py-2 rounded-lg text-[10px] font-bold uppercase flex items-center justify-center gap-1.5 bg-red-500 hover:bg-red-400 text-white shadow-[0_0_12px_rgba(239,68,68,0.3)]">
-                                            <Square size={10} /> Terminate
+                                            <Square size={10} /> Abort Mission
                                         </button>
                                     ) : (
                                         <button onClick={() => handleAction('start')} disabled={loading || mission.status === 'mapping' || wps.length === 0}
@@ -333,7 +366,10 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
                                                         {isElev ? <ArrowUpDown size={9} /> : idx + 1}
                                                     </div>
                                                     <div className="flex-1 min-w-0">
-                                                        <div className={`text-[11px] font-bold truncate ${isElev ? (isDark ? 'text-indigo-300' : 'text-indigo-700') : (isDark ? 'text-zinc-200' : 'text-zinc-700')}`}>{wp.name}</div>
+                                                        <div className="flex items-center gap-1">
+                                                            <div className={`text-[11px] font-bold truncate ${isElev ? (isDark ? 'text-indigo-300' : 'text-indigo-700') : (isDark ? 'text-zinc-200' : 'text-zinc-700')}`}>{wp.name}</div>
+                                                            <div className={`text-[8px] font-mono px-1 rounded ${isDark ? 'text-zinc-500 bg-white/5' : 'text-zinc-400 bg-black/5'}`}>{wp.waypoint_id}</div>
+                                                        </div>
                                                         <div className={`text-[9px] font-mono ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>({wp.x.toFixed(1)}, {wp.y.toFixed(1)}, {wp.z.toFixed(1)})</div>
                                                     </div>
                                                     {wp.purpose && wp.purpose !== 'none' && (
@@ -383,7 +419,12 @@ const MissionPlanner = ({ isDark, selectedPoint, onClearSelectedPoint, savedLoca
                                             </div>
                                         )}
 
-                                        <input value={wpName} onChange={e => setWpName(e.target.value)} placeholder="Waypoint name" className={`${inputCls} mb-2`} />
+                                        <div className="flex gap-2 mb-2">
+                                            <input value={wpName} onChange={e => setWpName(e.target.value)} placeholder="Waypoint name" className={inputCls} />
+                                            <div className="w-20">
+                                                <input type="number" value={wpFloor} onChange={e => setWpFloor(e.target.value)} placeholder="Floor 1" className={inputCls} />
+                                            </div>
+                                        </div>
                                         <select value={wpPurpose} onChange={e => setWpPurpose(e.target.value)} className={`${inputCls} mb-2`}>
                                             {PURPOSE_OPTIONS.map(o => <option key={o.value} value={o.value} className={isDark ? 'bg-zinc-900' : 'bg-white'}>{o.label}</option>)}
                                         </select>

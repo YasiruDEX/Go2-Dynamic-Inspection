@@ -16,35 +16,46 @@ type User struct {
 // Mission represents a mission plan in the database
 type Mission struct {
 	gorm.Model
-	Name      string            `gorm:"uniqueIndex;not null" json:"name"`
-	Status    string            `gorm:"default:created" json:"status"` // created, mapping, ready, running, terminated
-	Waypoints []MissionWaypoint `gorm:"foreignKey:MissionID;constraint:OnDelete:CASCADE" json:"waypoints"`
+	Name        string            `gorm:"uniqueIndex;not null" json:"name"`
+	MqttID      string            `gorm:"uniqueIndex" json:"mqtt_id"`      // Canonical MQTT ID: Mis[LOCATION][XXXX]
+	LocationCode string           `gorm:"default:SITE" json:"location_code"` // 4-letter code e.g. ENTC
+	Status      string            `gorm:"default:created" json:"status"` // created, mapping, ready, running, terminated
+	Waypoints   []MissionWaypoint `gorm:"foreignKey:MissionID;constraint:OnDelete:CASCADE" json:"waypoints"`
 }
 
 // MissionWaypoint represents an ordered waypoint within a mission
 type MissionWaypoint struct {
 	gorm.Model
-	MissionID uint    `gorm:"not null" json:"mission_id"`
-	Order     int     `gorm:"not null" json:"order"`
-	Name      string  `gorm:"not null" json:"name"`
-	X         float64 `json:"x"`
-	Y         float64 `json:"y"`
-	Z         float64 `json:"z"`
-	Purpose   string  `gorm:"default:none" json:"purpose"` // none, fire_extinguisher, gauge_reading, staircase_start, staircase_end, slope_start, slope_end, human_analyse
+	MissionID  uint    `gorm:"not null" json:"mission_id"`
+	Order      int     `gorm:"not null" json:"order"`
+	Name       string  `gorm:"not null" json:"name"`
+	WaypointID string  `json:"waypoint_id"` // Canonical ID: Way[FLOOR]XXX
+	Floor      int     `gorm:"default:1" json:"floor"` // Floor number for waypoint ID generation
+	X          float64 `json:"x"`
+	Y          float64 `json:"y"`
+	Z          float64 `json:"z"`
+	Purpose    string  `gorm:"default:none" json:"purpose"` // none, fire_extinguisher, gauge_reading, staircase_start, staircase_end, slope_start, slope_end, human_analyse
 }
 
 // MissionCreateRequest is the request payload for creating a mission
 type MissionCreateRequest struct {
-	Name string `json:"name" binding:"required"`
+	Name         string `json:"name" binding:"required"`
+	LocationCode string `json:"location_code"` // 4-letter uppercase code, e.g. ENTC; defaults to SITE
 }
 
 // MissionWaypointCreateRequest is the request payload for adding a waypoint to a mission
 type MissionWaypointCreateRequest struct {
 	Name    string  `json:"name" binding:"required"`
+	Floor   int     `json:"floor"` // Floor number for WaypointID generation (default 1)
 	X       float64 `json:"x"`
 	Y       float64 `json:"y"`
 	Z       float64 `json:"z"`
 	Purpose string  `json:"purpose"` // none, fire_extinguisher, gauge_reading, staircase_start, staircase_end, slope_start, slope_end, human_analyse
+}
+
+// MappingGenerateRequest is the request payload for generating a map
+type MappingGenerateRequest struct {
+	SessionID *string `json:"session_id"` // Optional session UUID; nil means current session
 }
 
 // UserProfile represents the public-facing user profile

@@ -47,10 +47,11 @@ func main() {
 	r.POST("/register", api.Register)
 	r.POST("/login", api.Login)
 
-	// WebSockets (Token query param is parsed internally in handler)
+	// WebSockets (Token query param is parsed internally in handler where needed)
 	r.GET("/ws/points", api.WsPoints)
 	r.GET("/ws/tf", api.WsTF)
 	r.GET("/ws/video", api.WsVideo)
+	r.GET("/ws/robot_status", api.WsRobotStatus)
 
 	// Protected Routes
 	protected := r.Group("/")
@@ -73,9 +74,13 @@ func main() {
 		protected.POST("/missions/:id/waypoints", api.AddMissionWaypoint)
 		protected.DELETE("/missions/:id/waypoints/:wpId", api.DeleteMissionWaypoint)
 		protected.POST("/missions/:id/start", api.StartMission)
-		protected.POST("/missions/:id/terminate", api.TerminateMission)
+		protected.POST("/missions/:id/terminate", api.AbortMission) // Kept for backwards compatibility
+		protected.POST("/missions/:id/abort", api.AbortMission)
 		protected.POST("/missions/:id/mapping/start", api.StartMapping)
-		protected.POST("/missions/:id/mapping/stop", api.StopMapping)
+		protected.POST("/missions/:id/mapping/stop", api.StopMapping) // Kept for backwards compatibility
+		protected.POST("/missions/:id/mapping/end", api.StopMapping)
+		protected.POST("/missions/:id/mapping/abort", api.AbortMapping)
+		protected.POST("/missions/:id/mapping/generate", api.GenerateMap)
 
 		// Mission Result Endpoints
 		protected.GET("/missions/:id/results", api.GetMissionResults)

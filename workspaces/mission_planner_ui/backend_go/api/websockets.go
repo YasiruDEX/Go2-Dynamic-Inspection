@@ -124,3 +124,50 @@ func WsVideo(c *gin.Context) {
 		time.Sleep(100 * time.Millisecond) // 10 FPS
 	}
 }
+
+// WsRobotStatus streams canonical robot/{robot_id}/status/# MQTT messages to the browser.
+// Each message is a JSON envelope: {"topic":"...", "payload":{...}, "timestamp":"..."}
+// The WebSocket is open to all authenticated clients — no token required for local command center.
+func WsRobotStatus(c *gin.Context) {
+	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	if err != nil {
+		log.Println("WsRobotStatus Upgrade Error:", err)
+		return
+	}
+	defer conn.Close()
+
+	// Register a broadcast channel
+	ch := make(chan []byte, 64)
+	mqttclient.AddRobotStatusSub(ch)
+	defer mqttclient.RemoveRobotStatusSub(ch)
+
+	// Handle client disconnection detection in background
+	connClosed := make(chan struct{})
+	go func() {
+		defer close(connClosed)
+		for {
+			if _, _, err := conn.ReadMessage(); err != nil {
+				return
+			}
+		}
+	}()
+
+	// Send a heartbeat every 15 seconds so proxies don't close the connection
+	ticker := time.NewTicker(15 * time.Second)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-connClosed:
+			return
+		case msg := <-ch:
+			if err := conn.WriteMessage(websocket.TextMessage, msg); err != nil {
+				return
+			}
+		case <-ticker.C:
+			if err := conn.WriteMessage(websocket.PingMessage, nil); err != nil {
+				return
+			}
+		}
+	}
+}

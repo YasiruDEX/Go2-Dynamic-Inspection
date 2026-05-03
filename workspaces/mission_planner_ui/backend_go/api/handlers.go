@@ -242,9 +242,29 @@ func CreateMission(c *gin.Context) {
 		return
 	}
 
+	locationCode := req.LocationCode
+	if locationCode == "" {
+		locationCode = "SITE"
+	}
+	if len(locationCode) > 4 {
+		locationCode = locationCode[:4]
+	} else if len(locationCode) < 4 {
+		pad := 4 - len(locationCode)
+		for i := 0; i < pad; i++ {
+			locationCode += "X"
+		}
+	}
+	locationCode = strings.ToUpper(locationCode)
+
+	var count int64
+	database.DB.Model(&models.Mission{}).Where("location_code = ?", locationCode).Count(&count)
+	mqttID := fmt.Sprintf("Mis%s%04d", locationCode, count+1)
+
 	mission := models.Mission{
-		Name:   req.Name,
-		Status: "created",
+		Name:         req.Name,
+		MqttID:       mqttID,
+		LocationCode: locationCode,
+		Status:       "created",
 	}
 
 	if err := database.DB.Create(&mission).Error; err != nil {
@@ -319,14 +339,25 @@ func AddMissionWaypoint(c *gin.Context) {
 		purpose = "none"
 	}
 
+	floor := req.Floor
+	if floor <= 0 {
+		floor = 1
+	}
+
+	var count int64
+	database.DB.Model(&models.MissionWaypoint{}).Where("mission_id = ? AND floor = ?", mission.ID, floor).Count(&count)
+	waypointID := fmt.Sprintf("Way%02d%03d", floor, count+1)
+
 	wp := models.MissionWaypoint{
-		MissionID: mission.ID,
-		Order:     maxOrder + 1,
-		Name:      req.Name,
-		X:         req.X,
-		Y:         req.Y,
-		Z:         req.Z,
-		Purpose:   purpose,
+		MissionID:  mission.ID,
+		Order:      maxOrder + 1,
+		Name:       req.Name,
+		WaypointID: waypointID,
+		Floor:      floor,
+		X:          req.X,
+		Y:          req.Y,
+		Z:          req.Z,
+		Purpose:    purpose,
 	}
 
 	if err := database.DB.Create(&wp).Error; err != nil {
@@ -372,7 +403,7 @@ func StartMission(c *gin.Context) {
 		return
 	}
 
-	if err := mqttclient.PublishMissionCommand("start", mission.Name); err != nil {
+	if err := mqttclient.PublishMissionLaunch(mission.MqttID); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish MQTT command"})
 		return
 	}
@@ -382,8 +413,8 @@ func StartMission(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status": "Mission started", "mission": mission})
 }
 
-// TerminateMission sends MQTT terminate command and updates mission status
-func TerminateMission(c *gin.Context) {
+// AbortMission sends MQTT abort command and updates mission status
+func AbortMission(c *gin.Context) {
 	id := c.Param("id")
 
 	var mission models.Mission
@@ -392,14 +423,14 @@ func TerminateMission(c *gin.Context) {
 		return
 	}
 
-	if err := mqttclient.PublishMissionCommand("terminate", mission.Name); err != nil {
+	if err := mqttclient.PublishMissionAbort(); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish MQTT command"})
 		return
 	}
 
-	mission.Status = "terminated"
+	mission.Status = "aborted"
 	database.DB.Save(&mission)
-	c.JSON(http.StatusOK, gin.H{"status": "Mission terminated", "mission": mission})
+	c.JSON(http.StatusOK, gin.H{"status": "Mission aborted", "mission": mission})
 }
 
 // StartMapping sends MQTT mapping start command and updates mission status
@@ -412,7 +443,7 @@ func StartMapping(c *gin.Context) {
 		return
 	}
 
-	if err := mqttclient.PublishMappingCommand("start"); err != nil {
+	if err := mqttclient.PublishMappingStart(); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish MQTT command"})
 		return
 	}
@@ -432,7 +463,7 @@ func StopMapping(c *gin.Context) {
 		return
 	}
 
-	if err := mqttclient.PublishMappingCommand("stop"); err != nil {
+	if err := mqttclient.PublishMappingEnd(); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish MQTT command"})
 		return
 	}
@@ -440,6 +471,50 @@ func StopMapping(c *gin.Context) {
 	mission.Status = "ready"
 	database.DB.Save(&mission)
 	c.JSON(http.StatusOK, gin.H{"status": "Mapping stopped", "mission": mission})
+}
+
+// AbortMapping sends MQTT mapping abort command and updates mission status
+func AbortMapping(c *gin.Context) {
+	id := c.Param("id")
+
+	var mission models.Mission
+	if err := database.DB.First(&mission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Mission not found"})
+		return
+	}
+
+	if err := mqttclient.PublishMappingAbort(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish MQTT command"})
+		return
+	}
+
+	mission.Status = "aborted"
+	database.DB.Save(&mission)
+	c.JSON(http.StatusOK, gin.H{"status": "Mapping aborted", "mission": mission})
+}
+
+// GenerateMap sends MQTT map generation command
+func GenerateMap(c *gin.Context) {
+	id := c.Param("id")
+
+	var mission models.Mission
+	if err := database.DB.First(&mission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Mission not found"})
+		return
+	}
+
+	var req models.MappingGenerateRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := mqttclient.PublishMappingGenerate(req.SessionID); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish MQTT command"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "Map generation requested", "mission": mission})
 }
 
 // --- Mission Result Handlers ---

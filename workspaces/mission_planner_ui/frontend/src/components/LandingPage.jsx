@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Activity, Map, Cpu, Zap, Shield, ChevronRight, Radio, Database, Layers, Navigation, GitBranch, BarChart3, Settings, LogOut, User, Menu, X } from 'lucide-react';
+import { Activity, Map, Cpu, Zap, Shield, ChevronRight, Radio, Database, Layers, Navigation, GitBranch, BarChart3, Settings, LogOut, User, Menu, X, Terminal } from 'lucide-react';
 
 const FEATURES = [
     {
@@ -79,7 +79,7 @@ const colorMap = {
     cyan: 'border-cyan-500/20 bg-cyan-500/5 hover:border-cyan-500/40',
 };
 
-const LandingPage = ({ onOperate, onResultEditor, onResultViewer, onLogout, user }) => {
+const LandingPage = ({ onOperate, onResultEditor, onResultViewer, onConsole, onLogout, user }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
@@ -119,6 +119,7 @@ const LandingPage = ({ onOperate, onResultEditor, onResultViewer, onLogout, user
                     {/* Desktop Nav Links */}
                     <div className="hidden md:flex items-center gap-1">
                         <NavItem label="Mission Control" onClick={onOperate} />
+                        <NavItem label="Robot Console" onClick={onConsole} />
                         <NavItem label="Result Editor" onClick={onResultEditor} />
                         <NavItem label="Mission Results" onClick={onResultViewer} />
                     </div>
@@ -150,6 +151,7 @@ const LandingPage = ({ onOperate, onResultEditor, onResultViewer, onLogout, user
                 {mobileMenuOpen && (
                     <div className="md:hidden border-t border-white/5 bg-[#070710]/95 backdrop-blur-xl px-6 py-4 space-y-2">
                         <button onClick={() => { onOperate(); setMobileMenuOpen(false); }} className="w-full text-left text-sm text-zinc-300 py-2 hover:text-white transition-colors">Mission Control</button>
+                        <button onClick={() => { onConsole(); setMobileMenuOpen(false); }} className="w-full text-left text-sm text-zinc-300 py-2 hover:text-white transition-colors">Robot Console</button>
                         <button onClick={() => { onResultEditor(); setMobileMenuOpen(false); }} className="w-full text-left text-sm text-zinc-300 py-2 hover:text-white transition-colors">Result Editor</button>
                         <button onClick={() => { onResultViewer(); setMobileMenuOpen(false); }} className="w-full text-left text-sm text-zinc-300 py-2 hover:text-white transition-colors">Mission Results</button>
                     </div>
@@ -190,9 +192,9 @@ const LandingPage = ({ onOperate, onResultEditor, onResultViewer, onLogout, user
                         <Navigation size={16} /> Mission Control
                         <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
                     </button>
-                    <button onClick={onResultEditor}
-                        className="group flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 text-zinc-300 hover:text-emerald-300 text-sm font-medium tracking-wide transition-all">
-                        <Database size={16} /> Result Editor
+                    <button onClick={onConsole}
+                        className="group flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-cyan-500/10 hover:border-cyan-500/30 text-zinc-300 hover:text-cyan-300 text-sm font-medium tracking-wide transition-all">
+                        <Terminal size={16} /> Robot Console
                     </button>
                     <button onClick={onResultViewer}
                         className="group flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-violet-500/10 hover:border-violet-500/30 text-zinc-300 hover:text-violet-300 text-sm font-medium tracking-wide transition-all">
