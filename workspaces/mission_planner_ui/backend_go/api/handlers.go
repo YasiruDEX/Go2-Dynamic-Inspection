@@ -18,11 +18,11 @@ import (
 	"gorm.io/gorm"
 )
 
-// analysisText extracts a human-readable string from a json.RawMessage analysis field.
+// analysisText extracts a human-readable string from a models.JSONText analysis field.
 // If the JSON is an object with a "summary" key, that is returned.
 // If it's a plain JSON string, the string value is returned.
 // Otherwise the raw JSON bytes are returned as a string.
-func analysisText(raw json.RawMessage) string {
+func analysisText(raw models.JSONText) string {
 	if len(raw) == 0 {
 		return ""
 	}

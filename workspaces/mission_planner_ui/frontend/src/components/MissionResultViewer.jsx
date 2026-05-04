@@ -24,6 +24,59 @@ const purposeColors = {
     elevator_inside: '#0891b2', elevator_exit: '#0e7490',
 };
 
+const safeParseJson = (data) => {
+    if (!data) return null;
+    if (typeof data === 'object') return data;
+    if (typeof data === 'string') {
+        try {
+            // Sometimes it's double-stringified
+            let parsed = JSON.parse(data);
+            if (typeof parsed === 'string') {
+                parsed = JSON.parse(parsed);
+            }
+            return parsed;
+        } catch (e) {
+            return data;
+        }
+    }
+    return null;
+};
+
+// Formats JSON analysis output nicely
+const AnalysisRenderer = ({ analysisData }) => {
+    const analysis = safeParseJson(analysisData);
+    if (!analysis) return null;
+    if (typeof analysis === 'string') return <p className="text-[9px] text-zinc-500 leading-relaxed">{analysis}</p>;
+
+    return (
+        <div className="space-y-2 mt-2 bg-black/20 p-2.5 rounded-lg border border-white/5">
+            {analysis.summary && <p className="text-[10px] text-zinc-300 font-medium leading-relaxed">{analysis.summary}</p>}
+            
+            {analysis.findings && Array.isArray(analysis.findings) && analysis.findings.length > 0 && (
+                <div className="space-y-1">
+                    <span className="text-[8px] font-bold uppercase tracking-wider text-zinc-600">Findings</span>
+                    <ul className="list-disc pl-3 text-[9px] text-zinc-500 space-y-0.5">
+                        {analysis.findings.map((f, i) => <li key={i}>{f}</li>)}
+                    </ul>
+                </div>
+            )}
+            
+            <div className="flex flex-wrap gap-1.5 mt-2">
+                {Object.entries(analysis).map(([k, v]) => {
+                    // Skip keys we already explicitly rendered or are basic top-level status info
+                    if (['summary', 'findings', 'decision', 'confidence', 'task', 'vlm_raw_response'].includes(k)) return null;
+                    let displayVal = typeof v === 'object' ? JSON.stringify(v) : String(v);
+                    return (
+                        <div key={k} className="px-1.5 py-0.5 bg-zinc-800/40 rounded border border-zinc-700/50 text-[8px] text-zinc-400">
+                            <span className="font-bold text-zinc-500 mr-1">{k}:</span>{displayVal}
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
 // Interactive waypoint sphere
 const WaypointMarker = ({ wp, result, index, isSelected, isHovered, onSelect, onHover }) => {
     const meshRef = useRef();
@@ -87,6 +140,13 @@ const WaypointMarker = ({ wp, result, index, isSelected, isHovered, onSelect, on
                                 <div className={`text-[8px] font-bold ${isSuccess ? 'text-emerald-400' : 'text-red-400'}`}>
                                     {isSuccess ? '✓ PASS' : '✗ FAIL'} · {Math.round((result.confidence || 0) * 100)}%
                                 </div>
+                                {(() => {
+                                    const parsed = safeParseJson(result.analysis);
+                                    if (parsed && typeof parsed === 'object' && parsed.summary) {
+                                        return <div className="text-[8px] text-zinc-400 max-w-[150px] truncate mt-0.5 whitespace-normal leading-tight">{parsed.summary}</div>;
+                                    }
+                                    return null;
+                                })()}
                                 {result.image && (
                                     <img src={result.image} alt="" className="w-20 h-12 rounded-lg object-cover mt-1 border border-white/10"
                                         onError={e => e.target.style.display = 'none'} />
@@ -226,11 +286,7 @@ const MissionResultViewer = ({ onBack }) => {
                                                 {ok ? <CheckCircle size={8} /> : <XCircle size={8} />} {ok ? 'PASS' : 'FAIL'}
                                             </div>
                                             <div className="text-[9px] text-zinc-400">Confidence: <span className="text-white font-bold">{Math.round((r.confidence || 0) * 100)}%</span></div>
-                                            {r.analysis && (
-                                                <p className="text-[9px] text-zinc-500 leading-relaxed">
-                                                    {typeof r.analysis === 'object' ? (r.analysis.summary || JSON.stringify(r.analysis)) : r.analysis}
-                                                </p>
-                                            )}
+                                            <AnalysisRenderer analysisData={r.analysis} />
                                             {r.image && (
                                                 <img src={r.image} alt="" className="w-full rounded-lg border border-zinc-800 object-cover"
                                                     onError={e => e.target.style.display = 'none'} />
@@ -347,7 +403,11 @@ const MissionResultViewer = ({ onBack }) => {
                                                             ) : <span className="text-zinc-700">—</span>}
                                                         </td>
                                                         <td className="px-4 py-2.5 text-zinc-500 max-w-[160px] truncate text-[9px]">
-                                                            {r?.analysis ? (typeof r.analysis === 'object' ? (r.analysis.summary || JSON.stringify(r.analysis)) : r.analysis) : '—'}
+                                                            {(() => {
+                                                                const parsed = safeParseJson(r?.analysis);
+                                                                if (!parsed) return '—';
+                                                                return typeof parsed === 'object' ? (parsed.summary || JSON.stringify(parsed)) : parsed;
+                                                            })()}
                                                         </td>
                                                         <td className="px-4 py-2.5">
                                                             {r?.image ? (

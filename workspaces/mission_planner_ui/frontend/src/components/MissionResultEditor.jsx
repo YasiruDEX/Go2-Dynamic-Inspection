@@ -265,8 +265,8 @@ const MissionResultEditor = ({ onBack }) => {
                                             {/* Analysis */}
                                             <div className="col-span-12">
                                                 <label className="text-[8px] font-bold uppercase tracking-wider text-zinc-600 mb-1.5 block">Analysis Notes</label>
-                                                <textarea value={r.analysis} onChange={e => updateResult(wp.ID, 'analysis', e.target.value)} placeholder="Describe inspection findings..."
-                                                    rows={2} className="w-full bg-zinc-900/50 border border-zinc-800 rounded-lg px-3 py-2 text-[10px] text-white focus:outline-none focus:border-zinc-700 placeholder-zinc-700 resize-none" />
+                                                <textarea value={r.analysis} onChange={e => updateResult(wp.ID, 'analysis', e.target.value)} placeholder="Describe inspection findings or paste JSON..."
+                                                    rows={6} className="w-full bg-zinc-900/50 border border-zinc-800 rounded-lg px-3 py-2 text-[10px] text-white focus:outline-none focus:border-zinc-700 placeholder-zinc-700 resize-none font-mono" />
                                             </div>
                                         </div>
                                     </div>
