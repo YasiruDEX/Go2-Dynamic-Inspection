@@ -310,7 +310,7 @@ const MissionResultViewer = ({ onBack }) => {
                     ) : (
                         <>
                             {/* 3D Canvas */}
-                            <div className="flex-1 relative min-h-0" style={{ flexBasis: results.length > 0 ? '55%' : '100%' }}>
+                            <div className="flex-1 relative min-h-0" style={{ flexBasis: results.length > 0 ? '35%' : '100%' }}>
                                 <Canvas camera={{ position: [5, 5, 5], fov: 50 }}>
                                     <color attach="background" args={['#0a0a0f']} />
                                     <fog attach="fog" args={['#0a0a0f', 40, 120]} />
@@ -356,70 +356,66 @@ const MissionResultViewer = ({ onBack }) => {
                                 </div>
                             </div>
 
-                            {/* Results table */}
+                            {/* Results list */}
                             {results.length > 0 && (
-                                <div className="border-t border-white/5 overflow-auto" style={{ flexBasis: '45%', flexShrink: 0 }}>
-                                    <table className="w-full text-xs">
-                                        <thead className="sticky top-0 bg-[#0a0a0f]/95 backdrop-blur-sm">
-                                            <tr className="text-left text-zinc-600 uppercase tracking-wider border-b border-white/5 text-[9px]">
-                                                <th className="px-4 py-2.5 font-bold">#</th>
-                                                <th className="px-4 py-2.5 font-bold">Waypoint</th>
-                                                <th className="px-4 py-2.5 font-bold">Purpose</th>
-                                                <th className="px-4 py-2.5 font-bold">Result</th>
-                                                <th className="px-4 py-2.5 font-bold">Confidence</th>
-                                                <th className="px-4 py-2.5 font-bold">Analysis</th>
-                                                <th className="px-4 py-2.5 font-bold">Image</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {waypoints.map((wp, idx) => {
-                                                const r = resultMap[wp.ID];
-                                                const isSuccess = r?.success === 'yes';
-                                                const isActive = selectedWp?.ID === wp.ID;
-                                                return (
-                                                    <tr key={wp.ID} onClick={() => handleWpSelect(wp, r)}
-                                                        className={`border-b border-white/[0.03] transition-colors cursor-pointer ${isActive ? 'bg-sky-600/10' : 'hover:bg-white/[0.02]'}`}>
-                                                        <td className="px-4 py-2.5 text-zinc-600 font-mono">{idx + 1}</td>
-                                                        <td className="px-4 py-2.5 font-bold text-zinc-200">{wp.name}</td>
-                                                        <td className="px-4 py-2.5">
-                                                            <span className="px-1.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-[8px] font-bold uppercase">{wp.purpose || 'none'}</span>
-                                                        </td>
-                                                        <td className="px-4 py-2.5">
-                                                            {r ? (
-                                                                <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[8px] font-black uppercase ${isSuccess ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
-                                                                    {isSuccess ? <CheckCircle size={8} /> : <XCircle size={8} />} {isSuccess ? 'PASS' : 'FAIL'}
-                                                                </span>
-                                                            ) : <span className="text-zinc-700 text-[9px]">—</span>}
-                                                        </td>
-                                                        <td className="px-4 py-2.5">
-                                                            {r ? (
-                                                                <div className="flex items-center gap-2">
-                                                                    <div className="w-14 h-1 rounded-full bg-zinc-800 overflow-hidden">
+                                <div className="border-t border-white/5 overflow-auto p-4 space-y-4 bg-[#050508]" style={{ flexBasis: '65%', flexShrink: 0 }}>
+                                    {waypoints.map((wp, idx) => {
+                                        const r = resultMap[wp.ID];
+                                        const isSuccess = r?.success === 'yes';
+                                        const isActive = selectedWp?.ID === wp.ID;
+                                        return (
+                                            <div key={wp.ID} onClick={() => handleWpSelect(wp, r)}
+                                                className={`flex flex-col md:flex-row gap-4 p-4 rounded-xl border transition-colors cursor-pointer shadow-lg ${isActive ? 'bg-sky-900/10 border-sky-500/30' : 'bg-[#0a0a0f] border-white/5 hover:border-white/10'}`}>
+                                                
+                                                {/* Left Column: Image */}
+                                                <div className="shrink-0">
+                                                    {r?.image ? (
+                                                        <img src={r.image} alt="" className="h-40 w-56 rounded-lg border border-zinc-800 object-cover shadow-xl"
+                                                            onError={e => e.target.style.display = 'none'} />
+                                                    ) : (
+                                                        <div className="h-40 w-56 rounded-lg border border-zinc-800 bg-zinc-900/50 flex items-center justify-center text-zinc-700 text-xs font-mono shadow-inner">NO IMAGE</div>
+                                                    )}
+                                                </div>
+
+                                                {/* Right Column: Info */}
+                                                <div className="flex-1 flex flex-col min-w-0">
+                                                    <div className="flex items-start justify-between mb-3 border-b border-white/5 pb-2">
+                                                        <div className="flex items-center gap-3">
+                                                            <span className="text-zinc-600 font-mono text-xs font-bold">#{idx + 1}</span>
+                                                            <h3 className="font-bold text-zinc-200 text-sm">{wp.name}</h3>
+                                                            <span className="px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-[9px] font-bold uppercase">{wp.purpose || 'none'}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-4">
+                                                            {r && (
+                                                                <div className="flex items-center gap-2" title="Confidence Score">
+                                                                    <div className="w-20 h-1.5 rounded-full bg-zinc-800 overflow-hidden">
                                                                         <div className={`h-full rounded-full ${(r.confidence || 0) > 0.7 ? 'bg-emerald-500' : (r.confidence || 0) > 0.4 ? 'bg-amber-500' : 'bg-red-500'}`}
                                                                             style={{ width: `${(r.confidence || 0) * 100}%` }} />
                                                                     </div>
-                                                                    <span className="text-zinc-400 font-mono text-[9px]">{Math.round((r.confidence || 0) * 100)}%</span>
+                                                                    <span className="text-zinc-400 font-mono text-[10px]">{Math.round((r.confidence || 0) * 100)}%</span>
                                                                 </div>
-                                                            ) : <span className="text-zinc-700">—</span>}
-                                                        </td>
-                                                        <td className="px-4 py-2.5 text-zinc-500 max-w-[160px] truncate text-[9px]">
-                                                            {(() => {
-                                                                const parsed = safeParseJson(r?.analysis);
-                                                                if (!parsed) return '—';
-                                                                return typeof parsed === 'object' ? (parsed.summary || JSON.stringify(parsed)) : parsed;
-                                                            })()}
-                                                        </td>
-                                                        <td className="px-4 py-2.5">
-                                                            {r?.image ? (
-                                                                <img src={r.image} alt="" className="h-7 w-10 rounded border border-zinc-800 object-cover"
-                                                                    onError={e => e.target.style.display = 'none'} />
-                                                            ) : <span className="text-zinc-700">—</span>}
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
-                                        </tbody>
-                                    </table>
+                                                            )}
+                                                            {r ? (
+                                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase shadow-md ${isSuccess ? 'bg-emerald-500/20 text-emerald-400 shadow-emerald-500/10' : 'bg-red-500/20 text-red-400 shadow-red-500/10'}`}>
+                                                                    {isSuccess ? <CheckCircle size={12} /> : <XCircle size={12} />} {isSuccess ? 'PASS' : 'FAIL'}
+                                                                </span>
+                                                            ) : <span className="text-zinc-700 text-[10px] uppercase font-bold">— pending</span>}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="flex-1">
+                                                        {r ? (
+                                                            <div className="rounded-lg h-full overflow-hidden">
+                                                                <AnalysisRenderer analysisData={r.analysis} />
+                                                            </div>
+                                                        ) : (
+                                                            <div className="h-full flex items-center text-zinc-600 text-xs italic">No analysis data available.</div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             )}
 

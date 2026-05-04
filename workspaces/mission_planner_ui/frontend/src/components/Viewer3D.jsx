@@ -394,94 +394,6 @@ const MiniMap = ({ waypoints = [], theme }) => {
     );
 };
 
-const TVStatic = ({ width = "100%", height = "100%" }) => {
-    const canvasRef = useRef(null);
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        let animationFrameId;
-
-        const resize = () => {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-        };
-        window.addEventListener('resize', resize);
-        resize();
-
-        const render = () => {
-            const imageData = ctx.createImageData(canvas.width, canvas.height);
-            const data = imageData.data;
-            for (let i = 0; i < data.length; i += 4) {
-                const val = Math.random() * 255;
-                data[i] = val;     // R
-                data[i + 1] = val; // G
-                data[i + 2] = val; // B
-                data[i + 3] = 255; // A
-            }
-            ctx.putImageData(imageData, 0, 0);
-            animationFrameId = requestAnimationFrame(render);
-        };
-
-        render();
-
-        return () => {
-            cancelAnimationFrame(animationFrameId);
-            window.removeEventListener('resize', resize);
-        };
-    }, []);
-
-    return (
-        <div className="relative w-full h-full overflow-hidden bg-zinc-900">
-            <canvas ref={canvasRef} className="w-full h-full opacity-40 mix-blend-screen" />
-            <div className="absolute inset-0 bg-neutral-900/20 pointer-events-none"></div>
-            {/* Scanlines Effect */}
-            <div className="absolute inset-0 pointer-events-none opacity-20"
-                style={{ backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))', backgroundSize: '100% 4px, 3px 100%' }}>
-            </div>
-            {/* NO SIGNAL Text Overlay */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                <div className="px-3 py-1 bg-black/60 backdrop-blur-md border border-white/10 rounded flex items-center gap-3">
-                    <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse shadow-[0_0_8px_rgba(220,38,38,0.8)]"></div>
-                    <span className="text-[10px] font-black tracking-[0.3em] text-white uppercase font-mono">No Signal</span>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const CameraFeed = () => {
-    const [imageSrc, setImageSrc] = useState(null);
-
-    useEffect(() => {
-        const token = localStorage.getItem('auth_token');
-                const ws = new WebSocket(`${WS_BASE}/ws/video?token=${token}`);
-        ws.onmessage = (event) => {
-            setImageSrc(`data:image/jpeg;base64,${event.data}`);
-        };
-        return () => ws.close();
-    }, []);
-
-    if (!imageSrc) return (
-        <div className="w-64 h-48 md:w-80 md:h-56 bg-black/80 flex items-center justify-center border border-zinc-800 rounded-lg overflow-hidden relative shadow-2xl transition-all duration-300 hover:scale-105">
-            <TVStatic />
-        </div>
-    );
-
-    return (
-        <div className="relative border border-zinc-500/50 rounded-lg overflow-hidden shadow-2xl bg-black w-64 md:w-80 transition-all duration-300 hover:scale-105">
-            <img src={imageSrc} alt="Robot Camera" className="w-full h-auto object-cover" />
-            <div className="absolute top-2 right-2 flex gap-1">
-                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_red]"></div>
-            </div>
-            <div className={`absolute bottom-2 left-2 text-[10px] bg-zinc-950/80 px-2 py-0.5 rounded font-mono backdrop-blur-sm border border-white/10 ${isDark ? 'text-zinc-300' : 'text-blue-600'}`}>
-                CAM_01 :: RAW
-            </div>
-        </div>
-    );
-}
-
 const InteractionPlane = ({ onPointSelected }) => {
     const pointerDownPos = useRef(null);
 
@@ -1116,14 +1028,6 @@ const Viewer3D = ({ onBack, onLogout }) => {
                             Area Map Overlay
                         </div>
                         <MiniMap waypoints={waypoints} theme={theme} />
-                    </div>
-
-                    {/* Camera Feed Overlay - Bottom Right */}
-                    <div className="absolute bottom-6 right-6 z-20 flex flex-col items-end gap-2">
-                        <div className={`text-[10px] font-bold uppercase tracking-wider mb-1 px-2 py-0.5 rounded backdrop-blur-md border ${isDark ? 'text-zinc-400 bg-black/40 border-white/5' : 'text-zinc-600 bg-white/60 border-zinc-200'}`}>
-                            Live Feed
-                        </div>
-                        <CameraFeed />
                     </div>
 
                     {/* Mission Status HUD */}
