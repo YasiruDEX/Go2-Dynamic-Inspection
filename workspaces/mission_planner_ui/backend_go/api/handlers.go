@@ -18,6 +18,31 @@ import (
 	"gorm.io/gorm"
 )
 
+// analysisText extracts a human-readable string from a json.RawMessage analysis field.
+// If the JSON is an object with a "summary" key, that is returned.
+// If it's a plain JSON string, the string value is returned.
+// Otherwise the raw JSON bytes are returned as a string.
+func analysisText(raw json.RawMessage) string {
+	if len(raw) == 0 {
+		return ""
+	}
+	// Try object with "summary"
+	var obj map[string]interface{}
+	if err := json.Unmarshal(raw, &obj); err == nil {
+		if summary, ok := obj["summary"].(string); ok && summary != "" {
+			return summary
+		}
+		// Fall back to full JSON for object
+		return string(raw)
+	}
+	// Try plain string
+	var s string
+	if err := json.Unmarshal(raw, &s); err == nil {
+		return s
+	}
+	return string(raw)
+}
+
 // AuthMiddleware protects routes requiring JWT
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -651,7 +676,7 @@ func ChatWithGemini(c *gin.Context) {
 				contextParts = append(contextParts,
 					fmt.Sprintf(
 						"- Waypoint: %s | Purpose: %s | Success: %s | Confidence: %.0f%% | Analysis: %s",
-						wpName, r.MissionWaypoint.Purpose, r.Success, r.Confidence*100, r.Analysis,
+						wpName, r.MissionWaypoint.Purpose, r.Success, r.Confidence*100, analysisText(r.Analysis),
 					))
 			}
 		} else {
@@ -699,7 +724,7 @@ func ChatWithGemini(c *gin.Context) {
 					}
 					contextParts = append(contextParts, fmt.Sprintf(
 						"  - Waypoint: %s | Purpose: %s | Result: %s | Confidence: %.0f%% | Analysis: %s",
-						wpName, r.MissionWaypoint.Purpose, r.Success, r.Confidence*100, r.Analysis,
+						wpName, r.MissionWaypoint.Purpose, r.Success, r.Confidence*100, analysisText(r.Analysis),
 					))
 				}
 

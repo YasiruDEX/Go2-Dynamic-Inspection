@@ -1,6 +1,8 @@
 package models
 
 import (
+	"encoding/json"
+
 	"gorm.io/gorm"
 )
 
@@ -104,13 +106,13 @@ type SavedWaypoint struct {
 // MissionResult records inspection outcomes per waypoint per date
 type MissionResult struct {
 	gorm.Model
-	MissionID         uint    `gorm:"not null;index;uniqueIndex:idx_mission_wp_date" json:"mission_id"`
-	MissionWaypointID uint    `gorm:"not null;index;uniqueIndex:idx_mission_wp_date" json:"mission_waypoint_id"`
-	Date              string  `gorm:"not null;index;uniqueIndex:idx_mission_wp_date" json:"date"` // YYYY-MM-DD
-	ImageURL          string  `json:"image_url"`
-	Success           string  `gorm:"default:no" json:"success"`     // "yes" or "no"
-	Analysis          string  `gorm:"type:text" json:"analysis"`
-	Confidence        float64 `gorm:"default:0" json:"confidence"`   // 0.0 - 1.0
+	MissionID         uint            `gorm:"not null;index;uniqueIndex:idx_mission_wp_date" json:"mission_id"`
+	MissionWaypointID uint            `gorm:"not null;index;uniqueIndex:idx_mission_wp_date" json:"mission_waypoint_id"`
+	Date              string          `gorm:"not null;index;uniqueIndex:idx_mission_wp_date" json:"date"` // YYYY-MM-DD
+	ImageURL          string          `gorm:"type:text" json:"image"` // base64 data URI: data:image/jpeg;base64,...
+	Success           string          `gorm:"default:no" json:"success"`     // "yes" or "no"
+	Analysis          json.RawMessage `gorm:"type:text" json:"analysis"`     // JSON object stored as text, returned as native JSON
+	Confidence        float64         `gorm:"default:0" json:"confidence"`   // 0.0 - 1.0
 
 	Mission         Mission         `gorm:"foreignKey:MissionID" json:"mission,omitempty"`
 	MissionWaypoint MissionWaypoint `gorm:"foreignKey:MissionWaypointID" json:"waypoint,omitempty"`
@@ -118,12 +120,12 @@ type MissionResult struct {
 
 // MissionResultCreateRequest is the request payload
 type MissionResultCreateRequest struct {
-	MissionWaypointID uint    `json:"mission_waypoint_id" binding:"required"`
-	Date              string  `json:"date" binding:"required"`
-	ImageURL          string  `json:"image_url"`
-	Success           string  `json:"success"`
-	Analysis          string  `json:"analysis"`
-	Confidence        float64 `json:"confidence"`
+	MissionWaypointID uint            `json:"mission_waypoint_id" binding:"required"`
+	Date              string          `json:"date" binding:"required"`
+	ImageURL          string          `json:"image"`      // base64 data URI
+	Success           string          `json:"success"`
+	Analysis          json.RawMessage `json:"analysis"`   // JSON object or null
+	Confidence        float64         `json:"confidence"`
 }
 
 // ChatRequest is the request payload for the Gemini chat

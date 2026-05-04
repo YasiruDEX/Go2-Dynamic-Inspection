@@ -53,27 +53,39 @@ const MissionResultEditor = ({ onBack }) => {
         apiCall(`/missions/${selectedMission.ID}/results?date=${selectedDate}`).then(data => {
             const map = {};
             (data || []).forEach(r => {
-                map[r.mission_waypoint_id] = { id: r.ID, image_url: r.image_url || '', success: r.success || 'no', analysis: r.analysis || '', confidence: r.confidence || 0 };
+                let analysisStr = '';
+                if (r.analysis) {
+                    analysisStr = typeof r.analysis === 'object' ? JSON.stringify(r.analysis, null, 2) : r.analysis;
+                }
+                map[r.mission_waypoint_id] = { id: r.ID, image: r.image || '', success: r.success || 'no', analysis: analysisStr, confidence: r.confidence || 0 };
             });
             setResults(map);
         }).catch(console.error);
     }, [selectedMission, selectedDate]);
 
     const updateResult = (wpId, field, value) => {
-        setResults(prev => ({ ...prev, [wpId]: { ...(prev[wpId] || { image_url: '', success: 'no', analysis: '', confidence: 0 }), [field]: value } }));
+        setResults(prev => ({ ...prev, [wpId]: { ...(prev[wpId] || { image: '', success: 'no', analysis: '', confidence: 0 }), [field]: value } }));
     };
 
     const saveResult = async (wp) => {
         if (!selectedMission) return;
         const r = results[wp.ID] || {};
-        setSaving(prev => ({ ...prev, [wp.ID]: true }));
+        let analysisData = r.analysis || '';
+        if (typeof analysisData === 'string') {
+            try {
+                analysisData = JSON.parse(analysisData);
+            } catch (e) {
+                // leave as string
+            }
+        }
+
         try {
             await apiCall(`/missions/${selectedMission.ID}/results`, 'POST', {
                 mission_waypoint_id: wp.ID,
                 date: selectedDate,
-                image_url: r.image_url || '',
+                image: r.image || '',
                 success: r.success || 'no',
-                analysis: r.analysis || '',
+                analysis: analysisData,
                 confidence: parseFloat(r.confidence) || 0,
             });
             setSaved(prev => ({ ...prev, [wp.ID]: true }));
@@ -184,7 +196,7 @@ const MissionResultEditor = ({ onBack }) => {
                                 <span className="font-bold text-white">{selectedMission.name}</span> · {selectedDate}
                             </div>
                             {waypoints.map((wp, idx) => {
-                                const r = results[wp.ID] || { image_url: '', success: 'no', analysis: '', confidence: 0 };
+                                const r = results[wp.ID] || { image: '', success: 'no', analysis: '', confidence: 0 };
                                 const isSaving = saving[wp.ID];
                                 const isSaved = saved[wp.ID];
                                 const isPass = r.success === 'yes';
@@ -237,14 +249,14 @@ const MissionResultEditor = ({ onBack }) => {
                                                     className="w-full h-1.5 rounded-full appearance-none bg-zinc-800 cursor-pointer mt-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-sky-500" />
                                             </div>
 
-                                            {/* Image URL */}
+                                            {/* Image Base64 */}
                                             <div className="col-span-12 md:col-span-6">
-                                                <label className="text-[8px] font-bold uppercase tracking-wider text-zinc-600 mb-1.5 flex items-center gap-1"><Image size={8} /> Image URL</label>
+                                                <label className="text-[8px] font-bold uppercase tracking-wider text-zinc-600 mb-1.5 flex items-center gap-1"><Image size={8} /> Image Data</label>
                                                 <div className="flex gap-2">
-                                                    <input type="text" value={r.image_url} onChange={e => updateResult(wp.ID, 'image_url', e.target.value)} placeholder="https://..."
+                                                    <input type="text" value={r.image} onChange={e => updateResult(wp.ID, 'image', e.target.value)} placeholder="data:image/jpeg;base64,..."
                                                         className="flex-1 bg-zinc-900/50 border border-zinc-800 rounded-lg px-3 py-1.5 text-[10px] text-white focus:outline-none focus:border-zinc-700 placeholder-zinc-700 font-mono" />
-                                                    {r.image_url && (
-                                                        <img src={r.image_url} alt="" className="h-8 w-12 rounded-lg border border-zinc-800 object-cover flex-shrink-0"
+                                                    {r.image && (
+                                                        <img src={r.image} alt="" className="h-8 w-12 rounded-lg border border-zinc-800 object-cover flex-shrink-0"
                                                             onError={e => e.target.style.display = 'none'} />
                                                     )}
                                                 </div>

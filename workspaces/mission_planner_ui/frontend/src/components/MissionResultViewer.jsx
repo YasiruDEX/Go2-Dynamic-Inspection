@@ -87,8 +87,8 @@ const WaypointMarker = ({ wp, result, index, isSelected, isHovered, onSelect, on
                                 <div className={`text-[8px] font-bold ${isSuccess ? 'text-emerald-400' : 'text-red-400'}`}>
                                     {isSuccess ? '✓ PASS' : '✗ FAIL'} · {Math.round((result.confidence || 0) * 100)}%
                                 </div>
-                                {result.image_url && (
-                                    <img src={result.image_url} alt="" className="w-20 h-12 rounded-lg object-cover mt-1 border border-white/10"
+                                {result.image && (
+                                    <img src={result.image} alt="" className="w-20 h-12 rounded-lg object-cover mt-1 border border-white/10"
                                         onError={e => e.target.style.display = 'none'} />
                                 )}
                             </>
@@ -226,9 +226,13 @@ const MissionResultViewer = ({ onBack }) => {
                                                 {ok ? <CheckCircle size={8} /> : <XCircle size={8} />} {ok ? 'PASS' : 'FAIL'}
                                             </div>
                                             <div className="text-[9px] text-zinc-400">Confidence: <span className="text-white font-bold">{Math.round((r.confidence || 0) * 100)}%</span></div>
-                                            {r.analysis && <p className="text-[9px] text-zinc-500 leading-relaxed">{r.analysis}</p>}
-                                            {r.image_url && (
-                                                <img src={r.image_url} alt="" className="w-full rounded-lg border border-zinc-800 object-cover"
+                                            {r.analysis && (
+                                                <p className="text-[9px] text-zinc-500 leading-relaxed">
+                                                    {typeof r.analysis === 'object' ? (r.analysis.summary || JSON.stringify(r.analysis)) : r.analysis}
+                                                </p>
+                                            )}
+                                            {r.image && (
+                                                <img src={r.image} alt="" className="w-full rounded-lg border border-zinc-800 object-cover"
                                                     onError={e => e.target.style.display = 'none'} />
                                             )}
                                         </div>
@@ -342,10 +346,12 @@ const MissionResultViewer = ({ onBack }) => {
                                                                 </div>
                                                             ) : <span className="text-zinc-700">—</span>}
                                                         </td>
-                                                        <td className="px-4 py-2.5 text-zinc-500 max-w-[160px] truncate text-[9px]">{r?.analysis || '—'}</td>
+                                                        <td className="px-4 py-2.5 text-zinc-500 max-w-[160px] truncate text-[9px]">
+                                                            {r?.analysis ? (typeof r.analysis === 'object' ? (r.analysis.summary || JSON.stringify(r.analysis)) : r.analysis) : '—'}
+                                                        </td>
                                                         <td className="px-4 py-2.5">
-                                                            {r?.image_url ? (
-                                                                <img src={r.image_url} alt="" className="h-7 w-10 rounded border border-zinc-800 object-cover"
+                                                            {r?.image ? (
+                                                                <img src={r.image} alt="" className="h-7 w-10 rounded border border-zinc-800 object-cover"
                                                                     onError={e => e.target.style.display = 'none'} />
                                                             ) : <span className="text-zinc-700">—</span>}
                                                         </td>
