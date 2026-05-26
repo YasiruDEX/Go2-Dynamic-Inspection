@@ -212,18 +212,6 @@ sudo usermod -a -G dialout $USER
 
 ---
 
-## Next Steps
-
-1. ✅ Run device detection script
-2. ✅ Test camera feeds
-3. ⏳ Add YOLO weights and test detection
-4. ⏳ Export to TensorRT
-5. ⏳ Implement hemisphere mapping
-6. ⏳ Integrate Arduino control
-7. ⏳ Build IBVS refinement loop
-8. ⏳ Create ROS 2 nodes (optional)
-
----
 
 ## License & Citation
 
