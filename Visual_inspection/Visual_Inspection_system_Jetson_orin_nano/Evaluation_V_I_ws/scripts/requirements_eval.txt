@@ -1,0 +1,13 @@
+scikit-image
+piq
+torch
+torchvision
+bert-score
+google-generativeai
+Pillow
+opencv-python
+numpy
+requests
+pandas
+matplotlib
+seaborn

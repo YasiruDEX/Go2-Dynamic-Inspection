@@ -1,0 +1,52 @@
+# Camera Calibration Parameters
+# Updated with detected device configuration
+
+insta360:
+  device_index: 2  # /dev/video2 - Insta360 X3
+  resolution:
+    width: 640
+    height: 360
+  fps: 30
+  format: "MJPG"
+
+logitech_c920:
+  device_index: 0  # /dev/video0 - Logitech C920
+  resolution:
+    width: 640
+    height: 480
+  fps: 30
+  
+  # Camera intrinsic parameters (from actual calibration)
+  # Calibration performed with checkerboard pattern
+  intrinsics:
+    fx: 639.5293759   # Focal length X (pixels)
+    fy: 302.0592969   # Focal length Y (pixels)  
+    cx: 646.1852108   # Principal point X (pixels)
+    cy: 257.4986989   # Principal point Y (pixels)
+  
+  # Distortion coefficients [k1, k2, p1, p2, k3]
+  # From calibration results
+  distortion: [0.1391484, -0.37521469, 0.0009574, -0.00534517, 0.0]
+  
+  # Reprojection error from calibration
+  reprojection_error: 0.000000  # Very good calibration
+
+arduino:
+  port: "/dev/ttyACM0"  # Arduino Uno R3 detected
+  baudrate: 9600
+  
+servo_limits:
+  pan:
+    min: 0
+    max: 180
+    default: 90
+  tilt:
+    min: 20
+    max: 160
+    default: 90
+
+# Hemisphere-to-PTZ calibration offsets
+# These will be determined during one-time calibration
+ptz_mapping:
+  yaw_offset: 0.0
+  pitch_offset: 0.0

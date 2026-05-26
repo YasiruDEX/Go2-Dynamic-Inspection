@@ -1,0 +1,28 @@
+# Logitech C920 Camera Intrinsics (from Kalibr calibration)
+# Source: Camera calibration for Logitech C920 webcam for camera Lidar mapping
+
+camera_matrix:
+  - [639.5293759, 0.0, 302.0592969]
+  - [0.0, 646.1852510, 257.4986989]
+  - [0.0, 0.0, 1.0]
+
+distortion_model: "equidistant"
+
+distortion_coefficients: [0.1391484, -0.3752169, 0.009574, -0.0053451]
+
+# Key parameters for IBVS
+fx: 639.5293759
+fy: 646.1852510
+cx: 302.0592969
+cy: 257.4986989
+
+image_width: 640
+image_height: 480
+
+reprojection_error: 0.359535  # pixels
+
+calibration_source: "Kalibr"
+target_type: "checkerboard"
+target_rows: 6
+target_cols: 8
+target_distance: 0.024  # meters

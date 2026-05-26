@@ -1,0 +1,21 @@
+# InspectObjects.action
+# Called by BehaviorTree.CPP via BT::RosActionNode<>
+# Python Action Server: visual_inspection_ros/ibvs_action_server.py
+
+# ── GOAL (BT sends this to start inspection) ─────────────────────────────────
+int32  max_objects    # 0 = inspect all detected, N = inspect only first N
+bool   return_home    # true = servo returns to 90,90 after done
+
+---
+
+# ── RESULT (returned when inspection completes) ───────────────────────────────
+bool   success
+int32  objects_inspected
+string failed_reason  # "" on success, or: "no_detection" / "ibvs_timeout" / "mqtt_error"
+
+---
+
+# ── FEEDBACK (published during execution, BT can monitor) ────────────────────
+string current_step    # "detecting" / "coarse" / "ibvs" / "capturing" / "publishing"
+int32  current_object  # 1, 2, 3... (which object being processed now)
+float32 ibvs_error_px  # current pixel error magnitude during IBVS

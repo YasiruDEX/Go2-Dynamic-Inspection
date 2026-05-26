@@ -1,0 +1,33 @@
+# Inspect.srv  —  ROS2 Service interface for visual inspection pipeline
+#
+# BT calls this like an API endpoint:
+#   Request  → what to inspect and where
+#   Response ← what was found, image paths, status
+#
+# YOLO model classes: {0:'door', 1:'extinguisher', 2:'gauge', 3:'person'}
+# Special classes:    'unknown', 'main_cylinder'  → overview-only (no IBVS)
+
+# ── REQUEST ──────────────────────────────────────────────────────────────────
+string  target_object    # Object to inspect:
+                         #   "fire_extinguisher" | "extinguisher"
+                         #   "door" | "person" | "gauge"
+                         #   "unknown" | "main_cylinder"  → Insta360+Logitech overview only
+                         #   "" or "any"                  → detect all classes
+string  location_label   # Location identifier from BT (e.g. "engine_room_A")
+                         # Used in folder names and metadata
+int32   max_objects      # 0 = inspect all found objects, N = first N only
+bool    return_home      # true = servo returns to 90°,90° when done
+
+---
+
+# ── RESPONSE ─────────────────────────────────────────────────────────────────
+bool    success              # true if at least one object was inspected
+string  status               # "ok" | "no_detection" | "ibvs_timeout" |
+                             # "all_in_back" | "no_frames" | "busy" | "error"
+int32   objects_found        # total objects detected (Insta360)
+int32   objects_inspected    # objects successfully centred + captured
+bool    object_in_back       # true → BT should rotate robot 180° and retry
+string[] image_paths         # absolute paths to all saved images (Logitech + Insta360)
+                             # Images are kept permanently for evaluation
+string  info                 # human-readable summary, e.g.:
+                             # "gauge #1(conf=0.92) gauge #2(conf=0.78) — 6 images saved"

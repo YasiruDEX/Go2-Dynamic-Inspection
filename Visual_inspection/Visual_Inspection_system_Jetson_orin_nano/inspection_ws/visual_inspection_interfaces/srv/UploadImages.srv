@@ -1,0 +1,10 @@
+# UploadImages.srv
+# BT calls this after a successful /visual_inspection/inspect
+# The Jetson reads the saved files and HTTP-POSTs them to the laptop.
+
+string[] image_paths        # paths returned by /visual_inspection/inspect
+string session_label        # human label, e.g. "engine_room_A" — used as folder name on laptop
+---
+bool     success            # true if all files uploaded OK
+string   info               # human-readable summary
+int32    uploaded_count     # how many files actually sent
