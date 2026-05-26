@@ -3,26 +3,26 @@
 # ============================================================
 
 # ── SERVER 1: Receiver (from Jetson) — Terminal 1 ──────────
-cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\laptop_receiver_server"
+cd "E:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\laptop_receiver_server"
 python laptop_receiver.py
 # Listens on port 8888. Saves incoming images to Local_database/
 
 # ── SERVER 2: Processor (runs pipelines) — Terminal 2 ──────
-cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "E:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 .\venv\Scripts\activate
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 # Watches Local_database/ every 5s, runs gauge or VLM pipeline,
 # saves results to Local_database_results/
 
 # ── TEST: Gauge pipeline — Terminal 3 ──────────────────────
-cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "E:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 .\venv\Scripts\activate
 python test_pipeline_watcher.py
 # Takes ~3 minutes. Results saved in:
 # laptop_receiver_server\Local_database_results\ETest003\WayTest003\gauge\instance_test_gauge\
 
 # ── TEST: VLM pipeline — Terminal 3 ────────────────────────
-cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "E:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 .\venv\Scripts\activate
 python test_pipeline_watcher.py vlm
 # Takes ~20 seconds. Results saved in:
@@ -166,12 +166,12 @@ ros2 service call /visual_inspection/upload_images \
 
 
 # ── SERVER 1: Receiver (from Jetson) — Terminal 1 ──────────
-cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\laptop_receiver_server"
+cd "E:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\laptop_receiver_server"
 python laptop_receiver.py
 # Listens on port 8888. Saves incoming images to Local_database/
 
 # ── SERVER 2: Processor (runs pipelines) — Terminal 2 ──────
-cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "E:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 .\venv\Scripts\activate
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 # Watches Local_database/ every 5s, runs gauge or VLM pipeline,
@@ -185,7 +185,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 
 # ── SERVER 3: UI Dashboard — Terminal 4 ─────────────────────
-cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\UI"
+cd "E:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\UI"
 pip install flask
 python server.py
 # Opens dashboard at: http://localhost:5050
@@ -216,6 +216,6 @@ python server.py
 
 
 
-cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "E:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 .\venv\Scripts\activate
 python upload_existing_results.py

@@ -38,7 +38,7 @@ curl http://localhost:8000/api/v1/jobs/<job_id>/roi --output gauge_image.jpg
 
 **Query database:**
 ```bash
-cd "e:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "e:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 
 # View all gauge jobs
 sqlite3 data/vi_server.db "SELECT job_id, status, result_json FROM jobs WHERE object_type='gauge';"
@@ -104,7 +104,7 @@ python view_results.py
 
 ### Option 1: File Explorer
 ```
-Navigate to: e:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\data\jobs\
+Navigate to: e:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server\data\jobs\
 Open: <job_id>\roi.jpg
 ```
 
