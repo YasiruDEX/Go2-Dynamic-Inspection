@@ -3,7 +3,7 @@ import shutil
 import glob
 import random
 
-inspection_dir = r"E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\captures_from_jetson\inspection"
+inspection_dir = r"E:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\captures_from_jetson\inspection"
 output_dir = os.path.join(inspection_dir, "gauge_20_samples")
 
 if os.path.exists(output_dir):

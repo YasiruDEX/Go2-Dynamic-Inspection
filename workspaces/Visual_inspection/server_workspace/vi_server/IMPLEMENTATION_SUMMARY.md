@@ -70,7 +70,7 @@ Inspection:
 
 ### 1. Run Database Migration
 ```bash
-cd "e:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "e:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 .\venv\Scripts\activate
 python migrate_add_locations.py
 ```

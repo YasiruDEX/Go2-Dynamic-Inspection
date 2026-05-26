@@ -45,10 +45,10 @@ build_workspace() {
     local ws_name
     ws_name="$(basename "$ws_path")"
 
-    [[ -d "$ws_path/src" ]] || return
+    [[ -d "$ws_path/src" ]] || return 0
 
     if ! find "$ws_path/src" -name package.xml -type f | grep -q .; then
-        return
+        return 0
     fi
 
     echo ""

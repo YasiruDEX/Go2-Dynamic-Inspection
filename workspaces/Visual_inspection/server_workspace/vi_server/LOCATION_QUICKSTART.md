@@ -9,7 +9,7 @@
 
 ### 1. Activate Virtual Environment
 ```powershell
-cd "e:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "e:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 .\venv\Scripts\activate
 ```
 
@@ -47,7 +47,7 @@ INFO:     Uvicorn running on http://0.0.0.0:8001
 ### 4. Test the API (New Terminal)
 ```powershell
 # Open new terminal
-cd "e:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "e:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 .\venv\Scripts\activate
 python test_location_system.py
 ```
@@ -78,7 +78,7 @@ ALL TESTS COMPLETED SUCCESSFULLY!
 ### 5. Open Test UI
 ```
 1. Open your web browser
-2. Navigate to: file:///e:/sem7/FYP/Main%20repo%20github%20upload/Visual_inspection/server_workspace/vi_server/location_ui.html
+2. Navigate to: file:///e:/sem7/FYP/Main%20repo%20github%20upload/workspaces/Visual_inspection/server_workspace/vi_server/location_ui.html
 3. Or simply double-click location_ui.html
 ```
 

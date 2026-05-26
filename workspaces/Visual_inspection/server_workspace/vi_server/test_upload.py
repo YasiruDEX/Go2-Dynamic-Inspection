@@ -3,7 +3,7 @@ import time
 import json
 
 # Image path
-IMAGE_PATH = r"E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\test_images\original_image.jpg"
+IMAGE_PATH = r"E:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\test_images\original_image.jpg"
 
 print("Uploading gauge image...")
 

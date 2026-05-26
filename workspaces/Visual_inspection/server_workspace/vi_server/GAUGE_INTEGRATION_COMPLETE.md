@@ -44,7 +44,7 @@ Parse and return to server
 
 ### ✅ Direct Test (Confirmed Working):
 ```bash
-cd "e:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "e:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 .\venv\Scripts\activate
 
 # Test gauge pipeline directly

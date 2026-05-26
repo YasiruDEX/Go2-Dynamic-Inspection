@@ -86,7 +86,7 @@ vi_server/
 
 ### Start Server
 ```bash
-cd "e:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "e:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 start_server.bat
 ```
 
@@ -97,7 +97,7 @@ Server starts on:
 
 ### Test Upload
 ```bash
-cd "e:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "e:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 test_upload.bat sample_images\sample_gauge.jpg gauge
 ```
 
@@ -457,7 +457,7 @@ WORKER_POLL_INTERVAL=0.1
 
 ```bash
 # Start the server
-cd "e:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+cd "e:\sem7\FYP\Main repo github upload\workspaces\Visual_inspection\server_workspace\vi_server"
 start_server.bat
 
 # In another terminal, test it
