@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0133",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Full scale range:** A complete circle on a clock represents 12 hours for the hour hand and 60 minutes for the minute hand.\n*   **MAJOR tick mark intervals:**\n    *   For hours: The Roman numerals (I, II, III, ..., XII) represent 1-hour intervals.\n    *   For minutes: Each Roman numeral also implicitly marks a 5-minute interval (e.g., XII is 0/60 minutes, I is 5 minutes, II is 10 minutes, etc.).\n*   **MINOR tick mark intervals:**\n    *   Between each major Roman numeral (e.g., between XII and I), there are 4 smaller tick marks, creating 5 subdivisions in total. This means each small tick mark represents 1 minute.\n*   **How many subdivisions are between major marks?**\n    *   For minutes, there are 5 minor tick marks (including the major mark) between each 5-minute interval (which corresponds to an hour numeral). Therefore, each minor tick mark represents 1 minute.\n\n**Step 2 - Locate the Indicator:**\n*   **Hour Hand (shorter hand):** The hour hand is pointing just past the Roman numeral IX.\n*   **Minute Hand (longer hand):** The minute hand is pointing directly at the first minor tick mark clockwise from the Roman numeral XII.\n\n**Step 3 - Calculate the Reading:**\n*   **Hours:** The hour hand has passed IX but has not yet reached X. Therefore, the hour is 9.\n*   **Minutes:** The minute hand is at the first minor tick mark after XII. Since XII represents 0 or 60 minutes, the first tick after it represents 1 minute.\n\n**Step 4 - Identify the Unit:**\n*   The unit for a clock is typically expressed as \"hours and minutes\" or simply \"time\".\n\n**Step 5 - Provide Final Answer:**\nThe time indicated by the clock is 9 hours and 1 minute.\n\nAnswer: 9:01 time",
+  "predicted_value": 1.0,
+  "predicted_unit": "time",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

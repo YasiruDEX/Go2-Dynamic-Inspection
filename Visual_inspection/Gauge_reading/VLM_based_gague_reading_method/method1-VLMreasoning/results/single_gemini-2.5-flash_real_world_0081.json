@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0081",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 100.\n- **MAJOR tick mark intervals:** The major tick marks are labeled every 20 units (0, 20, 40, 60, 80, 100).\n- **Subdivisions between major marks:** Between each major tick mark (e.g., 0 and 20), there are 10 minor subdivisions.\n- **MINOR tick mark intervals:** To find the value of each minor tick, divide the major interval by the number of subdivisions: 20 units / 10 subdivisions = 2 units per minor tick mark.\n\n**Step 2 - Locate the Indicator:**\n- The red pointer is the indicator.\n- It is located between the major tick marks of 80 and 100.\n- Starting from 80, we count the minor ticks:\n    - 1st minor tick after 80 = 82\n    - 2nd minor tick after 80 = 84\n    - 3rd minor tick after 80 = 86\n    - 4th minor tick after 80 = 88\n    - 5th minor tick after 80 = 90\n    - 6th minor tick after 80 = 92\n    - 7th minor tick after 80 = 94\n    - 8th minor tick after 80 = 96\n    - 9th minor tick after 80 = 98\n- The pointer aligns precisely with the 9th minor tick mark after the 80 mark.\n\n**Step 3 - Calculate the Reading:**\n- Value of the lower major tick: 80\n- Contribution from minor ticks: 9 minor ticks * 2 units/minor tick = 18 units\n- Total reading: 80 + 18 = 98\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is \"\u00b5A\", which stands for microamperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 98 \u00b5A",
+  "predicted_value": 18.0,
+  "predicted_unit": "units",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      92,
+      94
+    ],
+    "unit": null
+  }
+}

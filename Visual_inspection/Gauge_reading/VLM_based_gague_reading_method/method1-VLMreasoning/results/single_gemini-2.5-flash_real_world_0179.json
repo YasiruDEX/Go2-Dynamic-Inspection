@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0179",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock displays hours from 1 to 12 and minutes from 0 to 60.\n-   **MAJOR tick mark intervals:**\n    -   For hours: The large numbers (1, 2, ..., 12) represent 1-hour intervals.\n    -   For minutes: The same large numbers represent 5-minute intervals (e.g., 12 is 0/60 minutes, 3 is 15 minutes). There are also slightly smaller tick marks at every 5-minute interval.\n-   **MINOR tick mark intervals:** Between each 5-minute major mark (or hour number), there are 4 smaller tick marks, indicating 1-minute intervals. Thus, each minor tick represents 1 minute.\n-   **Subdivisions between major marks:** There are 5 minor tick marks (including the 5-minute mark itself) between each hour number for the minutes scale (e.g., between 12 and 1, there are 5 ticks representing 1, 2, 3, 4, 5 minutes).\n\n**Step 2 - Locate the Indicator:**\n-   **Hour Hand (shorter, thicker pointer):** Points directly at the number '9'.\n-   **Minute Hand (longer, thinner pointer):** Points directly at the number '12'.\n-   **Second Hand (thinnest pointer):** Points directly at the number '12'.\n-   **Date Display (digital):** Shows \"1 1\" below the clock face.\n\n**Step 3 - Calculate the Reading:**\n-   **Hours:** The hour hand is precisely on the '9'.\n-   **Minutes:** The minute hand is precisely on the '12', which corresponds to 0 minutes past the hour.\n-   **Seconds:** The second hand is precisely on the '12', which corresponds to 0 seconds past the minute.\n-   Therefore, the time shown is exactly 9:00:00.\n-   The date display indicates the 11th day of the month.\n\n**Step 4 - Identify the Unit:**\n-   The unit for the hands is \"hours\", \"minutes\", and \"seconds\". When the minute hand is exactly on 12, the time is commonly referred to as \"o'clock\".\n\n**Step 5 - Provide Final Answer:**\nAnswer: 9 o'clock",
+  "predicted_value": 9.0,
+  "predicted_unit": "o",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

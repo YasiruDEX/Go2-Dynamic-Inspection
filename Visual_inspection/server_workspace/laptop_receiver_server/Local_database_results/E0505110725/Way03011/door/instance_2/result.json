@@ -1,0 +1,24 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The double glass door is in a closed position, with both panels fully aligned within the frame.",
+  "findings": [
+    "A double glass door with an aluminum frame is clearly visible in the image.",
+    "Both door panels are flush with the surrounding frame, indicating no open gaps.",
+    "The door closer mechanism at the top appears to be in its fully retracted position, consistent with a closed door.",
+    "There are no visible gaps between the two door panels or between the panels and the side frames, confirming a closed state."
+  ],
+  "evidence": {
+    "open": false
+  },
+  "extracted_objects": [
+    "door",
+    "glass panels",
+    "door frame",
+    "door handles",
+    "door closer",
+    "access control device"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The double glass door is in a closed position, with both panels fully aligned within the frame.\",\n  \"findings\": [\n    \"A double glass door with an aluminum frame is clearly visible in the image.\",\n    \"Both door panels are flush with the surrounding frame, indicating no open gaps.\",\n    \"The door closer mechanism at the top appears to be in its fully retracted position, consistent with a closed door.\",\n    \"There are no visible gaps between the two door panels or between the panels and the side frames, confirming a closed state.\"\n  ],\n  \"evidence\": {\n    \"open\": false\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"glass panels\",\n    \"door frame\",\n    \"door handles\",\n    \"door closer\",\n    \"access control device\"\n  ]\n}"
+}

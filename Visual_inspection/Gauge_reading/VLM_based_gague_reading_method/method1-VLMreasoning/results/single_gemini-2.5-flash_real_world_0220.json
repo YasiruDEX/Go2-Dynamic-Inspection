@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0220",
+  "question": "What is the reading of the north-pointing needle of the compass??",
+  "prediction": "**Step 1 - Identify the Scale:**\n- The full scale range of the compass is 0 to 360 degrees.\n- MAJOR tick mark intervals are every 20 units (e.g., 0, 20, 40, ... 340). These are labeled with numbers.\n- Between each 20-unit major mark, there is a longer, unnumbered tick mark halfway, representing a 10-unit interval (e.g., between 0 and 20, there is a mark for 10; between 280 and 300, there is a mark for 290).\n- MINOR tick mark intervals: There are 20 small subdivisions between two numbered major ticks (e.g., between 0 and 20). This means each small tick represents 1 unit (20 units / 20 subdivisions = 1 unit/subdivision).\n- There are 10 subdivisions between a numbered major mark and the intermediate 10-unit mark.\n\n**Step 2 - Locate the Indicator:**\n- The question asks for the reading of the north-pointing needle. In this image, the black part of the needle is the north-pointing indicator, and the red part points south.\n- The black (north-pointing) needle is pointing towards the left side of the compass dial.\n- It is located between the major numbered tick marks of 280 and 300.\n- Counting the minor ticks from 280:\n    - 280 (numbered major tick)\n    - 281, 282, 283, 284, 285 (longer minor tick, colored red)\n    - 286, 287, 288, 289, 290 (longer minor tick)\n- The tip of the black needle is precisely aligned with the longer, unnumbered minor tick mark that represents 290.\n\n**Step 3 - Calculate the Reading:**\n- The needle is directly on the 290 mark.\n\n**Step 4 - Identify the Unit:**\n- The unit for compass readings is degrees, represented by the symbol \"\u00b0\".\n\n**Step 5 - Provide Final Answer:**\nAnswer: 290 \u00b0",
+  "predicted_value": 290.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      134,
+      137
+    ],
+    "unit": null
+  }
+}

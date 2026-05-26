@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0144",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock face displays 12 hours for the hour hand and 60 minutes for the minute hand.\n-   **MAJOR tick mark intervals (for hours):** The large numbers (1 through 12) represent hour intervals.\n-   **MAJOR tick mark intervals (for minutes):** The large numbers also implicitly mark 5-minute intervals (e.g., 12 is 0/60 minutes, 1 is 5 minutes, 2 is 10 minutes, etc.).\n-   **MINOR tick mark intervals (for minutes):** Between each major 5-minute mark (or hour number), there are 4 minor tick marks, making each small tick represent 1 minute.\n-   **Subdivisions between major marks:** There are 5 minute subdivisions between each hour number for the minute scale.\n\n**Step 2 - Locate the Indicator:**\n-   **Hour hand (shorter hand):** The hour hand is pointing precisely at the '2'.\n-   **Minute hand (longer hand):** The minute hand is pointing precisely at the '12'.\n\n**Step 3 - Calculate the Reading:**\n-   **Hours:** Since the hour hand is directly on the '2', the hour is 2.\n-   **Minutes:** Since the minute hand is directly on the '12', this indicates 00 minutes past the hour.\n-   Therefore, the time is 2:00.\n\n**Step 4 - Identify the Unit:**\n-   The unit for a clock reading is typically expressed as \"o'clock\" or simply \"time\" in an HH:MM format. To fit the required format, \"o'clock\" will serve as the unit.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 2:00 o'clock",
+  "predicted_value": 0.0,
+  "predicted_unit": "o",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "question_id": "real_world_0243",
+  "prediction": null,
+  "predicted_value": null,
+  "predicted_unit": null,
+  "image_type": "dial_caliper",
+  "ground_truth": {
+    "interval": [
+      0.263,
+      0.264
+    ],
+    "unit": null
+  }
+}

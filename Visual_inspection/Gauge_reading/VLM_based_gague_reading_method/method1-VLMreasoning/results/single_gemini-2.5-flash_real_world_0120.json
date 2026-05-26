@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0120",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The clock face displays 12 hours for the hour hand and 60 minutes for the minute hand.\n- **MAJOR tick mark intervals:** The major tick marks are represented by Roman numerals (I, II, III, ..., XII). For hours, these represent 1-hour intervals. For minutes, each Roman numeral represents a 5-minute interval (e.g., XII is 0/60 minutes, I is 5 minutes, II is 10 minutes, etc.).\n- **MINOR tick mark intervals:** Between each major Roman numeral, there are 4 minor tick marks, creating 5 subdivisions. Each minor tick mark represents 1 minute.\n- **How many subdivisions are between major marks?** There are 5 subdivisions between each major Roman numeral, corresponding to 1-minute intervals.\n\n**Step 2 - Locate the Indicator:**\n- **Hour hand:** The shorter, thicker hand (hour hand) is pointing just past the Roman numeral 'I'.\n- **Minute hand:** The longer, thinner hand (minute hand) is pointing directly at the Roman numeral 'II'.\n\n**Step 3 - Calculate the Reading:**\n- **Hours:** Since the hour hand is past 'I' but has not yet reached 'II', the hour is 1.\n- **Minutes:** The minute hand is pointing directly at 'II'. On a clock face, 'II' corresponds to 2 * 5 = 10 minutes past the hour.\n- No interpolation is needed as both hands align with distinct marks.\n\n**Step 4 - Identify the Unit:**\n- The unit for this instrument is \"hours and minutes\".\n\n**Step 5 - Provide Final Answer:**\nThe hour is 1, and the minutes are 10.\n\nAnswer: 1:10",
+  "predicted_value": 10.0,
+  "predicted_unit": "Answer",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

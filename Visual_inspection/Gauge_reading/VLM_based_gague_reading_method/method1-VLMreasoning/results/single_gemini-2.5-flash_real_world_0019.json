@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0019",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The scale ranges from 0 to 150.\n-   **MAJOR tick mark intervals:** The numbered major tick marks are 0, 50, 100, and 150. The interval between these is 50 units.\n-   **MINOR tick mark intervals:**\n    -   Between 0 and 50, there are 4 longer, unnumbered tick marks. This divides the 50-unit interval into 5 equal sections (50 / 5 = 10 units per section). So, these longer ticks represent 10, 20, 30, 40.\n    -   Within each of these 10-unit sections (e.g., between 0 and 10), there are 4 smaller tick marks. This divides the 10-unit section into 5 subdivisions. Therefore, each small minor tick represents 10 / 5 = 2 units.\n-   **Number of subdivisions between major marks:** There are 25 minor subdivisions (5 sections * 5 minor subdivisions/section) between 0 and 50.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer (red needle) is visible on the scale.\n-   It is located between the major tick marks of 0 and 50.\n-   Counting from 0, the pointer passes the 10, 20, 30, and 40 unit marks (the longer unnumbered ticks).\n-   After the 40 unit mark, the pointer is aligned with the second small minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n-   Starting from the 40 unit mark.\n-   Each small minor tick represents 2 units.\n-   The pointer is on the second minor tick after 40.\n-   Reading = 40 + (2 * 2 units) = 40 + 4 = 44.\n-   The pointer appears to be precisely on the 44 mark, so no interpolation is needed.\n\n**Step 4 - Identify the Unit:**\n-   The large letter \"A\" with an underline indicates that the reading is in Amperes (A) for DC current.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 44 A",
+  "predicted_value": 44.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      50,
+      50
+    ],
+    "unit": null
+  }
+}

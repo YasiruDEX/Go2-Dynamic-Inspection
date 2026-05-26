@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <div>
+            <title>Reading Completed</title>
+            <h1>Reading Completed</h1>
+            <h2>Meter Reading: {{value}} MPa </h2>
+            <img src= "/static/files/final_output.jpg">
+        </div>
+
+        <button id="download" >Download</button>
+        <button id="retake"   onclick='OnClickReTake();'>ReTake</button>
+
+    </head>
+<body>
+    <script>
+        function OnClickReTake(){
+            varclick = document.getElementById("retake"); 
+            window.location.href = '' 
+        }
+
+        const download = document.getElementById("download")
+        
+        download.addEventListener('click', function(ev){
+        var a = document.createElement('a');
+
+        a.href = "/static/files/final_output.jpg";
+        a.download = 'final_output.jpg';
+        document.body.appendChild(a);
+        a.click();
+        
+        }, false);
+    </script>
+    
+</body>
+</html>

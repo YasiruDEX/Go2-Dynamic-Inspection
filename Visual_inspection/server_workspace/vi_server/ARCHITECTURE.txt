@@ -1,0 +1,251 @@
+"""
+Visual Inspection Server - System Architecture
+================================================
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          CLIENT LAYER                                    │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  ┌──────────────┐         ┌──────────────┐         ┌──────────────┐    │
+│  │   Jetson     │         │   Laptop     │         │  Test Client │    │
+│  │   Device     │         │   Browser    │         │  (Python)    │    │
+│  └──────┬───────┘         └──────┬───────┘         └──────┬───────┘    │
+│         │                        │                        │             │
+│         └────────────────────────┼────────────────────────┘             │
+│                                  │                                       │
+└──────────────────────────────────┼───────────────────────────────────────┘
+                                   │
+                                   │ HTTP/REST
+                                   │
+┌──────────────────────────────────▼───────────────────────────────────────┐
+│                          API LAYER (FastAPI)                             │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  POST /api/v1/jobs              ┌─────────────────────────┐             │
+│  ├─ Validate image              │   app/main.py           │             │
+│  ├─ Save to storage             │   ─────────────         │             │
+│  ├─ Create job record           │   • Routes              │             │
+│  └─ Enqueue for processing      │   • Validation          │             │
+│                                  │   • Error handling      │             │
+│  GET /api/v1/jobs               │   • Lifecycle mgmt      │             │
+│  ├─ Query database              └─────────────────────────┘             │
+│  └─ Return job list                                                      │
+│                                                                           │
+│  GET /api/v1/jobs/{id}                                                   │
+│  ├─ Fetch job details                                                    │
+│  └─ Return results                                                       │
+│                                                                           │
+│  GET /api/v1/jobs/{id}/roi                                               │
+│  └─ Serve image file                                                     │
+│                                                                           │
+└──────────────────────────────────┬───────────────────────────────────────┘
+                                   │
+                    ┌──────────────┼──────────────┐
+                    │              │              │
+┌───────────────────▼──┐  ┌────────▼────────┐  ┌─▼──────────────────────┐
+│   DATABASE LAYER     │  │  STORAGE LAYER  │  │   QUEUE LAYER          │
+├──────────────────────┤  ├─────────────────┤  ├────────────────────────┤
+│                      │  │                 │  │                        │
+│  ┌────────────────┐  │  │  data/jobs/    │  │  ┌──────────────────┐  │
+│  │  SQLite DB     │  │  │  ├─ {job_id}/  │  │  │  asyncio.Queue   │  │
+│  │  ────────────  │  │  │  │  └─ roi.jpg │  │  │  ──────────────  │  │
+│  │                │  │  │  │             │  │  │                  │  │
+│  │  Jobs Table:   │  │  │  ├─ {job_id}/  │  │  │  job_id → Queue  │  │
+│  │  • job_id      │  │  │  │  └─ roi.jpg │  │  │                  │  │
+│  │  • status      │  │  │  │             │  │  │  Max: 1000 jobs  │  │
+│  │  • object_type │  │  │  └─ ...        │  │  │                  │  │
+│  │  • result_json │  │  │                │  │  └──────────────────┘  │
+│  │  • timestamps  │  │  │  app/storage.py│  │                        │
+│  │  • metadata    │  │  │                │  │  app/queue_worker.py   │
+│  └────────────────┘  │  └─────────────────┘  └────────────────────────┘
+│                      │                                    │
+│  app/db.py           │                                    │
+│  app/models.py       │                                    │
+└──────────────────────┘                                    │
+                                                            │
+                                                            │
+┌───────────────────────────────────────────────────────────▼─────────────┐
+│                       BACKGROUND WORKER                                  │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  Worker Loop (Async):                                                    │
+│  ┌────────────────────────────────────────────────────────────┐         │
+│  │  1. Get job_id from queue                                  │         │
+│  │  2. Update status: QUEUED → RUNNING                        │         │
+│  │  3. Load ROI image from storage                            │         │
+│  │  4. Route by object_type ──┐                               │         │
+│  │  5. Execute pipeline        │                               │         │
+│  │  6. Store result_json       │                               │         │
+│  │  7. Update status: RUNNING → DONE/FAILED                   │         │
+│  └────────────────────────────┼────────────────────────────────┘         │
+│                                │                                          │
+│                                │                                          │
+│  ┌─────────────────────────────▼──────────────────────────────┐         │
+│  │              PIPELINE ROUTER                                │         │
+│  ├─────────────────────────────────────────────────────────────┤         │
+│  │                                                             │         │
+│  │  if object_type == "gauge":                                │         │
+│  │      ┌──────────────────────────────────────┐              │         │
+│  │      │  app/pipelines/gauge_pipeline.py     │              │         │
+│  │      │  ────────────────────────────────    │              │         │
+│  │      │                                       │              │         │
+│  │      │  run_gauge_pipeline(roi_path)        │              │         │
+│  │      │  ├─ Load image                       │              │         │
+│  │      │  ├─ Run detection/reading            │              │         │
+│  │      │  └─ Return result dict               │              │         │
+│  │      │                                       │              │         │
+│  │      │  🔧 PLACEHOLDER - Integrate your     │              │         │
+│  │      │     actual gauge pipeline here       │              │         │
+│  │      └──────────────────────────────────────┘              │         │
+│  │                                                             │         │
+│  │  elif object_type in ["door", "fire_extinguisher", ...]:   │         │
+│  │      ┌──────────────────────────────────────┐              │         │
+│  │      │  app/pipelines/vlm_stub.py           │              │         │
+│  │      │  ──────────────────────────────      │              │         │
+│  │      │                                       │              │         │
+│  │      │  run_vlm_pipeline(roi_path, type)    │              │         │
+│  │      │  └─ Return stub result               │              │         │
+│  │      │                                       │              │         │
+│  │      │  🔧 STUB - Future VLM integration    │              │         │
+│  │      └──────────────────────────────────────┘              │         │
+│  │                                                             │         │
+│  └─────────────────────────────────────────────────────────────┘         │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+
+
+DATA FLOW EXAMPLE:
+═════════════════
+
+1. Jetson uploads gauge ROI image
+   ↓
+2. POST /api/v1/jobs
+   • Validate image (JPEG/PNG, < 10MB)
+   • Generate job_id: "550e8400-..."
+   • Save: data/jobs/550e8400.../roi.jpg
+   • Insert DB: status=QUEUED
+   • Enqueue: job_id → Queue
+   • Return: {"accepted": true, "job_id": "550e8400...", "status": "QUEUED"}
+   ↓
+3. Background Worker picks up job
+   • Update DB: status=RUNNING
+   • Load: data/jobs/550e8400.../roi.jpg
+   • Route: object_type="gauge" → gauge_pipeline.py
+   • Execute: run_gauge_pipeline("/path/to/roi.jpg")
+   • Result: {"reading": "5.2", "confidence": 0.92, ...}
+   • Update DB: status=DONE, result_json="{...}"
+   ↓
+4. Jetson polls GET /api/v1/jobs/550e8400...
+   • Return: {"status": "DONE", "result_json": "{...}", ...}
+   ↓
+5. Jetson parses result and takes action
+
+
+JOB STATUS TRANSITIONS:
+═══════════════════════
+
+RECEIVED  →  Initial creation (image saved, DB record created)
+    ↓
+QUEUED    →  In processing queue (waiting for worker)
+    ↓
+RUNNING   →  Worker processing (pipeline executing)
+    ↓
+DONE      →  Success (result_json populated)
+    ↓
+FAILED    →  Error (error_message populated)
+
+
+CONFIGURATION:
+═════════════
+
+.env file controls:
+• DATABASE_URL          - SQLite database path
+• STORAGE_ROOT          - Job files directory
+• SERVER_HOST           - Bind address (0.0.0.0 for LAN)
+• SERVER_PORT           - Port (default 8000)
+• ALLOWED_OBJECT_TYPES  - Valid object types
+• MAX_QUEUE_SIZE        - Queue capacity
+• LOG_LEVEL             - Logging verbosity
+
+
+SCALABILITY:
+═══════════
+
+Current: Single worker, single process
+Future:
+  • Multiple workers (multiprocessing)
+  • Redis queue (distributed)
+  • PostgreSQL (production DB)
+  • Cloud storage (S3/GCS)
+  • Load balancer (multiple servers)
+
+
+SECURITY NOTES:
+══════════════
+
+Current: Local network only (LAN)
+Production considerations:
+  • Add authentication (API keys, JWT)
+  • HTTPS/TLS encryption
+  • Rate limiting
+  • Input sanitization (already implemented)
+  • File size limits (already implemented)
+
+
+MONITORING:
+══════════
+
+Current: Structured logging to console
+Future:
+  • Prometheus metrics
+  • Grafana dashboards
+  • Error tracking (Sentry)
+  • Performance monitoring (APM)
+
+
+TESTING:
+═══════
+
+Included:
+  • Unit tests (tests/test_api.py)
+  • Test client (scripts/upload_test.py)
+  • Sample images (sample_images/)
+  • Health check endpoint
+
+Run: pytest tests/ -v
+
+
+DEPLOYMENT:
+══════════
+
+Local:
+  1. python -m venv venv
+  2. venv\Scripts\activate
+  3. pip install -e .
+  4. uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+Production:
+  • Use gunicorn/uvicorn workers
+  • Systemd service
+  • Nginx reverse proxy
+  • Docker container (future)
+
+
+INTEGRATION CHECKLIST:
+═════════════════════
+
+✅ Server infrastructure
+✅ API endpoints
+✅ Database layer
+✅ File storage
+✅ Background worker
+✅ Pipeline routing
+✅ Error handling
+✅ Logging
+✅ Testing tools
+✅ Documentation
+
+🔧 TODO: Integrate your gauge pipeline in app/pipelines/gauge_pipeline.py
+🔧 TODO: Test with Jetson device
+🔧 TODO: Implement VLM pipelines (future)
+"""

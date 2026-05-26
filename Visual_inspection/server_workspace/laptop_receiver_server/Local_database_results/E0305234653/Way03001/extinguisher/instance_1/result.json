@@ -1,0 +1,11 @@
+{
+  "task": "extinguisher",
+  "decision": "UNKNOWN",
+  "confidence": 0.0,
+  "summary": "Task 'extinguisher' is not configured",
+  "findings": [
+    "Error: No prompt configuration for task: extinguisher"
+  ],
+  "evidence": {},
+  "extracted_objects": []
+}

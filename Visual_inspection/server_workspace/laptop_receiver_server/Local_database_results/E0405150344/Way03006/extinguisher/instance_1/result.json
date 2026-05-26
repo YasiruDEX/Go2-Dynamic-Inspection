@@ -1,0 +1,22 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "A fire extinguisher is clearly present and appears to be accessible with no visible obstructions.",
+  "findings": [
+    "A red cylindrical fire extinguisher, labeled 'ONGUARD FIRE', is clearly visible and mounted on the wall.",
+    "No objects are observed directly blocking or obstructing access to the fire extinguisher."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": false
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "wall",
+    "mounting bracket",
+    "railing",
+    "light fixture"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"A fire extinguisher is clearly present and appears to be accessible with no visible obstructions.\",\n  \"findings\": [\n    \"A red cylindrical fire extinguisher, labeled 'ONGUARD FIRE', is clearly visible and mounted on the wall.\",\n    \"No objects are observed directly blocking or obstructing access to the fire extinguisher.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": false\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"wall\",\n    \"mounting bracket\",\n    \"railing\",\n    \"light fixture\"\n  ]\n}"
+}

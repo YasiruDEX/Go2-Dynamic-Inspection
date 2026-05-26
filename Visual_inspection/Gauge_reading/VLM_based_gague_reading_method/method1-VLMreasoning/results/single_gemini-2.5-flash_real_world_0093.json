@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0093",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The major tick marks are 0, 4, 8, 12, 16. There are 4 minor subdivisions between 16 and the end of the scale. Given the minor tick interval is 1 unit (as determined below), the full scale range is 0-20.\n- **MAJOR tick mark intervals:** The major tick marks are labeled every 4 units (0, 4, 8, 12, 16).\n- **MINOR tick mark intervals:** Between any two consecutive major tick marks (e.g., 0 and 4), there are 3 minor tick marks, creating 4 subdivisions.\n  - The value difference between major ticks is 4 units (e.g., 4 - 0 = 4).\n  - Number of subdivisions between major ticks is 4.\n  - Therefore, the value of each minor tick interval is 4 units / 4 subdivisions = 1 unit.\n- **How many subdivisions are between major marks?** There are 4 subdivisions between each major mark.\n\n**Step 2 - Locate the Indicator:**\n- The red pointer (needle) is clearly visible.\n- It is located between the major tick mark 0 and the major tick mark 4.\n- It is positioned exactly on the first minor tick mark after the 0 major tick.\n\n**Step 3 - Calculate the Reading:**\n- Starting from the lower major tick value: 0.\n- The pointer is on the first minor tick mark after 0.\n- Since each minor tick represents 1 unit, the reading is 0 + 1 = 1.\n- The pointer appears to be exactly on the minor tick, so no interpolation is needed.\n\n**Step 4 - Identify the Unit:**\n- The unit \"A\" is clearly displayed on the scale, which stands for Amperes. The horizontal line below the \"A\" indicates it is for Direct Current (DC).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 1 A",
+  "predicted_value": 1.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      4,
+      5
+    ],
+    "unit": null
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0030",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 30.\n- **MAJOR tick mark intervals:** Major labeled tick marks are at 0, 10, 20, and 30. Thus, the major labeled intervals are 10 units.\n- **Subdivisions between major marks:** Let's examine the segment between 0 and 10. There are 4 longer, unlabeled tick marks between 0 and 10, plus the 10 mark itself, effectively dividing the 10-unit range into 5 larger segments (0-2, 2-4, 4-6, 6-8, 8-10). So, each of these longer tick marks represents 2 units.\n- **MINOR tick mark intervals:** Between any two consecutive 2-unit marks (e.g., between 0 and the first longer tick mark, or between 6 and 8), there are 4 minor tick marks. This creates 5 subdivisions within that 2-unit segment. Therefore, the value of each minor tick mark is 2 units / 5 subdivisions = 0.4 units.\n\n**Step 2 - Locate the Indicator:**\n- The pointer (red needle) is located past the 0 mark.\n- It is past the first longer tick mark (2 A).\n- It is past the second longer tick mark (4 A).\n- It is past the third longer tick mark (6 A).\n- The pointer is positioned exactly on the fourth minor tick mark after the 6 A mark.\n\n**Step 3 - Calculate the Reading:**\n- Starting from the 6 A mark.\n- The pointer is on the 4th minor tick past 6 A.\n- Value from minor ticks = 4 * 0.4 A = 1.6 A.\n- Total reading = 6 A + 1.6 A = 7.6 A.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is \"A\", which stands for Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 7.6 A",
+  "predicted_value": 7.6,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      5,
+      5
+    ],
+    "unit": null
+  }
+}

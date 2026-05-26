@@ -1,0 +1,23 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The door is closed.",
+  "findings": [
+    "A blue door with an 'EXIT' sign is clearly visible in the image.",
+    "The door panel appears flush with the door frame on all visible edges.",
+    "No gaps are observed between the door and the frame, indicating a closed state.",
+    "There is no view through the doorway, further confirming it is closed."
+  ],
+  "evidence": {
+    "open": false
+  },
+  "extracted_objects": [
+    "door",
+    "exit sign",
+    "fire extinguisher",
+    "fire hose cabinet",
+    "handrail"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The door is closed.\",\n  \"findings\": [\n    \"A blue door with an 'EXIT' sign is clearly visible in the image.\",\n    \"The door panel appears flush with the door frame on all visible edges.\",\n    \"No gaps are observed between the door and the frame, indicating a closed state.\",\n    \"There is no view through the doorway, further confirming it is closed.\"\n  ],\n  \"evidence\": {\n    \"open\": false\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"exit sign\",\n    \"fire extinguisher\",\n    \"fire hose cabinet\",\n    \"handrail\"\n  ]\n}"
+}

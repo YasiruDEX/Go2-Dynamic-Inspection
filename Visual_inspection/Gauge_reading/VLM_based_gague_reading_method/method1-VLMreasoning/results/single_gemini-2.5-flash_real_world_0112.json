@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0112",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock face displays 12 hours for the hour hand and 60 minutes for the minute hand.\n-   **MAJOR tick mark intervals:** The major tick marks are numbered 1 through 12, representing hours. For minutes, these numbered marks also represent 5-minute intervals (e.g., 1 is 5 minutes, 2 is 10 minutes, etc.).\n-   **MINOR tick mark intervals:** Between each major hour number, there are 4 minor tick marks, creating 5 subdivisions. Each subdivision represents 1 minute.\n-   **How many subdivisions are between major marks?** 5 subdivisions between each numbered hour mark for minutes.\n\n**Step 2 - Locate the Indicator:**\n-   **Find the pointer, needle, meniscus, or other indicator:** There is a shorter, thicker hour hand and a longer, thinner minute hand.\n-   **Identify which major tick marks it is between:**\n    -   The hour hand is positioned between the 8 and the 9.\n    -   The minute hand is pointing directly at the 6.\n-   **Count how many minor ticks past the lower major mark:**\n    -   For the minute hand, the 6 represents 6 * 5 = 30 minutes past the 12 o'clock mark.\n\n**Step 3 - Calculate the Reading:**\n-   **Start from the lower major tick value:**\n    -   The hour hand has passed the 8 but has not yet reached the 9. Therefore, the hour is 8.\n    -   The minute hand is pointing exactly at the 6, which corresponds to 30 minutes.\n-   **Add the contribution from minor ticks:** No interpolation is needed for the minute hand as it aligns precisely with a major minute mark (the 6).\n-   The reading is 8 hours and 30 minutes.\n\n**Step 4 - Identify the Unit:**\n-   The unit for a clock reading is typically expressed in hours and minutes, commonly written as HH:MM.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 8:30",
+  "predicted_value": 30.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

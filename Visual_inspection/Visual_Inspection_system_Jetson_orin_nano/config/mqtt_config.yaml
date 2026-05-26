@@ -1,0 +1,24 @@
+# MQTT Broker Configuration
+# Platform: ThingsBoard (token-based auth)
+#
+# How to use:
+#   broker:       demo.thingsboard.io  (ThingsBoard Cloud)
+#                 OR your local TB server IP e.g. 192.168.8.100
+#   access_token: your device access token from ThingsBoard
+#   port:         1883 (plain) or 8883 (TLS)
+#   topic:        v1/devices/me/telemetry  (ThingsBoard standard)
+
+broker:       demo.thingsboard.io
+port:         1883
+access_token: 34bbvq0ix4u2licucuq0
+topic:        v1/devices/me/telemetry
+timeout:      10        # connection timeout seconds
+qos:          1
+tls:          false
+
+# Image settings
+jpeg_quality: 85        # JPEG encoding quality (0-100)
+max_image_b64_kb: 500   # warn if image exceeds this size in KB
+
+# Local capture folder (images saved here, deleted after successful MQTT send)
+capture_dir: ~/Documents/Visual_Inspection_ws/captures

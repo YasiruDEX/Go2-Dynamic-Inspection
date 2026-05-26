@@ -1,0 +1,31 @@
+[
+  {
+    "question_id": "real_world_0003",
+    "question": "What is the reading of the ammeter",
+    "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 50.\n- **MAJOR tick mark intervals:** The major tick marks are labeled every 10 units (0, 10, 20, 30, 40, 50).\n- **MINOR tick mark intervals:** Between any two major marks (e.g., 30 and 40), there are 10 subdivisions. The value between major marks is 10 units. Therefore, each minor tick mark represents 10 units / 10 subdivisions = 1 unit.\n- **How many subdivisions are between major marks?** There are 10 subdivisions.\n\n**Step 2 - Locate the Indicator:**\n- The indicator is the red needle.\n- The needle is between the major tick marks for 30 and 40.\n- Counting from the lower major mark (30), the needle is pointing directly at the 8th minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Start from the lower major tick value: 30.\n- Add the contribution from the minor ticks: 8 minor ticks * 1 unit/tick = 8 units.\n- The total reading is",
+    "predicted_value": 8.0,
+    "predicted_unit": "units",
+    "image_type": "ammeter",
+    "ground_truth": {
+      "interval": [
+        40,
+        40
+      ],
+      "unit": null
+    }
+  },
+  {
+    "question_id": "real_world_0363",
+    "prediction": null,
+    "predicted_value": null,
+    "predicted_unit": null,
+    "image_type": "hygrometer",
+    "ground_truth": {
+      "interval": [
+        33,
+        34
+      ],
+      "unit": null
+    }
+  }
+]

@@ -1,0 +1,12 @@
+# ============================================================
+# Dataset config for LOCAL training (absolute Windows paths)
+# Dataset: Visual Inspection - door, extinguisher, gauge, person
+# ============================================================
+
+path: C:/Users/Rebecca Fernando/Desktop/Dinethra/YOLO_Final_Dataset
+train: train/images
+val:   valid/images
+test:  test/images
+
+nc: 4
+names: ['door', 'extinguisher', 'gauge', 'person']

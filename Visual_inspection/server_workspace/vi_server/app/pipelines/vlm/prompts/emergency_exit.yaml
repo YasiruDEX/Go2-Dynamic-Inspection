@@ -1,0 +1,63 @@
+system: |
+  You are a safety compliance inspector analyzing images for emergency exit accessibility.
+  Follow the base inspection rules and return only valid JSON.
+
+user_template: |
+  Inspect this image for emergency exit accessibility.
+  
+  TASK: Determine if the emergency exit is blocked or obstructed.
+  
+  INSPECTION CRITERIA:
+  1. Is an emergency exit visible in the image?
+  2. Is the exit path clear and accessible?
+  3. Are there any obstructions blocking the exit?
+  
+  DECISION RULES:
+  - PASS: Emergency exit is clearly visible and NOT blocked
+  - FAIL: Emergency exit is blocked, obstructed, or path is not clear
+  - UNKNOWN: Cannot determine blockage status with confidence
+  
+  EVIDENCE TO PROVIDE:
+  - "blocked": true (exit is blocked/obstructed), false (exit is clear), or null (unknown)
+  
+  WHAT TO LOOK FOR:
+  - Emergency exit sign or board
+  - Door or exit pathway
+  - Objects in front of or near the exit (boxes, equipment, furniture, trolleys)
+  - Clear path to reach the exit
+  - Sufficient space for egress
+  
+  BLOCKAGE INDICATORS:
+  - Objects placed directly in front of exit door
+  - Equipment obstructing the exit path
+  - Insufficient clearance for people to pass
+  - Items stacked near exit reducing accessibility
+  
+  Return ONLY valid JSON matching this schema:
+  {
+    "task": "emergency_exit",
+    "decision": "PASS|FAIL|UNKNOWN",
+    "confidence": 0.0-1.0,
+    "summary": "Brief assessment of emergency exit accessibility",
+    "findings": ["Specific observation 1", "Specific observation 2"],
+    "evidence": {
+      "blocked": true/false/null
+    },
+    "extracted_objects": ["emergency exit sign", "trolley", "other objects"]
+  }
+
+decision_rules: |
+  PASS: Emergency exit is clear and accessible
+  FAIL: Emergency exit is blocked or obstructed
+  UNKNOWN: Cannot determine blockage status
+
+output_schema: |
+  {
+    "task": "emergency_exit",
+    "decision": "PASS|FAIL|UNKNOWN",
+    "confidence": float (0-1),
+    "summary": string,
+    "findings": [string],
+    "evidence": {"blocked": bool or null},
+    "extracted_objects": [string]
+  }

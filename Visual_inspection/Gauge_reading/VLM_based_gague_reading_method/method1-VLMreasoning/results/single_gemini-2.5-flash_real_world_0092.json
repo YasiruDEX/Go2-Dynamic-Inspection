@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0092",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The numbered scale goes from 0 to 3. The \"x10A\" indicates a multiplier.\n- **MAJOR tick mark intervals:** The major numbered tick marks are 0, 1, 2, and 3.\n- **MINOR tick mark intervals:**\n    - Between 0 and 1: There are 5 subdivisions. The value 0.8 is labeled, which is the 4th minor tick (0.2 * 4 = 0.8). This confirms each minor tick is 0.2 units.\n    - Between 1 and 2: There are 5 subdivisions (4 minor ticks). So, 1 unit / 5 subdivisions = 0.2 units per subdivision.\n    - Between 2 and 3: There are 5 subdivisions (4 minor ticks). So, 1 unit / 5 subdivisions = 0.2 units per subdivision.\n- **How many subdivisions are between major marks?** 5 subdivisions between each major mark (0-1, 1-2, 2-3). Each subdivision represents 0.2 units.\n\n**Step 2 - Locate the Indicator:**\n- The pointer is past the major tick mark \"1\".\n- It is between the major tick mark \"1\" and \"2\".\n- Counting the minor ticks past \"1\": The pointer aligns exactly with the third minor tick after \"1\".\n\n**Step 3 - Calculate the Reading:**\n- Value of the lower major tick: 1\n- Value of each minor tick: 0.2\n- Number of minor ticks past 1: 3\n- Reading on the primary scale = 1 + (3 * 0.2) = 1 + 0.6 = 1.6\n- The instrument has a multiplier \"x10A\". This means the reading must be multiplied by 10.\n- Actual Reading = 1.6 * 10 = 16.0\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is \"A\" for Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 16.0 A",
+  "predicted_value": 16.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      14,
+      14
+    ],
+    "unit": null
+  }
+}

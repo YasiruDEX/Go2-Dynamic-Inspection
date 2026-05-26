@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0114",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock face displays hours from I to XII (1 to 12).\n-   **MAJOR tick mark intervals:** These are indicated by the Roman numerals (I, II, III, etc.), representing whole hours. The interval between major marks is 1 hour.\n-   **MINOR tick mark intervals:** There are no explicit minor tick marks for minutes on this clock face. The time is estimated based on the continuous movement of the single hand.\n-   **Subdivisions between major marks:** Not explicitly marked, but each hour segment represents 60 minutes.\n\n**Step 2 - Locate the Indicator:**\n-   The clock has a single hand, which serves as the hour hand.\n-   This hand is located between the Roman numeral IIII (4) and V (5).\n-   It has passed the IIII mark and is moving towards the V mark.\n\n**Step 3 - Calculate the Reading:**\n-   The hour is definitely 4, as the hand has passed IIII.\n-   To estimate the minutes, we need to assess how far the hand has progressed between IIII and V. This segment represents 60 minutes.\n-   Visually, the hand appears to have moved approximately one-third of the way from IIII towards V.\n-   One-third of 60 minutes is (1/3) * 60 = 20 minutes.\n-   Therefore, the estimated time is 4 hours and 20 minutes.\n\n**Step 4 - Identify the Unit:**\n-   The unit for a clock is typically expressed in \"hours and minutes\" or \"o'clock\".\n\n**Step 5 - Provide Final Answer:**\nAnswer: 4:20 o'clock",
+  "predicted_value": 20.0,
+  "predicted_unit": "o",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

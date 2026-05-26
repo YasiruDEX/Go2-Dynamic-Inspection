@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0215",
+  "question": "What is the reading of the north-pointing needle of the compass??",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The compass scale spans 360 degrees (from 0 to 360).\n- **MAJOR tick mark intervals:** Major numbered tick marks are at intervals of 30 degrees (e.g., 30, 60, 90, 300, 330). The 'N' mark represents 0 or 360 degrees.\n- **Minor tick mark intervals:** Between each 30-degree major mark, there are 5 subdivisions (minor tick marks).\n- **How many subdivisions are between major marks?** 5 subdivisions.\n- **Value of each minor tick:** Since there are 5 subdivisions between 30 degrees, each minor tick represents 30 degrees / 5 = 6 degrees.\n\n**Step 2 - Locate the Indicator:**\n- The north-pointing needle is the red tip of the compass needle.\n- The red tip is precisely aligned with the 'N' mark, which also corresponds to the 0/360 degree position on the scale. There is a larger white triangle mark at this position.\n\n**Step 3 - Calculate the Reading:**\n- The needle is pointing directly at the North (N) mark. On a standard compass scale, North is represented as 0 degrees (or 360 degrees).\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is degrees, represented by the symbol '\u00b0'.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 0\u00b0",
+  "predicted_value": 0.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      350,
+      360
+    ],
+    "unit": null
+  }
+}

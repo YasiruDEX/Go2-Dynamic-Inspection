@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0235",
+  "question": "What is the reading of the north-pointing needle of the compass?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- The full scale range for the compass dial is 0 to 360 degrees.\n- MAJOR tick marks are numerically labeled every 20 degrees (e.g., 20, 40, 60, 80, N/0, S/180, W/280).\n- Between each 20-degree major mark, there is a slightly longer tick mark representing 10 degrees (e.g., between 40 and 60, there is a mark for 50 degrees). So, for reading purposes, we can consider the interval between these longer marks to be 10 degrees.\n- Between each 10-degree interval (e.g., between 40 and 50, or 50 and 60), there are 5 subdivisions.\n- Therefore, the value of each MINOR tick mark interval is 10 degrees / 5 subdivisions = 2 degrees.\n\n**Step 2 - Locate the Indicator:**\n- The north-pointing needle is the red end of the compass needle.\n- It is located between the 40 and 60 degree major tick marks on the outer scale.\n- It is past the 50-degree longer tick mark.\n- Counting the minor ticks past the 50-degree mark:\n    - The first minor tick past 50 degrees represents 50 + 2 = 52 degrees.\n    - The second minor tick past 50 degrees represents 50 + 4 = 54 degrees.\n- The red (north) end of the needle is precisely aligned with the second minor tick mark past 50 degrees.\n\n**Step 3 - Calculate the Reading:**\n- Starting from the 50-degree mark:\n- 50 degrees + (2 minor ticks * 2 degrees/minor tick) = 50 + 4 = 54 degrees.\n\n**Step 4 - Identify the Unit:**\n- The unit for the compass scale is degrees, symbolized as \u00b0.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 54 \u00b0",
+  "predicted_value": 54.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      52,
+      58
+    ],
+    "unit": null
+  }
+}

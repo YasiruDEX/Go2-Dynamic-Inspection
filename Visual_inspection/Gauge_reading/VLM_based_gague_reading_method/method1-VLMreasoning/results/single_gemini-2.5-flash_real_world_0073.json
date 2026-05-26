@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0073",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 50.\n- **MAJOR tick mark intervals:** The numbered major tick marks are 0, 10, 20, 30, 40, 50. The interval between major ticks is 10 units (e.g., 10 - 0 = 10).\n- **Subdivisions between major marks:** Let's examine the segment between 0 and 10. There are 4 longer unnumbered tick marks between 0 and 10. This divides the 10-unit interval into 5 larger segments (0 to 1st longer tick, 1st to 2nd, etc.). Each of these segments represents 10 / 5 = 2 units.\n- **MINOR tick mark intervals:** Within each 2-unit segment (e.g., between 0 and the first longer unnumbered tick), there is one shorter tick mark in the middle. This means each 2-unit segment is further divided into two 1-unit segments. Therefore, the smallest tick mark interval is 1 unit.\n\n**Step 2 - Locate the Indicator:**\n- The red pointer is the indicator.\n- The pointer is located between the 0 and 10 major tick marks.\n- Counting from 0, the pointer is exactly on the ninth smallest tick mark.\n    - 0 (major)\n    - 1st small tick = 1\n    - 1st longer unnumbered tick = 2\n    - 2nd small tick = 3\n    - 2nd longer unnumbered tick = 4\n    - 3rd small tick = 5\n    - 3rd longer unnumbered tick = 6\n    - 4th small tick = 7\n    - 4th longer unnumbered tick = 8\n    - 5th small tick = 9\n\n**Step 3 - Calculate the Reading:**\n- Starting from the lower major tick value of 0.\n- The pointer is at the 9th minor tick mark. Since each minor tick represents 1 unit, the reading is 0 + (9 * 1) = 9.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is \"mA\", which stands for milliamperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 9 mA",
+  "predicted_value": 9.0,
+  "predicted_unit": "mA",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      10,
+      10
+    ],
+    "unit": null
+  }
+}

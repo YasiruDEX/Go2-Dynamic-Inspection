@@ -1,0 +1,28 @@
+{
+  "task": "person",
+  "decision": "FAIL",
+  "confidence": 0.9,
+  "summary": "The person is wearing a safety helmet, gloves, and a high-visibility vest. However, the absence of proper footwear for manual handling tasks represents a significant safety non-compliance.",
+  "findings": [
+    "One person is visible in the image.",
+    "A white safety helmet is correctly worn on the head.",
+    "Safety gloves are worn on both hands.",
+    "A fluorescent yellow/green high-visibility vest is worn.",
+    "The person is barefoot, indicating a complete lack of foot protection.",
+    "Despite wearing other listed PPE, the absence of safety footwear for manual handling tasks constitutes a critical safety hazard and non-compliance."
+  ],
+  "evidence": {
+    "person_detected": true,
+    "helmet_worn": true,
+    "gloves_worn": true,
+    "jacket_worn": true,
+    "ppe_compliant": false
+  },
+  "extracted_objects": [
+    "person",
+    "helmet",
+    "gloves",
+    "safety jacket",
+    "cardboard box"
+  ]
+}

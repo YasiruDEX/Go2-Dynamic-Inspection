@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0207",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock face displays 12 hours for the hour hand and 60 minutes for the minute hand.\n-   **MAJOR tick mark intervals:**\n    *   For hours, the numbers 1 through 12 are marked, representing 1-hour intervals.\n    *   For minutes, the hour numbers (1 through 12) also serve as major tick marks, each representing 5-minute intervals (e.g., '1' is 5 minutes, '2' is 10 minutes, '3' is 15 minutes, and so on).\n-   **MINOR tick mark intervals:** Between each major 5-minute mark (the hour numbers), there are 4 minor tick marks, creating 5 subdivisions. This means each minor tick mark represents 1 minute.\n-   **How many subdivisions are between major marks?** There are 5 subdivisions (minor tick marks) between each major 5-minute mark.\n\n**Step 2 - Locate the Indicator:**\n-   **Hour Hand (shorter, thicker hand):** The hour hand is pointing between the '2' and the '3'. It has passed the '2' but has not yet reached the '3'.\n-   **Minute Hand (longer, thinner hand):** The minute hand is pointing directly at the '5'.\n\n**Step 3 - Calculate the Reading:**\n-   **Hour:** Since the hour hand is past the '2' but not yet at the '3', the hour is 2.\n-   **Minutes:** The minute hand is pointing exactly at the '5'. On a clock, the '5' represents 5 intervals of 5 minutes each. So, 5 * 5 minutes = 25 minutes.\n\n**Step 4 - Identify the Unit:**\n-   The unit is \"time\", typically expressed as hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 2:25",
+  "predicted_value": 25.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

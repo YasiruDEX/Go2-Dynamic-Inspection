@@ -1,0 +1,24 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The double door leading to the Telecommunication Laboratory is fully closed.",
+  "findings": [
+    "The door panels are flush with the door frame and each other.",
+    "No visible gap is present between the door panels or the door frame, indicating a fully closed position.",
+    "A door closer mechanism is visible at the top, consistent with a closed door state."
+  ],
+  "evidence": {
+    "open": false
+  },
+  "extracted_objects": [
+    "door",
+    "door frame",
+    "door handles",
+    "door closer",
+    "sign",
+    "access control panel",
+    "fire extinguisher"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The double door leading to the Telecommunication Laboratory is fully closed.\",\n  \"findings\": [\n    \"The door panels are flush with the door frame and each other.\",\n    \"No visible gap is present between the door panels or the door frame, indicating a fully closed position.\",\n    \"A door closer mechanism is visible at the top, consistent with a closed door state.\"\n  ],\n  \"evidence\": {\n    \"open\": false\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"door frame\",\n    \"door handles\",\n    \"door closer\",\n    \"sign\",\n    \"access control panel\",\n    \"fire extinguisher\"\n  ]\n}"
+}

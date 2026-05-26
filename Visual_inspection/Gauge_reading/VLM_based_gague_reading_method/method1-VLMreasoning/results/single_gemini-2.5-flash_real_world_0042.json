@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0042",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The scale ranges from 0 to 10 Amperes.\n-   **MAJOR tick mark intervals:** The major tick marks are numbered 0, 2, and 10. Intermediate longer ticks represent 1-unit intervals (e.g., between 0 and 2, there's a long tick for 1; between 2 and the next numbered tick, there are long ticks for 3, 4, 5, 6, 7, 8, 9). So, the major tick marks are every 1 unit (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10).\n-   **MINOR tick mark intervals:** Between each 1-unit major tick mark (e.g., between 2 and 3), there are 4 minor tick marks.\n-   **How many subdivisions are between major marks?** There are 5 subdivisions between each 1-unit major mark. Therefore, the value of each minor subdivision is 1 unit / 5 subdivisions = 0.2 units.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer is past the major tick mark labeled '2'.\n-   It is between the major tick mark '2' and the next major tick mark (which represents '3').\n-   The pointer aligns exactly with the third minor tick mark after the '2' major tick.\n\n**Step 3 - Calculate the Reading:**\n-   Start from the lower major tick value: 2 A.\n-   Count the minor ticks past '2': The pointer is on the 3rd minor tick.\n-   Multiply the number of minor ticks by the value of each minor tick: 3 * 0.2 A = 0.6 A.\n-   Add this to the lower major tick value: 2 A + 0.6 A = 2.6 A.\n-   The indicator is precisely on a minor tick, so no interpolation is needed.\n\n**Step 4 - Identify the Unit:**\n-   The unit displayed on the scale is \"A\", which stands for Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 2.6 A",
+  "predicted_value": 2.6,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      4,
+      4
+    ],
+    "unit": null
+  }
+}

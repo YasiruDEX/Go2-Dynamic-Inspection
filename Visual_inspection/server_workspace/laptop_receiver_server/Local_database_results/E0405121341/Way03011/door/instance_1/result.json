@@ -1,0 +1,28 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The double-leaf glass door to the Telecommunication Laboratory is fully closed.",
+  "findings": [
+    "The two door panels are aligned flush with the door frame, with no visible gaps.",
+    "The door handles are in a position consistent with the door being shut and potentially latched.",
+    "A door closer mechanism is visible at the top of the door, typically used to keep doors in a closed position.",
+    "The reflections on the glass panels and the visible interior security bars through the right panel do not indicate an open state of the main door."
+  ],
+  "evidence": {
+    "open": false
+  },
+  "extracted_objects": [
+    "door",
+    "door frame",
+    "glass panels",
+    "door handles",
+    "door closer",
+    "sign",
+    "fire extinguisher",
+    "access control device",
+    "wall",
+    "floor"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The double-leaf glass door to the Telecommunication Laboratory is fully closed.\",\n  \"findings\": [\n    \"The two door panels are aligned flush with the door frame, with no visible gaps.\",\n    \"The door handles are in a position consistent with the door being shut and potentially latched.\",\n    \"A door closer mechanism is visible at the top of the door, typically used to keep doors in a closed position.\",\n    \"The reflections on the glass panels and the visible interior security bars through the right panel do not indicate an open state of the main door.\"\n  ],\n  \"evidence\": {\n    \"open\": false\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"door frame\",\n    \"glass panels\",\n    \"door handles\",\n    \"door closer\",\n    \"sign\",\n    \"fire extinguisher\",\n    \"access control device\",\n    \"wall\",\n    \"floor\"\n  ]\n}"
+}

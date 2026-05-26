@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-04-17 08:32:28",
+  "model": "YOLO26s",
+  "dataset": "C:\\Users\\Rebecca Fernando\\Desktop\\Dinethra\\YOLO_Final_Dataset",
+  "classes": [
+    "door",
+    "extinguisher",
+    "gauge",
+    "person"
+  ],
+  "total_epochs": 57,
+  "best_epoch": 55,
+  "best_mAP50": 0.92631,
+  "best_mAP50-95": 0.71235,
+  "val_mAP50": 0.9262613825881488,
+  "val_mAP50-95": 0.7120652851306816,
+  "val_Precision": 0.9069817744910852,
+  "val_Recall": 0.8793547043137478,
+  "test_mAP50": 0.9355669259829349,
+  "test_mAP50-95": 0.7053945760626734,
+  "weights_dir": "C:\\Users\\Rebecca Fernando\\Desktop\\Dinethra\\Yolov11s\\runs\\yolo26s_exp\\weights",
+  "best_pt": "C:\\Users\\Rebecca Fernando\\Desktop\\Dinethra\\Yolov11s\\runs\\yolo26s_exp\\weights\\best.pt",
+  "last_pt": "C:\\Users\\Rebecca Fernando\\Desktop\\Dinethra\\Yolov11s\\runs\\yolo26s_exp\\weights\\last.pt",
+  "hyperparams": {
+    "epochs": 100,
+    "imgsz": 960,
+    "batch": 8,
+    "optimizer": "auto (MuSGD for long runs)",
+    "lr0": 0.01,
+    "lrf": 0.01,
+    "momentum": 0.937,
+    "weight_decay": 0.0005,
+    "device": "-1 (idle GPU auto-selection)",
+    "mosaic": 1.0,
+    "scale": 0.5,
+    "fliplr": 0.5,
+    "translate": 0.1,
+    "save_period": 5,
+    "patience": 40,
+    "nms_free": true,
+    "dfl_removed": true
+  }
+}

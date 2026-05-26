@@ -1,0 +1,28 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The double glass door for the Telecommunication Laboratory is fully closed.",
+  "findings": [
+    "Both door panels are visibly flush and aligned within the door frame.",
+    "No gaps are observable between the door panels or between the panels and the frame, indicating a closed state.",
+    "The door closer mechanism above the left door appears to be in the engaged, closed position.",
+    "Reflections on the glass suggest an interior space that is fully enclosed."
+  ],
+  "evidence": {
+    "open": false
+  },
+  "extracted_objects": [
+    "double glass door",
+    "door frame",
+    "door handles",
+    "door closer",
+    "access control panel",
+    "fire extinguisher",
+    "telecommunication laboratory sign",
+    "wall",
+    "floor",
+    "papers on wall"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The double glass door for the Telecommunication Laboratory is fully closed.\",\n  \"findings\": [\n    \"Both door panels are visibly flush and aligned within the door frame.\",\n    \"No gaps are observable between the door panels or between the panels and the frame, indicating a closed state.\",\n    \"The door closer mechanism above the left door appears to be in the engaged, closed position.\",\n    \"Reflections on the glass suggest an interior space that is fully enclosed.\"\n  ],\n  \"evidence\": {\n    \"open\": false\n  },\n  \"extracted_objects\": [\n    \"double glass door\",\n    \"door frame\",\n    \"door handles\",\n    \"door closer\",\n    \"access control panel\",\n    \"fire extinguisher\",\n    \"telecommunication laboratory sign\",\n    \"wall\",\n    \"floor\",\n    \"papers on wall\"\n  ]\n}"
+}

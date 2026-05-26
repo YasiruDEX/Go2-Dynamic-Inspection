@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0028",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Full scale range:** The topmost scale, which the pointer is utilizing, goes from 0 to 1.5.\n*   **MAJOR tick mark intervals:** The major tick marks are labeled 0, .25, .5, 1, 1.25, 1.5. There is also an unlabeled major tick between .5 and 1, which represents .75. So, the major tick marks are every 0.25 units (0.25 - 0 = 0.25; 0.5 - 0.25 = 0.25; 0.75 - 0.5 = 0.25, etc.).\n*   **Minor tick mark intervals:** Between each major tick mark (e.g., between 0 and .25), there are 4 minor subdivisions. This means there are 5 segments.\n    *   Value of each minor subdivision = (Value of major tick interval) / (Number of subdivisions between major marks)\n    *   Value of each minor subdivision = 0.25 / 5 = 0.05 units.\n*   **How many subdivisions are between major marks?** 5 subdivisions, including the one at the major mark. If counting the gaps, there are 4 minor ticks between major marks, creating 5 segments.\n\n**Step 2 - Locate the Indicator:**\n*   The pointer is located past the major tick mark labeled '1'.\n*   It is between the '1' and '1.25' major tick marks.\n*   Counting from the '1' mark, the pointer aligns exactly with the second minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n*   Start from the lower major tick value: 1.00\n*   Add the value of the minor ticks: The pointer is on the 2nd minor tick past 1.\n*   Each minor tick represents 0.05 units.\n*   Contribution from minor ticks = 2 * 0.05 = 0.10.\n*   Total reading = 1.00 + 0.10 = 1.10.\n\n**Step 4 - Identify the Unit:**\n*   The unit \"A\" (for Amperes) is clearly indicated on the scale.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 1.10 A",
+  "predicted_value": 1.1,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      0.2,
+      0.225
+    ],
+    "unit": null
+  }
+}

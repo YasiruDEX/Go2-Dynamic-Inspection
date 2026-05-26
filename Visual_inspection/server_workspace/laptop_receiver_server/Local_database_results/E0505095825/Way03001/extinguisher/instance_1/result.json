@@ -1,0 +1,21 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "FAIL",
+  "confidence": 0.9,
+  "summary": "A fire extinguisher is present but its immediate access is obstructed by a person standing directly in front of it.",
+  "findings": [
+    "A red cylindrical fire extinguisher is clearly visible, mounted on the wall.",
+    "A person is standing in front of the fire extinguisher, obstructing its immediate accessibility for emergency use."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": true
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "person",
+    "red cabinet",
+    "wall"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"FAIL\",\n  \"confidence\": 0.9,\n  \"summary\": \"A fire extinguisher is present but its immediate access is obstructed by a person standing directly in front of it.\",\n  \"findings\": [\n    \"A red cylindrical fire extinguisher is clearly visible, mounted on the wall.\",\n    \"A person is standing in front of the fire extinguisher, obstructing its immediate accessibility for emergency use.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": true\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"person\",\n    \"red cabinet\",\n    \"wall\"\n  ]\n}"
+}

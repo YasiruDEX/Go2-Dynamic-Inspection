@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_1153",
+  "question": "What is the reading of the water meter?",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Main Digital Display:** This displays the whole number part of the reading in cubic meters (m\u00b3). The range is from 00000 to 99999 m\u00b3.\n*   **Rotating Dials (Decimal Places):** There are three small dials, each representing a decimal place.\n    *   The dial labeled \"X0.1\" represents tenths of a cubic meter.\n    *   The dial labeled \"X0.01\" represents hundredths of a cubic meter.\n    *   The dial labeled \"X0.001\" represents thousandths of a cubic meter.\n*   **Full Scale Range for Dials:** Each dial has numbers from 0 to 9.\n*   **MAJOR tick mark intervals for Dials:** Every 1 unit (0, 1, 2, ..., 9).\n*   **MINOR tick mark intervals for Dials:** There are no explicit minor tick marks between the numbered major marks; the pointer indicates the value directly.\n*   **Subdivisions between major marks:** 10 implied subdivisions for each full rotation of the pointer.\n\n**Step 2 - Locate the Indicator:**\n*   **Main Digital Display:** The display shows the numbers **04716**.\n*   **X0.1 Dial:** The red pointer is pointing directly at **5**.\n*   **X0.01 Dial:** The red pointer is pointing directly at **2**.\n*   **X0.001 Dial:** The red pointer is pointing directly at **7**.\n\n**Step 3 - Calculate the Reading:**\n*   From the main digital display: 4716 m\u00b3\n*   From the X0.1 dial: 0.5 m\u00b3\n*   From the X0.01 dial: 0.02 m\u00b3\n*   From",
+  "predicted_value": 0.02,
+  "predicted_unit": "m",
+  "image_type": "water_meter",
+  "ground_truth": {
+    "interval": [
+      4716.0388,
+      4716.0389
+    ],
+    "unit": null
+  }
+}

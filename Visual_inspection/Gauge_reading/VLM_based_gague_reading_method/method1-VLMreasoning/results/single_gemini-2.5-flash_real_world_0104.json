@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0104",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- This is a standard 12-hour analog clock face.\n- The major tick marks for hours are numbered 1 through 12.\n- The minor tick marks between the hour numbers represent minutes. There are 5 minor tick marks between each hour number, meaning each major hour number also represents a 5-minute interval for the minute hand. Each small tick mark represents 1 minute.\n\n**Step 2 - Locate the Indicator:**\n- The longer, thinner hand is the minute hand.\n- The shorter, thicker hand is the hour hand.\n- The minute hand is pointing directly at the '12'.\n- The hour hand is pointing directly at the '10'.\n\n**Step 3 - Calculate the Reading:**\n- When the minute hand is pointing at the '12', it indicates 00 minutes (or 60 minutes past the hour).\n- When the hour hand is pointing directly at a number and the minute hand is at '12', it indicates that specific hour exactly.\n- In this case, the hour hand is at '10' and the minute hand is at '12'.\n\n**Step 4 - Identify the Unit:**\n- The unit is \"hours and minutes\" (time).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 10:00",
+  "predicted_value": 60.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

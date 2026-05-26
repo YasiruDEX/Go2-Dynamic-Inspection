@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0026",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The scale starts at 0 and goes up to 1.75.\n-   **MAJOR tick mark intervals:** The major tick marks are labeled as 0, .25, .5, .75, 1, 1.25, 1.5, 1.75. The interval between these major marks is 0.25 units (e.g., .25 - 0 = .25).\n-   **Minor tick mark intervals:** Between any two consecutive major tick marks (e.g., between 0 and .25), there are 4 unlabeled minor ticks, creating 5 subdivisions.\n    -   Therefore, the value of each minor tick mark is: (Major tick interval) / (Number of subdivisions) = 0.25 / 5 = 0.05 units.\n-   **How many subdivisions are between major marks?** 5 subdivisions.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer (needle) is located between the 0 and .25 major tick marks.\n-   Counting from the 0 mark, the pointer is positioned exactly on the first minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n-   Start from the lower major tick value: 0\n-   Add the contribution from minor ticks: The pointer is on the first minor tick.\n-   Value = 0 + (1 * 0.05) = 0.05.\n-   No interpolation is needed as the pointer aligns perfectly with a minor tick mark.\n\n**Step 4 - Identify the Unit:**\n-   The unit displayed on the scale is \"A\", which stands for Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 0.05 A",
+  "predicted_value": 0.05,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      0.375,
+      0.375
+    ],
+    "unit": null
+  }
+}

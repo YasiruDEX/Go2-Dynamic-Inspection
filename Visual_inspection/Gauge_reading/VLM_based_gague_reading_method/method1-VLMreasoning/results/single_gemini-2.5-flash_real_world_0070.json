@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0070",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Connection Analysis:** The black wire (common/negative) is connected to the middle terminal, which is labeled \"500mA A\". The red wire (positive) is connected to the rightmost terminal, also labeled \"500mA A\". This indicates the ammeter is configured for the **500mA** range.\n-   **Full scale range:** Based on the 500mA range selection, the relevant scale is the middle one, which spans from 0 to 500.\n-   **MAJOR tick mark intervals:** The major tick marks are labeled 0, 100, 200, 300, 400, 500. So, major intervals are every 100 units.\n-   **Minor tick mark intervals:** Between any two major tick marks (e.g., 200 and 300, a span of 100 units), there are 10 subdivisions. Therefore, each minor tick mark represents 100 units / 10 subdivisions = 10 units.\n-   **How many subdivisions are between major marks?** 10 subdivisions.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer is located between the 200 and 300 major tick marks on the middle scale.\n-   Counting from the 200 major tick mark, the pointer aligns with the 8th minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n-   Start from the lower major tick value: 200\n-   Add the contribution from minor ticks: 8 minor ticks * 10 units/tick = 80 units\n-   Total Reading: 200 + 80 = 280\n\n**Step 4 - Identify the Unit:**\n-   The ammeter is set to the 500mA range, so the unit is milliamperes (mA).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 280 mA",
+  "predicted_value": 280.0,
+  "predicted_unit": "mA",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      140,
+      150
+    ],
+    "unit": null
+  }
+}

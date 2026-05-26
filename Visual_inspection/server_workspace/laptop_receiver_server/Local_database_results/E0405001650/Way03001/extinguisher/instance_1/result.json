@@ -1,0 +1,20 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "A fire extinguisher is present, visibly mounted on the wall, and appears to be fully accessible without any obstructions.",
+  "findings": [
+    "A red CO2 fire extinguisher is clearly visible and mounted on the wall.",
+    "The area immediately surrounding the fire extinguisher is free of any obstructions, ensuring accessibility."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": false
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "fire hose cabinet",
+    "wall"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"A fire extinguisher is present, visibly mounted on the wall, and appears to be fully accessible without any obstructions.\",\n  \"findings\": [\n    \"A red CO2 fire extinguisher is clearly visible and mounted on the wall.\",\n    \"The area immediately surrounding the fire extinguisher is free of any obstructions, ensuring accessibility.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": false\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"fire hose cabinet\",\n    \"wall\"\n  ]\n}"
+}

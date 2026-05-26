@@ -1,0 +1,235 @@
+Gauge Pipeline Evaluation Summary
+Run timestamp : 20260430_232944
+====================================================
+
+Processed  : 13
+Successful : 3  (23.1%)
+Failed     : 10
+Avg reading: 7.5373
+
+Per-image:
+----------------------------------------------------
+  [01] gauge_115_0.4m_n1.jpg               11.01032921249446 unknown
+  [02] gauge_19_0.4m_n4.jpg                FAILED  ← 
+0: 480x640 1 Gauge Face, 121.7ms
+Speed: 0.0ms preprocess, 121.7ms inference, 118.3ms postprocess per image at shape (1, 3, 640, 640)
+Using cache found in C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\module_losses\ce_module_loss.py:101: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\postprocessors\base.py:60: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+
+0: 640x640 1 Gauge Needle, 19.0ms
+Speed: 0.0ms preprocess, 19.0ms inference, 19.1ms postprocess per image at shape (1, 3, 640, 640)
+ERROR:root:Didn't find any numbers with ocr
+{"error": "OCR failed, no numbers found", "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\User\\AppData\\Local\\Temp\\gauge_wrapper_pgxtamjf\\run_pipeline.py\", line 18, in <module>\n    result = process_image(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 520, in process_image\n    raise Exception(\"OCR failed, no numbers found\")\nException: OCR failed, no numbers found\n"}
+
+  [03] gauge_20_0.4m_n1.jpg                FAILED  ← 
+0: 480x640 1 Gauge Face, 114.3ms
+Speed: 5.7ms preprocess, 114.3ms inference, 150.2ms postprocess per image at shape (1, 3, 640, 640)
+Using cache found in C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\module_losses\ce_module_loss.py:101: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\postprocessors\base.py:60: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmcv\cnn\bricks\transformer.py:819: UserWarning: Use same attn_mask in all attentions in BaseTransformerLayer 
+  warnings.warn(f'Use same attn_mask in all attentions in '
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\torch\nn\functional.py:4999: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  warnings.warn(
+
+0: 640x640 (no detections), 29.0ms
+Speed: 1.0ms preprocess, 29.0ms inference, 1.5ms postprocess per image at shape (1, 3, 640, 640)
+ERROR:root:Segmentation failed, no needle found
+{"error": "Segmentation failed, no needle found", "traceback": "Traceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 21, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 472, in process_image\n    needle_mask_x, needle_mask_y = segment_gauge_needle(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 23, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].cpu().numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\User\\AppData\\Local\\Temp\\gauge_wrapper_k0rovtm2\\run_pipeline.py\", line 18, in <module>\n    result = process_image(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 480, in process_image\n    raise Exception(\"Segmentation failed, no needle found\")\nException: Segmentation failed, no needle found\n"}
+
+  [04] gauge_20_0.4m_n2.jpg                FAILED  ← 
+0: 480x640 1 Gauge Face, 94.9ms
+Speed: 1.0ms preprocess, 94.9ms inference, 131.0ms postprocess per image at shape (1, 3, 640, 640)
+Using cache found in C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\module_losses\ce_module_loss.py:101: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\postprocessors\base.py:60: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmcv\cnn\bricks\transformer.py:819: UserWarning: Use same attn_mask in all attentions in BaseTransformerLayer 
+  warnings.warn(f'Use same attn_mask in all attentions in '
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\torch\nn\functional.py:4999: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  warnings.warn(
+
+0: 640x640 (no detections), 16.8ms
+Speed: 1.5ms preprocess, 16.8ms inference, 1.1ms postprocess per image at shape (1, 3, 640, 640)
+ERROR:root:Segmentation failed, no needle found
+{"error": "Segmentation failed, no needle found", "traceback": "Traceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 21, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 472, in process_image\n    needle_mask_x, needle_mask_y = segment_gauge_needle(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 23, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].cpu().numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\User\\AppData\\Local\\Temp\\gauge_wrapper_t3rfj67a\\run_pipeline.py\", line 18, in <module>\n    result = process_image(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 480, in process_image\n    raise Exception(\"Segmentation failed, no needle found\")\nException: Segmentation failed, no needle found\n"}
+
+  [05] gauge_20_0.4m_n3.jpg                FAILED  ← 
+0: 480x640 1 Gauge Face, 76.6ms
+Speed: 7.4ms preprocess, 76.6ms inference, 92.7ms postprocess per image at shape (1, 3, 640, 640)
+Using cache found in C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\module_losses\ce_module_loss.py:101: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\postprocessors\base.py:60: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmcv\cnn\bricks\transformer.py:819: UserWarning: Use same attn_mask in all attentions in BaseTransformerLayer 
+  warnings.warn(f'Use same attn_mask in all attentions in '
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\torch\nn\functional.py:4999: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  warnings.warn(
+
+0: 640x640 (no detections), 17.6ms
+Speed: 0.0ms preprocess, 17.6ms inference, 0.6ms postprocess per image at shape (1, 3, 640, 640)
+ERROR:root:Segmentation failed, no needle found
+{"error": "Segmentation failed, no needle found", "traceback": "Traceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 21, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 472, in process_image\n    needle_mask_x, needle_mask_y = segment_gauge_needle(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 23, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].cpu().numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\User\\AppData\\Local\\Temp\\gauge_wrapper_ad4asmcm\\run_pipeline.py\", line 18, in <module>\n    result = process_image(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 480, in process_image\n    raise Exception(\"Segmentation failed, no needle found\")\nException: Segmentation failed, no needle found\n"}
+
+  [06] gauge_25_0.4m_n1.jpg                FAILED  ← 
+0: 480x640 1 Gauge Face, 94.1ms
+Speed: 0.0ms preprocess, 94.1ms inference, 100.4ms postprocess per image at shape (1, 3, 640, 640)
+Using cache found in C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\module_losses\ce_module_loss.py:101: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\postprocessors\base.py:60: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmcv\cnn\bricks\transformer.py:819: UserWarning: Use same attn_mask in all attentions in BaseTransformerLayer 
+  warnings.warn(f'Use same attn_mask in all attentions in '
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\torch\nn\functional.py:4999: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  warnings.warn(
+
+0: 640x640 (no detections), 15.0ms
+Speed: 0.0ms preprocess, 15.0ms inference, 0.0ms postprocess per image at shape (1, 3, 640, 640)
+ERROR:root:Segmentation failed, no needle found
+{"error": "Segmentation failed, no needle found", "traceback": "Traceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 21, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 472, in process_image\n    needle_mask_x, needle_mask_y = segment_gauge_needle(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 23, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].cpu().numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\User\\AppData\\Local\\Temp\\gauge_wrapper_acdjfy4f\\run_pipeline.py\", line 18, in <module>\n    result = process_image(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 480, in process_image\n    raise Exception(\"Segmentation failed, no needle found\")\nException: Segmentation failed, no needle found\n"}
+
+  [07] gauge_29_0.3m_n2.jpg                FAILED  ← 
+0: 480x640 1 Gauge Face, 84.1ms
+Speed: 0.0ms preprocess, 84.1ms inference, 151.8ms postprocess per image at shape (1, 3, 640, 640)
+Using cache found in C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\module_losses\ce_module_loss.py:101: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\postprocessors\base.py:60: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+
+0: 640x640 (no detections), 19.8ms
+Speed: 1.0ms preprocess, 19.8ms inference, 2.6ms postprocess per image at shape (1, 3, 640, 640)
+ERROR:root:Segmentation failed, no needle found
+{"error": "Segmentation failed, no needle found", "traceback": "Traceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 21, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 472, in process_image\n    needle_mask_x, needle_mask_y = segment_gauge_needle(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 23, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].cpu().numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\User\\AppData\\Local\\Temp\\gauge_wrapper_e9mlz_xz\\run_pipeline.py\", line 18, in <module>\n    result = process_image(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 480, in process_image\n    raise Exception(\"Segmentation failed, no needle found\")\nException: Segmentation failed, no needle found\n"}
+
+  [08] gauge_30_0.3m_n2.jpg                FAILED  ← 
+0: 480x640 1 Gauge Face, 103.4ms
+Speed: 3.1ms preprocess, 103.4ms inference, 113.4ms postprocess per image at shape (1, 3, 640, 640)
+Using cache found in C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+ERROR:root:Ellipse parameters not an ellipse.
+{"error": "Ellipse parameters not an ellipse", "traceback": "Traceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 221, in process_image\n    ellipse_params = cart_to_pol(coeffs)\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\geometry\\ellipse.py\", line 64, in cart_to_pol\n    raise ValueError('coeffs do not represent an ellipse: b^2 - 4ac must'\nValueError: coeffs do not represent an ellipse: b^2 - 4ac must be negative!\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\User\\AppData\\Local\\Temp\\gauge_wrapper_zu_o70i0\\run_pipeline.py\", line 18, in <module>\n    result = process_image(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 229, in process_image\n    raise Exception(\"Ellipse parameters not an ellipse\")\nException: Ellipse parameters not an ellipse\n"}
+
+  [09] gauge_30_0.4m_n1.jpg                FAILED  ← 
+0: 480x640 1 Gauge Face, 94.4ms
+Speed: 0.0ms preprocess, 94.4ms inference, 119.1ms postprocess per image at shape (1, 3, 640, 640)
+Using cache found in C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\module_losses\ce_module_loss.py:101: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\postprocessors\base.py:60: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmcv\cnn\bricks\transformer.py:819: UserWarning: Use same attn_mask in all attentions in BaseTransformerLayer 
+  warnings.warn(f'Use same attn_mask in all attentions in '
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\torch\nn\functional.py:4999: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  warnings.warn(
+
+0: 640x640 (no detections), 14.2ms
+Speed: 0.0ms preprocess, 14.2ms inference, 0.0ms postprocess per image at shape (1, 3, 640, 640)
+ERROR:root:Segmentation failed, no needle found
+{"error": "Segmentation failed, no needle found", "traceback": "Traceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 21, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 472, in process_image\n    needle_mask_x, needle_mask_y = segment_gauge_needle(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 23, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].cpu().numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\User\\AppData\\Local\\Temp\\gauge_wrapper_i44bkukn\\run_pipeline.py\", line 18, in <module>\n    result = process_image(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 480, in process_image\n    raise Exception(\"Segmentation failed, no needle found\")\nException: Segmentation failed, no needle found\n"}
+
+  [10] gauge_32_0.3m_n1.jpg                FAILED  ← 
+0: 480x640 1 Gauge Face, 89.2ms
+Speed: 2.5ms preprocess, 89.2ms inference, 100.1ms postprocess per image at shape (1, 3, 640, 640)
+Using cache found in C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\module_losses\ce_module_loss.py:101: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\postprocessors\base.py:60: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmcv\cnn\bricks\transformer.py:819: UserWarning: Use same attn_mask in all attentions in BaseTransformerLayer 
+  warnings.warn(f'Use same attn_mask in all attentions in '
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\torch\nn\functional.py:4999: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  warnings.warn(
+
+0: 640x640 (no detections), 19.5ms
+Speed: 0.0ms preprocess, 19.5ms inference, 1.1ms postprocess per image at shape (1, 3, 640, 640)
+ERROR:root:Segmentation failed, no needle found
+{"error": "Segmentation failed, no needle found", "traceback": "Traceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 21, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 472, in process_image\n    needle_mask_x, needle_mask_y = segment_gauge_needle(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 23, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].cpu().numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\User\\AppData\\Local\\Temp\\gauge_wrapper_xby2j9fe\\run_pipeline.py\", line 18, in <module>\n    result = process_image(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 480, in process_image\n    raise Exception(\"Segmentation failed, no needle found\")\nException: Segmentation failed, no needle found\n"}
+
+  [11] gauge_40_0.3m_n2.jpg                6.370877811455777 unknown
+  [12] gauge_40_0.4m_n1.jpg                FAILED  ← 
+0: 480x640 1 Gauge Face, 76.5ms
+Speed: 4.1ms preprocess, 76.5ms inference, 98.1ms postprocess per image at shape (1, 3, 640, 640)
+Using cache found in C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+C:\Users\User/.cache\torch\hub\facebookresearch_dinov2_main\dinov2\layers\block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\module_losses\ce_module_loss.py:101: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmocr\models\textrecog\postprocessors\base.py:60: UserWarning: padding does not exist in the dictionary
+  warnings.warn(
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\mmcv\cnn\bricks\transformer.py:819: UserWarning: Use same attn_mask in all attentions in BaseTransformerLayer 
+  warnings.warn(f'Use same attn_mask in all attentions in '
+E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server\app\pipelines\gauge\.venv\lib\site-packages\torch\nn\functional.py:4999: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  warnings.warn(
+
+0: 640x640 (no detections), 22.4ms
+Speed: 0.0ms preprocess, 22.4ms inference, 1.5ms postprocess per image at shape (1, 3, 640, 640)
+ERROR:root:Segmentation failed, no needle found
+{"error": "Segmentation failed, no needle found", "traceback": "Traceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 21, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 472, in process_image\n    needle_mask_x, needle_mask_y = segment_gauge_needle(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\segmentation\\segmenation_inference.py\", line 23, in segment_gauge_needle\n    needle_mask = results[0].masks.data[0].cpu().numpy()\nAttributeError: 'NoneType' object has no attribute 'data'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\User\\AppData\\Local\\Temp\\gauge_wrapper_s_logti2\\run_pipeline.py\", line 18, in <module>\n    result = process_image(\n  File \"E:\\sem7\\FYP\\Main repo github upload\\Visual_inspection\\server_workspace\\vi_server\\app\\pipelines\\gauge\\pipeline.py\", line 480, in process_image\n    raise Exception(\"Segmentation failed, no needle found\")\nException: Segmentation failed, no needle found\n"}
+
+  [13] gauge_50_0.3m_n2.jpg                5.230581022814854 unknown

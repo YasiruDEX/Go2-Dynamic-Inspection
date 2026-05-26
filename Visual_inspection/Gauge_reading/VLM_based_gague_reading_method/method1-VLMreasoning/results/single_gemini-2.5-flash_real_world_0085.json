@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0085",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale goes from 0 to 3. Given the 'A' symbol, the full scale is 0-3 Amperes.\n- **MAJOR tick mark intervals:** The major tick marks are labeled 0, 1, 2, and 3. So, the interval between major marks is 1 unit (1 Ampere).\n- **MINOR tick mark intervals:** Between any two major tick marks (e.g., 0 and 1), there are 10 minor subdivisions. Therefore, each minor tick represents 1 unit / 10 subdivisions = 0.1 Amperes.\n- **How many subdivisions are between major marks:** 10.\n\n**Step 2 - Locate the Indicator:**\n- **Find the pointer:** The pointer (needle) is visible on the left side of the scale.\n- **Identify which major tick marks it is between:** The pointer is between the 0 and 1 major tick marks.\n- **Count how many minor ticks past the lower major mark:** Starting from 0, the pointer is exactly on the 7th minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- **Start from the lower major tick value:** 0 A\n- **Add the contribution from minor ticks:** The pointer is on the 7th minor tick. Each minor tick is 0.1 A. So, 7 * 0.1 A = 0.7 A.\n- **If the indicator is between minor ticks, interpolate:** The indicator appears to be exactly on the 7th minor tick, so no interpolation is needed.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is 'A', which stands for Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 0.7 A",
+  "predicted_value": 0.7,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      0.3,
+      0.3
+    ],
+    "unit": null
+  }
+}

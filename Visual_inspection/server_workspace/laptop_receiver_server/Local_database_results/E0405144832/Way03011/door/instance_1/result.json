@@ -1,0 +1,24 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The double glass door is closed, with no visible gaps or signs of being ajar.",
+  "findings": [
+    "The two door panels are fully aligned and appear to be flush with the surrounding door frame.",
+    "There are no visible gaps between the door panels or the frame that would suggest the door is open or partially open.",
+    "The door closer mechanism is extended, holding the door in a closed position.",
+    "The door handles are aligned, indicating a closed state."
+  ],
+  "evidence": {
+    "open": false
+  },
+  "extracted_objects": [
+    "door",
+    "door frame",
+    "door handles",
+    "glass panels",
+    "door closer mechanism",
+    "PG Laboratory sign"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The double glass door is closed, with no visible gaps or signs of being ajar.\",\n  \"findings\": [\n    \"The two door panels are fully aligned and appear to be flush with the surrounding door frame.\",\n    \"There are no visible gaps between the door panels or the frame that would suggest the door is open or partially open.\",\n    \"The door closer mechanism is extended, holding the door in a closed position.\",\n    \"The door handles are aligned, indicating a closed state.\"\n  ],\n  \"evidence\": {\n    \"open\": false\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"door frame\",\n    \"door handles\",\n    \"glass panels\",\n    \"door closer mechanism\",\n    \"PG Laboratory sign\"\n  ]\n}"
+}

@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0130",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- The clock face displays hours using Roman numerals from I to XII.\n- The outer ring has markings for minutes.\n- **Hours Scale:**\n    - Full scale range: 12 hours.\n    - Major tick mark intervals: Every hour (indicated by Roman numerals I, II, III, IV, V, VI, VII, VIII, IX, X, XI, XII).\n    - Minor tick mark intervals: Not applicable for hours, as the hour hand points directly to the numeral.\n- **Minutes Scale:**\n    - Full scale range: 60 minutes.\n    - Major tick mark intervals: Every 5 minutes (indicated by larger dashes, and the \"60\" at the top).\n    - Minor tick mark intervals: Every 1 minute (small dashes between the 5-minute major marks).\n    - Number of subdivisions between major marks (e.g., between '60' and 'I'): 5 subdivisions.\n\n**Step 2 - Locate the Indicator:**\n- The clock has an hour hand (shorter) and a minute hand (longer).\n- **Hour Hand:** The shorter hand is pointing directly at the Roman numeral 'V'.\n- **Minute Hand:** The longer hand is pointing directly at the '60' mark, which corresponds to the XII Roman numeral.\n\n**Step 3 - Calculate the Reading:**\n- **Minutes:** The minute hand is at the '60' position, which indicates 00 minutes past the hour.\n- **Hours:** The hour hand is precisely on the 'V' mark.\n- Therefore, the time is exactly 5:00.\n\n**Step 4 - Identify the Unit:**\n- The unit is hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 5:00",
+  "predicted_value": 0.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

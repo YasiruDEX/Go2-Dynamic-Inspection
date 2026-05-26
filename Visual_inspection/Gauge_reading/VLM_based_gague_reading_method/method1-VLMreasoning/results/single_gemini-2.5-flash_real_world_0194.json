@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0194",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock face displays 12 hours for the hour hand and 60 minutes/seconds for the minute and second hands.\n-   **MAJOR tick mark intervals:**\n    -   For hours: The numbers 1 through 12 mark the major hour intervals. Each number represents 1 hour.\n    -   For minutes/seconds: Every number (1 through 12) also represents a major 5-minute or 5-second interval.\n-   **MINOR tick mark intervals:**\n    -   Between each major hour number (e.g., between 1 and 2), there are 4 minor tick marks, making 5 subdivisions for minutes/seconds. Each of these minor ticks represents 1 minute or 1 second.\n-   **How many subdivisions are between major marks?** There are 5 subdivisions between each 5-minute/second major mark (which correspond to the hour numbers).\n\n**Step 2 - Locate the Indicator:**\n-   **Hour Hand (shorter, thicker hand):** The hour hand has passed the '3' and is moving towards the '4'. It is about one-third of the way between the '3' and the '4'.\n-   **Minute Hand (longer, thinner hand):** The minute hand is pointing directly at the '4'.\n-   **Second Hand (very thin hand):** The second hand is pointing directly at the '7'.\n\n**Step 3 - Calculate the Reading:**\n-   **Hours:** The hour hand has passed 3, so the hour is 3.\n-   **Minutes:** The minute hand is pointing at the '4'. On a clock face, each number represents 5 minutes. So, 4 * 5 = 20 minutes.\n-   **Seconds:** The second hand is pointing at the '7'. Similar to minutes, 7 * 5 = 35 seconds.\n\n**Step 4 - Identify the Unit:**\n-   The unit is \"time\" in the format of hours:minutes:seconds.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 03:20:35",
+  "predicted_value": 35.0,
+  "predicted_unit": "seconds",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

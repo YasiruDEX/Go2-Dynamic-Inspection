@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0068",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n1.  **Determine the active range:** The red lead is connected to the \"50mA\" terminal, and the black lead is connected to the common \"A\" terminal. Therefore, the ammeter is set to the 50mA range.\n2.  **Select the corresponding scale:** There are three main scales. The middle scale, ranging from 0 to 50 (with major labels 0, 10, 20, 30, 40, 50), is the correct scale for the 50mA range.\n3.  **Full scale range:** 0 - 50 (corresponding to 50mA).\n4.  **MAJOR tick mark intervals:** The major ticks are labeled every 10 units (e.g., 0, 10, 20, 30, 40, 50).\n5.  **Subdivisions between major marks:** Between any two major marks (e.g., 20 and 30), there are 10 minor subdivisions.\n6.  **MINOR tick mark intervals:** Each minor tick represents (10 units / 10 subdivisions) = 1 unit.\n\n**Step 2 - Locate the Indicator:**\n1.  The pointer is located between the major tick marks of 20 and 30 on the middle scale.\n2.  Counting from the 20 major mark, the pointer aligns exactly with the 6th minor tick.\n\n**Step 3 - Calculate the Reading:**\n1.  Starting value: 20\n2.  Contribution from minor ticks: 6 minor ticks * 1 unit/tick = 6 units.\n3.  Total reading = 20 + 6 = 26.\n\n**Step 4 - Identify the Unit:**\n1.  The active range is 50mA, and the scale is direct-reading for this range.\n2.  The unit is milliampere (mA).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 26 mA",
+  "predicted_value": 26.0,
+  "predicted_unit": "mA",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      270,
+      270
+    ],
+    "unit": null
+  }
+}

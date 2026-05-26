@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0035",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The main scale goes from 0 to 150.\n-   **MAJOR tick mark intervals:** Major tick marks are labeled every 10 units (0, 10, 20, ..., 150).\n-   **Minor tick mark intervals:** Between each major tick mark (e.g., between 10 and 20), there are 5 subdivisions.\n    -   Therefore, each minor tick represents 10 units / 5 subdivisions = 2 units.\n-   **How many subdivisions are between major marks?** 5 subdivisions.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer is clearly visible.\n-   It is between the 10 and 20 major tick marks.\n-   Counting from the 10 mark, the pointer aligns with the 4th minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n1.  **Reading on the raw scale:** The pointer is at 10 (lower major mark) + (4 minor ticks * 2 units/minor tick) = 10 + 8 = 18.\n2.  **Determine the selected range:** Observe the rotary selector switch at the top-left. The indicator on this switch is pointing to \"30 A\". This means the ammeter is set to measure current on the 30 Ampere range.\n3.  **Apply the scale factor:** For the 30 A range, the full scale of 150 divisions corresponds to 30 Amperes.\n    *   Scale factor = (Selected Range) / (Full Scale Reading) = 30 A / 150 = 0.2 A per unit on the 0-150 scale.\n4.  **Calculate the actual reading:**\n    *   Actual Reading = (Raw Scale Reading) * (Scale Factor)\n    *   Actual Reading = 18 * 0.2 A = 3.6 A\n\n**Step 4 - Identify the Unit:**\n-   The unit for the selected range (30) is Amperes (A), as indicated on the rotary selector switch and implied by \"A\" below the scale.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 3.6 A",
+  "predicted_value": 3.6,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      75,
+      75
+    ],
+    "unit": null
+  }
+}

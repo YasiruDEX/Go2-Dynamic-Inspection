@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0182",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- The clock face uses Roman numerals from I to XII to denote the hours.\n- There are 12 major tick marks representing each hour.\n- Between each major hour mark, there are 4 minor tick marks. Since a full circle is 60 minutes and there are 12 hours, each hour mark also represents a 5-minute interval for the minute hand (e.g., XII is 0/60 minutes, I is 5 minutes, II is 10 minutes, etc.).\n- With 4 minor ticks between 5-minute major intervals, each minor tick represents 1 minute (5 minutes / 5 segments = 1 minute per segment).\n\n**Step 2 - Locate the Indicator:**\n- **Hour Hand (shorter hand):** The hour hand is pointing between the Roman numeral VIII (8) and IX (9). It has clearly passed the VIII but has not yet reached the IX. It is closer to IX, which is consistent with the minute hand's position.\n- **Minute Hand (longer hand):** The minute hand is pointing past the Roman numeral VIII. The Roman numeral VIII corresponds to 8 * 5 = 40 minutes. The minute hand is pointing precisely at the first minor tick mark after VIII.\n\n**Step 3 - Calculate the Reading:**\n- **Hours:** Since the hour hand is past VIII but before IX, the hour is 8.\n- **Minutes:** The minute hand is at the first minor tick past VIII (40 minutes). Therefore, the minutes are 40 + 1 = 41 minutes.\n- The reading is 8:41.\n\n**Step 4 - Identify the Unit:**\nThe unit is time, expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 8:41",
+  "predicted_value": 41.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

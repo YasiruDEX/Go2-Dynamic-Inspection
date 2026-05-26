@@ -1,0 +1,17 @@
+{
+  "class": "door",
+  "instance_id": 2,
+  "confidence": 0.8833,
+  "session": "20260502_135958",
+  "location_label": "E0405114951,Way03012",
+  "num_images": 3,
+  "camera": "logitech",
+  "ibvs_converged": true,
+  "ibvs_error_px": 8.559,
+  "ibvs_time_s": 2.837,
+  "ibvs_iterations": 31,
+  "ibvs_fps": 11.3,
+  "coarse_time_s": 2.003,
+  "initial_ibvs_error_px": 108.22,
+  "pipeline_time_s": 35.06
+}

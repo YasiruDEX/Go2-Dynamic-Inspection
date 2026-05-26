@@ -1,0 +1,17 @@
+{
+  "class": "gauge",
+  "instance_id": 1,
+  "confidence": 0.5088,
+  "session": "20260502_142305",
+  "location_label": "E0405144832,Way03003",
+  "num_images": 3,
+  "camera": "logitech",
+  "ibvs_converged": true,
+  "ibvs_error_px": 9.899,
+  "ibvs_time_s": 6.077,
+  "ibvs_iterations": 36,
+  "ibvs_fps": 6.1,
+  "coarse_time_s": 2.002,
+  "initial_ibvs_error_px": 77.84,
+  "pipeline_time_s": 25.69
+}

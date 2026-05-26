@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0089",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 15.\n- **MAJOR tick mark intervals:** The major tick marks are labeled at 0, 5, 10, and 15. This means major intervals are every 5 units.\n- **Minor tick mark intervals:** Between each major tick mark (e.g., 0 and 5), there are 4 minor tick marks. This divides the 5-unit interval into 5 smaller segments.\n    - Therefore, the value of each minor tick mark interval is (5 units / 5 subdivisions) = 1 unit.\n- **How many subdivisions are between major marks?** There are 5 subdivisions between each major mark.\n\n**Step 2 - Locate the Indicator:**\n- The red pointer is the indicator.\n- It is located between the major tick mark 0 and the major tick mark 5.\n- Counting from 0, the pointer aligns exactly with the 4th minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Starting from the lower major tick value (0).\n- The pointer is on the 4th minor tick past 0.\n- Since each minor tick represents 1 unit, the reading is 0 + (4 * 1 unit) = 4.\n\n**Step 4 - Identify the Unit:**\n- The letter \"A\" with an underline is clearly visible on the scale, indicating the unit is Amperes (A) for DC current.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 4 A",
+  "predicted_value": 4.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      6,
+      6
+    ],
+    "unit": null
+  }
+}

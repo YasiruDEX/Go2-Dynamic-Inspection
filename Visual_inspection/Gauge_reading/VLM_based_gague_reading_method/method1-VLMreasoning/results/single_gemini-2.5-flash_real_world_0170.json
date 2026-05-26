@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0170",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock face displays 12 hours. For the minute hand, it represents 60 minutes.\n-   **MAJOR tick mark intervals:** For hours, the major tick marks are numbered 1 through 12, representing 1-hour increments. For minutes, the numbers 1 through 12 also serve as major tick marks, each representing an interval of 5 minutes (e.g., 1 is 5 minutes, 2 is 10 minutes, 4 is 20 minutes).\n-   **MINOR tick mark intervals:** Between each numbered hour mark (which also serves as a 5-minute mark for the minute hand), there are 4 smaller tick marks. This means there are 5 subdivisions between each 5-minute interval.\n-   **Subdivisions between major marks:** Each subdivision represents 1 minute.\n\n**Step 2 - Locate the Indicator:**\n-   **Hour hand (shorter, thicker):** The hour hand is positioned past the 8 but has not yet reached the 9.\n-   **Minute hand (longer, thinner):** The minute hand is pointing directly at the number 4.\n\n**Step 3 - Calculate the Reading:**\n-   **Minutes:** The minute hand is pointing at the number 4. On a clock, each number represents a 5-minute increment for the minute hand. So, the minute reading is 4 * 5 = 20 minutes.\n-   **Hours:** The hour hand is past the 8. Since the minute hand is at 20 minutes (which is one-third of an hour), the hour hand is approximately one-third of the way between 8 and 9, which is consistent with its visual position. Therefore, the hour is 8.\n-   Combining these, the time shown is 8 hours and 20 minutes.\n\n**Step 4 - Identify the Unit:**\n-   The unit for this measurement is \"time\", typically expressed in hours and minutes (HH:MM).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 8:20 time",
+  "predicted_value": 20.0,
+  "predicted_unit": "time",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

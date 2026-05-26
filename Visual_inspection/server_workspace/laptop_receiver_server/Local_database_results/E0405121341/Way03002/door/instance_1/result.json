@@ -1,0 +1,22 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.9,
+  "summary": "The glass door is in an open state, with a visible gap between the door panel and the frame, and a person standing in the doorway.",
+  "findings": [
+    "A clear gap is visible between the vertical edge of the glass door panel and the door frame, indicating it is not fully closed.",
+    "A person is standing in the doorway, further confirming the door is not in a fully closed position.",
+    "The door handle is being held by the person, suggesting the door is actively being used or is ajar."
+  ],
+  "evidence": {
+    "open": true
+  },
+  "extracted_objects": [
+    "door",
+    "man",
+    "poster",
+    "window",
+    "trash can"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.9,\n  \"summary\": \"The glass door is in an open state, with a visible gap between the door panel and the frame, and a person standing in the doorway.\",\n  \"findings\": [\n    \"A clear gap is visible between the vertical edge of the glass door panel and the door frame, indicating it is not fully closed.\",\n    \"A person is standing in the doorway, further confirming the door is not in a fully closed position.\",\n    \"The door handle is being held by the person, suggesting the door is actively being used or is ajar.\"\n  ],\n  \"evidence\": {\n    \"open\": true\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"man\",\n    \"poster\",\n    \"window\",\n    \"trash can\"\n  ]\n}"
+}

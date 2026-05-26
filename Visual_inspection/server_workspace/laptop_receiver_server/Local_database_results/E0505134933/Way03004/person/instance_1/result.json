@@ -1,0 +1,26 @@
+{
+  "task": "person",
+  "decision": "FAIL",
+  "confidence": 0.9,
+  "summary": "Multiple individuals are not fully compliant with required Personal Protective Equipment (PPE) standards, specifically regarding safety helmets, gloves, and safety jackets.",
+  "findings": [
+    "Two out of three visible individuals are not wearing a safety helmet.",
+    "No visible individual is wearing safety gloves.",
+    "Two out of three visible individuals are not wearing a high-visibility safety jacket/vest.",
+    "The individual on the far right is wearing a safety helmet and a high-visibility vest but is not wearing safety gloves."
+  ],
+  "evidence": {
+    "person_detected": true,
+    "helmet_worn": false,
+    "gloves_worn": false,
+    "jacket_worn": false,
+    "ppe_compliant": false
+  },
+  "extracted_objects": [
+    "person",
+    "helmet",
+    "gloves",
+    "safety jacket"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"person\",\n  \"decision\": \"FAIL\",\n  \"confidence\": 0.9,\n  \"summary\": \"Multiple individuals are not fully compliant with required Personal Protective Equipment (PPE) standards, specifically regarding safety helmets, gloves, and safety jackets.\",\n  \"findings\": [\n    \"Two out of three visible individuals are not wearing a safety helmet.\",\n    \"No visible individual is wearing safety gloves.\",\n    \"Two out of three visible individuals are not wearing a high-visibility safety jacket/vest.\",\n    \"The individual on the far right is wearing a safety helmet and a high-visibility vest but is not wearing safety gloves.\"\n  ],\n  \"evidence\": {\n    \"person_detected\": true,\n    \"helmet_worn\": false,\n    \"gloves_worn\": false,\n    \"jacket_worn\": false,\n    \"ppe_compliant\": false\n  },\n  \"extracted_objects\": [\n    \"person\",\n    \"helmet\",\n    \"gloves\",\n    \"safety jacket\"\n  ]\n}"
+}

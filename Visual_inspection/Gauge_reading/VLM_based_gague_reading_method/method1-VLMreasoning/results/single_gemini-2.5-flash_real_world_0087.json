@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0087",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The scale ranges from 0 to 100.\n-   **MAJOR tick mark intervals:** The numbered major tick marks are 0, 20, 40, 60, 80, 100. This means major intervals are every 20 units.\n-   **Subdivisions between major marks:** Between each major mark (e.g., between 0 and 20), there are 4 longer, unnumbered tick marks. This divides the 20-unit interval into 5 larger segments (20 units / 5 segments = 4 units per segment).\n-   **MINOR tick mark intervals:** Between 0 and the first 4-unit mark (which would be 4), there are 3 shorter tick marks. This divides the 4-unit segment into 4 smaller subdivisions (4 units / 4 subdivisions = 1 unit per subdivision). Therefore, the minor tick mark interval is 1 unit.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer is past the 80 major tick mark.\n-   Counting from 80, the first longer unnumbered tick is 80 + 4 = 84.\n-   The second longer unnumbered tick is 80 + 8 = 88.\n-   The third longer unnumbered tick is 80 + 12 = 92.\n-   The fourth longer unnumbered tick is 80 + 16 = 96.\n-   The pointer is past 96. Let's count the individual 1-unit minor ticks after 96.\n-   The pointer aligns precisely with the third short minor tick after the 96 mark.\n\n**Step 3 - Calculate the Reading:**\n-   Starting from the 80 major tick mark.\n-   Add the value of the fourth 4-unit segment: 80 + (4 * 4) = 80 + 16 = 96.\n-   Add the value of the 3 minor 1-unit ticks after 96: 96 + 3 = 99.\n-   The pointer is directly on the 99 mark.\n\n**Step 4 - Identify the Unit:**\n-   The unit indicated on the scale is \"mA\", which stands for milliamperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 99 mA",
+  "predicted_value": 99.0,
+  "predicted_unit": "mA",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      100,
+      100
+    ],
+    "unit": null
+  }
+}

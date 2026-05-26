@@ -1,0 +1,24 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The blue door with the 'EXIT' sign is visibly closed.",
+  "findings": [
+    "A blue door with an 'EXIT' sign is clearly visible.",
+    "The door panel appears flush within its frame.",
+    "There is no visible gap between the door and the door frame on the sides or top.",
+    "No view is possible through the doorway, indicating it is not open or ajar."
+  ],
+  "evidence": {
+    "open": false
+  },
+  "extracted_objects": [
+    "door",
+    "exit sign",
+    "door handle",
+    "fire extinguisher",
+    "fire hose cabinet",
+    "railing"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The blue door with the 'EXIT' sign is visibly closed.\",\n  \"findings\": [\n    \"A blue door with an 'EXIT' sign is clearly visible.\",\n    \"The door panel appears flush within its frame.\",\n    \"There is no visible gap between the door and the door frame on the sides or top.\",\n    \"No view is possible through the doorway, indicating it is not open or ajar.\"\n  ],\n  \"evidence\": {\n    \"open\": false\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"exit sign\",\n    \"door handle\",\n    \"fire extinguisher\",\n    \"fire hose cabinet\",\n    \"railing\"\n  ]\n}"
+}

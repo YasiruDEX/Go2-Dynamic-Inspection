@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0212",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock face displays 12 hours for the hour hand and 60 minutes for the minute hand.\n-   **MAJOR tick mark intervals:** The Roman numerals (I, II, III, IV, V, VI, VII, VIII, IX, X, XI, XII) indicate the hours. For the minute scale, these Roman numerals also represent 5-minute intervals (e.g., I = 5 minutes, II = 10 minutes, ..., XII = 0 or 60 minutes).\n-   **MINOR tick mark intervals:** Between each major hour mark (Roman numeral), there are 4 minor tick marks. This divides each 5-minute interval into 5 smaller parts. Therefore, each minor tick mark represents 1 minute.\n-   **How many subdivisions are between major marks?** There are 5 subdivisions (including the major mark itself) for the minute scale between each Roman numeral, meaning 4 minor ticks between them.\n\n**Step 2 - Locate the Indicator:**\n-   **Minute hand (the longer hand):** The tip of the minute hand is pointing directly at the Roman numeral **X**.\n-   **Hour hand (the shorter hand):** The tip of the hour hand is positioned between the Roman numerals **IX** and **X**. It is clearly past IX but has not yet reached X.\n\n**Step 3 - Calculate the Reading:**\n-   **Minutes:** Since the minute hand is pointing directly at 'X', and each numeral represents a 5-minute interval, 'X' corresponds to 10 * 5 = **50 minutes**.\n-   **Hours:** The hour hand is past 'IX' (9) but has not yet reached 'X' (10). Given that the minute hand is at 50 minutes (nearly the top of the hour), the hour hand should be very close to the next hour. Therefore, the hour is **9**.\n\n**Step 4 - Identify the Unit:**\n-   The unit displayed on the scale is time, expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 9:50 o'clock",
+  "predicted_value": 50.0,
+  "predicted_unit": "o",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

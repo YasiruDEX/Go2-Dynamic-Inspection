@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0173",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock displays 12 hours, 60 minutes, and 60 seconds.\n-   **MAJOR tick mark intervals:** For hours, the major tick marks are labeled with Roman numerals (I, II, III, ..., XII). For minutes and seconds, the major intervals are every 5 units (coinciding with the hour numerals).\n-   **MINOR tick mark intervals:** Between each major hour numeral, there are 4 smaller tick marks, creating 5 subdivisions.\n-   **Value of each minor tick mark:** Each subdivision represents 1 minute or 1 second. So, from XII to I is 5 minutes/seconds, I to II is 5 minutes/seconds, and so on.\n\n**Step 2 - Locate the Indicator:**\n-   **Hour hand (short, thick black hand):** It is pointing between the 'III' (3) and 'IIII' (4) Roman numerals, closer to 'IIII'. This indicates the hour is 3.\n-   **Minute hand (long, thin black hand):** It is pointing directly at the 'X' (10) Roman numeral.\n-   **Second hand (long, thin red hand):** It is pointing directly at the 'I' (1) Roman numeral.\n\n**Step 3 - Calculate the Reading:**\n-   **Hours:** The hour hand is past 3 but has not yet reached 4. Therefore, the hour is 3.\n-   **Minutes:** The minute hand is at the 'X' mark. Since each numeral represents 5 minutes, 'X' corresponds to 10 * 5 = 50 minutes.\n-   **Seconds:** The second hand is at the 'I' mark. Since each numeral represents 5 seconds, 'I' corresponds to 1 * 5 = 5 seconds.\n\n**Step 4 - Identify the Unit:**\nThe unit is time, expressed in hours, minutes, and seconds.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 3:50:05",
+  "predicted_value": 5.0,
+  "predicted_unit": "seconds",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

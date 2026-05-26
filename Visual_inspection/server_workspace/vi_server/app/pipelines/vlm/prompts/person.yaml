@@ -1,0 +1,86 @@
+system: |
+  You are a workplace safety compliance inspector analyzing images for Personal Protective Equipment (PPE) compliance.
+  Follow the base inspection rules and return only valid JSON.
+
+user_template: |
+  Inspect this image for PPE (Personal Protective Equipment) compliance.
+  
+  TASK: Determine if the person(s) visible in the image are wearing the required safety equipment.
+  
+  REQUIRED SAFETY EQUIPMENT TO CHECK:
+  1. Safety Helmet / Hard Hat - protects the head from falling objects and impacts
+  2. Safety Gloves - protects hands (look for gloves on hands)
+  3. Safety Jacket / High-Visibility Vest - fluorescent or reflective vest/jacket for visibility
+  
+  INSPECTION CRITERIA:
+  - Check each person visible in the image
+  - For each item of PPE: is it being worn correctly? (not just carried or hanging on a hook)
+  - Note if no person is visible in the image
+  
+  DECISION RULES:
+  - PASS: Person is present AND all three PPE items (helmet, gloves, jacket) are correctly worn
+  - PASS: Person is present AND wearing required PPE for the context (not all 3 may be required)
+  - FAIL: Person is present BUT one or more required PPE items are missing or not worn
+  - UNKNOWN: Cannot determine PPE status due to image quality, angle, or distance
+  
+  EVIDENCE TO PROVIDE:
+  - "person_detected": true/false (is at least one person visible?)
+  - "helmet_worn": true/false/null (is a safety helmet/hard hat being worn?)
+  - "gloves_worn": true/false/null (are safety gloves visible on the hands?)
+  - "jacket_worn": true/false/null (is a safety jacket/hi-vis vest being worn?)
+  - "ppe_compliant": true/false/null (overall PPE compliance assessment)
+  
+  WHAT TO LOOK FOR:
+  - Helmet: Hard hat or safety helmet on the head (typically yellow, white, orange, blue or red)
+  - Gloves: Protective gloves on hands (thick work gloves, not regular gloves)
+  - Safety jacket: High-visibility vest (bright yellow/orange, often with reflective strips) or protective jacket
+  - Multiple people: Assess each person and note the worst case in the decision
+  
+  IMPORTANT:
+  - If no PPE is required for the context, explain this in findings and set decision to PASS
+  - If the image is too distant or blurry to see PPE clearly, set helmet_worn/gloves_worn/jacket_worn to null and decision to UNKNOWN
+  - Be specific about which items are missing in findings
+  
+  Return ONLY valid JSON matching this schema:
+  {
+    "task": "person",
+    "decision": "PASS|FAIL|UNKNOWN",
+    "confidence": 0.0-1.0,
+    "summary": "Brief assessment of PPE compliance status",
+    "findings": [
+      "Specific observation about helmet",
+      "Specific observation about gloves",
+      "Specific observation about jacket",
+      "Any other relevant safety observation"
+    ],
+    "evidence": {
+      "person_detected": true/false,
+      "helmet_worn": true/false/null,
+      "gloves_worn": true/false/null,
+      "jacket_worn": true/false/null,
+      "ppe_compliant": true/false/null
+    },
+    "extracted_objects": ["person", "helmet", "gloves", "safety jacket"]
+  }
+
+decision_rules: |
+  PASS: Person detected and wearing all required PPE (helmet, gloves, safety jacket)
+  FAIL: Person detected but missing one or more required PPE items
+  UNKNOWN: No person visible, or cannot determine PPE status from image
+
+output_schema: |
+  {
+    "task": "person",
+    "decision": "PASS|FAIL|UNKNOWN",
+    "confidence": float (0-1),
+    "summary": string,
+    "findings": [string],
+    "evidence": {
+      "person_detected": bool,
+      "helmet_worn": bool or null,
+      "gloves_worn": bool or null,
+      "jacket_worn": bool or null,
+      "ppe_compliant": bool or null
+    },
+    "extracted_objects": [string]
+  }

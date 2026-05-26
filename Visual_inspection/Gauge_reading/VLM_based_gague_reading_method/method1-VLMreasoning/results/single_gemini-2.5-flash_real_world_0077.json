@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0077",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Full scale range:** The scale ranges from 0 to 30.\n*   **MAJOR tick mark intervals:** The numbered major tick marks are 0, 10, 20, and 30. The interval between these is 10 units (Amperes).\n*   **Subdivisions between major marks:** Let's examine the segment between 0 and 10.\n    *   There are 4 longer, unlabeled tick marks between 0 and 10. These divide the 10-unit segment into 5 equal parts. Therefore, each of these longer unlabeled ticks represents 10 A / 5 = 2 A. (So, these are at 2 A, 4 A, 6 A, 8 A).\n    *   **MINOR tick mark intervals:** Between each 2 A segment (e.g., between 0 A and 2 A), there is one smaller tick mark in the middle. This divides the 2 A segment into two equal parts. Therefore, each minor tick mark represents 2 A / 2 = 1 A. (So, these are at 1 A, 3 A, 5 A, 7 A, 9 A, etc.).\n*   The smallest discernible increment on the scale is 1 A.\n\n**Step 2 - Locate the Indicator:**\n*   The red pointer is located after the '0' mark.\n*   It is positioned precisely on the first minor tick mark after the '0' mark.\n\n**Step 3 - Calculate the Reading:**\n*   Starting from the '0' mark, the first minor tick mark represents 1 A.\n*   The pointer aligns exactly with this 1 A mark. There is no need to interpolate between minor ticks as the pointer appears to be directly on the mark.\n\n**Step 4 - Identify the Unit:**\n*   The large letter \"A\" is clearly displayed on the scale, indicating the unit is Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 1 A",
+  "predicted_value": 1.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      3,
+      3
+    ],
+    "unit": null
+  }
+}

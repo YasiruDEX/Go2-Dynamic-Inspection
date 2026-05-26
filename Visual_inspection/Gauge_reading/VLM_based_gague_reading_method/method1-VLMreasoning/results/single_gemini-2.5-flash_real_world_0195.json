@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0195",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The clock face displays 12 hours. The minute and second scales each go from 0 to 60 units.\n- **MAJOR tick mark intervals:** For hours, these are indicated by the numbers 1 through 12. For minutes and seconds, the major tick marks are at intervals of 5 units (coinciding with the hour numbers).\n- **MINOR tick mark intervals:** Between each major 5-minute/second mark, there are 4 minor ticks.\n- **How many subdivisions are between major marks?** There are 5 subdivisions between each numbered hour mark, meaning each minor tick represents 1 minute or 1 second.\n\n**Step 2 - Locate the Indicator:**\n- **Hour hand (shortest hand):** The hour hand is pointing between the 7 and the 8. It is clearly past the 7 but has not yet reached the 8.\n- **Minute hand (longest hand):** The minute hand is pointing exactly at the first minor tick mark after the 12.\n- **Second hand (thinnest hand):** The second hand is pointing exactly at the 12.\n\n**Step 3 - Calculate the Reading:**\n- **Hours:** Since the hour hand is past 7 but not yet at 8, the hour is 7.\n- **Minutes:** The minute hand is at the first minor tick mark after the 12. The 12 represents 0 minutes. Each minor tick represents 1 minute. Therefore, the minute reading is 1 minute.\n- **Seconds:** The second hand is pointing exactly at the 12. The 12 represents 0 seconds.\n\nThus, the time shown on the clock is 7 hours, 1 minute, and 0 seconds.\n\n**Step 4 - Identify the Unit:**\nThe unit is \"time,\" expressed in hours, minutes, and seconds.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 7:01:00 time",
+  "predicted_value": 0.0,
+  "predicted_unit": "time",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

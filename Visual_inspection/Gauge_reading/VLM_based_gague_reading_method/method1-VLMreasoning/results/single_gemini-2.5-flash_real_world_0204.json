@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0204",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock displays 12 hours. For minutes, it covers a full 60 minutes.\n-   **MAJOR tick mark intervals:** Major tick marks are labeled with numbers 1 through 12, representing hours. For minutes, these correspond to 5-minute intervals (e.g., 12=0/60 minutes, 1=5 minutes, 2=10 minutes, etc.).\n-   **MINOR tick mark intervals:** Between each major hour number, there are 4 minor tick marks.\n-   **How many subdivisions are between major marks?** There are 5 subdivisions between each numbered hour mark (e.g., between 12 and 1, there are 4 minor ticks and then the 1 itself). This means each minor tick represents 1 minute.\n\n**Step 2 - Locate the Indicator:**\n-   **Hour Hand (shorter hand):** The hour hand is pointing exactly halfway between the 3 and the 4.\n-   **Minute Hand (longer hand):** The minute hand is pointing directly at the 6.\n\n**Step 3 - Calculate the Reading:**\n-   **Minutes:** The minute hand is at the 6. On a clock face, each number represents 5 minutes for the minute hand. So, 6 * 5 minutes = 30 minutes.\n-   **Hours:** Since the minute hand is at 30 minutes (half past the hour), the hour hand should be exactly halfway between two hour numbers. The hour hand is halfway between 3 and 4. This indicates the hour is 3.\n\n**Step 4 - Identify the Unit:**\n-   The unit is time, expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 3:30",
+  "predicted_value": 4.0,
+  "predicted_unit": "This",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0237",
+  "question": "What is the reading of the needle of the upper part of the dial?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The compass dial ranges from 0 to 360.\n-   **MAJOR tick mark intervals:** The numbered major tick marks are visible at intervals of 20 (e.g., 20, 40, 60, 80, etc.).\n-   **Minor tick mark intervals:** Between each major tick mark (e.g., between 20 and 40), there are 3 unnumbered minor tick marks, making a total of 4 subdivisions.\n-   **Subdivision value:** Since there are 4 subdivisions for a 20-unit interval, each subdivision represents 20 units / 4 subdivisions = 5 units. So, minor ticks are every 5 units.\n\n**Step 2 - Locate the Indicator:**\n-   The question asks for the reading of the needle of the upper part of the dial. This refers to the North-seeking end of the magnetic needle (the pointed, black end with the small triangular base).\n-   This end of the needle is pointing to the upper right quadrant of the dial.\n-   It is located between the major tick mark for 40 and the major tick mark for 60.\n-   Counting from the 40 major tick mark, we use the 5-unit minor tick intervals:\n    -   40 (major)\n    -   45 (1st minor tick)\n    -   50 (2nd minor tick)\n    -   55 (3rd minor tick)\n    -   60 (next major tick)\n-   The tip of the North-seeking needle is aligned precisely with the 3rd minor tick past 40.\n\n**Step 3 - Calculate the Reading:**\n-   Start from the lower major tick value: 40\n-   Add the contribution from the minor ticks: The needle is at the 3rd minor tick, and each minor tick is 5 units. So, 3 * 5 = 15 units.\n-   Total reading: 40 + 15 = 55.\n\n**Step 4 - Identify the Unit:**\n-   The unit for a compass reading is degrees, often implied by the context of directions.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 55 degrees",
+  "predicted_value": 55.0,
+  "predicted_unit": "degrees",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      50,
+      55
+    ],
+    "unit": null
+  }
+}

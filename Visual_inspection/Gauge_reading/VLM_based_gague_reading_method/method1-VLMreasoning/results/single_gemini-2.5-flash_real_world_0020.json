@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0020",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale goes from 0 to 1500. This represents 1500 divisions.\n- **MAJOR tick mark intervals:** The major labeled tick marks are 0, 500, 1000, 1500. The interval between these major marks is 500 divisions.\n- **Subdivisions between major marks:** Let's look between 1000 and 1500. There are 4 unlabeled long tick marks between them. This means the 500-division interval (1000 to 1500) is divided into 5 segments by these long ticks. Therefore, each of these long unlabeled ticks represents an interval of 500 / 5 = 100 divisions. (e.g., 1000, 1100, 1200, 1300, 1400, 1500).\n- **MINOR tick mark intervals:** Between any two consecutive 100-division marks (e.g., 1000 and the first long tick at 1100), there are 4 smaller tick marks. This creates 5 subdivisions. So, each minor tick mark represents an interval of 100 divisions / 5 subdivisions = 20 divisions.\n\n**Step 2 - Locate the Indicator:**\n- The red pointer is located past the 1000 major tick mark.\n- Counting from the 1000 mark, the pointer is precisely aligned with the 3rd minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Starting from the lower major tick value: 1000 divisions.\n- Add the contribution from the minor ticks: The pointer is on the 3rd minor tick, and each minor tick is 20 divisions. So, 3 * 20 divisions = 60 divisions.\n- The reading on the scale is 1000 + 60 = 1060 divisions.\n\n**Step 4 - Identify the Unit:**\n- The scale prominently displays \"A\" for Amperes. However, there is also a specific marking \"F.S:DC1mA\" below the unit symbol. \"F.S.\" stands for Full Scale. This indicates that the full scale deflection of the meter (which is 1500 divisions on this scale) corresponds to an actual current of 1 milliAmpere (1mA). This is a crucial detail for determining the actual current value with high precision.\n- Therefore, the 1500 divisions on the scale represent 1 mA.\n- To convert the reading of 1060 divisions into actual current:\n    Actual Current = (Reading in Divisions / Full Scale Divisions) * Full Scale Current\n    Actual Current = (1060 / 1500) * 1 mA\n    Actual Current = 0.70666... mA\n- Rounding to four significant figures for high precision: 0.7067 mA.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 0.7067 mA",
+  "predicted_value": 0.7067,
+  "predicted_unit": "mA",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      1000,
+      1000
+    ],
+    "unit": null
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "question_id": "real_world_1145",
+  "prediction": null,
+  "predicted_value": null,
+  "predicted_unit": null,
+  "image_type": "water_meter",
+  "ground_truth": {
+    "interval": [
+      0.06405,
+      0.0641
+    ],
+    "unit": null
+  }
+}

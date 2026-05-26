@@ -1,0 +1,127 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+data/vi_server.db
+
+# Storage - Job files and images
+data/jobs/
+data/*.db
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Gauge Pipeline - Large files
+app/pipelines/gauge/.venv/
+app/pipelines/gauge/__pycache__/
+app/pipelines/gauge/runs/
+app/pipelines/gauge/archive.zip
+app/pipelines/gauge/dependencies/*.pth
+app/pipelines/gauge/models/*.pt
+app/pipelines/gauge/test_images/
+app/pipelines/gauge/.pytest_cache/
+app/pipelines/gauge/poetry.lock
+
+# VLM outputs
+app/pipelines/vlm/runs/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Large model files (if any)
+*.pth
+*.pt
+*.onnx
+*.h5
+*.hdf5
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST

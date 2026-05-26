@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0199",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock face displays 12 hours (1 through 12).\n-   **MAJOR tick mark intervals:** The numbered marks (1, 2, 3... 12) represent major hour intervals. For minutes, each numbered interval represents 5 minutes (e.g., 12 to 1 is 5 minutes, 1 to 2 is 5 minutes).\n-   **MINOR tick mark intervals:** Between each numbered major mark (e.g., between 12 and 1), there are 4 minor tick marks, creating 5 segments. Each of these minor tick marks represents 1 minute.\n-   **How many subdivisions are between major marks?** There are 5 minute subdivisions between each hour number.\n\n**Step 2 - Locate the Indicator:**\n-   **Hour hand (shorter, thicker hand):** The hour hand is clearly past the '2' and is approaching the '3'. It is approximately at a position consistent with being 55 minutes past 2.\n-   **Minute hand (longer, thinner hand):** The minute hand is pointing directly at the '11' mark.\n-   **Second hand (very thin hand):** The second hand appears to be between the '7' and '8' marks, indicating approximately 36-37 seconds. However, for \"what time is shown on the clock\", hours and minutes are the primary reading.\n\n**Step 3 - Calculate the Reading:**\n-   **Hours:** The hour hand has passed '2' but has not yet reached '3'. Therefore, the hour is 2.\n-   **Minutes:** The minute hand is pointing precisely at the '11'. On a clock face, the number '11' corresponds to 11 * 5 minutes = 55 minutes.\n\n**Step 4 - Identify the Unit:**\n-   The unit is time, expressed as hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 2:55",
+  "predicted_value": 55.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

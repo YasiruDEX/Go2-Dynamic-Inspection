@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0177",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Full scale range:** The clock face displays hours from 1 to 12. It also represents 60 minutes in a full rotation of the minute hand.\n*   **MAJOR tick mark intervals:** The numbers 1 through 12 are the major hour marks. For minutes, each number represents a 5-minute interval (e.g., 1 is 5 minutes, 2 is 10 minutes, ..., 12 is 0 or 60 minutes).\n*   **MINOR tick mark intervals:** Between each major hour/5-minute mark, there are 4 small tick marks, creating 5 subdivisions. Each subdivision represents 1 minute.\n*   **How many subdivisions are between major marks?** There are 5 one-minute subdivisions between each numbered hour mark.\n\n**Step 2 - Locate the Indicator:**\n*   **Hour Hand (shorter, thicker hand):** The hour hand is pointing directly at the '5' numeral.\n*   **Minute Hand (longer, thinner hand):** The minute hand is pointing directly at the '12' numeral.\n\n**Step 3 - Calculate the Reading:**\n*   **Minutes:** The minute hand is pointing exactly at the '12' mark. On a clock, this signifies 00 minutes past the hour.\n*   **Hours:** The hour hand is pointing exactly at the '5' mark. This signifies the 5th hour.\n*   Combining these, the time is precisely 5 hours and 0 minutes.\n\n**Step 4 - Identify the Unit:**\n*   The unit displayed on a clock is time, specifically hours and minutes. When the minute hand is at 12, the time is commonly referred to as \"o'clock\".\n\n**Step 5 - Provide Final Answer:**\nThe time shown is exactly 5 o'clock.\n\nAnswer: 5 o'clock",
+  "predicted_value": 5.0,
+  "predicted_unit": "o",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

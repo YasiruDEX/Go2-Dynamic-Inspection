@@ -1,0 +1,73 @@
+cd ~/kalibr_ws
+ros2 run image_tools cam2image --ros-args -p width:=1280 -p height:=720 -p index:=0
+
+another terminal
+colcon build --packages-select insta360_tools
+source install/setup.bash
+cd ~/data
+ros2 run insta360_tools insta360_cropper --ros-args -p camera_half:=front
+maybe next
+
+rqt_image_view
+
+
+
+another terminal
+
+ros2 bag record -o calib_front_wall1 /image_cropped 
+
+
+rosbags-convert --src calib_back_long --dst calib_back_long_ros1.bag \
+  --src-typestore ros2_humble --dst-typestore ros1_noetic
+  
+  
+xhost +local:root
+
+docker run -it --rm \
+  -e DISPLAY=$DISPLAY \
+  -e QT_X11_NO_MITSHM=1 \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -v "$PWD:/data" \
+  kalibr-ros1
+
+
+source /opt/ros/noetic/setup.bash
+source /catkin_ws/devel/setup.bash
+
+model-omniradtan
+
+rosrun kalibr kalibr_calibrate_cameras \
+  --bag /data/calib_front_wall1_ros1.bag \
+  --topics /image_cropped \
+  --models omni-radtan \
+  --target /data/target.yaml \
+  --show-extraction
+  
+model pinhole-radtan 
+cd data  
+rosrun kalibr kalibr_calibrate_cameras \
+  --bag /data/calib_back_long_ros1.bag \
+  --topics /image_cropped \
+  --models pinhole-radtan \
+  --target /data/target.yaml \
+  --show-extraction
+
+  
+  
+docker run -it --rm \
+  -e DISPLAY=$DISPLAY \
+  -e QT_X11_NO_MITSHM=1 \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -v "$PWD:/data" \
+  kalibr-ros1
+
+model pinhole-equi   
+rosrun kalibr kalibr_calibrate_cameras \
+  --bag /data/calib_front_short_ros1.bag \
+  --topics /image_cropped \
+  --models pinhole-equi \
+  --target /data/target.yaml \
+  --show-extraction
+
+  
+

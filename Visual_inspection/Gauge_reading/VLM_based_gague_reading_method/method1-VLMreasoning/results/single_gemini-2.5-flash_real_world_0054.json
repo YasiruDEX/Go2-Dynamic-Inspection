@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0054",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The scale ranges from 0 to 1000.\n-   **MAJOR tick mark intervals:** The numbered major tick marks are 0, 200, 400, 600, 800, and 1000. This means the numbered major intervals are every 200 units.\n-   Between each numbered major tick mark (e.g., between 400 and 600), there is a longer, unnumbered tick mark exactly in the middle. This middle tick represents 100 units past the lower numbered major mark (e.g., 500 between 400 and 600).\n-   Let's examine the interval between 400 and the unnumbered 500 mark. There are 4 small minor tick marks, creating 5 subdivisions.\n-   **MINOR tick mark intervals:** The value of each subdivision is (500 - 400) / 5 = 100 / 5 = 20 units. So, each minor tick represents 20 units.\n-   **How many subdivisions are between major marks?** Between a numbered major mark (e.g., 400) and the next numbered major mark (600), there are 10 minor subdivisions (5 before the 500 mark, and 5 after it), each representing 20 units.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer is past the 400 mark and past the unnumbered 500 mark.\n-   Counting from the 500 mark, the pointer aligns exactly with the third minor tick mark after 500.\n\n**Step 3 - Calculate the Reading:**\n-   Start from the unnumbered 500 mark.\n-   Add the value of the minor ticks: The pointer is on the 3rd minor tick past 500.\n-   Each minor tick represents 20 units.\n-   Calculation: 500 + (3 * 20) = 500 + 60 = 560.\n-   The pointer appears to be exactly on the tick mark, so no interpolation is required.\n\n**Step 4 - Identify the Unit:**\n-   The letter \"A\" is clearly indicated in the center of the scale, which stands for Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 560 A",
+  "predicted_value": 560.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      560,
+      560
+    ],
+    "unit": null
+  }
+}

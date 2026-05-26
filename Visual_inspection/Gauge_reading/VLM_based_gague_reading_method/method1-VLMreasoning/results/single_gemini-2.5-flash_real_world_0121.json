@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0121",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n\n*   **Hour Scale (Large numbers 1-12):**\n    *   Full scale range: 12 hours (1 to 12).\n    *   MAJOR tick mark intervals: Every 1 hour (indicated by the large numbers).\n    *   MINOR tick mark intervals: Not directly marked for hours, but each hour division corresponds to 5 minutes on the outer scale.\n*   **Minute Scale (Outer perimeter small marks):**\n    *   Full scale range: 60 minutes (0 to 60).\n    *   MAJOR tick mark intervals: Every 5 minutes (implied by the hour numbers, and some are explicitly labeled, e.g., 45, 60/0, 15, 30).\n    *   MINOR tick mark intervals: Every 1 minute. There are 4 small ticks between each 5-minute major mark.\n    *   Number of subdivisions between major marks: 5 (e.g., between 10 and 11, which represent 50 and 55 minutes respectively).\n*   **Seconds Sub-dial (Small inner dial):**\n    *   Full scale range: 60 seconds (0 to 60).\n    *   MAJOR tick mark intervals: Every 10 seconds (labeled 10, 20, 30, 40, 50, 60).\n    *   MINOR tick mark intervals: Every 2 seconds. There are 4 small ticks between each 10-second major mark, meaning each tick represents 2 seconds (10 / 5 subdivisions = 2 seconds per tick).\n\n**Step 2 - Locate the Indicator:**\n\n*   **Hour Hand (shorter, thicker hand):** The hour hand is pointing between the 11 and the 12. It is closer to the 12, consistent with the minute hand's position. It has clearly passed 11.\n*   **Minute Hand (longer, thinner hand):** The minute hand is pointing just before the 11. The 10 represents 50 minutes, and the 11 represents 55 minutes. Counting the minor ticks from the 10 (50 minutes): there are four minor ticks before the 11. The hand is pointing at the 4th minor tick past the 10. So, 50 + 4 = 54 minutes. Alternatively, it is 1 minor tick before the 11 (55 minutes), so 55 - 1 = 54 minutes.\n*   **Seconds Hand (thinnest hand on the sub-dial):** The seconds hand is pointing almost exactly at the 60/0 mark on the seconds sub-dial.\n\n**Step 3 - Calculate the Reading:**\n\n*   **Hours:** 11\n*   **Minutes:** 54\n*   **Seconds:** 00\n\n**Step 4 - Identify the Unit:**\n\nThe unit is hours, minutes, and seconds.\n\n**Step 5 - Provide Final Answer:**\n\nAnswer: 11:54:00",
+  "predicted_value": 0.0,
+  "predicted_unit": "mark",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

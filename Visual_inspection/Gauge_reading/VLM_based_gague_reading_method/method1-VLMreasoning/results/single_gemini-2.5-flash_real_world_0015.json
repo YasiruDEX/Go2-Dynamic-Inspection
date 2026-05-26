@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0015",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 20.\n- **MAJOR tick mark intervals:** The major labeled tick marks are at 0, 2, 6, 8, 10, and 20.\n- **MINOR tick mark intervals:** Let's determine the value of each minor tick.\n    - Between 0 and 2, there are 4 unnumbered minor ticks, making 5 subdivisions. So, 2 units / 5 subdivisions = 0.4 units per subdivision.\n    - Let's verify with another section: Between 6 and 8, there are 4 unnumbered minor ticks, making 5 subdivisions. So, 2 units / 5 subdivisions = 0.4 units per subdivision.\n    - This confirms that each minor tick represents 0.4 units.\n- **How many subdivisions are between major marks?** As calculated, there are 5 subdivisions between 0 and 2 (and other 2-unit major intervals).\n\n**Step 2 - Locate the Indicator:**\n- The pointer is located just past the '0' major tick mark.\n- It is positioned exactly on the first minor tick after '0'.\n\n**Step 3 - Calculate the Reading:**\n- Start from the lower major tick value: 0\n- The pointer is on the first minor tick after 0.\n- Each minor tick represents 0.4 units.\n- So, the reading is 0 + (1 * 0.4) = 0.4.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is 'A', which stands for Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 0.4 A",
+  "predicted_value": 0.4,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      4,
+      4
+    ],
+    "unit": null
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0091",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 10.\n- **MAJOR tick mark intervals:** The major tick marks are labeled at 0, 2, 4, 6, 8, and 10. This means the major tick mark interval is 2 units.\n- **Subdivisions between major marks:** Between any two consecutive major marks (e.g., 0 and 2), there are 4 minor tick marks, creating 5 subdivisions.\n- **MINOR tick mark intervals:** The value of each subdivision is (2 units / 5 subdivisions) = 0.4 units. So, each minor tick mark represents 0.4 A.\n\n**Step 2 - Locate the Indicator:**\n- The pointer is located between the major tick marks 2 and 4.\n- Starting from the 2 A major mark, the pointer is on the third minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Lower major tick value: 2 A\n- Contribution from minor ticks: 3 minor ticks * 0.4 A/minor tick = 1.2 A\n- Total reading: 2 A + 1.2 A = 3.2 A\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is \"A\", which stands for Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 3.2 A",
+  "predicted_value": 3.2,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      3,
+      3
+    ],
+    "unit": null
+  }
+}

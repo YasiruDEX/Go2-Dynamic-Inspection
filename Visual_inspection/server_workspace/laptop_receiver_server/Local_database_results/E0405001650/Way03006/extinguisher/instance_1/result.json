@@ -1,0 +1,22 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "A fire extinguisher is present and clearly accessible, mounted on the wall without any visible obstructions.",
+  "findings": [
+    "A red 'ONGUARD FIRE' branded fire extinguisher is visibly mounted on the wall.",
+    "The fire extinguisher is not blocked or occluded by any furniture, equipment, or other objects.",
+    "There appears to be a clear path to access the extinguisher."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": false
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "wall",
+    "blue railing",
+    "light fixture"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"A fire extinguisher is present and clearly accessible, mounted on the wall without any visible obstructions.\",\n  \"findings\": [\n    \"A red 'ONGUARD FIRE' branded fire extinguisher is visibly mounted on the wall.\",\n    \"The fire extinguisher is not blocked or occluded by any furniture, equipment, or other objects.\",\n    \"There appears to be a clear path to access the extinguisher.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": false\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"wall\",\n    \"blue railing\",\n    \"light fixture\"\n  ]\n}"
+}

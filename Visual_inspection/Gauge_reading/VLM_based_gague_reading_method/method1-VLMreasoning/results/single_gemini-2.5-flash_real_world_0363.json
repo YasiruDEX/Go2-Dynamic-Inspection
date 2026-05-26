@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0363",
+  "question": "What is the reading of the instrument?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The scale ranges from 20 to 100.\n-   **MAJOR tick mark intervals:** The major tick marks are numbered every 10 units (20, 30, 40, ..., 100).\n-   **Minor tick mark intervals:** Between each major tick mark (e.g., between 80 and 90), there are 9 minor tick marks, creating 10 subdivisions.\n-   **Value of each minor tick mark:** Since there are 10 units between major marks and 10 subdivisions, each minor tick mark represents 10 units / 10 subdivisions = 1 unit.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer is a black horizontal line.\n-   It is positioned exactly on the major tick mark labeled \"90\".\n\n**Step 3 - Calculate the Reading:**\n-   The pointer aligns precisely with the \"90\" major tick mark.\n\n**Step 4 - Identify the Unit:**\n-   The dial clearly states \"HUMEDAD RELATIVA DEL AIRE EN %\", which means \"RELATIVE HUMIDITY OF THE AIR IN %\".\n-   Therefore, the unit is \"%\".\n\n**Step 5 - Provide Final Answer:**\nAnswer: 90 %",
+  "predicted_value": 90.0,
+  "predicted_unit": "%",
+  "image_type": "hygrometer",
+  "ground_truth": {
+    "interval": [
+      33,
+      34
+    ],
+    "unit": null
+  }
+}

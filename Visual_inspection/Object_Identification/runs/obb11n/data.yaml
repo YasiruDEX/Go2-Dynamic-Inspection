@@ -1,0 +1,91 @@
+names:
+  0: fire_extinguisher
+  1: switch_panel
+  2: door
+  3: gauge
+train: E:/sem7/FYP/9_24/objectdetetction/datasets/custom_merged_obb/train/images
+val: E:/sem7/FYP/9_24/objectdetetction/datasets/custom_merged_obb/valid/images
+# Dataset configuration for YOLOv8-OBB fine-tuning
+# Title: custom_merged (Industrial OBB Dataset)
+
+# train: /kaggle/input/custom-merged/custom_merged/train/images
+# val: /kaggle/input/custom-merged/custom_merged/valid/images
+
+# # Number of classes
+# nc: 5
+
+# # Class names
+# names:
+#   0: fire_extinguisher
+#   1: switch_panel
+#   2: door
+#   3: gauge
+#   4: person
+
+
+# train: E:/sem7/FYP/9_24/objectdetetction/datasets/custom_merged_obb/images/train
+# val: E:/sem7/FYP/9_24/objectdetetction/datasets/custom_merged_obb/images/valid
+
+# names:
+# #   0: fire_extinguisher
+# #   1: door
+# #   2: gauge
+
+# # data.yaml for OBB YOLO11 (Kaggle version)
+
+# path: /kaggle/input/obb-dataset-co4/custom_merged_obb  # root dataset folder (update to your uploaded dataset name)
+# train: images/train
+# val: images/valid
+
+# # number of classes
+# nc: 3        # example – change to your actual number of classes
+
+# # class names
+# names:
+#   0: fire_extinguisher
+#   1: door
+#   2: gauge
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# path: /kaggle/input/obb-dataset-co2/custom_merged_obb  # root dataset folder (update to your uploaded dataset name)
+# train: images/train
+# val: images/valid
+
+# # number of classes
+# nc: 4        # example – change to your actual number of classes
+
+# # class names
+# names:
+#   0: fire_extinguisher
+#   1: switch_panel
+#   2: door
+#   3: gague

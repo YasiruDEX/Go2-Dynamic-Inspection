@@ -1,0 +1,201 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║                  VISUAL INSPECTION SERVER - QUICK REFERENCE              ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🚀 START SERVER                                                          │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   Windows:     start_server.bat                                          │
+│   Manual:      venv\Scripts\activate                                     │
+│                uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload  │
+│                                                                           │
+│   Access:      http://localhost:8000                                     │
+│   LAN:         http://YOUR_IP:8000                                       │
+│   API Docs:    http://localhost:8000/docs                                │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🧪 TEST UPLOAD                                                           │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   Quick:       test_upload.bat sample_images\sample_gauge.jpg gauge      │
+│   Manual:      python scripts\upload_test.py \                           │
+│                  --image path\to\image.jpg \                             │
+│                  --object-type gauge                                     │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 📡 API ENDPOINTS                                                         │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   POST   /api/v1/jobs              Upload ROI image                      │
+│   GET    /api/v1/jobs              List all jobs                         │
+│   GET    /api/v1/jobs/{job_id}     Get job details                       │
+│   GET    /api/v1/jobs/{job_id}/roi Download ROI image                    │
+│   GET    /api/v1/health            Health check                          │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 💻 CURL EXAMPLES                                                         │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   # Health check                                                         │
+│   curl http://localhost:8000/api/v1/health                               │
+│                                                                           │
+│   # Upload image                                                         │
+│   curl -X POST http://localhost:8000/api/v1/jobs \                       │
+│     -F "file=@sample_images/sample_gauge.jpg" \                          │
+│     -F "object_type=gauge"                                               │
+│                                                                           │
+│   # List jobs                                                            │
+│   curl http://localhost:8000/api/v1/jobs                                 │
+│                                                                           │
+│   # Get job details                                                      │
+│   curl http://localhost:8000/api/v1/jobs/{job_id}                        │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🐍 PYTHON CLIENT EXAMPLE (Jetson)                                       │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   import requests                                                        │
+│   import time                                                            │
+│                                                                           │
+│   # Upload                                                               │
+│   url = "http://YOUR_IP:8000/api/v1/jobs"                                │
+│   files = {"file": open("roi.jpg", "rb")}                                │
+│   data = {"object_type": "gauge"}                                        │
+│   response = requests.post(url, files=files, data=data)                  │
+│   job_id = response.json()["job_id"]                                     │
+│                                                                           │
+│   # Poll for result                                                      │
+│   while True:                                                            │
+│       result = requests.get(f"{url}/{job_id}").json()                    │
+│       if result["status"] in ["DONE", "FAILED"]:                         │
+│           print(result["result_json"])                                   │
+│           break                                                          │
+│       time.sleep(1)                                                      │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 📊 JOB STATUS FLOW                                                       │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   RECEIVED → QUEUED → RUNNING → DONE                                     │
+│                              ↘ FAILED                                    │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🔧 GAUGE PIPELINE INTEGRATION                                            │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   File:        app/pipelines/gauge_pipeline.py                           │
+│   Status:      🔧 PLACEHOLDER - Needs your code                          │
+│                                                                           │
+│   Replace the run_gauge_pipeline() function with your actual pipeline:   │
+│                                                                           │
+│   from your_gauge_module import read_gauge                               │
+│                                                                           │
+│   def run_gauge_pipeline(roi_path: str) -> dict:                         │
+│       result = read_gauge(roi_path)                                      │
+│       return {                                                           │
+│           "reading": result.value,                                       │
+│           "confidence": result.confidence,                               │
+│           "method": "gauge_pipeline",                                    │
+│           "unit": result.unit,                                           │
+│       }                                                                  │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 📁 KEY FILES                                                             │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   app/main.py              FastAPI app & routes                          │
+│   app/queue_worker.py      Background job processor                      │
+│   app/pipelines/           Pipeline implementations                      │
+│   scripts/upload_test.py   Test client                                   │
+│   .env                     Configuration                                 │
+│   README.md                Complete documentation                        │
+│   QUICKSTART.md            Quick reference                               │
+│   PROJECT_SUMMARY.md       Project overview                              │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🐛 TROUBLESHOOTING                                                       │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   Port 8000 in use:                                                      │
+│     → Edit .env: SERVER_PORT=8001                                        │
+│                                                                           │
+│   Can't access from LAN:                                                 │
+│     → Check firewall allows port 8000                                    │
+│     → Ensure SERVER_HOST=0.0.0.0 in .env                                 │
+│                                                                           │
+│   Jobs stuck in QUEUED:                                                  │
+│     → Check server logs for worker errors                                │
+│     → Verify background worker started                                   │
+│                                                                           │
+│   Import errors:                                                         │
+│     → Activate venv: venv\Scripts\activate                               │
+│     → Reinstall: pip install -e .                                        │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ ⚙️ CONFIGURATION (.env)                                                  │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   DATABASE_URL=sqlite+aiosqlite:///./data/vi_server.db                   │
+│   STORAGE_ROOT=./data/jobs                                               │
+│   MAX_UPLOAD_SIZE_MB=10                                                  │
+│   SERVER_HOST=0.0.0.0                                                    │
+│   SERVER_PORT=8000                                                       │
+│   LOG_LEVEL=INFO                                                         │
+│   ALLOWED_OBJECT_TYPES=gauge,door,fire_extinguisher,unknown              │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🧪 TESTING                                                               │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   Run tests:       pytest tests/ -v                                      │
+│   With coverage:   pytest tests/ --cov=app                               │
+│   Seed database:   python scripts/seed_sample_job.py                     │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 📈 PROJECT STATUS                                                        │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   ✅ FastAPI Server          READY                                       │
+│   ✅ Database Layer          READY                                       │
+│   ✅ Background Worker       READY                                       │
+│   ✅ File Storage            READY                                       │
+│   ✅ API Endpoints           READY (5/5)                                 │
+│   🔧 Gauge Pipeline          PLACEHOLDER                                 │
+│   🔧 VLM Pipeline            STUB                                        │
+│   ✅ Testing Tools           READY                                       │
+│   ✅ Documentation           READY                                       │
+│   ✅ LAN Access              READY                                       │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║  🎯 NEXT STEPS:                                                          ║
+║  1. Run: start_server.bat                                                ║
+║  2. Test: test_upload.bat sample_images\sample_gauge.jpg gauge           ║
+║  3. Integrate your gauge pipeline in app/pipelines/gauge_pipeline.py     ║
+║  4. Test with real images                                                ║
+║  5. Connect Jetson device                                                ║
+╚══════════════════════════════════════════════════════════════════════════╝

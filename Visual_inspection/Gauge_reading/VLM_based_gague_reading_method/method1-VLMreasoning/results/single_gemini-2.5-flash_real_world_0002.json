@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0002",
+  "question": "What is the reading of the instrument?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 (implied, as 10 is the first marked value) to 100.\n- **MAJOR tick mark intervals:** The major tick marks are numbered every 10 units (e.g., 10, 20, 30, ..., 100).\n- **Minor tick mark intervals:** Between any two major tick marks (e.g., 40 and 50), there are 4 unnumbered minor tick marks. This means there are 5 segments between major marks.\n    - The value difference between major marks is 10 units (50 - 40 = 10).\n    - The value of each minor tick interval is 10 units / 5 segments = 2 units.\n- **How many subdivisions are between major marks?** There are 5 subdivisions (4 minor ticks + the next major tick) between major marks.\n\n**Step 2 - Locate the Indicator:**\n- The pointer is located between the major tick marks 40 and 50.\n- Counting from 40, the pointer aligns with the 4th minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Start from the lower major tick value: 40\n- Add the contribution from minor ticks: The pointer is on the 4th minor tick. Each minor tick represents 2 units. So, 4 minor ticks * 2 units/tick = 8 units.\n- Total reading = 40 + 8 = 48.\n- The pointer is exactly on a minor tick, so no interpolation is needed.\n\n**Step 4 - Identify the Unit:**\n- The instrument is labeled \"DIRECT CURRENT AMMETER\". The unit for current is Amperes, denoted by 'A'.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 48 A",
+  "predicted_value": 48.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      45,
+      47
+    ],
+    "unit": null
+  }
+}

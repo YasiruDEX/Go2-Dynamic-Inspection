@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0288",
+  "question": "What is the reading of the electricity meter?",
+  "prediction": "**Step 1 - Identify the Scale:**\nThis is a digital display, not an analog scale with tick marks. The reading is presented directly as a numerical value.\n\n**Step 2 - Locate the Indicator:**\nThe indicator is the green digital screen at the top of the meter.\n\n**Step 3 - Calculate the Reading:**\nThe digital display clearly shows the number \"00.90\".\n\n**Step 4 - Identify the Unit:**\nBelow the numerical value \"00.90\", the unit \"kW\" is displayed. The \"MD\" next to the number likely indicates \"Maximum Demand\".\n\n**Step 5 - Provide Final Answer:**\nAnswer: 00.90 kW",
+  "predicted_value": 0.9,
+  "predicted_unit": "kW",
+  "image_type": "electricity_meter",
+  "ground_truth": {
+    "interval": [
+      0.9,
+      0.9
+    ],
+    "unit": null
+  }
+}

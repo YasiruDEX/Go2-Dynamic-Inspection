@@ -1,0 +1,11 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "UNKNOWN",
+  "confidence": 0.0,
+  "summary": "Failed to get response from VLM",
+  "findings": [
+    "Error: VLM API error: 429 Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. "
+  ],
+  "evidence": {},
+  "extracted_objects": []
+}

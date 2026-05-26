@@ -1,0 +1,25 @@
+{
+  "task": "person",
+  "decision": "FAIL",
+  "confidence": 0.95,
+  "summary": "The person visible in the image is not fully compliant with the required PPE. A high-visibility vest is worn, but a safety helmet/hard hat and safety gloves are missing.",
+  "findings": [
+    "One person is visible in the image.",
+    "A high-visibility vest is correctly worn by the person.",
+    "A safety helmet or hard hat is not being worn; the person is wearing a fabric cap instead.",
+    "Safety gloves are not being worn on the hands."
+  ],
+  "evidence": {
+    "person_detected": true,
+    "helmet_worn": false,
+    "gloves_worn": false,
+    "jacket_worn": true,
+    "ppe_compliant": false
+  },
+  "extracted_objects": [
+    "person",
+    "cap",
+    "high-visibility vest"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"person\",\n  \"decision\": \"FAIL\",\n  \"confidence\": 0.95,\n  \"summary\": \"The person visible in the image is not fully compliant with the required PPE. A high-visibility vest is worn, but a safety helmet/hard hat and safety gloves are missing.\",\n  \"findings\": [\n    \"One person is visible in the image.\",\n    \"A high-visibility vest is correctly worn by the person.\",\n    \"A safety helmet or hard hat is not being worn; the person is wearing a fabric cap instead.\",\n    \"Safety gloves are not being worn on the hands.\"\n  ],\n  \"evidence\": {\n    \"person_detected\": true,\n    \"helmet_worn\": false,\n    \"gloves_worn\": false,\n    \"jacket_worn\": true,\n    \"ppe_compliant\": false\n  },\n  \"extracted_objects\": [\n    \"person\",\n    \"cap\",\n    \"high-visibility vest\"\n  ]\n}"
+}

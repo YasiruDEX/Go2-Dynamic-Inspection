@@ -1,0 +1,14 @@
+{
+  "question_id": "real_world_0300",
+  "prediction": null,
+  "predicted_value": null,
+  "predicted_unit": null,
+  "image_type": "flow_meter",
+  "ground_truth": {
+    "interval": [
+      3,
+      4
+    ],
+    "unit": null
+  }
+}

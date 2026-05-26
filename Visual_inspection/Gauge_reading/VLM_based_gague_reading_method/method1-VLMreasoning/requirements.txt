@@ -1,0 +1,12 @@
+# Core dependencies
+pillow>=10.0.0
+tqdm>=4.66.0
+
+# API-based VLMs
+openai>=1.0.0
+google-generativeai>=0.4.0
+
+# Local VLMs (uncomment if you have GPU and want to use Qwen/LLaMA)
+# transformers>=4.37.0
+# accelerate>=0.25.0
+# torch>=2.1.0

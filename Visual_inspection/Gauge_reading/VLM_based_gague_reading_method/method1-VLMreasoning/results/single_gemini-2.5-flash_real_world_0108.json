@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0108",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The clock face displays hours from 1 to 12. For minutes, it implicitly covers 0 to 60 minutes.\n- **MAJOR tick mark intervals:** The numbers 1 through 12 are the major tick marks, representing hours. For minutes, these numbers also represent intervals of 5 minutes (e.g., 1 is 5 minutes, 2 is 10 minutes, etc.).\n- **MINOR tick mark intervals:** Between each numbered hour mark (which represents 5 minutes for the minute hand), there are 4 small tick marks. This creates 5 subdivisions between each major 5-minute interval.\n- **How many subdivisions are between major marks?** Each small tick mark represents 1 minute. So, there are 5 subdivisions (minor ticks) for every 5-minute interval.\n\n**Step 2 - Locate the Indicator:**\n- **Hour Hand:** The shorter, thicker hand (gold color) is pointing between the 11 and the 12, very close to the 12.\n- **Minute Hand:** The longer, thinner hand (gold color) is pointing directly at the number 10.\n\n**Step 3 - Calculate the Reading:**\n- **Minutes:** The minute hand is pointing exactly at the 10. On a clock face, each number corresponds to 5 minutes for the minute hand. Therefore, 10 * 5 = 50 minutes.\n- **Hours:** The hour hand is past the 11 but has not yet reached the 12. Since the minute hand is at 50 minutes (which is 50/60 or 5/6 of an hour past), the hour hand's position (being 5/6 of the way from 11 to 12) is consistent with an hour of 11.\n\nSo, the time is 11 hours and 50 minutes.\n\n**Step 4 - Identify the Unit:**\n- The unit being measured by a clock is \"time\", typically expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 11:50 time",
+  "predicted_value": 50.0,
+  "predicted_unit": "time",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

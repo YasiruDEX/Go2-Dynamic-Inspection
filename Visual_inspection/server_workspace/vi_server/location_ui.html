@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Management - Visual Inspection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .sidebar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .map-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 600px;
+        }
+
+        .coordinate-map {
+            width: 100%;
+            height: 500px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            position: relative;
+            cursor: crosshair;
+            overflow: hidden;
+        }
+
+        .point-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border: 3px solid white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .point-marker:hover {
+            transform: translate(-50%, -50%) scale(1.3);
+        }
+
+        .point-label {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            pointer-events: none;
+            transform: translate(-50%, -100%);
+            margin-top: -10px;
+        }
+
+        .points-list {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .point-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .point-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .point-item h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .point-item p {
+            font-size: 12px;
+            color: #666;
+            margin: 2px 0;
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .coordinates-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .coordinates-display h4 {
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .coord-value {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .coord-value:last-child {
+            border-bottom: none;
+        }
+
+        .coord-label {
+            font-weight: 600;
+        }
+
+        .coord-number {
+            color: #764ba2;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Location Management System</h1>
+            <p class="subtitle">Visual Inspection - Known & Ad-hoc Locations</p>
+        </header>
+
+        <div class="status-message" id="statusMessage"></div>
+
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Area Selection -->
+                <div class="section">
+                    <h2>1. Select Area</h2>
+                    <div class="form-group">
+                        <label for="areaSelect">Area/Floor:</label>
+                        <select id="areaSelect">
+                            <option value="">-- Select Area --</option>
+                        </select>
+                    </div>
+                    <button onclick="createNewArea()">Create New Area</button>
+                </div>
+
+                <!-- Inspection Points -->
+                <div class="section">
+                    <h2>2. Inspection Points</h2>
+                    <div class="points-list" id="pointsList"></div>
+                    <button class="btn-secondary" onclick="requestCoordinates()">Request Robot Position</button>
+                </div>
+
+                <!-- Ad-hoc Inspection -->
+                <div class="section">
+                    <h2>3. Click Map to Select</h2>
+                    <p style="font-size: 12px; color: #666; margin-bottom: 10px;">
+                        Click on the map to select coordinates
+                    </p>
+                    <div class="coordinates-display" id="selectedCoords" style="display: none;">
+                        <h4>Selected Coordinates:</h4>
+                        <div class="coord-value">
+                            <span class="coord-label">X:</span>
+                            <span class="coord-number" id="selectedX">0.0</span>
+                        </div>
+                        <div class="coord-value">
+                            <span class="coord-label">Y:</span>
+                            <span class="coord-number" id="selectedY">0.0</span>
+                        </div>
+                    </div>
+                    <button class="btn-success" onclick="saveClickedPoint()" id="saveBtn" disabled>Save as Inspection
+                        Point</button>
+                    <button class="btn-success" onclick="inspectAdhoc()" id="adhocBtn" disabled>Inspect Location
+                        (One-time)</button>
+                </div>
+            </div>
+
+            <!-- Main Map Area -->
+            <div class="map-container">
+                <h2 style="margin-bottom: 15px; color: #667eea;">2D Coordinate Map</h2>
+                <div class="coordinate-map" id="coordinateMap" onclick="handleMapClick(event)">
+                    <!-- Points will be rendered here -->
+                </div>
+                <div style="margin-top: 15px; font-size: 12px; color: #666;">
+                    <p>Click on the map to select coordinates for ad-hoc inspection</p>
+                    <p>Click on markers to inspect known locations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8001/api/v1';
+        let currentArea = null;
+        let inspectionPoints = [];
+        let selectedCoords = null;
+
+        // Initialize
+        async function init() {
+            await loadAreas();
+        }
+
+        // Load areas
+        async function loadAreas() {
+            try {
+                const response = await fetch(`${API_BASE}/areas`);
+                const areas = await response.json();
+
+                const select = document.getElementById('areaSelect');
+                select.innerHTML = '<option value="">-- Select Area --</option>';
+
+                areas.forEach(area => {
+                    const option = document.createElement('option');
+                    option.value = area.id;
+                    option.textContent = `${area.name}${area.floor_number ? ' (Floor ' + area.floor_number + ')' : ''}`;
+                    select.appendChild(option);
+                });
+
+                select.onchange = () => {
+                    if (select.value) {
+                        loadArea(parseInt(select.value));
+                    }
+                };
+            } catch (error) {
+                showStatus('Error loading areas: ' + error.message, 'error');
+            }
+        }
+
+        // Load area and its points
+        async function loadArea(areaId) {
+            try {
+                const [areaResponse, pointsResponse] = await Promise.all([
+                    fetch(`${API_BASE}/areas/${areaId}`),
+                    fetch(`${API_BASE}/areas/${areaId}/points`)
+                ]);
+
+                currentArea = await areaResponse.json();
+                inspectionPoints = await pointsResponse.json();
+
+                renderMap();
+                renderPointsList();
+                showStatus(`Loaded area: ${currentArea.name}`, 'success');
+            } catch (error) {
+                showStatus('Error loading area: ' + error.message, 'error');
+            }
+        }
+
+        // Render map with points
+        function renderMap() {
+            const map = document.getElementById('coordinateMap');
+            map.innerHTML = '';
+
+            inspectionPoints.forEach(point => {
+                const marker = document.createElement('div');
+                marker.className = 'point-marker';
+
+                // Convert coordinates to pixel position (simple scaling)
+                const x = (point.x + 10) * 25; // Scale and offset
+                const y = (10 - point.y) * 25; // Invert Y and scale
+
+                marker.style.left = `${x}px`;
+                marker.style.top = `${y}px`;
+                marker.onclick = (e) => {
+                    e.stopPropagation();
+                    inspectKnownLocation(point);
+                };
+
+                const label = document.createElement('div');
+                label.className = 'point-label';
+                label.textContent = point.name;
+                label.style.left = `${x}px`;
+                label.style.top = `${y}px`;
+
+                map.appendChild(marker);
+                map.appendChild(label);
+            });
+        }
+
+        // Render points list
+        function renderPointsList() {
+            const list = document.getElementById('pointsList');
+            list.innerHTML = '';
+
+            if (inspectionPoints.length === 0) {
+                list.innerHTML = '<p style="color: #999; font-size: 14px;">No inspection points yet</p>';
+                return;
+            }
+
+            inspectionPoints.forEach(point => {
+                const item = document.createElement('div');
+                item.className = 'point-item';
+                item.onclick = () => inspectKnownLocation(point);
+
+                item.innerHTML = `
+                    <h4>${point.name}</h4>
+                    <p>Type: ${point.object_type}</p>
+                    <p>Position: (${point.x.toFixed(2)}, ${point.y.toFixed(2)})</p>
+                `;
+
+                list.appendChild(item);
+            });
+        }
+
+        // Handle map click
+        function handleMapClick(event) {
+            if (!currentArea) {
+                showStatus('Please select an area first', 'error');
+                return;
+            }
+
+            const rect = event.currentTarget.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            // Convert pixel to coordinates
+            const coordX = (x / 25) - 10;
+            const coordY = 10 - (y / 25);
+
+            selectedCoords = { x: coordX, y: coordY };
+
+            document.getElementById('selectedX').textContent = coordX.toFixed(2);
+            document.getElementById('selectedY').textContent = coordY.toFixed(2);
+            document.getElementById('selectedCoords').style.display = 'block';
+            document.getElementById('saveBtn').disabled = false;
+            document.getElementById('adhocBtn').disabled = false;
+
+            showStatus(`Selected coordinates: (${coordX.toFixed(2)}, ${coordY.toFixed(2)})`, 'info');
+        }
+
+        // Save clicked point as inspection point
+        async function saveClickedPoint() {
+            if (!selectedCoords) {
+                showStatus('Please select coordinates on the map first', 'error');
+                return;
+            }
+
+            const name = prompt('Enter inspection point name (e.g., Gauge 3, Door 2):');
+            if (!name) return;
+
+            const type = prompt('Enter object type (gauge, fire_extinguisher, door, emergency_exit, main_cylinder):');
+            if (!type) return;
+
+            await saveCoordinates(name, type, selectedCoords.x, selectedCoords.y);
+        }
+
+        // Create new area
+        async function createNewArea() {
+            const name = prompt('Enter area name:');
+            if (!name) return;
+
+            const floor = prompt('Enter floor number (optional):');
+
+            try {
+                const response = await fetch(`${API_BASE}/areas`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: name,
+                        floor_number: floor ? parseInt(floor) : null,
+                        map_width: 20.0,
+                        map_height: 20.0
+                    })
+                });
+
+                if (response.ok) {
+                    showStatus(`Area "${name}" created successfully`, 'success');
+                    await loadAreas();
+                } else {
+                    const error = await response.json();
+                    showStatus('Error: ' + error.detail, 'error');
+                }
+            } catch (error) {
+                showStatus('Error creating area: ' + error.message, 'error');
+            }
+        }
+
+        // Request coordinates from robot
+        async function requestCoordinates() {
+            if (!currentArea) {
+                showStatus('Please select an area first', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/areas/${currentArea.id}/request-coordinates`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+
+                showStatus(data.message, 'info');
+
+                // Simulate robot sending coordinates (in real system, robot would call save-coordinates)
+                setTimeout(() => {
+                    const name = prompt('Robot at position. Enter inspection point name:');
+                    if (name) {
+                        const type = prompt('Enter object type (gauge, fire_extinguisher, door, etc.):');
+                        if (type) {
+                            saveCoordinates(name, type, Math.random() * 10 - 5, Math.random() * 10 - 5);
+                        }
+                    }
+                }, 1000);
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Save coordinates
+        async function saveCoordinates(name, type, x, y) {
+            try {
+                const response = await fetch(`${API_BASE}/areas/${currentArea.id}/save-coordinates`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        point_name: name,
+                        object_type: type,
+                        x: x,
+                        y: y,
+                        z: 0.0,
+                        orientation: 0.0
+                    })
+                });
+
+                if (response.ok) {
+                    showStatus(`Inspection point "${name}" saved`, 'success');
+                    await loadArea(currentArea.id);
+                } else {
+                    const error = await response.json();
+                    showStatus('Error: ' + error.detail, 'error');
+                }
+            } catch (error) {
+                showStatus('Error saving coordinates: ' + error.message, 'error');
+            }
+        }
+
+        // Inspect known location
+        async function inspectKnownLocation(point) {
+            try {
+                const response = await fetch(`${API_BASE}/inspections/known`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        area_id: currentArea.id,
+                        point_id: point.id
+                    })
+                });
+
+                const data = await response.json();
+                showStatus(`Inspection requested for ${point.name}. Coordinates sent to robot.`, 'success');
+                console.log('Navigation coordinates:', data.coordinates);
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Inspect ad-hoc location
+        async function inspectAdhoc() {
+            if (!selectedCoords) {
+                showStatus('Please select coordinates on the map', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/inspections/adhoc`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        area_id: currentArea.id,
+                        x: selectedCoords.x,
+                        y: selectedCoords.y,
+                        z: 0.0,
+                        orientation: 0.0,
+                        object_type: 'unknown'
+                    })
+                });
+
+                const data = await response.json();
+                showStatus(`Ad-hoc inspection requested. Coordinates sent to robot.`, 'success');
+                console.log('Navigation coordinates:', data.coordinates);
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message ${type}`;
+            statusEl.style.display = 'block';
+
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // Initialize on load
+        init();
+    </script>
+</body>
+
+</html>

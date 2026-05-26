@@ -1,0 +1,25 @@
+{
+  "task": "person",
+  "decision": "FAIL",
+  "confidence": 0.95,
+  "summary": "The person visible in the image is not fully compliant with required PPE, specifically missing safety gloves.",
+  "findings": [
+    "One person is visible in the image.",
+    "A white safety helmet is worn correctly on the person's head.",
+    "Safety gloves are not worn on the person's hands.",
+    "A high-visibility yellow vest with reflective strips is worn correctly by the person."
+  ],
+  "evidence": {
+    "person_detected": true,
+    "helmet_worn": true,
+    "gloves_worn": false,
+    "jacket_worn": true,
+    "ppe_compliant": false
+  },
+  "extracted_objects": [
+    "person",
+    "helmet",
+    "safety jacket"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"PPE compliance inspection\",\n  \"decision\": \"FAIL\",\n  \"confidence\": 0.95,\n  \"summary\": \"The person visible in the image is not fully compliant with required PPE, specifically missing safety gloves.\",\n  \"findings\": [\n    \"One person is visible in the image.\",\n    \"A white safety helmet is worn correctly on the person's head.\",\n    \"Safety gloves are not worn on the person's hands.\",\n    \"A high-visibility yellow vest with reflective strips is worn correctly by the person.\"\n  ],\n  \"evidence\": {\n    \"person_detected\": true,\n    \"helmet_worn\": true,\n    \"gloves_worn\": false,\n    \"jacket_worn\": true,\n    \"ppe_compliant\": false\n  },\n  \"extracted_objects\": [\n    \"person\",\n    \"helmet\",\n    \"safety jacket\"\n  ]\n}"
+}

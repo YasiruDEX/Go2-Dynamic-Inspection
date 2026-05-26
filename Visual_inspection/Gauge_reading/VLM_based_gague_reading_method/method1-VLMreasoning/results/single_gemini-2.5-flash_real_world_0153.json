@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0153",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range (hours):** 1-12\n- **Full scale range (minutes):** 0-60\n- **MAJOR tick mark intervals (hours):** Every 1 hour (e.g., 9, 10, 11, 12)\n- **MAJOR tick mark intervals (minutes):** Every 5 minutes (indicated by the hour numbers)\n- **MINOR tick mark intervals (minutes):** Every 1 minute\n- **Subdivisions between major hour marks (minutes):** There are 5 minor tick marks between each hour number, representing 1-minute intervals.\n\n**Step 2 - Locate the Indicator:**\n- **Minute hand (longer hand):** The minute hand is pointing directly at the '12' mark.\n- **Hour hand (shorter hand):** The hour hand is pointing directly at the '9' mark.\n\n**Step 3 - Calculate the Reading:**\n- When the minute hand is at '12', it indicates 00 minutes past the hour.\n- The hour hand is pointing precisely at the '9'.\n- Therefore, the time is exactly 9 hours and 00 minutes.\n\n**Step 4 - Identify the Unit:**\n- The units are hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 9:00",
+  "predicted_value": 0.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

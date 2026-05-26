@@ -1,0 +1,14 @@
+{
+  "question_id": "real_world_0274",
+  "prediction": null,
+  "predicted_value": null,
+  "predicted_unit": null,
+  "image_type": "electricity_meter",
+  "ground_truth": {
+    "interval": [
+      5144.6,
+      5144.8
+    ],
+    "unit": null
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "task": "gauge",
+  "decision": "PASS",
+  "findings": [
+    20.01208245334
+  ]
+}

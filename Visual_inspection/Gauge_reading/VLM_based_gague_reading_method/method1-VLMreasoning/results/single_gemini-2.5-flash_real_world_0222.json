@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0222",
+  "question": "What is the reading of the north-pointing needle of the compass??",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The compass dial shows readings from 0 to 360 degrees, covering a full circle.\n- **MAJOR tick mark intervals:** The numerical labels are provided every 15 units (e.g., 0, 15, 30, 45).\n- **Subdivisions between major marks:** Let's examine the segment between 0 and 15. There are 4 minor tick marks between 0 and 15, dividing this 15-unit interval into 5 smaller segments.\n- **MINOR tick mark intervals:** Each segment therefore represents 15 units / 5 segments = 3 units. So, each minor tick mark represents 3 degrees.\n\n**Step 2 - Locate the Indicator:**\n- The north-pointing needle is the red tip of the compass needle.\n- This red tip is pointing directly towards the \"N\" label and the \"0\" mark on the scale.\n\n**Step 3 - Calculate the Reading:**\n- Since the needle is precisely aligned with the \"0\" mark, the reading is 0.\n\n**Step 4 - Identify the Unit:**\n- The units displayed on the compass scale are degrees, as typically used for bearings and directions.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 0 degrees",
+  "predicted_value": 0.0,
+  "predicted_unit": "degrees",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      43,
+      47
+    ],
+    "unit": null
+  }
+}

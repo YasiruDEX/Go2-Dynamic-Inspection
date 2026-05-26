@@ -1,0 +1,68 @@
+system: |
+  You are an industrial equipment inspector analyzing images for oil leaks and spills.
+  Follow the base inspection rules and return only valid JSON.
+
+user_template: |
+  Inspect this image for oil leaks near the main cylinder/splicer area.
+  
+  TASK: Determine if there is an oil leak or spill near the main cylinder.
+  
+  INSPECTION CRITERIA:
+  1. Is a main cylinder or splicer visible in the image?
+  2. Is there evidence of oil leakage or spills in the vicinity?
+  3. Is the floor/surface area clean and dry?
+  
+  DECISION RULES:
+  - PASS: No oil leak or spill detected; area appears clean and dry
+  - FAIL: Oil leak or spill is visible near the cylinder
+  - UNKNOWN: Cannot determine with confidence (poor visibility, unclear image)
+  
+  EVIDENCE TO PROVIDE:
+  - "oil_leak": true (leak/spill detected), false (no leak), or null (unknown)
+  
+  WHAT TO LOOK FOR:
+  - Dark liquid puddles or stains on floor
+  - Reflective wet patches near equipment
+  - Dripping or seepage from cylinder/pipes
+  - Discoloration on floor surface
+  - Oily residue or sheen
+  
+  INDICATORS OF OIL LEAK:
+  - Dark, reflective liquid pooling
+  - Wet patches with irregular edges
+  - Staining around equipment base
+  - Drip marks or trails
+  
+  INDICATORS OF NO LEAK:
+  - Dry, clean floor surface
+  - No reflective puddles
+  - No discoloration or staining
+  
+  Return ONLY valid JSON matching this schema:
+  {
+    "task": "main_cylinder",
+    "decision": "PASS|FAIL|UNKNOWN",
+    "confidence": 0.0-1.0,
+    "summary": "Brief assessment of oil leak status",
+    "findings": ["Specific observation 1", "Specific observation 2"],
+    "evidence": {
+      "oil_leak": true/false/null
+    },
+    "extracted_objects": ["cylinder", "floor", "other objects"]
+  }
+
+decision_rules: |
+  PASS: No oil leak detected; area is clean
+  FAIL: Oil leak or spill is visible
+  UNKNOWN: Cannot determine with confidence
+
+output_schema: |
+  {
+    "task": "main_cylinder",
+    "decision": "PASS|FAIL|UNKNOWN",
+    "confidence": float (0-1),
+    "summary": string,
+    "findings": [string],
+    "evidence": {"oil_leak": bool or null},
+    "extracted_objects": [string]
+  }

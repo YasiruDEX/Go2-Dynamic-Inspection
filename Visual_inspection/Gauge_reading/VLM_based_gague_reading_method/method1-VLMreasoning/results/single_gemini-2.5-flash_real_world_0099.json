@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0099",
+  "question": "What time is indicated on the clock",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Full scale range:** The clock displays 12 hours for the hour hand and 60 minutes/seconds for the minute and second hands.\n*   **MAJOR tick mark intervals:**\n    *   For hours, major indices are at the 1, 2, ..., 12 positions.\n    *   For minutes/seconds, major numerical marks are visible at 10, 20, 30, 40, 50. The 12 o'clock position also serves as the 0/60 minute/second mark.\n*   **MINOR tick mark intervals:** Between each 5-minute major interval (e.g., between 10 and 15), there are 4 minor tick marks, meaning each minor tick represents 1 minute or 1 second.\n*   **How many subdivisions are between major marks?** There are 5 subdivisions (including the next major mark) between the numbered 5-minute marks.\n\n**Step 2 - Locate the Indicator:**\n*   **Hour Hand:** The shorter, broader hand (hour hand) is pointing precisely at the 12 o'clock index.\n*   **Minute Hand:** The longer, broader hand (minute hand) is pointing precisely at the 12 o'clock mark, which corresponds to the 00-minute mark.\n*   **Second Hand:** The thin, central hand (second hand) is also pointing precisely at the 12 o'clock mark, which corresponds to the 00-second mark.\n\n**Step 3 - Calculate the Reading:**\n*   The hour hand is at 12.\n*   The minute hand is at 00 minutes past the hour.\n*   The second hand is at 00 seconds past the minute.\n*   Therefore, the exact time indicated is 12:00:00.\n\n**Step 4 - Identify the Unit:**\n*   The unit displayed on the scale is \"time,\" measured in hours, minutes, and seconds.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 12:00:00 time",
+  "predicted_value": 0.0,
+  "predicted_unit": "time",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

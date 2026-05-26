@@ -1,0 +1,16 @@
+{
+  "class": "person",
+  "instance_id": 1,
+  "confidence": 0.9116,
+  "session": "19700101_061149",
+  "num_images": 3,
+  "camera": "logitech",
+  "ibvs_converged": true,
+  "ibvs_error_px": 8.201,
+  "ibvs_time_s": 1.952,
+  "ibvs_iterations": 16,
+  "ibvs_fps": 8.7,
+  "coarse_time_s": 2.009,
+  "initial_ibvs_error_px": 36.62,
+  "pipeline_time_s": 15.6
+}

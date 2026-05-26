@@ -1,0 +1,32 @@
+[
+  {
+    "question_id": "real_world_0000",
+    "question": "What is the reading of the instrument?",
+    "image_type": "ammeter",
+    "prediction": null,
+    "predicted_value": null,
+    "predicted_unit": null,
+    "ground_truth": {
+      "interval": [
+        9.5,
+        9.7
+      ],
+      "unit": null
+    },
+    "vlm_response": "Error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}"
+  },
+  {
+    "question_id": "real_world_0003",
+    "prediction": null,
+    "predicted_value": null,
+    "predicted_unit": null,
+    "image_type": "ammeter",
+    "ground_truth": {
+      "interval": [
+        40,
+        40
+      ],
+      "unit": null
+    }
+  }
+]

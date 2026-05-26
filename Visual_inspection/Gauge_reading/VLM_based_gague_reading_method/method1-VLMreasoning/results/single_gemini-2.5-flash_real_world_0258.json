@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0258",
+  "question": "What is the reading of the electricity meter?",
+  "prediction": "This is a digital electricity meter, so the reading is directly displayed on the screen.\n\n**Step 1 - Identify the Scale:**\nThe display is digital, showing a direct numerical value.\n\n**Step 2 - Locate the Indicator:**\nThe main numerical value displayed prominently on the green LCD screen is \"02616\".\n\n**Step 3 - Calculate the Reading:**\nThe reading is 02616.\n\n**Step 4 - Identify the Unit:**\nImmediately following the numerical value, the unit \"kWh\" is displayed. This stands for kilowatt-hours, which is the standard unit for electricity consumption.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 02616 kWh",
+  "predicted_value": 2616.0,
+  "predicted_unit": "kWh",
+  "image_type": "electricity_meter",
+  "ground_truth": {
+    "interval": [
+      2616,
+      2616
+    ],
+    "unit": null
+  }
+}

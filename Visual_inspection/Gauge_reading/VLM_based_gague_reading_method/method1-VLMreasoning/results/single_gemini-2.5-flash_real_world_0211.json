@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0211",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- The clock face is divided into 12 major numbered intervals (1 through 12).\n- Each major numbered interval represents 1 hour for the hour hand and 5 minutes for the minute hand.\n- Between each major numbered interval, there are 4 minor tick marks, creating 5 subdivisions.\n- For the minute scale, each minor tick mark represents 1 minute.\n- For the hour scale, the hour hand moves continuously between the numbered hours.\n\n**Step 2 - Locate the Indicator:**\n- **Hour hand (shorter, thicker hand):** The hour hand is pointing directly at the '5'.\n- **Minute hand (longer, thinner hand):** The minute hand is pointing directly at the '12'.\n\n**Step 3 - Calculate the Reading:**\n- **Minutes:** When the minute hand points to the '12', it indicates 00 minutes (or 60 minutes, marking the end of the previous hour and beginning of the current one).\n- **Hours:** When the hour hand points directly at the '5' and the minute hand is at '12', it indicates exactly 5 o'clock.\n\n**Step 4 - Identify the Unit:**\n- The unit is hours and minutes, typically expressed in HH:MM format.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 5:00",
+  "predicted_value": 5.0,
+  "predicted_unit": "o",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

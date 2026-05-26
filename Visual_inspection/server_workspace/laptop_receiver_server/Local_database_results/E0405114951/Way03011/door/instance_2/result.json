@@ -1,0 +1,25 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.85,
+  "summary": "The glass door is partially open, with a visible gap between the door panel and the frame.",
+  "findings": [
+    "A glass door with an aluminum frame is visible in the image.",
+    "There is a distinct vertical gap between the right edge of the moving door panel and the adjacent door frame, indicating the door is not fully closed.",
+    "A person is visible through the opening, confirming the door's partially open state.",
+    "A door closer mechanism is visible at the top, which appears extended, consistent with a door that is not fully shut."
+  ],
+  "evidence": {
+    "open": true
+  },
+  "extracted_objects": [
+    "door",
+    "door frame",
+    "door handle",
+    "door closer",
+    "person",
+    "lights",
+    "wall"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.85,\n  \"summary\": \"The glass door is partially open, with a visible gap between the door panel and the frame.\",\n  \"findings\": [\n    \"A glass door with an aluminum frame is visible in the image.\",\n    \"There is a distinct vertical gap between the right edge of the moving door panel and the adjacent door frame, indicating the door is not fully closed.\",\n    \"A person is visible through the opening, confirming the door's partially open state.\",\n    \"A door closer mechanism is visible at the top, which appears extended, consistent with a door that is not fully shut.\"\n  ],\n  \"evidence\": {\n    \"open\": true\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"door frame\",\n    \"door handle\",\n    \"door closer\",\n    \"person\",\n    \"lights\",\n    \"wall\"\n  ]\n}"
+}

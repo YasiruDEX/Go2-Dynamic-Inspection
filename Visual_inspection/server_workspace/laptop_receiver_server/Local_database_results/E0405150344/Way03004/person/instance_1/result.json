@@ -1,0 +1,26 @@
+{
+  "task": "person",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The person visible in the image is compliant with all required Personal Protective Equipment (PPE).",
+  "findings": [
+    "A person is clearly visible in the image.",
+    "A white safety helmet is correctly worn on the person's head.",
+    "Orange and white safety gloves are correctly worn on both hands.",
+    "A high-visibility yellow vest with reflective strips is correctly worn over the person's clothing."
+  ],
+  "evidence": {
+    "person_detected": true,
+    "helmet_worn": true,
+    "gloves_worn": true,
+    "jacket_worn": true,
+    "ppe_compliant": true
+  },
+  "extracted_objects": [
+    "person",
+    "helmet",
+    "gloves",
+    "safety jacket"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"PPE Compliance Check\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The person visible in the image is compliant with all required Personal Protective Equipment (PPE).\",\n  \"findings\": [\n    \"A person is clearly visible in the image.\",\n    \"A white safety helmet is correctly worn on the person's head.\",\n    \"Orange and white safety gloves are correctly worn on both hands.\",\n    \"A high-visibility yellow vest with reflective strips is correctly worn over the person's clothing.\"\n  ],\n  \"evidence\": {\n    \"person_detected\": true,\n    \"helmet_worn\": true,\n    \"gloves_worn\": true,\n    \"jacket_worn\": true,\n    \"ppe_compliant\": true\n  },\n  \"extracted_objects\": [\n    \"person\",\n    \"helmet\",\n    \"gloves\",\n    \"safety jacket\"\n  ]\n}"
+}

@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0247",
+  "question": "What is the reading of the electricity meter?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- This is a multi-dial electricity meter. Each dial represents a digit in the total reading.\n- Each dial has a full scale range of 0-9 (where 0 also represents 10 for the purpose of completing a cycle).\n- The major tick marks are numbered 0 through 9.\n- There are no minor tick marks between the numbered major marks; the pointer indicates the number directly or is between two numbers.\n- The dials alternate direction.\n\n**Step 2 - Locate the Indicator:**\nWe read the dials from left to right. For each dial, we read the number the pointer has *just passed*. If a pointer appears to be exactly on a number, we check the dial immediately to its right. If the dial to the right has not yet passed zero (i.e., it's between 9 and 0), then the current dial is still considered to be on the *previous* number.\n\n- **Dial 1 (leftmost):** The pointer is between 8 and 9. It has passed 8.\n- **Dial 2:** The pointer is between 5 and 6. It has passed 5.\n- **Dial",
+  "predicted_value": 6.0,
+  "predicted_unit": "It",
+  "image_type": "electricity_meter",
+  "ground_truth": {
+    "interval": [
+      8604,
+      8605
+    ],
+    "unit": null
+  }
+}

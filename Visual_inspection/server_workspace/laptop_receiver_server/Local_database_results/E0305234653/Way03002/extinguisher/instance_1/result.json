@@ -1,0 +1,23 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "PASS",
+  "confidence": 0.9,
+  "summary": "A fire extinguisher is present and appears to be accessible without significant obstruction.",
+  "findings": [
+    "A red cylindrical fire extinguisher is clearly visible, mounted on the wall.",
+    "The area immediately in front of and around the fire extinguisher appears clear, with no objects directly blocking access.",
+    "An air conditioning unit is situated below the extinguisher, but does not appear to obstruct its access or removal."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": false
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "red cabinet",
+    "exit door",
+    "air conditioning unit",
+    "stairs"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.9,\n  \"summary\": \"A fire extinguisher is present and appears to be accessible without significant obstruction.\",\n  \"findings\": [\n    \"A red cylindrical fire extinguisher is clearly visible, mounted on the wall.\",\n    \"The area immediately in front of and around the fire extinguisher appears clear, with no objects directly blocking access.\",\n    \"An air conditioning unit is situated below the extinguisher, but does not appear to obstruct its access or removal.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": false\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"red cabinet\",\n    \"exit door\",\n    \"air conditioning unit\",\n    \"stairs\"\n  ]\n}"
+}

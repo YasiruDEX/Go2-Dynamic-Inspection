@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0018",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The main black scale ranges from 0 to 100. There is also a red arc indicating 100 to 200, which might be for a different CT ratio, but the pointer is on the 0-100 scale.\n-   **MAJOR tick mark intervals:** The major tick marks are labeled every 20 units (0, 20, 40, 60, 80, 100).\n-   **Subdivisions between major marks:** Between any two consecutive major marks (e.g., 0 and 20, or 40 and 60), there are 4 minor ticks. This creates 5 subdivisions.\n-   **MINOR tick mark intervals:** Since there are 5 subdivisions between major marks that span 20 units, each minor tick represents 20 units / 5 subdivisions = 4 units.\n\n**Step 2 - Locate the Indicator:**\n-   The red pointer is located between the major tick marks 40 and 60.\n-   Counting from the lower major mark (40):\n    -   The first minor tick past 40 is 40 + 4 = 44.\n    -   The second minor tick past 40 is 40 + 8 = 48.\n-   The pointer aligns exactly with the second minor tick after the 40 major mark.\n\n**Step 3 - Calculate the Reading:**\n-   Starting from the lower major tick value: 40\n-   Adding the contribution from the minor ticks: 2 minor ticks * 4 units/minor tick = 8 units.\n-   Total reading: 40 + 8 = 48.\n\n**Step 4 - Identify the Unit:**\n-   The large letter \"A\" with a tilde symbol below it indicates Amperes for Alternating Current (AC).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 48 A",
+  "predicted_value": 48.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      60,
+      60
+    ],
+    "unit": null
+  }
+}

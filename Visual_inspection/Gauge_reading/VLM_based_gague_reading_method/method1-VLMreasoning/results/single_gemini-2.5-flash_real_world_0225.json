@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0225",
+  "question": "What is the reading of the north-pointing needle of the compass?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The compass scale ranges from 0 to 360 degrees, displayed as N (0/360), E (90), S (180), W (270). The numbers shown are 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340.\n- **MAJOR tick mark intervals:** The labeled major tick marks are every 20 units (e.g., 0, 20, 40, 60).\n- **MINOR tick mark intervals:** Between each major 20-unit mark, there are 4 minor tick marks. This means there are 5 segments between each major mark (e.g., from 0 to 20).\n- **Calculation of minor tick value:** The value of each minor tick mark is (Major interval) / (Number of segments) = 20 / 5 = 4 degrees.\n- **How many subdivisions are between major marks?** 5 subdivisions (including the major marks themselves).\n\n**Step 2 - Locate the Indicator:**\n- The north-pointing needle is the red tip of the compass needle.\n- The red tip is pointing just past the \"N\" (North) mark, which represents 0 degrees (or 360 degrees).\n- It is pointing directly at the first minor tick mark after the \"N\" in the clockwise direction.\n\n**Step 3 - Calculate the Reading:**\n- Starting from the \"N\" (0 degrees) mark.\n- The needle points exactly to the first minor tick mark clockwise from 0 degrees.\n- Each minor tick mark represents 4 degrees.\n- So, the reading is 0 + (1 * 4) = 4 degrees.\n\n**Step 4 - Identify the Unit:**\n- The unit for compass readings is degrees (\u00b0).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 4 \u00b0",
+  "predicted_value": 4.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      162,
+      166
+    ],
+    "unit": null
+  }
+}

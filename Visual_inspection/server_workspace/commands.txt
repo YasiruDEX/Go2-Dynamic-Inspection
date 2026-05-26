@@ -1,0 +1,221 @@
+# ============================================================
+# VISUAL INSPECTION SYSTEM — ALL COMMANDS
+# ============================================================
+
+# ── SERVER 1: Receiver (from Jetson) — Terminal 1 ──────────
+cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\laptop_receiver_server"
+python laptop_receiver.py
+# Listens on port 8888. Saves incoming images to Local_database/
+
+# ── SERVER 2: Processor (runs pipelines) — Terminal 2 ──────
+cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+.\venv\Scripts\activate
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+# Watches Local_database/ every 5s, runs gauge or VLM pipeline,
+# saves results to Local_database_results/
+
+# ── TEST: Gauge pipeline — Terminal 3 ──────────────────────
+cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+.\venv\Scripts\activate
+python test_pipeline_watcher.py
+# Takes ~3 minutes. Results saved in:
+# laptop_receiver_server\Local_database_results\ETest003\WayTest003\gauge\instance_test_gauge\
+
+# ── TEST: VLM pipeline — Terminal 3 ────────────────────────
+cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+.\venv\Scripts\activate
+python test_pipeline_watcher.py vlm
+# Takes ~20 seconds. Results saved in:
+# laptop_receiver_server\Local_database_results\ETest002\WayTest002\door\instance_test_vlm\
+
+# ── JETSON SIDE: Send images to laptop ─────────────────────
+# (Run on Jetson, not laptop)
+source /opt/ros/humble/setup.bash
+source ~/Documents/Visual_Inspection_ws/inspection_ws/install/setup.bash
+ros2 run visual_inspection_ros image_uploader \
+    --ros-args -p laptop_url:="http://192.168.8.62:8888/upload"
+
+# ── FILE STRUCTURE ──────────────────────────────────────────
+# Raw input (from Jetson):
+#   Local_database/<EventID>/<WaypointID>/<object_class>/<instance>/
+#     metadata.json, img_0.jpg, img_1.jpg ...
+#
+# Inspection results:
+#   Local_database_results/<EventID>/<WaypointID>/<object_class>/<instance>/
+#     result.json, inspection_image.jpg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# T1 — cameras
+source /opt/ros/humble/setup.bash && source ~/Documents/Visual_Inspection_ws/inspection_ws/install/setup.bash
+ros2 run visual_inspection_ros camera_node
+
+# T2 — servo
+ros2 run visual_inspection_ros servo_node
+
+# T3 — service (replaces ibvs_action_server)
+ros2 run visual_inspection_ros inspection_service
+
+
+
+
+
+# ── JETSON SIDE: Send images to laptop ─────────────────────
+# (Run on Jetson, not laptop)
+source /opt/ros/humble/setup.bash
+source ~/Documents/Visual_Inspection_ws/inspection_ws/install/setup.bash
+ros2 run visual_inspection_ros image_uploader \
+    --ros-args -p laptop_url:="http://192.168.8.62:8888/upload"
+
+
+
+
+
+
+#service call in order 
+
+ros2 service call /visual_inspection/inspect \
+  visual_inspection_interfaces/srv/Inspect \
+  "{target_object: 'fire_extinguisher', location_label: 'Ins1,way1', max_objects: 0, return_home: true}"
+
+
+ros2 service call /visual_inspection/inspect \
+  visual_inspection_interfaces/srv/Inspect \
+  "{target_object: 'door', location_label: 'Ins1,way2', max_objects: 0, return_home: true}"
+
+
+  ros2 service call /visual_inspection/inspect \
+  visual_inspection_interfaces/srv/Inspect \
+  "{target_object: 'gauge', location_label: 'Ins1,way3', max_objects: 0, return_home: true}"
+
+
+  ros2 service call /visual_inspection/inspect \
+  visual_inspection_interfaces/srv/Inspect \
+  "{target_object: 'person', location_label: 'Ins1,way4', max_objects: 0, return_home: true}"
+
+
+    ros2 service call /visual_inspection/inspect \
+  visual_inspection_interfaces/srv/Inspect \
+  "{target_object: 'gauge', location_label: 'Ins1,way5', max_objects: 0, return_home: true}"
+
+
+ros2 service call /visual_inspection/inspect \
+  visual_inspection_interfaces/srv/Inspect \
+  "{target_object: 'fire_extinguisher', location_label: 'Ins1,way6', max_objects: 0, return_home: true}"
+
+
+ros2 service call /visual_inspection/inspect \
+  visual_inspection_interfaces/srv/Inspect \
+  "{target_object: 'fire_extinguisher', location_label: 'Ins1,way7', max_objects: 0, return_home: true}"
+
+
+
+ros2 service call /visual_inspection/inspect \
+  visual_inspection_interfaces/srv/Inspect \
+  "{target_object: 'door', location_label: 'Ins1,way8', max_objects: 0, return_home: true}"
+
+
+
+ros2 service call /visual_inspection/inspect \
+  visual_inspection_interfaces/srv/Inspect \
+  "{target_object: 'door', location_label: 'Ins1,way9', max_objects: 0, return_home: true}"
+
+
+
+
+
+
+
+ros2 service call /visual_inspection/upload_images \
+  visual_inspection_interfaces/srv/UploadImages \
+  "{image_paths: [
+    '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/19700101_082440/gauge/instance_1/img_01_conf0.93.jpg',
+    '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/19700101_082440/gauge/instance_1/img_02_conf0.93.jpg',
+    '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/19700101_082440/gauge/instance_1/img_03_conf0.93.jpg',
+    '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/19700101_082440/gauge/instance_1/overview_210503H_01.jpg'
+  ], session_label: '210503H'}"
+
+
+
+
+ros2 service call /visual_inspection/upload_images \
+  visual_inspection_interfaces/srv/UploadImages \
+  "{image_paths: [
+    '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/20260502_134215/gauge/instance_1/img_01_conf0.88.jpg', '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/20260502_134215/gauge/instance_1/img_02_conf0.88.jpg', '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/20260502_134215/gauge/instance_1/img_03_conf0.88.jpg', '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/20260502_134215/gauge/instance_1/overview_sweep_gauge_01.jpg'
+
+  ], session_label: 'Ins1,way7'}"
+
+'/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/20260502_140627/gauge/instance_1/img_01_conf0.82.jpg', '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/20260502_140627/gauge/instance_1/img_02_conf0.82.jpg', '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/20260502_140627/gauge/instance_1/img_03_conf0.82.jpg', '/home/rgen/Documents/Visual_Inspection_ws/captures/inspection/20260502_140627/gauge/instance_1/overview_sweep_gauge_01.jpg'
+
+
+# ── SERVER 1: Receiver (from Jetson) — Terminal 1 ──────────
+cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\laptop_receiver_server"
+python laptop_receiver.py
+# Listens on port 8888. Saves incoming images to Local_database/
+
+# ── SERVER 2: Processor (runs pipelines) — Terminal 2 ──────
+cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+.\venv\Scripts\activate
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+# Watches Local_database/ every 5s, runs gauge or VLM pipeline,
+# saves results to Local_database_results/
+
+
+
+
+
+
+
+
+# ── SERVER 3: UI Dashboard — Terminal 4 ─────────────────────
+cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\UI"
+pip install flask
+python server.py
+# Opens dashboard at: http://localhost:5050
+# Shows all results from Local_database_results/ live
+# Auto-refreshes every 15 seconds
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ── CLOUD DB UPLOADER ───────────────────────────────────────
+# Edit this file when DB schema is ready:
+#   vi_server\app\cloud_uploader.py
+# Set connection string in vi_server\.env:
+#   CLOUD_DB_URL=postgresql://user:pass@host/dbname
+
+
+
+cd "E:\sem7\FYP\Main repo github upload\Visual_inspection\server_workspace\vi_server"
+.\venv\Scripts\activate
+python upload_existing_results.py

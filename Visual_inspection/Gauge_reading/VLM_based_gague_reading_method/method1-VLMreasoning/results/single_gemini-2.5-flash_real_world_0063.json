@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0063",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from -5 to +5. However, the pointer is on the positive side, so we will focus on the 0 to 5 range.\n- **MAJOR tick mark intervals:** The major tick marks are clearly labeled for every 1 unit (0, 1, 2, 3, 4, 5).\n- **Minor tick mark intervals:** Between each major mark (e.g., between 3 and 4), there are 10 subdivisions.\n- **How many subdivisions are between major marks?** 10 subdivisions.\n- **Value of each minor tick:** 1 unit / 10 subdivisions = 0.1 units per minor tick.\n\n**Step 2 - Locate the Indicator:**\n- **Find the pointer:** The red pointer is visible on the right side of the \"0\" mark.\n- **Identify which major tick marks it is between:** The pointer is between the major tick marks labeled '3' and '4'.\n- **Count how many minor ticks past the lower major mark:** Starting from '3', count the minor ticks. The pointer aligns exactly with the 4th minor tick past '3'.\n\n**Step 3 - Calculate the Reading:**\n- **Start from the lower major tick value:** 3\n- **Add the contribution from minor ticks:** 4 minor ticks * 0.1 units/minor tick = 0.4\n- **Total reading:** 3 + 0.4 = 3.4\n\n**Step 4 - Identify the Unit:**\n- The unit symbol displayed on the scale is \"A\", which stands for Amperes. There is also a straight line below the \"A\", indicating direct current (DC).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 3.4 A",
+  "predicted_value": 3.4,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      28,
+      30
+    ],
+    "unit": null
+  }
+}

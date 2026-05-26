@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0178",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Hours Scale:** The main clock face displays hours using Roman numerals from I to XII. Each Roman numeral represents a major tick mark for the hour hand.\n*   **Minutes Scale:** The same Roman numerals also serve as major tick marks for minutes, where each numeral represents a 5-minute interval (e.g., XII is 0/60 minutes, I is 5 minutes, II is 10 minutes, III is 15 minutes, and so on). Between these major 5-minute marks, there are 4 minor tick marks, creating 5 subdivisions. This means each minor tick mark represents 1 minute (5 minutes / 5 subdivisions = 1 minute per subdivision).\n*   **Moon Phase Scale (Upper Arc):** This scale displays numbers 5, 10, 15, 20, 25, 29. These numbers likely represent days in the lunar cycle. There are 4 minor ticks between major number intervals (e.g., between 10 and 15), indicating each minor tick represents 1 day. (Note: The question specifically asks for \"What time is shown on the clock?\", so the moon phase reading is supplementary but not the primary answer.)\n\n**Step 2 - Locate the Indicator:**\n*   **Hour Hand:** The shorter hand is pointing precisely to the Roman numeral IX.\n*   **Minute Hand:** The longer hand is pointing precisely to the Roman numeral III.\n*   **Moon Phase Indicator:** The rotating golden disc for the moon phase is aligned with the '29' mark on the upper scale.\n\n**Step 3 - Calculate the Reading:**\n*   **Hour:** The hour hand is directly on IX, indicating 9 hours.\n*   **Minutes:** The minute hand is directly on III. Since each Roman numeral represents 5 minutes, III corresponds to 3 * 5 = 15 minutes.\n*   **Moon Phase:** The indicator points to 29, meaning the 29th day of the lunar cycle.\n\n**Step 4 - Identify the Unit:**\n*   The unit for the main clock face is \"time,\" expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nThe time shown on the clock, combining the hour and minute hand readings, is 9:15.\n\nAnswer: 9:15 time",
+  "predicted_value": 15.0,
+  "predicted_unit": "time",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

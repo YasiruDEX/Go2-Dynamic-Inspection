@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0075",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 15.\n- **MAJOR tick mark intervals:** The major tick marks are labeled 0, 5, 10, and 15. The interval between these major marks is 5 units.\n- **Subdivisions between major marks:** Between each major mark (e.g., 0 and 5), there are 4 intermediate long tick marks, creating 5 segments. This means each long tick mark represents 1 unit (5 units / 5 segments = 1 unit/segment). So, the unlabeled long ticks correspond to 1, 2, 3, 4, etc.\n- **Minor tick mark intervals:** Between each 1-unit interval (e.g., between 2 and 3), there are 4 small tick marks, creating 5 subdivisions. Therefore, each minor tick mark represents 1/5 of a unit, which is 0.2 units.\n    - Calculation for minor tick value: (1 A / 5 subdivisions) = 0.2 A.\n\n**Step 2 - Locate the Indicator:**\n- The red pointer is located between the 0 and 5 major tick marks.\n- It is past the long tick mark for 2.\n- Counting the minor ticks after the 2 A mark: The pointer aligns exactly with the third minor tick mark after the 2 A mark.\n\n**Step 3 - Calculate the Reading:**\n- Starting from the 2 A mark.\n- Each minor tick is 0.2 A.\n- The pointer is on the 3rd minor tick after 2 A.\n- Reading = 2 A + (3 * 0.2 A) = 2 A + 0.6 A = 2.6 A.\n\n**Step 4 - Identify the Unit:**\n- The large \"A\" symbol with a wavy line below it indicates that the unit is Amperes (A) for alternating current.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 2.6 A",
+  "predicted_value": 2.6,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      3,
+      3
+    ],
+    "unit": null
+  }
+}

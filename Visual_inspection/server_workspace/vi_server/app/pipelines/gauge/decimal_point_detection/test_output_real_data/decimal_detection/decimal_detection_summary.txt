@@ -1,0 +1,27 @@
+Decimal Point Detection Results
+==================================================
+
+ROI 0: 35
+  Has Decimal: True
+  Confidence: 0.79
+  Candidates Found: 2
+  Corrected Value: 35 -> 3.5
+
+ROI 1: 05
+  Has Decimal: True
+  Confidence: 0.77
+  Candidates Found: 1
+  Corrected Value: 05 -> 0.5
+
+ROI 2: 4
+  Has Decimal: True
+  Confidence: 0.85
+  Candidates Found: 1
+  Corrected Value: 4 -> 0.4
+
+ROI 3: 15
+  Has Decimal: True
+  Confidence: 0.90
+  Candidates Found: 1
+  Corrected Value: 15 -> 1.5
+

@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0233",
+  "question": "What is the reading of the north-pointing needle of the compass?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- The full scale range of the compass is 0-360 degrees.\n- The MAJOR tick mark intervals are every 20 units (e.g., 20, 40, 60, etc.).\n- Between two major tick marks (e.g., between 20 and 40), there are 4 MINOR tick marks. This means there are 5 subdivisions for every 20 degrees.\n- The value of each subdivision (minor tick mark interval) is 20 degrees / 5 subdivisions = 4 degrees.\n\n**Step 2 - Locate the Indicator:**\n- In a compass, the \"reading\" or \"bearing\" is determined by the number on the rotating compass card that aligns with the fixed index line (also known as the lubber line or direction of travel arrow). In this image, the fixed index line is the prominent white line running from the center of the compass towards the top of the image.\n- This fixed white index line is located between the major tick mark labeled '20' and the major tick mark labeled '40'.\n- We can count the minor ticks past the '20' major mark. The fixed index line appears to be directly aligned with the second minor tick mark after '20'.\n\n**Step 3 - Calculate the Reading:**\n- Starting from the lower major tick value: 20 degrees.\n- Add the contribution from the minor ticks: 2 minor ticks * 4 degrees/minor tick = 8 degrees.\n- Therefore, the total reading is 20 degrees + 8 degrees = 28 degrees.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is degrees. The symbol for degrees is \u00b0.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 28\u00b0",
+  "predicted_value": 28.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      18,
+      27
+    ],
+    "unit": null
+  }
+}

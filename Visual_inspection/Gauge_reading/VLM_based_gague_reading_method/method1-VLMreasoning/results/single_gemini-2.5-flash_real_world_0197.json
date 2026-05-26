@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0197",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Full scale range (hours):** The clock face displays Roman numerals from I to XII, representing a 12-hour cycle.\n*   **Full scale range (minutes):** The outer ring has 60 small tick marks, indicating 60 minutes for a full rotation of the minute hand.\n*   **MAJOR tick mark intervals (hours):** The Roman numerals (I, II, III, etc.) are the major hour marks, spaced 1 hour apart.\n*   **MAJOR tick mark intervals (minutes):** The numbers I, II, III, etc., also correspond to 5-minute intervals (e.g., XII is 0/60 minutes, I is 5 minutes, II is 10 minutes, III is 15 minutes).\n*   **MINOR tick mark intervals (minutes):** Between each 5-minute major mark (which align with the hour numerals), there are 4 smaller ticks, dividing each 5-minute segment into 1-minute intervals. Thus, each minor tick represents 1 minute.\n*   **How many subdivisions are between major marks?** There are 5 minute subdivisions between each hour numeral.\n\n**Step 2 - Locate the Indicator:**\n*   **Hour Hand (shorter, more ornate):** This hand is pointing slightly past the Roman numeral III. It is not yet at IV.\n*   **Minute Hand (longer, thinner):** This hand is pointing precisely at the Roman numeral XII, which represents the 00-minute mark.\n\n**Step 3 - Calculate the Reading:**\n*   **Hours:** The hour hand is past the 3, but not yet at the 4. So, the hour is 3.\n*   **Minutes:** The minute hand is pointing directly at the 12, which signifies 00 minutes (or 60 minutes, completing the hour).\n*   **Combined Reading:** The time is 3:00.\n\n**Step 4 - Identify the Unit:**\nThe unit is time, expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 3:00",
+  "predicted_value": 60.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

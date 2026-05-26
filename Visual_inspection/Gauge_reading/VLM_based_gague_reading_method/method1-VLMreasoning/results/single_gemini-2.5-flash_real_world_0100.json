@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0100",
+  "question": "What time is indicated on the watch?",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Main Dial (Hours):** The main dial for hours has major tick marks for 1 through 12. Each major tick represents 1 hour.\n*   **Main Dial (Minutes):** The outer track, read by the minute hand, has major tick marks at intervals of 5 minutes (e.g., 5, 10, 15, ... 60). Between each major 5-minute mark, there are 4 minor ticks. This means there are 5 subdivisions for 5 minutes, so each minor tick represents 1 minute (5 minutes / 5 subdivisions = 1 minute/subdivision).\n*   **Running Seconds Sub-dial (at 6 o'clock):** This sub-dial has major tick marks at 10, 20, 30, 40, 50, and 60 seconds. Between each major 10-second mark (e.g., between 30 and 40), there are 4 minor ticks. This indicates 5 subdivisions for 10 seconds. Therefore, each minor tick represents 2 seconds (10 seconds / 5 subdivisions = 2 seconds/subdivision).\n\n**Step 2 - Locate the Indicator:**\n*   **Hour hand:** The short, wide silver hand is located just past the '1' o'clock mark.\n*   **Minute hand:** The long, thin silver hand with a blue tip is pointing precisely at the '10' minute mark on the outer scale.\n*   **Running Seconds hand (sub-dial at 6 o'clock):** The small hand in the sub-dial is pointing at the 4th minor tick past the '30' second mark.\n\n**Step 3 - Calculate the Reading:**\n*   **Hours:** The hour hand has passed the '1' but has not reached '2'. Therefore, the hour is 1.\n*   **Minutes:** The minute hand is pointing exactly at the '10' mark. So, the minutes are 10.\n*   **Seconds (running seconds):** Starting from 30 seconds, the hand is at the 4th minor tick. Since each minor tick on this sub-dial represents 2 seconds, the reading is 30 + (4 * 2) = 30 + 8 = 38 seconds.\n*   **AM/PM:** The 24-hour sub-dial at 3 o'clock shows a hand pointing at '10'. If this sub-dial indicates AM/PM for the main time, there is an inconsistency as the main hour hand is at 1, not 10. Given this ambiguity and to avoid making an unverified assumption, the time will be stated in HH:MM:SS format without specifying AM or PM.\n\n**Step 4 - Identify the Unit:**\nThe unit for this instrument is \"time\", typically expressed in hours, minutes, and seconds.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 01:10:38 time",
+  "predicted_value": 38.0,
+  "predicted_unit": "time",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

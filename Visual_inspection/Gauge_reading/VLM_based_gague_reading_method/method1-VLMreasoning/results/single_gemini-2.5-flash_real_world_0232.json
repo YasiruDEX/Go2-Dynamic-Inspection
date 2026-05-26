@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0232",
+  "question": "What is the reading of the north-pointing needle of the compass?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- The full scale range is 0 to 360 degrees (a full circle).\n- The MAJOR tick marks are labeled every 20 units (e.g., 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360/0).\n- Between each 20-degree major mark, there is a longer minor tick mark exactly in the middle, representing 10 degrees.\n- Between a major mark (e.g., 300) and the next 10-degree minor mark (e.g., 310), there are 4 smaller tick marks. This means there are 5 subdivisions for 10 degrees.\n- Therefore, each MINOR tick mark interval is 10 degrees / 5 subdivisions = 2 degrees.\n\n**Step 2 - Locate the Indicator:**\n- The indicator is the north-pointing needle, which is the red tip of the needle.\n- The red tip of the needle (and the 'N' on the inner compass card) is pointing between the 300 and 320 major tick marks on the outer fixed scale.\n- It is past the 310-degree longer minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Start from the 310-degree longer minor tick mark.\n- Count the smaller minor ticks past 310 degrees. The red needle's tip is aligned with the second small tick mark after 310.\n- Each small tick mark represents 2 degrees.\n- So, the reading is 310 degrees + (2 minor ticks * 2 degrees/tick) = 310 + 4 = 314 degrees.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is degrees (\u00b0).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 314 degrees",
+  "predicted_value": 314.0,
+  "predicted_unit": "degrees",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      30,
+      40
+    ],
+    "unit": null
+  }
+}

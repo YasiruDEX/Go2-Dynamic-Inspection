@@ -1,0 +1,21 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "A CO2 fire extinguisher is clearly visible and accessible on the wall, with no apparent obstructions.",
+  "findings": [
+    "A red CO2 fire extinguisher is mounted on the wall.",
+    "The fire extinguisher appears to be readily accessible, with no objects blocking its immediate front or sides.",
+    "A red fire safety cabinet is located to the left of the fire extinguisher."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": false
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "fire safety cabinet",
+    "wall"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"A CO2 fire extinguisher is clearly visible and accessible on the wall, with no apparent obstructions.\",\n  \"findings\": [\n    \"A red CO2 fire extinguisher is mounted on the wall.\",\n    \"The fire extinguisher appears to be readily accessible, with no objects blocking its immediate front or sides.\",\n    \"A red fire safety cabinet is located to the left of the fire extinguisher.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": false\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"fire safety cabinet\",\n    \"wall\"\n  ]\n}"
+}

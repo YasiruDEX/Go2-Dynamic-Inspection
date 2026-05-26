@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0082",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The scale ranges from 0 to 200.\n-   **MAJOR tick mark intervals:** The major tick marks are labeled at 0, 50, 100, 150, and 200. This means the interval between major tick marks is 50 units.\n-   **Subdivisions between major marks:** Let's examine the segment between 0 and 50. There are 10 minor tick marks between 0 and 50.\n-   **MINOR tick mark intervals:** To find the value of each minor tick mark, divide the major interval by the number of subdivisions: 50 units / 10 subdivisions = 5 units per minor tick.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer (red needle) is located between the 0 and 50 major tick marks.\n-   Starting from 0, we count the minor tick marks. The pointer aligns exactly with the 3rd minor tick mark after 0.\n\n**Step 3 - Calculate the Reading:**\n-   Lower major tick value: 0\n-   Contribution from minor ticks: The pointer is on the 3rd minor tick. Since each minor tick represents 5 units, the contribution is 3 * 5 = 15 units.\n-   Total reading: 0 + 15 = 15.\n\n**Step 4 - Identify the Unit:**\n-   The unit clearly displayed on the scale is \"\u03bcA\", which stands for microamperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 15 \u03bcA",
+  "predicted_value": 15.0,
+  "predicted_unit": "units",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      55,
+      55
+    ],
+    "unit": null
+  }
+}

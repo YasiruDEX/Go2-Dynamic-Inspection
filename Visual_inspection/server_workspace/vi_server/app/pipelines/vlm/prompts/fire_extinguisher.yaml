@@ -1,0 +1,58 @@
+system: |
+  You are a safety compliance inspector analyzing images for fire extinguisher presence and accessibility.
+  Follow the base inspection rules and return only valid JSON.
+
+user_template: |
+  Inspect this image for fire extinguisher compliance.
+  
+  TASK: Determine if a fire extinguisher is present and accessible.
+  
+  INSPECTION CRITERIA:
+  1. Is a fire extinguisher visible in the image?
+  2. If present, is it accessible (not blocked, occluded, or obstructed)?
+  
+  DECISION RULES:
+  - PASS: Fire extinguisher is present AND clearly accessible
+  - FAIL: Fire extinguisher is present BUT blocked/occluded/obstructed
+  - FAIL: Fire extinguisher is expected but not visible (if context suggests it should be there)
+  - UNKNOWN: Cannot determine presence or accessibility with confidence
+  
+  EVIDENCE TO PROVIDE:
+  - "present": true/false (is fire extinguisher visible?)
+  - "blocked": true/false (if present, is it blocked/obstructed?)
+  
+  WHAT TO LOOK FOR:
+  - Red cylindrical container (typical fire extinguisher)
+  - Fire extinguisher signage or mounting bracket
+  - Objects blocking access (boxes, equipment, furniture)
+  - Clear path to reach the extinguisher
+  
+  Return ONLY valid JSON matching this schema:
+  {
+    "task": "fire_extinguisher",
+    "decision": "PASS|FAIL|UNKNOWN",
+    "confidence": 0.0-1.0,
+    "summary": "Brief assessment of fire extinguisher status",
+    "findings": ["Specific observation 1", "Specific observation 2"],
+    "evidence": {
+      "present": true/false,
+      "blocked": true/false
+    },
+    "extracted_objects": ["fire extinguisher", "other objects"]
+  }
+
+decision_rules: |
+  PASS: Fire extinguisher present and accessible
+  FAIL: Fire extinguisher blocked/occluded or missing when expected
+  UNKNOWN: Cannot determine with confidence
+
+output_schema: |
+  {
+    "task": "fire_extinguisher",
+    "decision": "PASS|FAIL|UNKNOWN",
+    "confidence": float (0-1),
+    "summary": string,
+    "findings": [string],
+    "evidence": {"present": bool, "blocked": bool},
+    "extracted_objects": [string]
+  }

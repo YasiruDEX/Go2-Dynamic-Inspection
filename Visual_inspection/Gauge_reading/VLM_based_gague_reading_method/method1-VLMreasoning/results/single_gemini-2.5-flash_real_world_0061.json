@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0061",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The scale starts at 0 and goes up to 750. So, the full scale range is 0-750.\n-   **MAJOR tick mark intervals:** The numbered major tick marks are 0, 100, 200, 600, 750. Between the numbered major ticks (e.g., between 0 and 100), there are 4 slightly shorter unnumbered major ticks. This divides the 100-unit interval into 5 segments.\n    -   Therefore, each segment between these unnumbered major ticks represents 100 units / 5 segments = 20 units.\n-   **MINOR tick mark intervals:** Between each 20-unit segment (e.g., between 0 and the first unnumbered major tick at 20), there are 4 minor tick marks. This divides the 20-unit segment into 5 subdivisions.\n    -   So, each minor tick represents 20 units / 5 subdivisions = 4 units.\n-   **How many subdivisions are between major marks?** Between 0 and 100 (a numbered major mark), there are 5 segments of 20 units. Each 20-unit segment has 5 minor ticks. So, there are 5 * 5 = 25 minor ticks between 0 and 100. This confirms that each minor tick is 100 units / 25 minor ticks = 4 units.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer (needle) is clearly visible.\n-   The pointer is positioned exactly on the numerical major tick mark labeled '100'.\n-   It is not between any minor ticks, as it directly aligns with a numbered major mark.\n\n**Step 3 - Calculate the Reading:**\n-   Starting from the beginning of the scale, the pointer points directly to the '100' mark.\n-   No interpolation is needed as it is exactly on a numbered major mark.\n\n**Step 4 - Identify the Unit:**\n-   The unit \"A\" (for Amperes) is clearly printed on the dial below the center pivot point.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 100 A",
+  "predicted_value": 100.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      360,
+      370
+    ],
+    "unit": null
+  }
+}

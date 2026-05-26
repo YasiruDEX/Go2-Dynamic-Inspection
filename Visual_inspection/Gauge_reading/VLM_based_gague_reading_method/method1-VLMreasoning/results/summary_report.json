@@ -1,0 +1,76 @@
+{
+  "overall_metrics": {
+    "gemini-2.0-flash-exp": {
+      "total": 5,
+      "value_correct": 0,
+      "unit_correct": 0,
+      "both_correct": 0,
+      "no_answer": 5,
+      "value_accuracy": 0.0,
+      "unit_accuracy": 0.0,
+      "overall_accuracy": 0.0
+    },
+    "gpt-4o": {
+      "total": 1,
+      "value_correct": 0,
+      "unit_correct": 0,
+      "both_correct": 0,
+      "no_answer": 1,
+      "value_accuracy": 0.0,
+      "unit_accuracy": 0.0,
+      "overall_accuracy": 0.0
+    }
+  },
+  "per_model_breakdown": {
+    "gemini-2.0-flash-exp": {
+      "total_samples": 5,
+      "metrics": {
+        "total": 5,
+        "value_correct": 0,
+        "unit_correct": 0,
+        "both_correct": 0,
+        "no_answer": 5,
+        "value_accuracy": 0.0,
+        "unit_accuracy": 0.0,
+        "overall_accuracy": 0.0
+      },
+      "by_instrument_type": {
+        "ammeter": {
+          "total": 5,
+          "value_correct": 0,
+          "unit_correct": 0,
+          "both_correct": 0,
+          "no_answer": 5,
+          "value_accuracy": 0.0,
+          "unit_accuracy": 0.0,
+          "overall_accuracy": 0.0
+        }
+      }
+    },
+    "gpt-4o": {
+      "total_samples": 1,
+      "metrics": {
+        "total": 1,
+        "value_correct": 0,
+        "unit_correct": 0,
+        "both_correct": 0,
+        "no_answer": 1,
+        "value_accuracy": 0.0,
+        "unit_accuracy": 0.0,
+        "overall_accuracy": 0.0
+      },
+      "by_instrument_type": {
+        "ammeter": {
+          "total": 1,
+          "value_correct": 0,
+          "unit_correct": 0,
+          "both_correct": 0,
+          "no_answer": 1,
+          "value_accuracy": 0.0,
+          "unit_accuracy": 0.0,
+          "overall_accuracy": 0.0
+        }
+      }
+    }
+  }
+}

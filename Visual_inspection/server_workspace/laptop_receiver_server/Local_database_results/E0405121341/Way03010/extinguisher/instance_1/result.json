@@ -1,0 +1,22 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "A fire extinguisher is clearly present and appears to be fully accessible without obstruction.",
+  "findings": [
+    "A red CO2 fire extinguisher ('UNGUARD FIRE') is clearly visible and mounted on the wall.",
+    "There are no immediate objects or structures blocking the path or access to the fire extinguisher.",
+    "The area around the fire extinguisher is clear."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": false
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "access control reader",
+    "door",
+    "shelving unit"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"A fire extinguisher is clearly present and appears to be fully accessible without obstruction.\",\n  \"findings\": [\n    \"A red CO2 fire extinguisher ('UNGUARD FIRE') is clearly visible and mounted on the wall.\",\n    \"There are no immediate objects or structures blocking the path or access to the fire extinguisher.\",\n    \"The area around the fire extinguisher is clear.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": false\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"access control reader\",\n    \"door\",\n    \"shelving unit\"\n  ]\n}"
+}

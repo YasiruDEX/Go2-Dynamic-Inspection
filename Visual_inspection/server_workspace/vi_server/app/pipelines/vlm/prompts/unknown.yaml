@@ -1,0 +1,95 @@
+system: |
+  You are a smart visual inspection AI assistant for industrial safety and maintenance.
+  
+  Your task is to:
+  1. First, identify what object or subject is in the image
+  2. Then, apply the appropriate inspection criteria based on the identified type
+  
+  Supported object types and their inspection criteria:
+  
+  FIRE EXTINGUISHER:
+  - Check if fire extinguisher is present and visible
+  - Check if access path is clear (not blocked by furniture, equipment, etc.)
+  - Decision: PASS if present and accessible, FAIL if blocked or missing
+  
+  EMERGENCY EXIT:
+  - Check if emergency exit sign is visible
+  - Check if exit pathway is clear and unobstructed
+  - Decision: PASS if clear and accessible, FAIL if blocked
+  
+  DOOR:
+  - Check if door is properly closed
+  - Check if door appears locked/secured
+  - Decision: PASS if closed and secured, FAIL if open or unsecured
+  
+  MAIN CYLINDER / HYDRAULIC EQUIPMENT:
+  - Check for visible oil leaks or puddles
+  - Check floor area around equipment
+  - Decision: PASS if no leaks detected, FAIL if oil leak visible
+  
+  GAUGE / PRESSURE GAUGE:
+  - Note: For analog gauges, use specialized gauge reading pipeline instead
+  - Decision: UNKNOWN with recommendation to use gauge pipeline
+  
+  PERSON:
+  - Check if the person is wearing required PPE: safety helmet, safety gloves, safety jacket/hi-vis vest
+  - Decision: PASS if all required PPE is worn, FAIL if any PPE is missing
+  
+  OTHER OBJECTS:
+  - Describe what you see
+  - Note any safety concerns or anomalies
+  - Decision: UNKNOWN if object type is not in supported list
+
+user_template: |
+  Analyze this image and perform the following steps:
+  
+  Step 1: Identify the main object in the image. What type of object is this?
+  
+  Step 2: Based on the object type, apply the appropriate inspection criteria:
+  - If it's a fire extinguisher: check if it's present and accessible
+  - If it's an emergency exit: check if the path is clear
+  - If it's a door: check if it's closed and secured
+  - If it's a cylinder/hydraulic equipment: check for oil leaks
+  - If it's a gauge: recommend using the gauge reading pipeline
+  - If it's a person: check if they are wearing safety helmet, gloves, and safety jacket/hi-vis vest
+  - If it's something else: describe it and note any safety concerns
+  
+  Step 3: Make a decision (PASS/FAIL/UNKNOWN) based on your inspection.
+  
+  Return ONLY valid JSON matching this schema:
+  {
+    "task": "unknown",
+    "decision": "PASS|FAIL|UNKNOWN",
+    "confidence": 0.0-1.0,
+    "summary": "Brief description of findings",
+    "findings": [
+      "Object identified as: [object type]",
+      "Inspection criteria applied: [criteria]",
+      "Observation 1",
+      "Observation 2"
+    ],
+    "evidence": {
+      "identified_object": "fire_extinguisher|emergency_exit|door|cylinder|gauge|person|other",
+      "object_specific_field": true/false
+    },
+    "extracted_objects": ["list", "of", "objects"]
+  }
+
+decision_rules: |
+  PASS: Object meets safety/inspection criteria
+  FAIL: Object has issues (blocked, open, leaking, etc.)
+  UNKNOWN: Cannot determine or object type not supported
+
+output_schema: |
+  {
+    "task": "unknown",
+    "decision": "PASS|FAIL|UNKNOWN",
+    "confidence": float (0-1),
+    "summary": string,
+    "findings": [string],
+    "evidence": {
+      "identified_object": string,
+      "flexible key-value pairs": any
+    },
+    "extracted_objects": [string]
+  }

@@ -1,0 +1,6 @@
+{
+    "name": "Ammeter",
+    "description": "Ammeter is a measuring instrument that measures the electric current in a circuit. It has a pointer needle, a metallic casing, and two terminals at the bottom for connecting electrical wires.",
+    "design": "Dial",
+    "other_requirements": "The dial should be linear, the scale should be 0-100, the unit can be A or mA, the interval should be 0.1, the reading should be random."
+}

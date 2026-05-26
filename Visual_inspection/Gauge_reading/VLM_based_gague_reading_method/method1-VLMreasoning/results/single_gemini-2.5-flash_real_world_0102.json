@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0102",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock face displays hours from 1 to 12. For minutes, it represents 0-60 minutes around the dial.\n-   **MAJOR tick mark intervals:** The numbers 1 through 12 are the major tick marks for hours. For minutes, these numbers also represent 5-minute intervals (e.g., '1' is 5 minutes, '2' is 10 minutes, '12' is 0 or 60 minutes).\n-   **MINOR tick mark intervals:** Between each numbered hour (major tick), there are 4 smaller tick marks.\n-   **How many subdivisions are between major marks?** There are 5 subdivisions (including the major tick itself) between each numbered hour, meaning each minor tick represents 1 minute.\n\n**Step 2 - Locate the Indicator:**\n-   **Hour Hand (shorter hand):** The hour hand is pointing slightly past the '12'.\n-   **Minute Hand (longer hand):** The minute hand is pointing directly at the '1'.\n\n**Step 3 - Calculate the Reading:**\n-   **Minutes:** The minute hand is on the '1'. On a clock face, each number represents a multiple of 5 minutes. So, '1' corresponds to 1 * 5 = 5 minutes.\n-   **Hours:** The hour hand is slightly past the '12'. Since the minute hand has only moved 5 minutes past the hour, the hour hand has just begun to move away from the '12'.\n-   Therefore, the time is 12 hours and 5 minutes.\n\n**Step 4 - Identify the Unit:**\n-   The unit is \"time\", typically expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 12:05",
+  "predicted_value": 5.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

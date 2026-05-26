@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0067",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale is centered at 0 and goes up to 750 on the positive side and down to -750 (implied, as 200 is present on both sides). For the purpose of the reading, we observe the positive side. The maximum value shown is 750.\n- **MAJOR tick mark intervals:** The main labeled marks are 0, 200, 400, 600, and 750.\n- **Sub-major tick mark intervals (longer unlabeled ticks):** Between 0 and 200 (a span of 200 units), there are 4 longer unlabeled ticks. This divides the segment into 5 equal parts. So, each sub-major interval is 200 / 5 = 40 units. (e.g., 0, 40, 80, 120, 160, 200).\n- **MINOR tick mark intervals (shortest ticks):** Between any two consecutive sub-major ticks (e.g., between 40 and 80, or between 0 and 40), there are 3 minor ticks. This divides the 40-unit segment into 4 equal parts. So, each minor tick represents 40 / 4 = 10 units.\n- **How many subdivisions are between major marks?** Between major marks like 0 and 200, there are 4 sub-major ticks (40 units each) and then each 40-unit segment has 3 minor ticks, resulting in 4 segments of 10 units each.\n\n**Step 2 - Locate the Indicator:**\n- The pointer is on the positive side of the scale.\n- It is past the 400 major tick mark.\n- It is between the 400 and 600 major tick marks.\n- Counting from 400:\n    - 400 + 1st sub-major tick (40 units) = 440\n    - 440 + 2nd sub-major tick (40 units) = 480\n- The pointer is exactly on the second minor tick past the 480 mark.\n\n**Step 3 - Calculate the Reading:**\n- Starting from 480 (the second sub-major tick after 400).\n- The pointer is on the 2nd minor tick past 480. Each minor tick is 10 units.\n- So, 480 + (2 * 10) = 480 + 20 = 500.\n\n**Step 4 - Identify the Unit:**\n- The unit \"A\" (Ampere) is clearly visible at the bottom of the scale. The label on the left, \"\u96fb\u6d41\u8a08\" (Denryuukei), also confirms it is an Ammeter.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 500 A",
+  "predicted_value": 500.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      460,
+      460
+    ],
+    "unit": null
+  }
+}

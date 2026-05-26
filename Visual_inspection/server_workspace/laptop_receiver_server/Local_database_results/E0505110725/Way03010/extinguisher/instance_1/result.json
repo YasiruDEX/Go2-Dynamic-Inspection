@@ -1,0 +1,22 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "A fire extinguisher is present and clearly accessible, mounted on the wall without any obstructions in its immediate vicinity.",
+  "findings": [
+    "A red cylindrical CO2 fire extinguisher, labeled 'VANGUARD FIRE', is clearly visible and mounted on the wall.",
+    "The area directly in front of and around the fire extinguisher is free from any blocking objects or obstructions, ensuring accessibility."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": false
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "wall",
+    "card reader",
+    "electrical outlet",
+    "shelving unit"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"A fire extinguisher is present and clearly accessible, mounted on the wall without any obstructions in its immediate vicinity.\",\n  \"findings\": [\n    \"A red cylindrical CO2 fire extinguisher, labeled 'VANGUARD FIRE', is clearly visible and mounted on the wall.\",\n    \"The area directly in front of and around the fire extinguisher is free from any blocking objects or obstructions, ensuring accessibility.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": false\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"wall\",\n    \"card reader\",\n    \"electrical outlet\",\n    \"shelving unit\"\n  ]\n}"
+}

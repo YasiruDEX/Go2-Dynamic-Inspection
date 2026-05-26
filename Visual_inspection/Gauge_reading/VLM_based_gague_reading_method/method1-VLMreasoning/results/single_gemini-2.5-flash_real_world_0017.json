@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0017",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The scale goes from 0 to 1000.\n-   **MAJOR tick mark intervals:** The labeled major tick marks are 0, 200, 400, 600, 800, 1000. The interval between these major marks is 200 units.\n-   **Subdivisions between major marks:** Between each major labeled mark (e.g., 0 and 200), there are 4 longer, unlabeled tick marks, dividing the 200-unit span into 5 segments. This means each of these longer tick marks represents an interval of 200 / 5 = 40 units.\n-   **MINOR tick mark intervals:** Within each 40-unit segment (e.g., from 0 to 40, or 40 to 80, etc.), there are 4 small minor tick marks, dividing that 40-unit segment into 5 smaller parts. Therefore, each minor tick mark represents an interval of 40 / 5 = 8 units.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer (red needle) is past the 800 major tick mark.\n-   Counting the longer 40-unit tick marks past 800:\n    -   1st longer tick mark: 800 + 40 = 840\n    -   2nd longer tick mark: 840 + 40 = 880\n    -   3rd longer tick mark: 880 + 40 = 920\n-   The pointer is exactly on the 2nd small minor tick mark *after* the 920 longer tick mark.\n\n**Step 3 - Calculate the Reading:**\n-   Start from the lower major tick value: 800\n-   Add the value of the longer intermediate tick marks: The pointer is past the 3rd longer tick mark after 800, which corresponds to 3 * 40 units = 120 units. So, 800 + 120 = 920.\n-   Add the value of the minor tick marks: The pointer is on the 2nd minor tick mark after 920. Each minor tick is 8 units. So, 2 * 8 units = 16 units.\n-   Total reading = 920 + 16 = 936.\n-   The pointer aligns perfectly with the 2nd minor tick, so no interpolation is needed.\n\n**Step 4 - Identify the Unit:**\n-   The large letter \"A\" on the scale clearly indicates the unit is Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 936 A",
+  "predicted_value": 936.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      780,
+      795
+    ],
+    "unit": null
+  }
+}

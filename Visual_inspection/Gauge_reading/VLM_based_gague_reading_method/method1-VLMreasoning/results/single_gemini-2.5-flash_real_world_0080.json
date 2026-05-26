@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0080",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 20.\n- **MAJOR tick mark intervals:** The numbered major tick marks are at 0, 5, 10, 15, and 20. This indicates major intervals of 5 units.\n- **Subdivisions between major marks:** Between each major numbered mark (e.g., 0 and 5), there are 4 unnumbered long tick marks. This divides the 5-unit interval into 5 smaller intervals (0, 1st long, 2nd long, 3rd long, 4th long, 5). Therefore, each long unmarked tick represents 1 unit.\n- **MINOR tick mark intervals:** Between each 1-unit long tick mark (e.g., between the '0' and the first long unmarked tick, or between the '4' and '5' mark), there are 4 smaller tick marks. This divides the 1-unit interval into 5 even smaller subdivisions. So, each minor tick represents 1 unit / 5 subdivisions = 0.2 units.\n\n**Step 2 - Locate the Indicator:**\n- The red pointer is clearly visible.\n- The pointer is past the '0' major tick mark.\n- It is past the '1' long tick, '2' long tick, '3' long tick, and '4' long tick.\n- It is positioned exactly on the second minor tick mark after the '4' long tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Start from the '4' unit mark.\n- The pointer is on the second minor tick after '4'.\n- Since each minor tick represents 0.2 units, the contribution from the minor ticks is 2 * 0.2 = 0.4 units.\n- Therefore, the total reading is 4 + 0.4 = 4.4.\n\n**Step 4 - Identify the Unit:**\n- The letter 'A' is prominently displayed on the scale, indicating the unit is Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 4.4 A",
+  "predicted_value": 4.4,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      6,
+      6
+    ],
+    "unit": null
+  }
+}

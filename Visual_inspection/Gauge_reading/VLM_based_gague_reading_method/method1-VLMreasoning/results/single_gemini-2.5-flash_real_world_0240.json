@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0240",
+  "question": "What is the reading of the green needle of the compass?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The compass scale ranges from 0 to 360 degrees, with visible markings from 0 to 340 and back to 0.\n- **MAJOR tick mark intervals:** Major tick marks are labeled every 20 units (e.g., 0, 20, 40, ..., 280, 300, 320, 340).\n- **Minor tick mark intervals:** Between each 20-unit major interval (e.g., between 280 and 300), there are 4 longer minor tick marks. This creates 5 subdivisions within the 20-unit interval.\n- **Value of each subdivision:** 20 units / 5 subdivisions = 4 units per subdivision. So, each long minor tick represents an increment of 4 degrees.\n\n**Step 2 - Locate the Indicator:**\n- The indicator is the green end of the compass needle.\n- The green needle points between the labeled major tick marks of 280 and 300.\n- Starting from 280, count the minor ticks towards 300:\n    - 1st minor tick after 280: 280 + 4 = 284\n    - 2nd minor tick after 280: 280 + 8 = 288\n    - 3rd minor tick after 280: 280 + 12 = 292\n    - 4th minor tick after 280: 280 + 16 = 296\n\n**Step 3 - Calculate the Reading:**\n- The green needle is precisely aligned with the 4th minor tick mark after 280.\n- Reading = 280 + (4 minor ticks * 4 degrees/minor tick) = 280 + 16 = 296.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is degrees (\u00b0).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 296 \u00b0",
+  "predicted_value": 296.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      284,
+      290
+    ],
+    "unit": null
+  }
+}

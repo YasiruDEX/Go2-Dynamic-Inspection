@@ -1,0 +1,8 @@
+--extra-index-url https://download.blender.org/pypi/
+bpy==3.6.0
+matplotlib
+mathutils
+pillow
+numpy >= 2.0, <= 2.3
+loguru
+opencv-python <= 4.8.0.76

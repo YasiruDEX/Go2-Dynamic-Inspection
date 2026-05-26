@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0189",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full Scale Range:** The clock displays hours from 1 to 12. The minute scale ranges from 00 to 59, completing a full circle for 60 minutes. There are also smaller numbers for 24-hour time (e.g., 13, 14, ..., 23, 00).\n- **MAJOR Tick Mark Intervals (Hours):** The major hour marks are numbered 1 through 12.\n- **MAJOR Tick Mark Intervals (Minutes):** The major minute marks are implied by the hour numbers and also by smaller numbers around the rim (00, 05, 10, etc.), indicating 5-minute intervals.\n- **MINOR Tick Mark Intervals (Minutes):** Between each 5-minute major mark (or each numbered hour mark), there are 4 minor tick marks, making a total of 5 subdivisions. This means each minor tick mark represents 1 minute.\n- **Subdivisions between major marks:** For minutes, there are 5 subdivisions between each 5-minute interval.\n\n**Step 2 - Locate the Indicator:**\n- **Hour Hand (shorter, thicker hand):** The hour hand is pointing just past the 12. It has not yet reached the 1.\n- **Minute Hand (longer, thinner hand):** The minute hand is pointing exactly at the first major 5-minute mark after the 12. Counting from \"00\" (at the 12 position), this is the 5th minute mark.\n\n**Step 3 - Calculate the Reading:**\n- **Hours:** The hour hand is past 12, so the hour is 12.\n- **Minutes:** The minute hand is pointing precisely at the 5-minute mark.\n\n**Step 4 - Identify the Unit:**\n- The unit is time, expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 12:05",
+  "predicted_value": 5.0,
+  "predicted_unit": "th",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

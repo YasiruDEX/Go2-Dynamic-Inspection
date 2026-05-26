@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0066",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The primary scale visible goes from 0 to 150. (There are also red markings for 300 and 450, likely for different CT ratios, but the main scale is 0-150). The indication \"5A cl RATIO 150/5\" confirms that the meter's 0-150 scale is calibrated to display the primary current when a 150/5 current transformer is used.\n-   **MAJOR tick mark intervals:** Major tick marks are labeled at 0, 50, 100, and 150. The interval between major marks is 50 units.\n-   **MINOR tick mark intervals:** Between each major mark (e.g., 0 and 50), there are 9 smaller unlabeled ticks, making 10 subdivisions. Therefore, the value of each minor tick mark is (50 units / 10 subdivisions) = 5 units.\n-   **How many subdivisions are between major marks?** 10 subdivisions.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer (needle) is located between the 0 and 50 major tick marks.\n-   Counting from the 0 major tick mark, the pointer is precisely aligned with the 5th minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n-   Start from the lower major tick value: 0\n-   Add the contribution from minor ticks: The pointer is on the 5th minor tick. Since each minor tick represents 5 units, the contribution is 5 minor ticks * 5 units/minor tick = 25 units.\n-   Total reading = 0 + 25 = 25.\n-   The pointer is exactly on a minor tick, so no interpolation is needed.\n\n**Step 4 - Identify the Unit:**\n-   The large letter \"A\" with a tilde underneath indicates Amperes (A) for alternating current.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 25 A",
+  "predicted_value": 25.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      28,
+      29
+    ],
+    "unit": null
+  }
+}

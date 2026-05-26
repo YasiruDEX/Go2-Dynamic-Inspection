@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0239",
+  "question": "What is the reading of the north-pointing needle of the compass?",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Full Scale Range:** The compass dial shows markings from 0 (N) up to 60 (6000 MILS) and beyond, implying a full circle of 6400 MILS, which is common for military compasses.\n*   **MAJOR Tick Mark Intervals:** The major numbered tick marks are 0 (N), 8, 12, 16 (W), 20, 24, 28, 32 (S), 36, 40, 44, 48, 52, 56, 60. These numbers represent hundreds of MILS (e.g., '8' means 800 MILS). The interval between major numbered marks is 400 MILS (e.g., 1200 MILS - 800 MILS = 400 MILS).\n*   **MINOR Tick Mark Intervals:**\n    *   Between two numbered major marks (e.g., 0 and 800 MILS), there are 3 prominent unnumbered ticks. This creates 4 segments. So, each of these prominent unnumbered ticks represents 200 MILS (800 MILS / 4 segments = 200 MILS/segment).\n    *   Between each prominent tick (e.g., 0 MILS and the first 200 MILS prominent tick), there are 4 smaller ticks. This creates 5 segments. So, each of these smallest minor ticks represents 40 MILS (200 MILS / 5 segments = 40 MILS/segment).\n*   **Subdivisions between major marks:** As determined above, the smallest subdivision is 40 MILS.\n\n**Step 2 - Locate the Indicator:**\n*   The indicator is the white north-pointing needle, specifically its tip marked with 'N'.\n*   The needle's 'N' tip is precisely aligned with the 'N' mark on the outer fixed ring of the compass, which is also labeled '0'.\n\n**Step 3 - Calculate the Reading:**\n*   Since the north-pointing needle is directly on the 'N' mark, which corresponds to the '0' on the MILS scale, the reading is exactly 0. There is no need for interpolation.\n\n**Step 4 - Identify the Unit:**\n*   The scale is marked in MILS (milliradians), as indicated by the common use of numbers like 0, 8, 12, 16, etc. representing hundreds of MILS on military compasses.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 0 MILS",
+  "predicted_value": 0.0,
+  "predicted_unit": "MILS",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      43,
+      45
+    ],
+    "unit": null
+  }
+}

@@ -1,0 +1,14 @@
+*.jpg
+*.png
+*.jpeg
+*.JPG
+*.PNG
+*.JPEG
+*.tar.gz
+*.zip
+tmp/*
+results/*
+synthetic_data
+__MACOSX
+.DS_Store
+__pycache__/

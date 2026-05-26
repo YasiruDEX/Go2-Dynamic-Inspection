@@ -1,0 +1,24 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The double glass door is in a closed position, with no visible gaps.",
+  "findings": [
+    "The door panels are fully within the door frame, showing no significant gaps along the edges.",
+    "The two door handles are closely aligned, indicating the door panels are closed together.",
+    "A door closer mechanism is visible at the top, appearing to hold the door in a closed state."
+  ],
+  "evidence": {
+    "open": false
+  },
+  "extracted_objects": [
+    "door",
+    "glass panel",
+    "door frame",
+    "door handle",
+    "door closer mechanism",
+    "wall",
+    "interior room"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The double glass door is in a closed position, with no visible gaps.\",\n  \"findings\": [\n    \"The door panels are fully within the door frame, showing no significant gaps along the edges.\",\n    \"The two door handles are closely aligned, indicating the door panels are closed together.\",\n    \"A door closer mechanism is visible at the top, appearing to hold the door in a closed state.\"\n  ],\n  \"evidence\": {\n    \"open\": false\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"glass panel\",\n    \"door frame\",\n    \"door handle\",\n    \"door closer mechanism\",\n    \"wall\",\n    \"interior room\"\n  ]\n}"
+}

@@ -1,0 +1,27 @@
+# InspectObjects.action
+
+# ── GOAL ─────────────────────────────────────────────────────────────────────
+int32  max_objects      # 0 = inspect all detected front objects, N = first N only
+bool   return_home      # true = servo returns 90,90 after done
+string location_label   # label for this location (from BT: "gauge_room_A" / "unknown")
+                        # if empty string, uses YOLO class name automatically
+bool   overview_only    # true = just capture Insta360 overview, skip IBVS entirely
+                        # BT uses this when it wants a 360 snapshot for VLM
+int32  overview_count   # how many Insta360 images to capture (used when overview_only=true, default 2)
+
+---
+
+# ── RESULT ───────────────────────────────────────────────────────────────────
+bool   success
+int32  objects_inspected
+int32  objects_found        # total objects detected on Insta360
+bool   object_in_back       # true if object(s) detected in back half -> BT should rotate 180
+string failed_reason        # "": success | "no_detection" | "ibvs_timeout" |
+                            # "logi_no_detection" | "all_in_back"
+
+---
+
+# ── FEEDBACK ─────────────────────────────────────────────────────────────────
+string  current_step    # "detecting" / "coarse" / "ibvs" / "capturing" / "overview"
+int32   current_object  # which object number (1, 2, 3...)
+float32 ibvs_error_px   # pixel error during IBVS

@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0013",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The scale ranges from -50 mA to +50 mA.\n-   **MAJOR tick mark intervals:** Labeled major tick marks are at -50, -40, -20, 0, 20, 40, 50.\n    Between labeled major marks (e.g., 0 and 20), there are 3 intermediate longer ticks. This means there are 4 segments of equal value between 0 and 20. Therefore, each longer tick represents 20 / 4 = 5 units. So, the longer ticks indicate values like 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, and their negative counterparts.\n-   **MINOR tick mark intervals:** Between any two consecutive longer ticks (e.g., 0 and 5, or 5 and 10), there are 4 minor ticks. This means there are 5 subdivisions. So, the minor tick interval is 5 units / 5 subdivisions = 1 unit.\n-   **Number of subdivisions between major marks:** The smallest subdivision is 1 mA.\n\n**Step 2 - Locate the Indicator:**\n-   The pointer is to the left of the '0' mark, indicating a negative current.\n-   It is past the labeled -20 mark.\n-   Looking at the longer tick marks, after -20, the next longer tick mark to the left is -25.\n-   The pointer is between -20 and -25.\n-   Counting the minor ticks from -20 towards -25:\n    -   -20 (longer tick)\n    -   -21 (first minor tick)\n    -   -22 (second minor tick)\n    -   -23 (third minor tick)\n    -   -24 (fourth minor tick)\n    -   -25 (longer tick)\n-   The pointer is aligned exactly with the second minor tick mark after -20.\n\n**Step 3 - Calculate the Reading:**\n-   Starting from -20 and moving left (numerically smaller), the second minor tick corresponds to -20 + (-2) = -22.\n\n**Step 4 - Identify the Unit:**\n-   The unit displayed on the scale is \"mA\" (milliamperes).\n\n**Step 5 - Provide Final Answer:**\nAnswer: -22 mA",
+  "predicted_value": 22.0,
+  "predicted_unit": "mA",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      -20,
+      -20
+    ],
+    "unit": null
+  }
+}

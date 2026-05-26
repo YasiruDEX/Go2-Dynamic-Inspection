@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0014",
+  "question": "What is the reading of the ammeter(black needle)",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The main scale is labeled from 0 to 400. The \"C.T: 400/5A\" indicates that the meter is configured for a 400 Ampere full scale range when used with its specified Current Transformer.\n-   **MAJOR tick mark intervals:** The major tick marks are labeled at 0, 100, 200, 300, and 400. So, the major tick mark interval is 100 units.\n-   **Minor tick mark intervals:** Between each major tick mark (e.g., between 200 and 300), there are 10 subdivisions (including the major mark at the end).\n-   **How many subdivisions are between major marks?** There are 10 subdivisions between major marks. Therefore, each minor tick represents 100 units / 10 subdivisions = 10 units.\n\n**Step 2 - Locate the Indicator:**\n-   The red needle is the indicator.\n-   The needle is located between the 200 and 300 major tick marks.\n-   Counting from the 200 major tick mark, the needle is aligned with the 7th minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n-   Start from the lower major tick value: 200.\n-   Add the contribution from minor ticks: 7 minor ticks * 10 units/minor tick = 70 units.\n-   Total reading: 200 + 70 = 270.\n-   The indicator is exactly on a minor tick, so no interpolation is required.\n\n**Step 4 - Identify the Unit:**\n-   The symbol \"A\" is prominently displayed on the scale, indicating Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 270 A",
+  "predicted_value": 270.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      300,
+      300
+    ],
+    "unit": null
+  }
+}

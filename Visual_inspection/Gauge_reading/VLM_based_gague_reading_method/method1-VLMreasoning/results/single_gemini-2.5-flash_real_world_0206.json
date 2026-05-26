@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0206",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n\n*   **Main Dial (Hours and Minutes):**\n    *   Full scale range for hours: 1-12.\n    *   Full scale range for minutes: 0-60.\n    *   MAJOR tick mark intervals (hours): Numerals 1 through 12. Each represents 1 hour.\n    *   MAJOR tick mark intervals (minutes): Each numeral (1-12) also implicitly represents a 5-minute interval (e.g., 12 is 0/60 minutes, 1 is 5 minutes, 2 is 10 minutes, etc.).\n    *   MINOR tick mark intervals: Between each hour numeral, there are 4 smaller ticks, dividing the 5-minute interval into 5 individual 1-minute segments.\n    *   Number of subdivisions between major (hour) marks for minutes: 5.\n\n*   **Sub-dial (Seconds):**\n    *   Full scale range: 0-60 seconds.\n    *   MAJOR tick mark intervals: Numerals at 15, 30, 45, and 60 (or 0).\n    *   MINOR tick mark intervals: Between each 15-second major mark, there are two intermediate longer ticks (at 5 and 10, for example, between 0 and 15). Between 0 and 5, there are 4 minor ticks, meaning each minor tick represents 1 second.\n    *   Number of subdivisions between 5-second marks: 5.\n\n**Step 2 - Locate the Indicator:**\n\n*   **Hour Hand:** The short, thick hand is positioned between the 8 and the 9. It is approximately one-third of the way from 8 towards 9.\n*   **Minute Hand:** The long, thin hand is pointing directly at the numeral 4.\n*   **Second Hand (on sub-dial):** The thin hand on the small central sub-dial is pointing directly at the numeral 45.\n\n**Step 3 - Calculate the Reading:**\n\n*   **Hours:** The hour hand is past 8 but has not reached 9. So, the hour is 8.\n*   **Minutes:** The minute hand is at the numeral 4. Since each numeral represents a 5-minute interval, 4 * 5 = 20 minutes.\n*   **Seconds:** The second hand is precisely on the 45-second mark.\n\n**Step 4 - Identify the Unit:**\nThe unit is \"time\" (hours, minutes, seconds).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 8:20:45 time",
+  "predicted_value": 45.0,
+  "predicted_unit": "time",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

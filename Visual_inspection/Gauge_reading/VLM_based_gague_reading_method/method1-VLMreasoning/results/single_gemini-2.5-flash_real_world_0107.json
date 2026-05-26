@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0107",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock displays hours from I to XII (1 to 12) and minutes from 0 to 60.\n-   **MAJOR tick mark intervals:**\n    -   For hours: Every hour, indicated by Roman numerals (I, II, III, ..., XII).\n    -   For minutes: Every 5 minutes, indicated by Arabic numerals (5, 10, 15, ..., 60).\n-   **MINOR tick mark intervals:**\n    -   Between the major 5-minute marks, there are 4 minor tick marks. This means each minor tick represents 1 minute.\n-   **How many subdivisions are between major marks?** Between any two consecutive 5-minute major marks (e.g., 15 and 20), there are 5 subdivisions (including the 20-minute mark itself). Each subdivision represents 1 minute.\n\n**Step 2 - Locate the Indicator:**\n-   **Hour Hand (shorter hand):** The hour hand is pointing past the Roman numeral III (representing 3 o'clock) and is moving towards IV (4 o'clock). It is clearly past 3.\n-   **Minute Hand (longer hand):** The minute hand is pointing past the 15-minute mark. Counting the minor ticks after 15, it is on the third minor tick.\n\n**Step 3 - Calculate the Reading:**\n-   **Hours:** The hour hand has passed 3 but has not reached 4. So the hour is 3.\n-   **Minutes:** The minute hand is at the 15-minute mark plus 3 additional minor ticks.\n    -   15 minutes + 3 minutes = 18 minutes.\n\n**Step 4 - Identify the Unit:**\n-   The unit is time, expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 3:18",
+  "predicted_value": 18.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

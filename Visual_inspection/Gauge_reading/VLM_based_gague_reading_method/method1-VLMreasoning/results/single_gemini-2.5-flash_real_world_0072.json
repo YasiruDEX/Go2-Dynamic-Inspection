@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0072",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 50.\n- **MAJOR tick mark intervals:** Major tick marks are labeled at 0, 10, 20, 30, 40, and 50. The interval between major tick marks is 10 units.\n- **MINOR tick mark intervals:** Between each major tick mark (e.g., between 0 and 10), there are 4 smaller tick marks, dividing the 10-unit interval into 5 subdivisions. Therefore, each minor tick mark represents 10 units / 5 subdivisions = 2 units.\n- **How many subdivisions are between major marks:** There are 5 subdivisions between major marks.\n\n**Step 2 - Locate the Indicator:**\n- The pointer (needle) is located between the 0 and 10 major tick marks.\n- Counting from 0, the pointer is exactly aligned with the second minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Start from the lower major tick value: 0.\n- Add the contribution from minor ticks: The pointer is at the 2nd minor tick mark. Since each minor tick represents 2 units, the contribution is 2 minor ticks * 2 units/tick = 4 units.\n- The total reading is 0 + 4 = 4.\n- No interpolation is needed as the pointer aligns perfectly with a minor tick mark.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is \"A\", which stands for Amperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 4 A",
+  "predicted_value": 4.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      5,
+      6
+    ],
+    "unit": null
+  }
+}

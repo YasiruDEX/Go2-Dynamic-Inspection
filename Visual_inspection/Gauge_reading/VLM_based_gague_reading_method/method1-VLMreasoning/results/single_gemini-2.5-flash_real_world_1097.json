@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_1097",
+  "question": "What is the reading of the voltmeter?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 500.\n- **MAJOR tick mark intervals:** The major tick marks are labeled 0, 100, 200, 300, 400, 500. The interval between major marks is 100 units.\n- **Subdivisions between major marks:** Between any two major tick marks (e.g., 200 and 300), there are 9 minor tick marks, creating 10 subdivisions.\n- **MINOR tick mark intervals:** Since there are 10 subdivisions for 100 units, each minor tick mark represents 100 units / 10 subdivisions = 10 units.\n\n**Step 2 - Locate the Indicator:**\n- The pointer is located between the major tick marks 200 and 300.\n- Counting from 200, the pointer is exactly on the 7th minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Start from the lower major tick value: 200\n- Add the contribution from minor ticks: The pointer is on the 7th minor tick, and each minor tick is 10 units. So, 7 * 10 = 70 units.\n- Total reading = 200 + 70 = 270.\n- The pointer is precisely on a minor tick, so no interpolation is needed.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is \"V\", which stands for Volts.\n\n**",
+  "predicted_value": 70.0,
+  "predicted_unit": "units",
+  "image_type": "voltmeter",
+  "ground_truth": {
+    "interval": [
+      250,
+      260
+    ],
+    "unit": null
+  }
+}

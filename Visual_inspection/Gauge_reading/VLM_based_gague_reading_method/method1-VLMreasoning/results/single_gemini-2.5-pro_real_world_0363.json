@@ -1,0 +1,14 @@
+{
+  "question_id": "real_world_0363",
+  "prediction": null,
+  "predicted_value": null,
+  "predicted_unit": null,
+  "image_type": "hygrometer",
+  "ground_truth": {
+    "interval": [
+      33,
+      34
+    ],
+    "unit": null
+  }
+}

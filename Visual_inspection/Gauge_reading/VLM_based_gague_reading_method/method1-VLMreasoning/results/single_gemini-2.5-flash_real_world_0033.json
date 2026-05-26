@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0033",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 300.\n- **MAJOR tick mark intervals:** The numbered major tick marks are 0, 100, 200, 300. So, the major intervals are 100 units.\n- **Minor tick mark intervals:** Between each major mark (e.g., 0 and 100), there are 10 longer unmarked tick marks. This means each of these longer ticks represents 100 / 10 = 10 units. Between each of these 10-unit marks, there are 4 smaller tick marks, creating 5 segments. Therefore, each small minor tick represents 10 units / 5 segments = 2 units.\n- **How many subdivisions are between major marks?** There are 10 subdivisions for every 100 units, each representing 10 units. Within each 10-unit subdivision, there are 5 further subdivisions, each representing 2 units.\n\n**Step 2 - Locate the Indicator:**\n- The red pointer is located after the '0' major tick mark.\n- It is precisely on the 4th minor tick mark after the '0' mark.\n\n**Step 3 - Calculate the Reading:**\n- Starting from 0.\n- The pointer is on the 4th minor tick.\n- Each minor tick represents 2 units.\n- So, the reading is 0 + (4 * 2) = 8.\n\n**Step 4 - Identify the Unit:**\n- The unit \"A\" (Amperes) is clearly displayed on the scale.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 8 A",
+  "predicted_value": 8.0,
+  "predicted_unit": "A",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      10,
+      10
+    ],
+    "unit": null
+  }
+}

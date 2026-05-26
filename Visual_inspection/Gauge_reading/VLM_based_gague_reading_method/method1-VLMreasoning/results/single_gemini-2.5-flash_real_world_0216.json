@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0216",
+  "question": "What is the reading of the north-pointing needle of the compass??",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The compass measures direction in a full circle, typically 0-360 degrees.\n- **MAJOR tick mark intervals:** The major cardinal points are N, E, S, W. These represent 0\u00b0 (or 360\u00b0), 90\u00b0, 180\u00b0, and 270\u00b0 respectively.\n- **MINOR tick mark intervals:** Let's look between N (0\u00b0) and E (90\u00b0). There are 8 small tick marks, creating 9 equal subdivisions.\n    - The value of each subdivision is 90\u00b0 / 9 = 10\u00b0.\n    - So, each minor tick mark represents 10 degrees.\n- **How many subdivisions are between major marks?** There are 9 subdivisions between each cardinal direction (e.g., N to E, E to S).\n\n**Step 2 - Locate the Indicator:**\n- The question asks for the reading of the north-pointing needle.\n- The red end of the compass needle is the north-pointing indicator.\n- This red needle is directly aligned with the 'N' label on the compass dial.\n\n**Step 3 - Calculate the Reading:**\n- Since the needle is precisely pointing to 'N', the reading is North. In degrees, North is typically represented as 0\u00b0 (or 360\u00b0). Given the common convention for compass readings, 0\u00b0 is the most direct reading when pointing exactly North.\n\n**Step 4 - Identify the Unit:**\n- The unit for compass readings is degrees. The symbol for degrees is \u00b0.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 0\u00b0",
+  "predicted_value": 0.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      10,
+      25
+    ],
+    "unit": null
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0202",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range (hours):** 1 to 12.\n- **Full scale range (minutes):** 0 to 60 minutes.\n- **MAJOR tick mark intervals (hours):** Every 1 hour (e.g., 1, 2, 3, ... 12).\n- **MAJOR tick mark intervals (minutes):** Every 5 minutes (indicated by the hour numbers).\n- **MINOR tick mark intervals (minutes):** Every 1 minute. There are 4 minor ticks between each 5-minute major interval, making each small tick represent 1 minute.\n- **Subdivisions between major marks (minutes):** 5 subdivisions for every 5-minute interval.\n\n**Step 2 - Locate the Indicator:**\n- The **minute hand** (the longer hand) is pointing directly at the '12'.\n- The **hour hand** (the shorter, thicker hand) is pointing directly at the '8'.\n\n**Step 3 - Calculate the Reading:**\n- **Minutes:** When the minute hand is on the '12', it indicates 00 minutes past the hour.\n- **Hours:** When the hour hand is on the '8' and the minute hand is on the '12', it indicates exactly 8 hours.\n- Therefore, the time shown is 8:00.\n\n**Step 4 - Identify the Unit:**\n- The unit for a clock reading is typically expressed as hours and minutes. For the required format, \"o'clock\" serves as the descriptive unit.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 8:00 o'clock",
+  "predicted_value": 0.0,
+  "predicted_unit": "o",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

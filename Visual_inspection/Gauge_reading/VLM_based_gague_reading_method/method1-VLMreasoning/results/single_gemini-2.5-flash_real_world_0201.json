@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0201",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- This is a standard 12-hour analog clock face.\n- The full scale for hours is 1-12.\n- The full scale for minutes is 0-60.\n- There are 12 major tick marks, representing the hours (1 through 12).\n- Between the major hour marks, there are no explicit minor tick marks, but each interval between major marks represents 5 minutes for the minute hand and 1 hour for the hour hand.\n\n**Step 2 - Locate the Indicator:**\n- **Minute Hand (longer hand):** The minute hand is pointing directly at the major tick mark that corresponds to the '2' position on a standard clock face (two major marks clockwise from the '12').\n- **Hour Hand (shorter hand):** The hour hand is pointing slightly past the major tick mark that corresponds to the '10' position on a standard clock face. It is between the '10' and '11' marks.\n\n**Step 3 - Calculate the Reading:**\n- **Minutes:** Starting from the '12' (which represents 0 or 60 minutes), each major tick mark represents 5 minutes. The minute hand is on the 2nd major tick mark past the '12'. Therefore, the minutes are 2 * 5 = 10 minutes.\n- **Hours:** The hour hand has passed the '10' mark but has not yet reached the '11' mark. Since the minute hand indicates 10 minutes past the hour, it is consistent for the hour hand to be just past the '10'.\n- Therefore, the time shown is 10 hours and 10 minutes.\n\n**Step 4 - Identify the Unit:**\n- The unit is time, typically expressed in hours and minutes (HH:MM).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 10:10",
+  "predicted_value": 10.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

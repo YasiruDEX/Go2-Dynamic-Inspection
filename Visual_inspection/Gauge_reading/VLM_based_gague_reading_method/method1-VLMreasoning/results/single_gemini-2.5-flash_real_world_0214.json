@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0214",
+  "question": "What is the reading of the north-pointing needle of the compass?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- The compass dial is a circular scale marked with cardinal directions N, E, S, W and numbers 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55.\n- We can deduce the full scale range by examining the cardinal points:\n    - S (South) is located at the '30' mark. Since South is 180 degrees or half a circle, if 30 represents half a circle, then a full circle would be 60 units.\n    - W (West) is located at the '45' mark. Since West is 270 degrees or three-quarters of a circle, if 45 represents three-quarters of a circle, then a full circle would be 60 units.\n    - This indicates a scale of 0 to 60 units, which commonly represents 0 to 6000 mils (a unit of angular measurement used in military compasses and artillery). So, N is 0 or 6000 mils, E is 1500 mils (15 units), S is 3000 mils (30 units), W is 4500 mils (45 units).\n- Major tick mark intervals are every 5 units (e.g., 5, 10, 15). Each of these represents 500 mils.\n- Between each numbered major mark (e.g., N and 5), there are 10 minor tick marks.\n- Therefore, each minor tick represents 0.5 units (5 units / 10 minor ticks = 0.5 units/tick). In terms of mils, this means each minor tick represents 50 mils (500 mils / 10 ticks = 50 mils/tick).\n\n**Step 2 - Locate the Indicator:**\n- The north-pointing needle is the red end of the magnetic needle. It is pointing directly at the 'N' mark on the rotating dial.\n- The reading is taken from the fixed white triangular index mark on the compass baseplate, located at the top of the compass.\n- This white triangular index mark is also pointing precisely at the 'N' mark on the rotating dial.\n\n**Step 3 - Calculate the Reading:**\n- The fixed index mark is aligned exactly with the 'N' mark on the dial.\n- On this scale (0-60 units representing 0-6000 mils), 'N' corresponds to 0 units.\n\n**Step 4 - Identify the Unit:**\n- As determined in Step 1, the scale indicates hundreds of mils (e.g., '5' means 500 mils, '30' means 3000 mils). The full unit for the measurement is \"mils\".\n\n**Step 5 - Provide Final Answer:**\nAnswer: 0 mils",
+  "predicted_value": 0.0,
+  "predicted_unit": "mils",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      7,
+      9
+    ],
+    "unit": null
+  }
+}

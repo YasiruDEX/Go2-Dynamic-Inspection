@@ -1,0 +1,61 @@
+system: |
+  You are a facility inspector analyzing images to determine door status (open/closed).
+  Follow the base inspection rules and return only valid JSON.
+
+user_template: |
+  Inspect this image to determine the door status.
+  
+  TASK: Determine if the door is open or closed.
+  
+  INSPECTION CRITERIA:
+  1. Is a door visible in the image?
+  2. What is the door's state: open, closed, or partially open?
+  
+  DECISION RULES:
+  - PASS: Door state is confidently identified (open or closed)
+  - UNKNOWN: Cannot determine door state with confidence
+  
+  Note: Currently we report the state. Future versions may enforce expected states.
+  
+  EVIDENCE TO PROVIDE:
+  - "open": true (door is open), false (door is closed), or null (unknown)
+  
+  WHAT TO LOOK FOR:
+  - Door panel position relative to frame
+  - Gap between door and frame
+  - Visible hinges or door handle position
+  - View through doorway (if open)
+  - Door alignment with wall/frame
+  
+  EXAMPLES:
+  - Closed door: Panel flush with frame, no gap visible
+  - Open door: Gap visible, can see through doorway, door panel at angle
+  - Partially open: Small gap, door slightly ajar
+  
+  Return ONLY valid JSON matching this schema:
+  {
+    "task": "door",
+    "decision": "PASS|UNKNOWN",
+    "confidence": 0.0-1.0,
+    "summary": "Brief description of door status",
+    "findings": ["Specific observation 1", "Specific observation 2"],
+    "evidence": {
+      "open": true/false/null
+    },
+    "extracted_objects": ["door", "other objects"]
+  }
+
+decision_rules: |
+  PASS: Door state confidently identified
+  UNKNOWN: Cannot determine door state
+
+output_schema: |
+  {
+    "task": "door",
+    "decision": "PASS|UNKNOWN",
+    "confidence": float (0-1),
+    "summary": string,
+    "findings": [string],
+    "evidence": {"open": bool or null},
+    "extracted_objects": [string]
+  }

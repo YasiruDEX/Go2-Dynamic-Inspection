@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0105",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** The clock displays hours from 1 to 12. The minute scale ranges from 0 to 60 minutes.\n-   **MAJOR tick mark intervals:** For hours, the major tick marks are numbered 1 through 12, representing 1-hour intervals. For minutes, the major tick marks are located at each hour number, representing 5-minute intervals (e.g., '12' is 0 or 60 minutes, '3' is 15 minutes, '6' is 30 minutes, '9' is 45 minutes).\n-   **MINOR tick mark intervals:** Between each major 5-minute interval (represented by the hour numbers), there are 4 minor tick marks, meaning each minor tick represents 1 minute.\n-   **How many subdivisions are between major marks?** There are 5 subdivisions (including the major mark) between each numbered hour mark, corresponding to 5 minutes.\n\n**Step 2 - Locate the Indicator:**\n-   **Hour hand:** The shorter, thicker hand (indicating the hour) is pointing directly at the '12' mark.\n-   **Minute hand:** The longer, thinner hand (indicating the minutes) is also pointing directly at the '12' mark.\n\n**Step 3 - Calculate the Reading:**\n-   **Minutes:** The minute hand pointing at the '12' mark signifies 00 minutes past the hour (or 60 minutes, completing the hour).\n-   **Hours:** The hour hand pointing at the '12' mark, while the minute hand is at 00 minutes, signifies exactly 12 o'clock.\n\n**Step 4 - Identify the Unit:**\n-   The instrument is a clock, and the unit of measurement displayed on its scale is time, typically expressed in hours and minutes. While there isn't a specific unit symbol like 'A' or 'V' on the clock face, \"time\" or \"o'clock\" are appropriate units for a clock reading. Given the examples, \"time\" will be used as the generic unit.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 12:00 time",
+  "predicted_value": 0.0,
+  "predicted_unit": "time",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

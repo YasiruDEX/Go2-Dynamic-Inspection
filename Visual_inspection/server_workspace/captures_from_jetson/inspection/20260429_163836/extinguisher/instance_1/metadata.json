@@ -1,0 +1,17 @@
+{
+  "class": "extinguisher",
+  "instance_id": 1,
+  "confidence": 0.8286,
+  "session": "20260429_163836",
+  "location_label": "angle_eval/horizontal/30deg_L",
+  "num_images": 3,
+  "camera": "logitech",
+  "ibvs_converged": true,
+  "ibvs_error_px": 8.322,
+  "ibvs_time_s": 4.372,
+  "ibvs_iterations": 47,
+  "ibvs_fps": 11.0,
+  "coarse_time_s": 2.004,
+  "initial_ibvs_error_px": 146.12,
+  "pipeline_time_s": 18.19
+}

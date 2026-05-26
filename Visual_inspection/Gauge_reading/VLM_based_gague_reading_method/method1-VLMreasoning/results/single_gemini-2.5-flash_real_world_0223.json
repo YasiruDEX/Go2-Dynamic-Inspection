@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0223",
+  "question": "What is the reading of the north-pointing needle of the compass??",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The compass dial shows a full circle from 0 to 360 degrees.\n- **MAJOR tick mark intervals:** Major labeled tick marks are every 30 degrees (e.g., 0, 30, 60, 90, etc.).\n- **Intermediate tick mark intervals:** Between the major labeled tick marks (e.g., 0 and 30), there are two longer, unlabeled tick marks, dividing the 30-degree interval into three 10-degree segments. So, there are intermediate tick marks every 10 degrees (e.g., 0, 10, 20, 30).\n- **Minor tick mark intervals:** Between each 10-degree intermediate tick mark (e.g., 0 and 10), there are 4 smaller tick marks. This means there are 5 subdivisions for every 10 degrees. Therefore, each minor tick mark represents 10 degrees / 5 subdivisions = 2 degrees.\n\n**Step 2 - Locate the Indicator:**\n- The north-pointing needle is the red part of the needle inside the compass. This needle aligns the 'N' mark on the rotating compass rose with magnetic North.\n- The reading of the compass is taken from the value on the rotating dial that aligns with the fixed red indicator line at the very top of the compass case.\n- Observing the fixed red indicator line: It is located directly above the '0' mark (North) on the rotating dial.\n- Counting clockwise from the '0' mark, the fixed red indicator line aligns with the first longer, unlabeled tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Starting from the '0' mark, the first longer unlabeled tick mark is the 10-degree mark (as established in Step 1, intermediate ticks are every 10 degrees).\n- The fixed red indicator line is precisely aligned with this 10-degree mark. No interpolation is needed.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is degrees (\u00b0).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 10 \u00b0",
+  "predicted_value": 10.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      150,
+      155
+    ],
+    "unit": null
+  }
+}

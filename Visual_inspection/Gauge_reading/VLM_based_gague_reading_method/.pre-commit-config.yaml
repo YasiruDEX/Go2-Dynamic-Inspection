@@ -1,0 +1,28 @@
+# Pre-commit hooks configuration for MeasureBench
+# Installs lightweight checks for style, formatting and common gotchas.
+
+exclude: ^data_gen/
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=5120"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: ["--fix", "--exit-non-zero-on-fix"]
+      - id: ruff-format
+
+# Run all hooks on all files with:
+#   pre-commit run --all-files

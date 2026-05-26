@@ -1,0 +1,6 @@
+target_type: checkerboard
+targetCols: 8        # number of inner corners across
+targetRows: 6        # number of inner corners vertically
+rowSpacingMeters: 0.024   # square size in meters (vertical spacing)
+colSpacingMeters: 0.024   # square size in meters (horizontal spacing)
+

@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0163",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The clock displays 12 hours. The minute and second scales each represent 60 units (minutes or seconds).\n- **MAJOR tick mark intervals:** The major tick marks are numbered 1 through 12 for hours. These also correspond to 5-minute/5-second intervals for the minute and second hands.\n- **Minor tick mark intervals:** Between each major hour/5-minute/5-second mark, there are 4 minor tick marks.\n- **How many subdivisions are between major marks?** There are 5 subdivisions (including the major mark itself and the next major mark) between each numbered mark. This means each minor tick represents 1 unit (1 minute or 1 second).\n\n**Step 2 - Locate the Indicator:**\n- **Hour Hand:** The shorter, thicker hand is pointing between the 9 and the 10. Since the minute hand is close to the 10, the hour hand is also very close to the 10 but has not yet reached it. It indicates 9 o'clock.\n- **Minute Hand:** The longer, thinner hand is pointing between the 9 (which represents 45 minutes) and the 10 (which represents 50 minutes). It is located at the 4th minor tick mark past the 9.\n- **Second Hand:** The thinnest hand with the counterweight is pointing between the 2 (which represents 10 seconds) and the 3 (which represents 15 seconds). It is located at the 1st minor tick mark past the 2.\n\n**Step 3 - Calculate the Reading:**\n- **Hours:** The hour hand is past 9 but not yet at 10. So, the hour is 9.\n- **Minutes:** Starting from the 9 (45 minutes), count 4 minor ticks: 45 + 4 = 49 minutes.\n- **Seconds:** Starting from the 2 (10 seconds), count 1 minor tick: 10 + 1 = 11 seconds.\n\n**Step 4 - Identify the Unit:**\nThe unit is time, expressed in hours, minutes, and seconds.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 9 hours 49 minutes 11 seconds",
+  "predicted_value": 9.0,
+  "predicted_unit": "hours",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

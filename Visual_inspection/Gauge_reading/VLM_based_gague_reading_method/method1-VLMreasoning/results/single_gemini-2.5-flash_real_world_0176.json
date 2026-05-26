@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0176",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Full scale range (Main Dial - Hours/Minutes):** The main dial displays hours from I to XII (1 to 12) and minutes from 0 to 60.\n*   **MAJOR tick mark intervals (Main Dial):** Major marks are at each Roman numeral (I, II, III, ..., XII). Each Roman numeral also represents a 5-minute interval on the minute scale (e.g., I = 5 min, II = 10 min, ..., XII = 0/60 min).\n*   **MINOR tick mark intervals (Main Dial):** Between each major 5-minute mark, there are 4 minor tick marks. This means each minor tick represents 1 minute (5 minutes / 5 subdivisions = 1 minute per tick).\n*   **Full scale range (Sub-Dial - Seconds):** The sub-dial at the top displays seconds from 0 to 60.\n*   **MAJOR tick mark intervals (Sub-Dial):** Major marks are at 10, 20, 30, 40, 50, and 60 (or 0).\n*   **MINOR tick mark intervals (Sub-Dial):** Between each major 10-second mark, there are 4 minor tick marks. This means each minor tick represents 2 seconds (10 seconds / 5 subdivisions = 2 seconds per tick).\n\n**Step 2 - Locate the Indicator:**\n*   **Hour hand (shorter hand):** The hour hand is pointing between the X (10) and XI (11) Roman numerals, slightly past the X.\n*   **Minute hand (longer hand):** The minute hand is pointing directly at the IX (9) Roman numeral.\n*   **Second hand (small hand in sub-dial):** The second hand in the sub-dial is pointing past the 50-second major mark, at the first minor tick.\n\n**Step 3 - Calculate the Reading:**\n*   **Hours:** The hour hand has passed the X (10) but has not reached the XI (11). Therefore, the hour is 10.\n*   **Minutes:** The minute hand is precisely on the IX mark. On a clock face, IX corresponds to 9 * 5 = 45 minutes.\n*   **Seconds:** On the sub-dial, the hand is past the 50-second mark. It is pointing at the first minor tick after 50. Since each minor tick represents 2 seconds, the reading is 50 + 2 = 52 seconds.\n\n**Step 4 - Identify the Unit:**\nThe unit is \"time\", typically expressed as hours:minutes:seconds.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 10:45:52",
+  "predicted_value": 52.0,
+  "predicted_unit": "seconds",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

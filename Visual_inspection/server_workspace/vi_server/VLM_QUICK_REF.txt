@@ -1,0 +1,281 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║              VLM PIPELINE - QUICK REFERENCE                              ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🎯 SUPPORTED OBJECT TYPES (6)                                            │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  1. gauge              → Gauge reading (existing pipeline)               │
+│  2. fire_extinguisher  → Check presence & accessibility                  │
+│  3. door               → Determine open/closed status                    │
+│  4. emergency_exit     → Check if exit is blocked                        │
+│  5. main_cylinder      → Detect oil leaks                                │
+│  6. unknown            → Custom inspection with user prompt              │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ ⚙️  CONFIGURATION (.env)                                                 │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  # VLM Provider: "stub" (testing) or "openai" (production)               │
+│  VLM_PROVIDER=stub                                                       │
+│                                                                           │
+│  # OpenAI API Key (required for openai provider)                         │
+│  VLM_API_KEY=sk-your-api-key-here                                        │
+│                                                                           │
+│  # Model name (e.g., gpt-4o, gpt-4-vision-preview)                       │
+│  VLM_MODEL=gpt-4o                                                        │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🚀 QUICK START                                                           │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  # Test with stub provider (no API key needed)                           │
+│  python scripts/upload_test_vlm.py \                                     │
+│    --image sample_images/sample_door.jpg \                               │
+│    --object-type door                                                    │
+│                                                                           │
+│  # Test fire extinguisher inspection                                     │
+│  python scripts/upload_test_vlm.py \                                     │
+│    --image path/to/fire_ext.jpg \                                        │
+│    --object-type fire_extinguisher                                       │
+│                                                                           │
+│  # Test emergency exit blockage                                          │
+│  python scripts/upload_test_vlm.py \                                     │
+│    --image path/to/exit.jpg \                                            │
+│    --object-type emergency_exit                                          │
+│                                                                           │
+│  # Test oil leak detection                                               │
+│  python scripts/upload_test_vlm.py \                                     │
+│    --image path/to/cylinder.jpg \                                        │
+│    --object-type main_cylinder                                           │
+│                                                                           │
+│  # Custom unknown task                                                   │
+│  python scripts/upload_test_vlm.py \                                     │
+│    --image path/to/image.jpg \                                           │
+│    --object-type unknown \                                               │
+│    --inspection-prompt "Check if emergency exits are blocked"            │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 📊 OUTPUT FORMAT (Structured JSON)                                       │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  {                                                                        │
+│    "task": "emergency_exit",                                             │
+│    "decision": "FAIL",              // PASS | FAIL | UNKNOWN             │
+│    "confidence": 0.84,              // 0.0 to 1.0                        │
+│    "summary": "Emergency exit appears blocked by equipment",             │
+│    "findings": [                                                         │
+│      "Trolley positioned in front of exit door",                         │
+│      "Exit path is obstructed"                                           │
+│    ],                                                                    │
+│    "evidence": {                                                         │
+│      "blocked": true                // Task-specific evidence            │
+│    },                                                                    │
+│    "extracted_objects": ["emergency exit sign", "trolley", "door"]       │
+│  }                                                                        │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🎨 CUSTOMIZABLE PROMPTS                                                  │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  Location: app/pipelines/vlm/prompts/                                    │
+│                                                                           │
+│  Files:                                                                  │
+│    • base_rules.md           - Common inspection guidelines              │
+│    • fire_extinguisher.yaml  - Fire extinguisher inspection              │
+│    • door.yaml               - Door status check                         │
+│    • emergency_exit.yaml     - Emergency exit blockage                   │
+│    • main_cylinder.yaml      - Oil leak detection                        │
+│    • unknown.yaml            - Custom/generic inspection                 │
+│                                                                           │
+│  Format (YAML):                                                          │
+│    system: |                                                             │
+│      System instructions...                                              │
+│    user_template: |                                                      │
+│      User prompt with {{placeholders}}...                                │
+│    decision_rules: |                                                     │
+│      PASS/FAIL/UNKNOWN criteria...                                       │
+│    output_schema: |                                                      │
+│      Expected JSON schema...                                             │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🔌 API INTEGRATION                                                       │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  import requests                                                         │
+│  import json                                                             │
+│                                                                           │
+│  # Upload with metadata                                                  │
+│  url = "http://localhost:8000/api/v1/jobs"                               │
+│  metadata = {                                                            │
+│      "inspection_prompt": "Check if emergency exits are blocked",        │
+│      "site": "Building A",                                               │
+│      "camera_id": "cam_01"                                               │
+│  }                                                                       │
+│                                                                           │
+│  files = {"file": open("roi.jpg", "rb")}                                 │
+│  data = {                                                                │
+│      "object_type": "unknown",                                           │
+│      "metadata_json": json.dumps(metadata)                               │
+│  }                                                                       │
+│                                                                           │
+│  response = requests.post(url, files=files, data=data)                   │
+│  job_id = response.json()["job_id"]                                      │
+│                                                                           │
+│  # Poll for result                                                       │
+│  import time                                                             │
+│  while True:                                                             │
+│      result = requests.get(f"{url}/{job_id}").json()                     │
+│      if result["status"] in ["DONE", "FAILED"]:                          │
+│          vlm_result = json.loads(result["result_json"])                  │
+│          print(f"Decision: {vlm_result['decision']}")                    │
+│          break                                                           │
+│      time.sleep(1)                                                       │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 📁 FILE STRUCTURE                                                        │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  app/pipelines/vlm/                                                      │
+│  ├── __init__.py              # Package exports                          │
+│  ├── vlm_router.py            # Main entry (loads prompts, calls VLM)    │
+│  ├── vlm_client.py            # Provider abstraction (Stub + OpenAI)     │
+│  ├── schemas.py               # Pydantic models for validation           │
+│  ├── postprocess.py           # Response validation & normalization      │
+│  └── prompts/                 # Task-specific prompts (YAML)             │
+│      ├── base_rules.md                                                   │
+│      ├── fire_extinguisher.yaml                                          │
+│      ├── door.yaml                                                       │
+│      ├── emergency_exit.yaml                                             │
+│      ├── main_cylinder.yaml                                              │
+│      └── unknown.yaml                                                    │
+│                                                                           │
+│  scripts/                                                                │
+│  └── upload_test_vlm.py       # VLM test client                          │
+│                                                                           │
+│  VLM_GUIDE.md                 # Comprehensive documentation              │
+│  VLM_IMPLEMENTATION.md        # Implementation summary                   │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🎯 DECISION LOGIC                                                        │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  fire_extinguisher:                                                      │
+│    PASS   → Present AND accessible                                       │
+│    FAIL   → Present BUT blocked, OR missing when expected                │
+│    UNKNOWN→ Cannot determine                                             │
+│                                                                           │
+│  door:                                                                   │
+│    PASS   → Door state confidently identified                            │
+│    UNKNOWN→ Cannot determine state                                       │
+│                                                                           │
+│  emergency_exit:                                                         │
+│    PASS   → Exit is clear and accessible                                 │
+│    FAIL   → Exit is blocked or obstructed                                │
+│    UNKNOWN→ Cannot determine blockage status                             │
+│                                                                           │
+│  main_cylinder:                                                          │
+│    PASS   → No oil leak detected                                         │
+│    FAIL   → Oil leak or spill visible                                    │
+│    UNKNOWN→ Cannot determine with confidence                             │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🔧 ADDING NEW TASKS                                                      │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  1. Create prompt file:                                                  │
+│     app/pipelines/vlm/prompts/new_task.yaml                              │
+│                                                                           │
+│  2. Add to allowed types in .env:                                        │
+│     ALLOWED_OBJECT_TYPES=...,new_task                                    │
+│                                                                           │
+│  3. Restart server                                                       │
+│                                                                           │
+│  4. Test:                                                                │
+│     python scripts/upload_test_vlm.py \                                  │
+│       --image test.jpg --object-type new_task                            │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 💰 PROVIDERS COMPARISON                                                  │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  Stub Provider:                                                          │
+│    ✓ No API key required                                                 │
+│    ✓ Instant response (< 100ms)                                          │
+│    ✓ Free                                                                │
+│    ✓ Deterministic results                                               │
+│    ✓ Perfect for testing                                                 │
+│    ✗ Not real AI analysis                                                │
+│                                                                           │
+│  OpenAI Provider:                                                        │
+│    ✓ Real AI-powered analysis                                            │
+│    ✓ Production-ready                                                    │
+│    ✓ High accuracy                                                       │
+│    ✗ Requires API key                                                    │
+│    ✗ 2-5 seconds per image                                               │
+│    ✗ ~$0.01-0.03 per image                                               │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 🐛 TROUBLESHOOTING                                                       │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  Issue: "VLM_API_KEY is required for OpenAI provider"                    │
+│  → Set VLM_API_KEY in .env or use VLM_PROVIDER=stub                      │
+│                                                                           │
+│  Issue: "Invalid JSON response"                                          │
+│  → Check VLM_MODEL is vision-capable (gpt-4o)                            │
+│  → Review server logs for raw response                                   │
+│  → Test with VLM_PROVIDER=stub first                                     │
+│                                                                           │
+│  Issue: Low confidence scores                                            │
+│  → Improve image quality (lighting, focus, resolution)                   │
+│  → Ensure object is clearly visible                                      │
+│  → Adjust prompt to be more specific                                     │
+│                                                                           │
+│  Issue: Wrong decision                                                   │
+│  → Review prompt decision rules                                          │
+│  → Check evidence fields match expectations                              │
+│  → Refine prompt with more specific criteria                             │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 📚 DOCUMENTATION                                                         │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  VLM_GUIDE.md            - Complete usage guide                          │
+│  VLM_IMPLEMENTATION.md   - Implementation summary                        │
+│  README.md               - Main server documentation                     │
+│  QUICKSTART.md           - Quick reference                               │
+│                                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║  ✅ STATUS: READY TO USE                                                 ║
+║                                                                          ║
+║  Test now:                                                               ║
+║  python scripts/upload_test_vlm.py \                                     ║
+║    --image sample_images/sample_door.jpg \                               ║
+║    --object-type door                                                    ║
+╚══════════════════════════════════════════════════════════════════════════╝

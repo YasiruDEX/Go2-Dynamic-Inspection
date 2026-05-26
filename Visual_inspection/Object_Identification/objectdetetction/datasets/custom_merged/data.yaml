@@ -1,0 +1,8 @@
+names:
+  0: person
+  1: fire_extinguisher
+  2: switch_panel
+  3: door
+  4: gauge
+train: E:/sem7/FYP/9_24/objectdetetction/datasets/custom_merged/train/images
+val: E:/sem7/FYP/9_24/objectdetetction/datasets/custom_merged/valid/images

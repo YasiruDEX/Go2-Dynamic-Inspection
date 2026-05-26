@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0162",
+  "question": "What time is shown on the larger clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Hour Scale:** The large yellow numbers (1 through 12) represent the hours. There's also an inner ring of numbers (13 through 24) for 24-hour format.\n    - Full scale range: 1-12 hours (and 13-24 for 24-hour format).\n    - Major tick mark intervals: Every 1 hour.\n    - Minor tick mark intervals: There are no explicit minor ticks for hours, but the hour hand moves continuously between major hour marks.\n- **Minute Scale:** The small dots around the perimeter, with green numbers (5, 10, 15, ..., 60) marking every 5 minutes.\n    - Full scale range: 0-60 minutes.\n    - Major tick mark intervals: Every 5 minutes (indicated by green numbers next to the hour numbers).\n    - Minor tick mark intervals: There are 4 small dots between each 5-minute major mark, meaning each dot represents 1 minute.\n    - How many subdivisions are between major marks? 5 subdivisions (4 dots + the next major mark).\n\n**Step 2 - Locate the Indicator:**\n- **Minute Hand (Green, longer):** The tip of the green hand is pointing directly at the '12' position, which corresponds to '60' minutes or '00' minutes (the start of a new hour).\n- **Hour Hand (Yellow, shorter):** The tip of the yellow hand is pointing directly at the '7'.\n\n**Step 3 - Calculate the Reading:**\n- **Minutes:** The minute hand is exactly at the '12' mark, which means 00 minutes past the hour.\n- **Hours:** The hour hand is exactly at the '7' mark. Since the minute hand is at 00, the hour hand should be precisely on the hour number.\n\nTherefore, the time shown is exactly 7 hours and 0 minutes.\n\n**Step 4 - Identify the Unit:**\n- The unit is time, expressed as hours and minutes (HH:MM).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 7:00",
+  "predicted_value": 0.0,
+  "predicted_unit": "minutes",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

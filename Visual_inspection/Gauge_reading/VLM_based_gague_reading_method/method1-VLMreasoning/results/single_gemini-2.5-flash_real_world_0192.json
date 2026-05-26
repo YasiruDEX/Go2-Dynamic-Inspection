@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0192",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** For hours, the scale ranges from 1 to 12. For minutes, the scale implicitly ranges from 0 to 60.\n-   **MAJOR tick mark intervals:**\n    *   For hours: The numbered marks (1, 2, 3...12) represent whole hours. The interval is 1 hour.\n    *   For minutes: The numbered marks also represent intervals of 5 minutes (e.g., 12 is 0/60 minutes, 1 is 5 minutes, 2 is 10 minutes, etc.). The interval between labeled numbers is 5 minutes.\n-   **MINOR tick mark intervals:** Between each major numbered mark (e.g., between 12 and 1), there are 4 minor tick marks. This divides each 5-minute segment into 5 individual 1-minute segments. Therefore, each minor tick mark represents 1 minute.\n-   **How many subdivisions are between major marks?** There are 5 subdivisions (minor ticks) between each numbered major mark (e.g., between the 10 and 11, or 11 and 12).\n\n**Step 2 - Locate the Indicator:**\n-   **Minute Hand (Longer hand):** The longer, thinner hand is pointing directly at the number 10.\n-   **Hour Hand (Shorter hand):** The shorter, thicker hand is positioned between the numbers 8 and 9. It is very close to the 9, but has not yet reached it.\n\n**Step 3 - Calculate the Reading:**\n-   **Minutes:** The minute hand points directly at the 10. On a clock face, the number 10 corresponds to 10 * 5 = 50 minutes past the hour.\n-   **Hours:** The hour hand is between 8 and 9. Since the minute hand is at 50 minutes (meaning it's nearly the next hour), the hour hand should be very close to the 9 but still indicating the 8th hour. The image confirms this; the hour hand has passed the 8 but has not reached the 9. Therefore, the hour is 8.\n\n**Step 4 - Identify the Unit:**\n-   The unit is time, expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 8:50",
+  "predicted_value": 9.0,
+  "predicted_unit": "Therefore",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

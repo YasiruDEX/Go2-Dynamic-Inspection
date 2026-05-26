@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0004",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 40.\n- **MAJOR tick mark intervals:** The major tick marks are labeled 0, 10, 20, 30, 40. This means the major tick mark interval is 10 units.\n- **Subdivisions between major marks:** Between any two consecutive major tick marks (e.g., 0 and 10, or 10 and 20), there are 10 minor subdivisions.\n- **MINOR tick mark intervals:** Since there are 10 subdivisions between 10 units, each minor tick mark represents 10 units / 10 subdivisions = 1 unit.\n\n**Step 2 - Locate the Indicator:**\n- The pointer is located between the major tick marks 20 and 30.\n- Starting from the 20 mark, the pointer aligns exactly with the 4th minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Value of the lower major tick: 20\n- Number of minor ticks past the lower major mark: 4\n- Value represented by minor ticks: 4 minor ticks * 1 unit/minor tick = 4 units\n- Total reading = 20 + 4 = 24.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is \"kA\", which stands for kiloamperes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 24 kA",
+  "predicted_value": 24.0,
+  "predicted_unit": "kA",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      20,
+      20
+    ],
+    "unit": null
+  }
+}

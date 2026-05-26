@@ -1,0 +1,26 @@
+#cam0:
+#  cam_overlaps: []
+#  camera_model: pinhole
+#  distortion_coeffs: [-0.58069055, 0.03797048, -0.10257308, 0.14278965]
+#  distortion_model: radtan
+#  intrinsics: [541.74272006, 593.78268149, 515.2440718, 308.15854142]
+#  resolution: [1280, 360]
+#  rostopic: /image_cropped
+
+'''
+cam0:
+  camera_model: pinhole
+  distortion_model: radtan
+  intrinsics: [600.0, 600.0, 640.0, 180.0]  # fx, fy, cx, cy for 1280×360 (estimate)
+  distortion_coeffs: [-0.5, 0.02, 0.0, 0.0]  # k1, k2, p1, p2
+  resolution: [1280, 360]
+  rostopic: /image_cropped
+'''
+cam0:
+  cam_overlaps: []
+  camera_model: pinhole
+  distortion_coeffs: [-0.13871785, -0.98491390, 13.4492085189, -25.00292488]
+  distortion_model: equidistant
+  intrinsics: [1168.51105612, 1087.11335377, 1212.85885973, 21.31153226]
+  resolution: [1280, 360]
+  rostopic: /image_cropped

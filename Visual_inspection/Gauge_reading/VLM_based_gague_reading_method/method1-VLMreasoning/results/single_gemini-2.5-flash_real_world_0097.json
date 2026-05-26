@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0097",
+  "question": "What is the reading of the instrument?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range:** A standard 12-hour clock face.\n-   **MAJOR tick mark intervals:** These are marked by the numbers 12, 6, and 9. The implied major tick mark is 3. Each numbered mark represents an hour. So, major hour ticks are every 3 hours (12, 3, 6, 9).\n-   **MINOR tick mark intervals:**\n    -   For hours: Between the numbered major hours (e.g., between 12 and 3), there are two unnumbered, slightly shorter ticks. These represent the individual hours (1 and 2). So, each small tick marks an hour.\n    -   For minutes: Between each hour mark (both numbered and unnumbered), there are 4 even smaller ticks, creating 5 subdivisions for minutes. Therefore, each of these smallest ticks represents 1 minute.\n-   **How many subdivisions are between major marks?**\n    -   For hours: Between 12 and 3, there are 2 minor hour marks, making 3 one-hour subdivisions.\n    -   For minutes: Between 12 (0 minutes) and the 1st hour mark (5 minutes), there are 4 small ticks, making 5 one-minute subdivisions. This pattern repeats around the dial.\n\n**Step 2 - Locate the Indicator:**\n-   **Hour hand (shorter, thicker hand):** The hour hand is pointing directly at the '12' mark.\n-   **Minute hand (longer, thinner hand):** The minute hand is pointing past the '2' o'clock position (which is 10 minutes past the hour).\n    -   Counting from the '12' (0 minutes):\n        -   The '1' o'clock mark (implied) is 5 minutes.\n        -   The '2' o'clock mark (implied) is 10 minutes.\n    -   The minute hand is two small ticks past the '2' o'clock mark.\n\n**Step 3 - Calculate the Reading:**\n-   **Hours:** The hour hand is pointing exactly at 12.\n-   **Minutes:** The minute hand is at 10 minutes + 2 additional minor ticks = 12 minutes.\n\n**Step 4 - Identify the Unit:**\nThe unit is 'hours' and 'minutes'.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 12:12 hours",
+  "predicted_value": 12.0,
+  "predicted_unit": "hours",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

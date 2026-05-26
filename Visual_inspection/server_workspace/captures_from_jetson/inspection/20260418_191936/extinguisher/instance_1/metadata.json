@@ -1,0 +1,12 @@
+{
+  "class": "extinguisher",
+  "instance_id": 1,
+  "confidence": 0.8857,
+  "session": "20260418_191936",
+  "num_images": 3,
+  "camera": "logitech",
+  "ibvs_converged": true,
+  "ibvs_error_px": 9.708,
+  "ibvs_time_s": 0.79,
+  "ibvs_iterations": 12
+}

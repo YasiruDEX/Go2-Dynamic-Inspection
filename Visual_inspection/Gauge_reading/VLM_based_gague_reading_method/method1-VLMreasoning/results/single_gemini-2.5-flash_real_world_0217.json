@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0217",
+  "question": "What is the reading of the north-pointing needle of the compass??",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The compass dial shows readings from 0 to 360 degrees.\n- **MAJOR tick mark intervals:** Major tick marks are labeled every 20 units (e.g., 20, 40, 60, ..., 340, 0/360).\n- **Minor tick mark intervals:** Between each 20-unit major interval, there are 4 minor tick marks. This means there are 5 segments between major marks. Therefore, each minor tick represents 20 units / 5 segments = 4 units.\n- **How many subdivisions are between major marks?** 5 subdivisions.\n\n**Step 2 - Locate the Indicator:**\n- The north-pointing needle is the orange-tipped part of the needle.\n- It is located between the major tick mark labeled '340' and the major tick mark labeled '0' (or 360).\n- Counting clockwise from 340:\n    - The first minor tick after 340 is 340 + 4 = 344.\n    - The second minor tick after 340 is 340 + 8 = 348.\n    - The third minor tick after 340 is 340 + 12 = 352.\n    - The fourth minor tick after 340 is 340 + 16 = 356.\n- The orange tip of the needle is pointing directly at the fourth minor tick mark past 340.\n\n**Step 3 - Calculate the Reading:**\n- Starting from the lower major tick value of 340.\n- Add the contribution from the minor ticks: 4 minor ticks * 4 degrees/minor tick = 16 degrees.\n- Total reading = 340 + 16 = 356 degrees.\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is degrees (\u00b0).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 356 \u00b0",
+  "predicted_value": 356.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      350,
+      355
+    ],
+    "unit": null
+  }
+}

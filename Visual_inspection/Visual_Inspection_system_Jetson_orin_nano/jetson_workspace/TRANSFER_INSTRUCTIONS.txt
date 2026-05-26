@@ -1,0 +1,75 @@
+╔══════════════════════════════════════════════════════════════╗
+║         JETSON ORIN NANO - TRANSFER INSTRUCTIONS             ║
+╚══════════════════════════════════════════════════════════════╝
+
+📦 ARCHIVE READY: jetson_workspace.tar.gz (4.8 MB)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔄 TRANSFER TO JETSON:
+
+Option 1 - SCP (Recommended):
+  scp jetson_workspace.tar.gz jetson@<JETSON_IP>:~/
+
+Option 2 - USB Drive:
+  cp jetson_workspace.tar.gz /media/<USB_MOUNT>/
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🛠️ SETUP ON JETSON (Quick):
+
+1. Extract:
+   tar -xzf jetson_workspace.tar.gz
+   cd jetson_workspace
+
+2. Create venv:
+   python3 -m venv venv
+   source venv/bin/activate
+
+3. Install:
+   pip install -r requirements.txt
+
+4. Permissions:
+   sudo usermod -aG video $USER
+   sudo usermod -aG dialout $USER
+   (logout/login required)
+
+5. Upload Arduino code:
+   arduino  # Open IDE, upload arduino/pan_tilt_control.ino
+
+6. Test:
+   python3 test_calibration_live.py
+
+7. Run:
+   python3 ibvs_pipeline.py
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 DOCUMENTATION:
+
+- README.md              → Overview & quick start
+- SETUP.md               → Detailed setup guide  
+- QUICK_REFERENCE.md     → Daily commands
+- docs/IBVS_TUNING_GUIDE.md → PID tuning
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ INCLUDED:
+
+✓ IBVS pipeline script
+✓ Calibration test script
+✓ YOLO weights (yolo11n.pt)
+✓ Camera calibration (Kalibr)
+✓ Insta360 formulas
+✓ Arduino code
+✓ Complete documentation
+✓ Requirements file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 READY TO DEPLOY!
+
+For detailed instructions, see:
+  /home/dinethra/Jetson_orin_nano/JETSON_DEPLOYMENT_GUIDE.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

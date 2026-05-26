@@ -1,0 +1,22 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "A fire extinguisher is clearly visible and accessible, without any apparent obstructions.",
+  "findings": [
+    "A red CO2 fire extinguisher, labeled 'VANGUARD FIRE', is securely mounted on the wall.",
+    "The area directly in front of and around the fire extinguisher is clear, indicating unobstructed access."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": false
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "wall",
+    "door",
+    "access control device",
+    "shelving unit"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"A fire extinguisher is clearly visible and accessible, without any apparent obstructions.\",\n  \"findings\": [\n    \"A red CO2 fire extinguisher, labeled 'VANGUARD FIRE', is securely mounted on the wall.\",\n    \"The area directly in front of and around the fire extinguisher is clear, indicating unobstructed access.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": false\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"wall\",\n    \"door\",\n    \"access control device\",\n    \"shelving unit\"\n  ]\n}"
+}

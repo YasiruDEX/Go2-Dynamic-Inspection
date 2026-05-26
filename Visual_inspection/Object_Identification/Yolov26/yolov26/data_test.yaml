@@ -1,0 +1,10 @@
+names:
+- door
+- extinguisher
+- gauge
+- person
+nc: 4
+path: C:/Users/Rebecca Fernando/Desktop/Dinethra/YOLO_Final_Dataset
+test: test/images
+train: train/images
+val: test/images

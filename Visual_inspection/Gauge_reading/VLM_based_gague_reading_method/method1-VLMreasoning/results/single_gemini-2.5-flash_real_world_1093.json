@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_1093",
+  "question": "What is the reading of the voltmeter?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range:** The scale ranges from 0 to 500.\n- **MAJOR tick mark intervals:** The major numbered tick marks are 0, 100, 200, 300, 400, 500. So, major tick marks are every 100 units.\n- **Subdivisions between major marks:** Between each major tick mark (e.g., 100 and 200), there are 4 unnumbered minor tick marks, creating 5 subdivisions.\n- **Minor tick mark intervals:** The value of each minor tick mark is (100 units / 5 subdivisions) = 20 units.\n\n**Step 2 - Locate the Indicator:**\n- The pointer is clearly visible.\n- It is located between the 100 and 200 major tick marks.\n- Counting from the 100 major tick mark, the pointer aligns exactly with the third minor tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Start from the lower major tick value: 100\n- Add the contribution from minor ticks: 3 minor ticks * 20 units/minor tick = 60 units\n- Total reading = 100 + 60 = 160\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is \"V\" (Volts) along with an AC waveform symbol, indicating AC Voltage.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 160 V",
+  "predicted_value": 160.0,
+  "predicted_unit": "V",
+  "image_type": "voltmeter",
+  "ground_truth": {
+    "interval": [
+      160,
+      170
+    ],
+    "unit": null
+  }
+}

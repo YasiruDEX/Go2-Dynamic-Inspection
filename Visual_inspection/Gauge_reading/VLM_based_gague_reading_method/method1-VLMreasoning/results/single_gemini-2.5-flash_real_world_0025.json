@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0025",
+  "question": "What is the reading of the ammeter",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Full scale range:** The scale ranges from 0 to 500. Below the scale, it explicitly states \"NO AS 0-500mA\", indicating the full scale is 500 mA.\n*   **MAJOR tick mark intervals:** The major tick marks are clearly labeled as 0, 100, 200, 300, 400, and 500. So, the major tick mark interval is 100 units (or 100 mA).\n*   **MIN/OR tick mark intervals:** Between any two major tick marks (e.g., 0 and 100), there are 4 unnumbered minor ticks, dividing the 100-unit interval into 5 segments. Therefore, each minor tick represents 100 mA / 5 = 20 mA.\n*   **Subdivisions between major marks:** There are 5 subdivisions between major marks.\n\n**Step 2 - Locate the Indicator:**\n*   The pointer (needle) is clearly visible.\n*   It is located between the 0 mA and 100 mA major tick marks.\n*   Starting from the 0 mA mark, the pointer is precisely aligned with the third minor tick.\n\n**Step 3 - Calculate the Reading:**\n*   Start from the lower major tick value: 0 mA.\n*   Add the contribution from minor ticks: The pointer is on the 3rd minor tick. Each minor tick is 20 mA. So, 3 * 20 mA = 60 mA.\n*   The pointer is directly on the minor tick, so no interpolation is required.\n*   Total reading = 0 mA + 60 mA = 60 mA.\n\n**Step 4 - Identify the Unit:**\n*   The unit prominently displayed on the scale is \"A\" (Ampere). However, the text below the scale, \"NO AS 0-500mA\", specifies that the full-scale reading of 500 is in milliamperes. Therefore, the unit is milliamperes (mA).\n\n**Step 5 - Provide Final Answer:**\nAnswer: 60 mA",
+  "predicted_value": 60.0,
+  "predicted_unit": "mA",
+  "image_type": "ammeter",
+  "ground_truth": {
+    "interval": [
+      1.6,
+      1.7
+    ],
+    "unit": null
+  }
+}

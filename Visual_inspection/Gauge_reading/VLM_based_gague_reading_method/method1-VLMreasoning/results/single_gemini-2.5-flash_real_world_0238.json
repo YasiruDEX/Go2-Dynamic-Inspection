@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0238",
+  "question": "What is the reading of the green needle of the compass?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- The full scale range of a compass is 0 to 360 degrees. This specific compass shows markings from 0 to 330 and beyond, indicating a full 360-degree range.\n- The MAJOR tick mark intervals are labeled every 30 units (e.g., 0, 30, 60, 90, 300, 330).\n- Between any two major tick marks (e.g., between 0 and 30), there are 5 subdivisions (minor tick marks).\n- To find the value of each minor tick mark, we calculate (30 units / 5 subdivisions) = 6 units per subdivision. So, each minor tick represents 6 degrees.\n\n**Step 2 - Locate the Indicator:**\n- The green needle is the indicator.\n- The tip of the green needle is precisely aligned with the \"0\" major tick mark.\n\n**Step 3 - Calculate the Reading:**\n- Since the green needle is pointing directly at the \"0\" major tick mark, the reading is 0.\n\n**Step 4 - Identify the Unit:**\n- The unit for a compass reading is degrees, denoted by \"\u00b0\".\n\n**Step 5 - Provide Final Answer:**\nAnswer: 0 \u00b0",
+  "predicted_value": 0.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      0,
+      5
+    ],
+    "unit": null
+  }
+}

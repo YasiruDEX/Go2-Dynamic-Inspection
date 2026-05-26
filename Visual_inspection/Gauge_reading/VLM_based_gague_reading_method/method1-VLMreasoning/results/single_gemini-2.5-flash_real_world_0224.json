@@ -1,0 +1,15 @@
+{
+  "question_id": "real_world_0224",
+  "question": "What is the reading of the north-pointing needle of the compass?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- The full scale range for a compass is 0-360 degrees. The visible portion of the scale shows numbers like 60, 90 (E), 120, 150 (SE), 180 (S), indicating degrees.\n- The MAJOR tick mark intervals are explicitly labeled every 30 units (e.g., 60, 90, 120, 150, 180).\n- Between major tick marks (e.g., between 60 and 90), there are 5 subdivisions (minor ticks).\n- To find the value of each minor tick interval: (Value of next major tick - Value of current major tick) / Number of subdivisions.\n- Using 60 and 90: (90 - 60) / 5 = 30 / 5 = 6 units. So, each minor tick represents 6 degrees.\n\n**Step 2 - Locate the Indicator:**\n- The indicator is the thick white vertical line in the center of the compass dome, which represents the current heading.\n- The needle is located slightly to the right of the \"E\" major tick mark.\n- The \"E\" major tick mark corresponds to 90 degrees.\n\n**Step 3 - Calculate the Reading:**\n- The needle is aligned with the first minor tick mark immediately after the \"E\" (90 degrees) major tick mark.\n- Starting from the lower major tick value (90\u00b0), we add the contribution from the minor ticks.\n- Reading = 90\u00b0 + (1 minor tick * 6\u00b0/minor tick)\n- Reading = 90\u00b0 + 6\u00b0 = 96\u00b0\n\n**Step 4 - Identify the Unit:**\n- The unit displayed on the scale is degrees, represented by the symbol \u00b0.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 96 \u00b0",
+  "predicted_value": 96.0,
+  "predicted_unit": "\u00b0",
+  "image_type": "compass",
+  "ground_truth": {
+    "interval": [
+      94,
+      96
+    ],
+    "unit": null
+  }
+}

@@ -1,0 +1,459 @@
+Downloading https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11s-obb.pt to 'yolo11s-obb.pt': 100% ━━━━━━━━━━━━ 19.0MB 66.5MB/s 0.3s0.3s<0.2s
+Ultralytics 8.3.209 🚀 Python-3.11.13 torch-2.6.0+cu124 CUDA:0 (Tesla P100-PCIE-16GB, 16269MiB)
+engine/trainer: agnostic_nms=False, amp=True, augment=True, auto_augment=randaugment, batch=16, bgr=0.0, box=7.5, cache=False, cfg=None, classes=None, close_mosaic=10, cls=0.5, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=/kaggle/working/custom_merged_obb/data.yaml, degrees=0.0, deterministic=True, device=0, dfl=1.5, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=50, erasing=0.4, exist_ok=False, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, half=False, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, int8=False, iou=0.7, keras=False, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolo11s-obb.pt, momentum=0.937, mosaic=1.0, multi_scale=False, name=train_final_fixed, nbs=64, nms=False, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=20, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=obb_run, rect=False, resume=False, retina_masks=False, save=True, save_conf=False, save_crop=False, save_dir=/kaggle/working/obb_run/train_final_fixed, save_frames=False, save_json=False, save_period=5, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=obb, time=None, tracker=botsort.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=0, workspace=None
+Overriding model.yaml nc=80 with nc=4
+
+                   from  n    params  module                                       arguments                     
+  0                  -1  1       928  ultralytics.nn.modules.conv.Conv             [3, 32, 3, 2]                 
+  1                  -1  1     18560  ultralytics.nn.modules.conv.Conv             [32, 64, 3, 2]                
+  2                  -1  1     26080  ultralytics.nn.modules.block.C3k2            [64, 128, 1, False, 0.25]     
+  3                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+  4                  -1  1    103360  ultralytics.nn.modules.block.C3k2            [128, 256, 1, False, 0.25]    
+  5                  -1  1    590336  ultralytics.nn.modules.conv.Conv             [256, 256, 3, 2]              
+  6                  -1  1    346112  ultralytics.nn.modules.block.C3k2            [256, 256, 1, True]           
+  7                  -1  1   1180672  ultralytics.nn.modules.conv.Conv             [256, 512, 3, 2]              
+  8                  -1  1   1380352  ultralytics.nn.modules.block.C3k2            [512, 512, 1, True]           
+  9                  -1  1    656896  ultralytics.nn.modules.block.SPPF            [512, 512, 5]                 
+ 10                  -1  1    990976  ultralytics.nn.modules.block.C2PSA           [512, 512, 1]                 
+ 11                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 12             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 13                  -1  1    443776  ultralytics.nn.modules.block.C3k2            [768, 256, 1, False]          
+ 14                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 15             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 16                  -1  1    127680  ultralytics.nn.modules.block.C3k2            [512, 128, 1, False]          
+ 17                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+ 18            [-1, 13]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 19                  -1  1    345472  ultralytics.nn.modules.block.C3k2            [384, 256, 1, False]          
+ 20                  -1  1    590336  ultralytics.nn.modules.conv.Conv             [256, 256, 3, 2]              
+ 21            [-1, 10]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 22                  -1  1   1511424  ultralytics.nn.modules.block.C3k2            [768, 512, 1, True]           
+ 23        [16, 19, 22]  1   1107135  ultralytics.nn.modules.head.OBB              [4, 1, [128, 256, 512]]       
+YOLO11s-obb summary: 196 layers, 9,715,519 parameters, 9,715,503 gradients, 22.5 GFLOPs
+
+Transferred 535/541 items from pretrained weights
+Freezing layer 'model.23.dfl.conv.weight'
+AMP: running Automatic Mixed Precision (AMP) checks...
+Downloading https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt to 'yolo11n.pt': 100% ━━━━━━━━━━━━ 5.4MB 216.1MB/s 0.0s
+AMP: checks passed ✅
+train: Fast image access ✅ (ping: 0.0±0.0 ms, read: 1283.1±1110.8 MB/s, size: 80.7 KB)
+train: Scanning /kaggle/working/custom_merged_obb/labels/train... 6988 images, 0 backgrounds, 2 corrupt: 100% ━━━━━━━━━━━━ 6988/6988 1.2Kit/s 5.7s0.1s
+train: /kaggle/working/custom_merged_obb/images/train/capture_007_png.rf.c635fe15b4d8afdd27a89252f3ea7a62.jpg: ignoring corrupt image/label: non-normalized or out of bounds coordinates [     1.0117]
+train: /kaggle/working/custom_merged_obb/images/train/capture_085_png.rf.3a1345dffb1b2dccb7b7f03e04fe6512.jpg: ignoring corrupt image/label: non-normalized or out of bounds coordinates [     1.0127]
+train: New cache created: /kaggle/working/custom_merged_obb/labels/train.cache
+albumentations: Blur(p=0.01, blur_limit=(3, 7)), MedianBlur(p=0.01, blur_limit=(3, 7)), ToGray(p=0.01, method='weighted_average', num_output_channels=3), CLAHE(p=0.01, clip_limit=(1.0, 4.0), tile_grid_size=(8, 8))
+val: Fast image access ✅ (ping: 0.0±0.0 ms, read: 1709.4±1157.8 MB/s, size: 71.3 KB)
+val: Scanning /kaggle/working/custom_merged_obb/labels/valid... 1748 images, 0 backgrounds, 1 corrupt: 100% ━━━━━━━━━━━━ 1748/1748 1.2Kit/s 1.5s0.1s
+val: /kaggle/working/custom_merged_obb/images/valid/capture_004_png.rf.26efada07efcb1709f2f1b1f033f14ca.jpg: ignoring corrupt image/label: non-normalized or out of bounds coordinates [     1.0172]
+val: New cache created: /kaggle/working/custom_merged_obb/labels/valid.cache
+Plotting labels to /kaggle/working/obb_run/train_final_fixed/labels.jpg... 
+optimizer: 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically... 
+optimizer: AdamW(lr=0.00125, momentum=0.9) with parameter groups 87 weight(decay=0.0), 97 weight(decay=0.0005), 96 bias(decay=0.0)
+Image sizes 640 train, 640 val
+Using 0 dataloader workers
+Logging results to /kaggle/working/obb_run/train_final_fixed
+Starting training for 50 epochs...
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       1/50      4.28G      1.314       1.78      2.621         25        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:25<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.3s0.2s
+                   all       1747       3369      0.762       0.77      0.816      0.613
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       2/50      4.33G      1.139      1.132      2.417         29        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:18<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 23.9s0.2s
+                   all       1747       3369      0.813      0.795      0.833      0.632
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       3/50      4.33G      1.095      1.081      2.368         30        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:16<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 23.8s0.2s
+                   all       1747       3369      0.847      0.838      0.867       0.68
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       4/50      4.33G      1.035      1.019      2.334         58        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:19<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 24.1s0.2s
+                   all       1747       3369      0.827      0.826      0.868      0.699
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       5/50      4.33G     0.9942     0.9593      2.308         66        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:17<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 24.1s0.2s
+                   all       1747       3369      0.874      0.844      0.886      0.719
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       6/50      4.33G     0.9568     0.9135      2.288         32        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:17<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 24.1s0.2s
+                   all       1747       3369      0.886      0.822      0.888      0.728
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       7/50      4.33G     0.9242     0.8778      2.244         43        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:18<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 24.1s0.2s
+                   all       1747       3369      0.893      0.856      0.897      0.744
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       8/50      4.33G     0.8997     0.8395      2.235         44        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:19<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.4s0.2s
+                   all       1747       3369      0.879       0.87      0.896      0.746
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       9/50      4.33G     0.8706     0.7975      2.196         50        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:20<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.5s0.3s
+                   all       1747       3369      0.878       0.87      0.909      0.767
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      10/50      4.33G     0.8661     0.7939      2.212         32        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:19<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.7it/s 23.4s0.2s
+                   all       1747       3369      0.902      0.859      0.908      0.759
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      11/50      4.37G     0.8563     0.7806      2.189         28        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:19<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.2s0.2s
+                   all       1747       3369      0.892      0.878      0.912      0.779
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      12/50      4.41G     0.8361     0.7472      2.167         38        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:18<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.7it/s 23.6s0.2s
+                   all       1747       3369      0.901      0.877      0.914      0.783
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      13/50      4.45G     0.8262     0.7413      2.168         32        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:18<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 24.1s0.2s
+                   all       1747       3369      0.903      0.868      0.915      0.786
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      14/50      4.45G     0.8117     0.7209      2.154         29        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:18<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 24.1s0.2s
+                   all       1747       3369       0.92      0.872      0.921      0.798
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      15/50      4.45G     0.8045     0.7135      2.141         41        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:18<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.3s0.2s
+                   all       1747       3369      0.902      0.887       0.92      0.795
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      16/50      4.45G      0.782     0.6905      2.122         28        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:17<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 24.1s0.2s
+                   all       1747       3369      0.906      0.889       0.92      0.801
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      17/50      4.45G      0.786     0.6904      2.117         43        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:18<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 24.1s0.2s
+                   all       1747       3369      0.915      0.884      0.926      0.806
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      18/50      4.45G     0.7754     0.6757      2.113         52        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:21<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 23.7s0.2s
+                   all       1747       3369      0.901      0.894      0.921      0.802
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      19/50      4.45G     0.7615     0.6637      2.094         44        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:19<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 24.1s0.2s
+                   all       1747       3369      0.919      0.887      0.927      0.806
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      20/50      4.45G     0.7511     0.6473      2.091         34        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:21<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.7it/s 23.5s0.2s
+                   all       1747       3369      0.919      0.885      0.924      0.806
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      21/50      4.45G     0.7499     0.6506      2.103         50        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:19<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 23.9s0.2s
+                   all       1747       3369       0.92      0.891      0.929      0.812
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      22/50      4.45G      0.737     0.6321      2.073         41        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:18<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.3s0.2s
+                   all       1747       3369      0.901      0.903      0.929      0.816
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      23/50      4.45G     0.7339     0.6335      2.087         38        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:20<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.4s0.2s
+                   all       1747       3369      0.902      0.903      0.927      0.811
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      24/50      4.45G      0.721     0.6188      2.057         55        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:22<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.5s0.2s
+                   all       1747       3369      0.908        0.9      0.928      0.818
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      25/50      4.45G     0.7234     0.6151      2.076         43        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:23<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.4it/s 24.8s0.2s
+                   all       1747       3369      0.897      0.906      0.928       0.82
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      26/50      4.45G      0.718     0.6063      2.059         34        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:23<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.4it/s 24.8s0.2s
+                   all       1747       3369      0.922      0.893      0.932      0.827
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      27/50      4.45G     0.7054     0.5969       2.05         25        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:23<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.7s0.2s
+                   all       1747       3369      0.916      0.899      0.932      0.829
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      28/50      4.45G     0.7075     0.5895      2.046         39        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:23<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.6s0.2s
+                   all       1747       3369      0.904      0.907      0.933      0.822
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      29/50      4.45G     0.6856     0.5784      2.024         33        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:24<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.4it/s 24.7s0.2s
+                   all       1747       3369      0.917      0.902      0.933      0.829
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      30/50      4.45G     0.6857     0.5691      2.045        105        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:24<0.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.6s0.2s
+                   all       1747       3369      0.912      0.901      0.932      0.831
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      31/50      4.45G      0.676     0.5608       2.03         48        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:23<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.4it/s 24.8s0.2s
+                   all       1747       3369      0.917      0.901      0.933      0.834
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      32/50      4.45G     0.6714     0.5597      2.027         34        640: 100% ━━━━━━━━━━━━ 437/437 1.6it/s 4:30<0.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.3it/s 25.3s0.2s
+                   all       1747       3369      0.919      0.906      0.935      0.835
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      33/50      4.45G     0.6746     0.5553      2.012         46        640: 100% ━━━━━━━━━━━━ 437/437 1.6it/s 4:33<0.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.3it/s 25.3s0.2s
+                   all       1747       3369       0.92      0.904      0.937      0.842
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      34/50      4.45G     0.6656     0.5421      2.005         22        640: 100% ━━━━━━━━━━━━ 437/437 1.6it/s 4:29<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.3it/s 25.3s0.2s
+                   all       1747       3369      0.923        0.9      0.937       0.84
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      35/50      4.45G     0.6572     0.5321      1.992         42        640: 100% ━━━━━━━━━━━━ 437/437 1.6it/s 4:31<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.4it/s 25.2s0.2s
+                   all       1747       3369      0.916      0.906      0.935      0.839
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      36/50      4.45G     0.6499     0.5313      2.002         23        640: 100% ━━━━━━━━━━━━ 437/437 1.6it/s 4:30<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.3it/s 25.5s0.2s
+                   all       1747       3369      0.922      0.904      0.937      0.843
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      37/50      4.45G     0.6414     0.5187       1.99         51        640: 100% ━━━━━━━━━━━━ 437/437 1.6it/s 4:30<0.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.3it/s 25.4s0.2s
+                   all       1747       3369      0.919      0.909      0.938      0.844
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      38/50      4.45G     0.6376     0.5175          2         38        640: 100% ━━━━━━━━━━━━ 437/437 1.6it/s 4:31<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.3it/s 25.6s0.2s
+                   all       1747       3369      0.922      0.909      0.939      0.847
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      39/50      4.45G     0.6312     0.5098      1.979         29        640: 100% ━━━━━━━━━━━━ 437/437 1.6it/s 4:31<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.3it/s 25.3s0.2s
+                   all       1747       3369      0.933      0.897      0.938      0.846
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      40/50      4.45G     0.6273     0.5075      1.982         35        640: 100% ━━━━━━━━━━━━ 437/437 1.6it/s 4:28<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.6it/s 23.8s0.2s
+                   all       1747       3369      0.921      0.907      0.937      0.846
+Closing dataloader mosaic
+albumentations: Blur(p=0.01, blur_limit=(3, 7)), MedianBlur(p=0.01, blur_limit=(3, 7)), ToGray(p=0.01, method='weighted_average', num_output_channels=3), CLAHE(p=0.01, clip_limit=(1.0, 4.0), tile_grid_size=(8, 8))
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      41/50      4.45G     0.5175      0.407      1.971         13        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:13<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.3s0.2s
+                   all       1747       3369      0.921      0.912      0.937      0.846
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      42/50      4.45G     0.5038      0.389      1.962         10        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:12<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.5s0.2s
+                   all       1747       3369       0.92      0.915      0.938      0.851
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      43/50      4.45G     0.4908     0.3822       1.94         11        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:12<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.6s0.2s
+                   all       1747       3369      0.915      0.917      0.939      0.852
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      44/50      4.45G     0.4871     0.3745      1.943         11        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:12<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.4it/s 24.7s0.2s
+                   all       1747       3369      0.926      0.909      0.938      0.851
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      45/50      4.45G      0.474     0.3615       1.93         13        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:13<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.4it/s 24.9s0.2s
+                   all       1747       3369      0.929      0.904      0.938      0.851
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      46/50      4.45G     0.4669     0.3545       1.92         10        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:12<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.6s0.2s
+                   all       1747       3369      0.923      0.911      0.938      0.854
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      47/50      4.45G     0.4617     0.3496      1.911         15        640: 100% ━━━━━━━━━━━━ 437/437 1.7it/s 4:11<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.7s0.2s
+                   all       1747       3369       0.92       0.91      0.938      0.854
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      48/50      4.45G     0.4554     0.3448        1.9         11        640: 100% ━━━━━━━━━━━━ 437/437 1.8it/s 4:09<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.4s0.2s
+                   all       1747       3369      0.927      0.911      0.939      0.855
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      49/50      4.45G     0.4498     0.3383      1.889         16        640: 100% ━━━━━━━━━━━━ 437/437 1.8it/s 4:08<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.3s0.2s
+                   all       1747       3369      0.924      0.908      0.938      0.854
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      50/50      4.45G     0.4447     0.3379      1.895         16        640: 100% ━━━━━━━━━━━━ 437/437 1.8it/s 4:09<0.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.5it/s 24.4s0.2s
+                   all       1747       3369      0.922      0.912      0.938      0.855
+
+50 epochs completed in 3.958 hours.
+Optimizer stripped from /kaggle/working/obb_run/train_final_fixed/weights/last.pt, 19.8MB
+Optimizer stripped from /kaggle/working/obb_run/train_final_fixed/weights/best.pt, 19.8MB
+
+Validating /kaggle/working/obb_run/train_final_fixed/weights/best.pt...
+Ultralytics 8.3.209 🚀 Python-3.11.13 torch-2.6.0+cu124 CUDA:0 (Tesla P100-PCIE-16GB, 16269MiB)
+YOLO11s-obb summary (fused): 109 layers, 9,700,335 parameters, 0 gradients, 22.3 GFLOPs
+WARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 1% ──────────── 1/110 1.4it/s 0.2s<1:19WARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 2% ──────────── 2/110 1.5it/s 0.8s<1:11WARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 3% ──────────── 3/110 1.5it/s 1.5s<1:11WARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 4% ──────────── 4/110 1.6it/s 2.0s<1:07WARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 5% ╸─────────── 5/110 2.2it/s 2.3s<48.6sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 5% ╸─────────── 6/110 2.6it/s 2.6s<40.5sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 6% ╸─────────── 7/110 2.9it/s 2.8s<35.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 7% ╸─────────── 8/110 3.1it/s 3.1s<33.0sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 8% ╸─────────── 9/110 3.5it/s 3.4s<28.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 9% ━─────────── 10/110 3.9it/s 3.6s<25.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 10% ━─────────── 11/110 4.1it/s 3.8s<24.1sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 11% ━─────────── 12/110 4.2it/s 4.0s<23.2sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 12% ━─────────── 13/110 4.3it/s 4.2s<22.5sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 13% ━╸────────── 14/110 4.4it/s 4.4s<21.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 14% ━╸────────── 15/110 4.5it/s 4.7s<21.1sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 15% ━╸────────── 16/110 4.7it/s 4.8s<20.0sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 15% ━╸────────── 17/110 4.7it/s 5.1s<19.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 16% ━╸────────── 18/110 4.6it/s 5.3s<19.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 17% ━━────────── 19/110 4.3it/s 5.6s<20.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 18% ━━────────── 20/110 4.5it/s 5.8s<19.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 19% ━━────────── 21/110 4.5it/s 6.0s<19.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 20% ━━────────── 22/110 4.7it/s 6.2s<18.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 21% ━━╸───────── 23/110 4.7it/s 6.4s<18.5sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 22% ━━╸───────── 24/110 4.9it/s 6.6s<17.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 23% ━━╸───────── 25/110 4.9it/s 6.8s<17.3sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 24% ━━╸───────── 26/110 5.0it/s 7.0s<16.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 25% ━━╸───────── 27/110 5.0it/s 7.2s<16.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 25% ━━━───────── 28/110 5.0it/s 7.4s<16.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 26% ━━━───────── 29/110 5.0it/s 7.6s<16.2sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 27% ━━━───────── 30/110 5.0it/s 7.8s<16.0sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 28% ━━━───────── 31/110 4.9it/s 8.0s<16.1sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 29% ━━━───────── 32/110 5.0it/s 8.2s<15.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 30% ━━━╸──────── 33/110 5.0it/s 8.4s<15.3sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 31% ━━━╸──────── 34/110 5.1it/s 8.6s<14.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 32% ━━━╸──────── 35/110 5.2it/s 8.8s<14.5sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 33% ━━━╸──────── 36/110 5.1it/s 9.0s<14.5sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 34% ━━━━──────── 37/110 4.9it/s 9.2s<15.0sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 35% ━━━━──────── 38/110 4.7it/s 9.4s<15.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 35% ━━━━──────── 39/110 4.6it/s 9.7s<15.5sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 36% ━━━━──────── 40/110 4.5it/s 9.9s<15.6sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 37% ━━━━──────── 41/110 4.4it/s 10.1s<15.6sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 38% ━━━━╸─────── 42/110 4.3it/s 10.4s<15.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 39% ━━━━╸─────── 43/110 4.3it/s 10.6s<15.5sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 40% ━━━━╸─────── 44/110 4.3it/s 10.8s<15.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 41% ━━━━╸─────── 45/110 3.9it/s 11.2s<16.6sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 42% ━━━━━─────── 46/110 4.1it/s 11.4s<15.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 43% ━━━━━─────── 47/110 4.1it/s 11.6s<15.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 44% ━━━━━─────── 48/110 4.1it/s 11.9s<15.1sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 45% ━━━━━─────── 49/110 4.2it/s 12.1s<14.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 45% ━━━━━─────── 50/110 4.2it/s 12.3s<14.3sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 46% ━━━━━╸────── 51/110 4.2it/s 12.6s<14.1sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 47% ━━━━━╸────── 52/110 4.2it/s 12.8s<13.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 48% ━━━━━╸────── 53/110 4.2it/s 13.0s<13.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 49% ━━━━━╸────── 54/110 4.3it/s 13.3s<13.1sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 55/110 4.3it/s 13.5s<12.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 51% ━━━━━━────── 56/110 4.2it/s 13.8s<12.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 52% ━━━━━━────── 57/110 4.2it/s 14.0s<12.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 53% ━━━━━━────── 58/110 4.1it/s 14.3s<12.6sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 54% ━━━━━━────── 59/110 4.2it/s 14.5s<12.3sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 55% ━━━━━━╸───── 60/110 4.1it/s 14.7s<12.2sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 55% ━━━━━━╸───── 61/110 4.2it/s 15.0s<11.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 56% ━━━━━━╸───── 62/110 4.2it/s 15.2s<11.3sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 57% ━━━━━━╸───── 63/110 4.5it/s 15.4s<10.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 58% ━━━━━━╸───── 64/110 4.8it/s 15.6s<9.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 59% ━━━━━━━───── 65/110 4.9it/s 15.8s<9.1sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 60% ━━━━━━━───── 66/110 5.1it/s 16.0s<8.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 61% ━━━━━━━───── 67/110 5.1it/s 16.1s<8.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 62% ━━━━━━━───── 68/110 5.1it/s 16.3s<8.3sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 63% ━━━━━━━╸──── 69/110 5.1it/s 16.5s<8.0sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 64% ━━━━━━━╸──── 70/110 5.2it/s 16.7s<7.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 65% ━━━━━━━╸──── 71/110 5.2it/s 16.9s<7.5sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 65% ━━━━━━━╸──── 72/110 5.0it/s 17.1s<7.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 66% ━━━━━━━╸──── 73/110 4.8it/s 17.4s<7.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 67% ━━━━━━━━──── 74/110 4.4it/s 17.7s<8.3sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 68% ━━━━━━━━──── 75/110 4.5it/s 17.9s<7.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 69% ━━━━━━━━──── 76/110 4.7it/s 18.1s<7.2sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 70% ━━━━━━━━──── 77/110 4.9it/s 18.3s<6.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 71% ━━━━━━━━╸─── 78/110 5.0it/s 18.4s<6.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 72% ━━━━━━━━╸─── 79/110 5.1it/s 18.6s<6.1sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 73% ━━━━━━━━╸─── 80/110 5.1it/s 18.8s<5.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 74% ━━━━━━━━╸─── 81/110 5.2it/s 19.0s<5.6sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 75% ━━━━━━━━╸─── 82/110 5.2it/s 19.2s<5.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 75% ━━━━━━━━━─── 83/110 5.2it/s 19.4s<5.2sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 76% ━━━━━━━━━─── 84/110 5.3it/s 19.6s<4.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 77% ━━━━━━━━━─── 85/110 5.0it/s 19.8s<5.0sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 78% ━━━━━━━━━─── 86/110 4.4it/s 20.1s<5.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 79% ━━━━━━━━━─── 87/110 4.6it/s 20.3s<4.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 80% ━━━━━━━━━╸── 88/110 4.8it/s 20.5s<4.6sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 81% ━━━━━━━━━╸── 89/110 5.0it/s 20.7s<4.2sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 82% ━━━━━━━━━╸── 90/110 5.1it/s 20.9s<3.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 83% ━━━━━━━━━╸── 91/110 5.1it/s 21.1s<3.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 84% ━━━━━━━━━━── 92/110 5.2it/s 21.3s<3.5sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 85% ━━━━━━━━━━── 93/110 5.2it/s 21.5s<3.3sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 85% ━━━━━━━━━━── 94/110 5.2it/s 21.7s<3.1sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 86% ━━━━━━━━━━── 95/110 5.2it/s 21.8s<2.9sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 87% ━━━━━━━━━━── 96/110 5.2it/s 22.0s<2.7sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 88% ━━━━━━━━━━╸─ 97/110 5.2it/s 22.2s<2.5sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 89% ━━━━━━━━━━╸─ 98/110 5.0it/s 22.4s<2.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 90% ━━━━━━━━━━╸─ 99/110 5.0it/s 22.6s<2.2sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 91% ━━━━━━━━━━╸─ 100/110 5.0it/s 22.9s<2.0sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 92% ━━━━━━━━━━━─ 101/110 4.9it/s 23.1s<1.8sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 93% ━━━━━━━━━━━─ 102/110 4.9it/s 23.3s<1.6sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 94% ━━━━━━━━━━━─ 103/110 5.0it/s 23.5s<1.4sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 95% ━━━━━━━━━━━─ 104/110 5.1it/s 23.6s<1.2sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 95% ━━━━━━━━━━━─ 105/110 5.0it/s 23.9s<1.0sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 96% ━━━━━━━━━━━╸ 106/110 3.8it/s 24.9s<1.1sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 97% ━━━━━━━━━━━╸ 107/110 2.9it/s 26.1s<1.0sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 98% ━━━━━━━━━━━╸ 108/110 3.5it/s 26.3s<0.6sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 99% ━━━━━━━━━━━╸ 109/110 4.2it/s 26.5s<0.2sWARNING ⚠️ Model does not support 'augment=True', reverting to single-scale prediction.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 110/110 4.1it/s 26.5s
+/usr/local/lib/python3.11/dist-packages/matplotlib/colors.py:721: RuntimeWarning: invalid value encountered in less
+  xa[xa < 0] = -1
+/usr/local/lib/python3.11/dist-packages/matplotlib/colors.py:721: RuntimeWarning: invalid value encountered in less
+  xa[xa < 0] = -1
+                   all       1747       3369      0.923      0.911      0.937      0.855
+     fire_extinguisher        664       1309       0.95      0.907      0.957      0.867
+          switch_panel        240       1215      0.753      0.745      0.804      0.627
+                  door        524        526      0.994      0.997      0.995       0.97
+                 gague        319        319      0.995      0.997      0.994      0.955
+Speed: 0.1ms preprocess, 4.2ms inference, 0.0ms loss, 1.8ms postprocess per image
+Results saved to /kaggle/working/obb_run/train_final_fixed
+
+
+
+                   all       1747       3369      0.923      0.911      0.937      0.855
+     fire_extinguisher        664       1309       0.95      0.907      0.957      0.867
+          switch_panel        240       1215      0.753      0.745      0.804      0.627
+                  door        524        526      0.994      0.997      0.995       0.97
+                 gague        319        319      0.995      0.997      0.994      0.955
+Speed: 0.1ms preprocess, 4.2ms inference, 0.0ms loss, 1.8ms postprocess per image
+Results saved to /kaggle/working/obb_run/train_final_fixed
+
+
+
+
+
+
+    all       1747       3369      0.923      0.911      0.937      0.855
+     fire_extinguisher        664       1309       0.95      0.907      0.957      0.867
+          switch_panel        240       1215      0.753      0.745      0.804      0.627
+                  door        524        526      0.994      0.997      0.995       0.97
+                 gague        319        319      0.995      0.997      0.994      0.955
+Speed: 0.1ms preprocess, 4.2ms inference, 0.0ms loss, 1.8ms postprocess per image
+Results saved to /kaggle/working/obb_run/train_final_fixed

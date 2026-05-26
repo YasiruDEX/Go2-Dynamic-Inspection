@@ -1,0 +1,23 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "FAIL",
+  "confidence": 0.9,
+  "summary": "A fire extinguisher is present but its immediate access is obstructed by a large white unit placed directly beneath it.",
+  "findings": [
+    "A red cylindrical fire extinguisher is visible, mounted on the wall.",
+    "A large white rectangular unit, resembling an outdoor AC unit or appliance, is positioned directly below the fire extinguisher, obstructing a clear path for access."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": true
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "red cabinet",
+    "blue EXIT door",
+    "white rectangular unit",
+    "stairs",
+    "person"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"FAIL\",\n  \"confidence\": 0.9,\n  \"summary\": \"A fire extinguisher is present but its immediate access is obstructed by a large white unit placed directly beneath it.\",\n  \"findings\": [\n    \"A red cylindrical fire extinguisher is visible, mounted on the wall.\",\n    \"A large white rectangular unit, resembling an outdoor AC unit or appliance, is positioned directly below the fire extinguisher, obstructing a clear path for access.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": true\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"red cabinet\",\n    \"blue EXIT door\",\n    \"white rectangular unit\",\n    \"stairs\",\n    \"person\"\n  ]\n}"
+}

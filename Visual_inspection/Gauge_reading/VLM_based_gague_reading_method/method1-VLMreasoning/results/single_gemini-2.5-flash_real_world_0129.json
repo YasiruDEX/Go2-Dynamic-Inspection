@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0129",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n- **Full scale range (hours):** 1-12 hours\n- **Full scale range (minutes):** 0-60 minutes\n- **MAJOR tick mark intervals (hours):** Every 1 hour (indicated by the numbers 1 through 12).\n- **MAJOR tick mark intervals (minutes):** Every 5 minutes (e.g., the '12' represents 0/60 minutes, '1' represents 5 minutes, '2' represents 10 minutes, and so on, where each number multiplied by 5 gives the minute value).\n- **MINOR tick mark intervals (minutes):** Each major 5-minute interval is divided into 5 smaller ticks, meaning each minor tick represents 1 minute.\n- **How many subdivisions are between major marks (minutes):** There are 5 subdivisions (minor tick marks) between each 5-minute major mark (represented by the numbers).\n\n**Step 2 - Locate the Indicator:**\n- **Hour Hand:** The shorter hand is pointing past the '10' mark but has not yet reached the '11' mark.\n- **Minute Hand:** The longer hand is pointing directly at the '11' mark.\n\n**Step 3 - Calculate the Reading:**\n- **Hours:** The hour hand is past 10, indicating the hour is 10.\n- **Minutes:** The minute hand is pointing at the '11'. Since each number represents 5 minutes (starting from 12 as 0/60 minutes), the '11' mark corresponds to 11 * 5 = 55 minutes.\n\n**Step 4 - Identify the Unit:**\n- The unit is \"hours and minutes\" (time).\n\n**Step 5 - Provide Final Answer:**\nThe hour is 10 and the minutes are 55.\n\nAnswer: 10:55",
+  "predicted_value": 55.0,
+  "predicted_unit": "Answer",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

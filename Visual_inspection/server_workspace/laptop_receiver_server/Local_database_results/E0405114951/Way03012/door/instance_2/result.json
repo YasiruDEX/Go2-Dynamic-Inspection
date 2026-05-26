@@ -1,0 +1,21 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The double glass door is clearly visible and appears to be in a fully closed state.",
+  "findings": [
+    "The two door panels are aligned with each other and the surrounding frame, with no visible gaps.",
+    "The door handles are positioned as expected for a closed door.",
+    "The view through the glass is consistent with looking into a room through a closed barrier."
+  ],
+  "evidence": {
+    "open": false
+  },
+  "extracted_objects": [
+    "double glass door",
+    "door frame",
+    "door handles",
+    "access control panel"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The double glass door is clearly visible and appears to be in a fully closed state.\",\n  \"findings\": [\n    \"The two door panels are aligned with each other and the surrounding frame, with no visible gaps.\",\n    \"The door handles are positioned as expected for a closed door.\",\n    \"The view through the glass is consistent with looking into a room through a closed barrier.\"\n  ],\n  \"evidence\": {\n    \"open\": false\n  },\n  \"extracted_objects\": [\n    \"double glass door\",\n    \"door frame\",\n    \"door handles\",\n    \"access control panel\"\n  ]\n}"
+}

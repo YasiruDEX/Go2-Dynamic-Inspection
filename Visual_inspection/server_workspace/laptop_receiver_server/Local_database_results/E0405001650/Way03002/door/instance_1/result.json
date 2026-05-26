@@ -1,0 +1,26 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The blue emergency exit door is closed, with no visible gaps indicating it is ajar or open.",
+  "findings": [
+    "A blue door with an 'EXIT' sign is clearly visible.",
+    "The door panel is flush with the door frame on all visible sides.",
+    "No gaps are discernible between the door and the frame.",
+    "There is no visible view through the doorway.",
+    "The door appears to be fully seated in its closed position."
+  ],
+  "evidence": {
+    "open": false
+  },
+  "extracted_objects": [
+    "door",
+    "exit sign",
+    "fire extinguisher",
+    "fire hose cabinet",
+    "handrail",
+    "wall",
+    "floor"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The blue emergency exit door is closed, with no visible gaps indicating it is ajar or open.\",\n  \"findings\": [\n    \"A blue door with an 'EXIT' sign is clearly visible.\",\n    \"The door panel is flush with the door frame on all visible sides.\",\n    \"No gaps are discernible between the door and the frame.\",\n    \"There is no visible view through the doorway.\",\n    \"The door appears to be fully seated in its closed position.\"\n  ],\n  \"evidence\": {\n    \"open\": false\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"exit sign\",\n    \"fire extinguisher\",\n    \"fire hose cabinet\",\n    \"handrail\",\n    \"wall\",\n    \"floor\"\n  ]\n}"
+}

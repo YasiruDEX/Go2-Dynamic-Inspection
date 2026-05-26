@@ -1,0 +1,22 @@
+{
+  "task": "fire_extinguisher",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "A fire extinguisher is clearly visible and accessible on the wall, meeting compliance criteria.",
+  "findings": [
+    "A red cylindrical fire extinguisher is mounted on the wall.",
+    "The area immediately surrounding the fire extinguisher is clear of any obstructions, indicating good accessibility.",
+    "No objects are observed blocking the path to the fire extinguisher."
+  ],
+  "evidence": {
+    "present": true,
+    "blocked": false
+  },
+  "extracted_objects": [
+    "fire extinguisher",
+    "wall",
+    "access control panel",
+    "shelving unit"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"fire_extinguisher\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"A fire extinguisher is clearly visible and accessible on the wall, meeting compliance criteria.\",\n  \"findings\": [\n    \"A red cylindrical fire extinguisher is mounted on the wall.\",\n    \"The area immediately surrounding the fire extinguisher is clear of any obstructions, indicating good accessibility.\",\n    \"No objects are observed blocking the path to the fire extinguisher.\"\n  ],\n  \"evidence\": {\n    \"present\": true,\n    \"blocked\": false\n  },\n  \"extracted_objects\": [\n    \"fire extinguisher\",\n    \"wall\",\n    \"access control panel\",\n    \"shelving unit\"\n  ]\n}"
+}

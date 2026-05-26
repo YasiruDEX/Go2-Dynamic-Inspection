@@ -1,0 +1,28 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.95,
+  "summary": "The glass door is partially open, revealing the interior of the room.",
+  "findings": [
+    "The door panel is angled away from the door frame and adjacent wall.",
+    "A noticeable gap is visible between the door panel and the door frame/wall.",
+    "The interior of the room, including people, desks, and lights, is clearly visible through the opening and the glass.",
+    "The door handle is visible, and the door is not fully closed."
+  ],
+  "evidence": {
+    "open": true
+  },
+  "extracted_objects": [
+    "door",
+    "door handle",
+    "glass panel",
+    "door frame",
+    "door closer",
+    "wall",
+    "people",
+    "desks",
+    "fluorescent lights",
+    "room interior"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.95,\n  \"summary\": \"The glass door is partially open, revealing the interior of the room.\",\n  \"findings\": [\n    \"The door panel is angled away from the door frame and adjacent wall.\",\n    \"A noticeable gap is visible between the door panel and the door frame/wall.\",\n    \"The interior of the room, including people, desks, and lights, is clearly visible through the opening and the glass.\",\n    \"The door handle is visible, and the door is not fully closed.\"\n  ],\n  \"evidence\": {\n    \"open\": true\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"door handle\",\n    \"glass panel\",\n    \"door frame\",\n    \"door closer\",\n    \"wall\",\n    \"people\",\n    \"desks\",\n    \"fluorescent lights\",\n    \"room interior\"\n  ]\n}"
+}

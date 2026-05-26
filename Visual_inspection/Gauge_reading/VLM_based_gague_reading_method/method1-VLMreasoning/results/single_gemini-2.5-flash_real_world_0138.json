@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0138",
+  "question": "What is the reading of the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n-   **Full scale range (hours):** 1-12\n-   **Full scale range (minutes/seconds):** 0-60\n-   **MAJOR tick mark intervals (hours):** Every 1 unit (e.g., 1, 2, 3, ..., 12).\n-   **MAJOR tick mark intervals (minutes/seconds):** Every 5 units (corresponding to the hour numbers, e.g., 12=0 min, 1=5 min, 2=10 min, etc.).\n-   **MINOR tick mark intervals (minutes/seconds):** Between each major 5-minute mark, there are 4 small ticks, representing 1 minute per tick.\n-   **Number of subdivisions between major marks (minutes/seconds):** 5 subdivisions (each representing 1 minute).\n\n**Step 2 - Locate the Indicator:**\n-   The **hour hand (shorter hand)** is pointing directly at the number 7.\n-   The **minute hand (longer hand)** is pointing directly at the number 12.\n-   The **second hand (thinnest hand)** is also pointing directly at the number 12.\n\n**Step 3 - Calculate the Reading:**\n-   **Hours:** The hour hand is exactly on 7.\n-   **Minutes:** The minute hand is exactly on 12, which represents 00 minutes past the hour.\n-   **Seconds:** The second hand is exactly on 12, which represents 00 seconds.\n\n**Step 4 - Identify the Unit:**\n-   The unit is time, typically expressed in hours and minutes.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 7:00",
+  "predicted_value": 0.0,
+  "predicted_unit": "seconds",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}

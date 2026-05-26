@@ -1,0 +1,23 @@
+{
+  "task": "door",
+  "decision": "PASS",
+  "confidence": 0.85,
+  "summary": "The blue exit door is visible and appears to be slightly ajar, not fully closed.",
+  "findings": [
+    "A blue door with an 'EXIT' sign is present in the image.",
+    "There is a visible gap at the bottom right edge of the door, indicating it is not fully shut.",
+    "The door is slightly angled, preventing it from being flush with the door frame."
+  ],
+  "evidence": {
+    "open": true
+  },
+  "extracted_objects": [
+    "door",
+    "exit sign",
+    "fire extinguisher",
+    "fire hose cabinet",
+    "railing",
+    "wall"
+  ],
+  "vlm_raw_response": "{\n  \"task\": \"door\",\n  \"decision\": \"PASS\",\n  \"confidence\": 0.85,\n  \"summary\": \"The blue exit door is visible and appears to be slightly ajar, not fully closed.\",\n  \"findings\": [\n    \"A blue door with an 'EXIT' sign is present in the image.\",\n    \"There is a visible gap at the bottom right edge of the door, indicating it is not fully shut.\",\n    \"The door is slightly angled, preventing it from being flush with the door frame.\"\n  ],\n  \"evidence\": {\n    \"open\": true\n  },\n  \"extracted_objects\": [\n    \"door\",\n    \"exit sign\",\n    \"fire extinguisher\",\n    \"fire hose cabinet\",\n    \"railing\",\n    \"wall\"\n  ]\n}"
+}

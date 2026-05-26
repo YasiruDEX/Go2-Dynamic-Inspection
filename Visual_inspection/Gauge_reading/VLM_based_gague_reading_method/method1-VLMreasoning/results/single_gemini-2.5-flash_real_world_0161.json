@@ -1,0 +1,12 @@
+{
+  "question_id": "real_world_0161",
+  "question": "What time is shown on the clock?",
+  "prediction": "**Step 1 - Identify the Scale:**\n*   **Full scale range:** The clock face represents 12 hours for the hour hand and 60 minutes (or 60 seconds) for the minute and second hands.\n*   **MAJOR tick mark intervals:** The numbered marks (1, 2, ..., 12) represent hours. For the minute and second hands, these numbers also correspond to major tick marks at 5-minute/second intervals (e.g., '1' is 5 minutes/seconds, '2' is 10 minutes/seconds).\n*   **MINOR tick mark intervals:** Between each major numbered hour mark, there are 4 smaller tick marks. This means there are 5 subdivisions between each hour number.\n*   **How many subdivisions are between major marks?** 5 subdivisions. Each subdivision represents 1 minute for the minute hand and 1 second for the second hand.\n\n**Step 2 - Locate the Indicator:**\n*   **Hour Hand:** The shorter, wider hand is pointing precisely at the '9' on the dial.\n*   **Minute Hand:** The longer, wider hand is pointing precisely at the '12' on the dial.\n*   **Second Hand:** The very thin hand with the luminous tip is also pointing precisely at the '12' on the dial.\n\n**Step 3 - Calculate the Reading:**\n*   **Hours:** The hour hand indicates exactly 9 hours.\n*   **Minutes:** The minute hand pointing at the '12' indicates 00 minutes.\n*   **Seconds:** The second hand pointing at the '12' indicates 00 seconds.\nTherefore, the precise time shown on the clock is 09:00:00.\n\n**Step 4 - Identify the Unit:**\nThe unit displayed on a clock is time, conventionally expressed in hours, minutes, and seconds.\n\n**Step 5 - Provide Final Answer:**\nAnswer: 09:00:00 time",
+  "predicted_value": 0.0,
+  "predicted_unit": "time",
+  "image_type": "clock",
+  "ground_truth": {
+    "interval": null,
+    "unit": null
+  }
+}
