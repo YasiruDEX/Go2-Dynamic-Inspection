@@ -1,4 +1,10 @@
-# Visual Inspection System
+# Visual Inspection System — Jetson Orin Nano
+
+> 📦 **Full development repository with complete commit history (108 commits, 3 months of work):**
+> **[DinethraDivanjana2001/Visual_Inspection_system_Jetson_orin_nano](https://github.com/DinethraDivanjana2001/Visual_Inspection_system_Jetson_orin_nano)**
+>
+> This folder is integrated here as part of the Go2 Dynamic Inspection FYP project.
+> Visit the link above to see the full development timeline, all commits, and contribution history.
 
 Research-grade visual inspection system using YOLOv11 + TensorRT on Jetson Orin Nano with panoramic detection and pan-tilt-zoom control.
 
